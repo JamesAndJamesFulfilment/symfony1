@@ -18,7 +18,6 @@
  * @subpackage generator
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author     Jonathan H. Wage <jonwage@gmail.com>
- * @version    SVN: $Id$
  */
 class sfDoctrineFormGenerator extends sfGenerator
 {
@@ -369,18 +368,18 @@ class sfDoctrineFormGenerator extends sfGenerator
         $validatorSubclass = 'Boolean';
         break;
       case 'string':
-    		if ($column->getDefinitionKey('email'))
-    		{
-    		  $validatorSubclass = 'Email';
-    		}
-    		else if ($column->getDefinitionKey('regexp'))
-    		{
-    		  $validatorSubclass = 'Regex';
-    		}
-    		else
-    		{
-    		  $validatorSubclass = 'String';
-    		}
+            if ($column->getDefinitionKey('email'))
+            {
+              $validatorSubclass = 'Email';
+            }
+            else if ($column->getDefinitionKey('regexp'))
+            {
+              $validatorSubclass = 'Regex';
+            }
+            else
+            {
+              $validatorSubclass = 'String';
+            }
         break;
       case 'clob':
       case 'blob':
@@ -554,44 +553,41 @@ class sfDoctrineFormGenerator extends sfGenerator
     return strtolower(preg_replace(array('/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'), '\\1_\\2', $name));
   }
 
-  /**
-   * Get array of sfDoctrineColumn objects that exist on the current model but not its parent.
-   *
-   * @return array $columns
-   */
-  public function getColumns()
-  {
-    $parentModel = $this->getParentModel();
-    $parentColumns = $parentModel ? array_keys(Doctrine_Core::getTable($parentModel)->getColumns()) : array();
-
-    $columns = array();
-    foreach (array_diff(array_keys($this->table->getColumns()), $parentColumns) as $name)
+    /**
+     * Get array of sfDoctrineColumn objects that exist on the current model but not its parent.
+     *
+     * @return array $columns
+     */
+    public function getColumns()
     {
-      $columns[] = new sfDoctrineColumn($name, $this->table);
-    }
+        $parentModel = $this->getParentModel();
+        $parentColumns = $parentModel ? array_keys(Doctrine_Core::getTable($parentModel)->getColumns()) : [];
 
-    // add relations to columns for inherited classes
-    if ($parentModel)
-    {
-      $parentRelationNames = array_keys(Doctrine_Core::getTable($parentModel)->getRelations());
-      $relations = $this->table->getRelations();
-      $relationColumns = array();
-      foreach (array_diff(array_keys($relations), $parentRelationNames) as $relationName)
-      {
-        if (Doctrine_Relation::ONE == $relations[$relationName]->getType())
-        {
-          $columnName = $relations[$relationName]->getLocal();
-          if (!in_array($columnName, $relationColumns))
-          {
-            $relationColumns[] = $columnName;
-            $columns[] = new sfDoctrineColumn($columnName, $this->table);
-          }
+        $columns = [];
+        $names   = [];
+
+        foreach (array_diff(array_keys($this->table->getColumns()), $parentColumns) as $name) {
+            $columns[] = new sfDoctrineColumn($name, $this->table);
+            $names[]   = $name;
         }
-      }
-    }
 
-    return $columns;
-  }
+        // add relations to columns for inherited classes
+        if ($parentModel) {
+            $parentRelationNames = array_keys(Doctrine_Core::getTable($parentModel)->getRelations());
+            $relations = $this->table->getRelations();
+            foreach (array_diff(array_keys($relations), $parentRelationNames) as $relationName) {
+                if (Doctrine_Relation::ONE == $relations[$relationName]->getType()) {
+                    $columnName = $relations[$relationName]->getLocal();
+                    if (!in_array($names, $relationColumns)) {
+                        $columns[] = new sfDoctrineColumn($columnName, $this->table);
+                        $names[]   = $columnName;
+                    }
+                }
+            }
+        }
+
+        return $columns;
+    }
 
   public function getUniqueColumnNames()
   {
