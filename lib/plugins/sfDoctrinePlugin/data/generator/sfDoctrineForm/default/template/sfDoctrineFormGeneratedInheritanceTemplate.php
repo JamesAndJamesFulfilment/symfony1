@@ -95,7 +95,7 @@ if ($relations) {
 ?>
     public function update<?= $relation['alias']; ?>List($values)
     {
-        if (!isset($this->widgetSchema['<?= $relation; ?>_list'])) {
+        if (!isset($this->widgetSchema['<?= $alias; ?>_list'])) {
             // widget has been unset
             return;
         }
