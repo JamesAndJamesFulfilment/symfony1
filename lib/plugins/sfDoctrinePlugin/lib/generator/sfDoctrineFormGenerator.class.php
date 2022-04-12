@@ -578,7 +578,7 @@ class sfDoctrineFormGenerator extends sfGenerator
             foreach (array_diff(array_keys($relations), $parentRelationNames) as $relationName) {
                 if (Doctrine_Relation::ONE == $relations[$relationName]->getType()) {
                     $columnName = $relations[$relationName]->getLocal();
-                    if (!in_array($names, $relationColumns)) {
+                    if (!in_array($columnName, $names)) {
                         $columns[] = new sfDoctrineColumn($columnName, $this->table);
                         $names[]   = $columnName;
                     }
