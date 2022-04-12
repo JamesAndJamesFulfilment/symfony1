@@ -1,80 +1,135 @@
 [?php
 
 /**
- * <?php echo $this->table->getOption('name') ?> filter form base class.
+ * <?= $this->table->getOption('name'); ?> filter form base class.
  *
  * @package    ##PROJECT_NAME##
  * @subpackage filter
  * @author     ##AUTHOR_NAME##
- * @version    SVN: $Id$
  */
-abstract class Base<?php echo $this->table->getOption('name') ?>FormFilter extends <?php echo $this->getFormClassToExtend().PHP_EOL ?>
+abstract class Base<?= $this->table->getOption('name'); ?>FormFilter extends <?= $this->getFormClassToExtend() . PHP_EOL; ?>
 {
-  public function setup()
-  {
-    $this->setWidgets(array(
-<?php foreach ($this->getColumns() as $column): ?>
-<?php if ($column->isPrimaryKey()) continue ?>
-      '<?php echo $column->getFieldName() ?>'<?php echo str_repeat(' ', $this->getColumnNameMaxLength() - strlen($column->getFieldName())) ?> => new <?php echo $this->getWidgetClassForColumn($column) ?>(<?php echo $this->getWidgetOptionsForColumn($column) ?>),
-<?php endforeach; ?>
-<?php foreach ($this->getManyToManyRelations() as $relation): ?>
-      '<?php echo $this->underscore($relation['alias']) ?>_list'<?php echo str_repeat(' ', $this->getColumnNameMaxLength() - strlen($this->underscore($relation['alias']).'_list')) ?> => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => '<?php echo $relation['table']->getOption('name') ?>')),
-<?php endforeach; ?>
-    ));
-
-    $this->setValidators(array(
-<?php foreach ($this->getColumns() as $column): ?>
-<?php if ($column->isPrimaryKey()) continue ?>
-      '<?php echo $column->getFieldName() ?>'<?php echo str_repeat(' ', $this->getColumnNameMaxLength() - strlen($column->getFieldName())) ?> => <?php echo $this->getValidatorForColumn($column) ?>,
-<?php endforeach; ?>
-<?php foreach ($this->getManyToManyRelations() as $relation): ?>
-      '<?php echo $this->underscore($relation['alias']) ?>_list'<?php echo str_repeat(' ', $this->getColumnNameMaxLength() - strlen($this->underscore($relation['alias']).'_list')) ?> => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => '<?php echo $relation['table']->getOption('name') ?>', 'required' => false)),
-<?php endforeach; ?>
-    ));
-
-    $this->widgetSchema->setNameFormat('<?php echo $this->underscore($this->modelName) ?>_filters[%s]');
-
-    $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
-
-    $this->setupInheritance();
-
-    parent::setup();
-  }
-
-<?php foreach ($this->getManyToManyRelations() as $relation): ?>
-  public function add<?php echo sfInflector::camelize($relation['alias']) ?>ListColumnQuery(Doctrine_Query $query, $field, $values)
-  {
-    if (!is_array($values))
+    public function setup()
     {
-      $values = array($values);
+        $this->setWidgets([
+<?php
+$columns   = $this->getColumns();
+$relations = $this->getManyToManyRelations();
+
+foreach ($columns as $column) {
+    if ($column->isPrimaryKey()) {
+        continue;
     }
 
-    if (!count($values))
-    {
-      return;
+    $field_name = $column->getFieldName();
+    $padding    = str_repeat(' ', $this->getColumnNameMaxLength() - strlen($field_name));
+    $class      = $this->getWidgetClassForColumn($column);
+    $arguments  = $this->getWidgetOptionsForColumn($column);
+?>
+            '<?= $field_name; ?>'<?= $padding; ?> => new <?= $class; ?>(<?= $arguments; ?>),
+<?php
+}
+?>
+<?php
+foreach ($relations as $relation) {
+    $alias   = $this->underscore($relation['alias']);
+    $padding = str_repeat(' ', $this->getColumnNameMaxLength() - strlen("{$alias}_list"));
+?>
+            '<?= $alias; ?>_list'<?= $padding; ?> => new sfWidgetFormDoctrineChoice([
+                'multiple' => true,
+                'model'    => '<?= $relation['table']->getOption('name') ?>',
+            ]),
+<?php
+}
+?>
+        ]);
+
+        $this->setValidators([
+<?php
+foreach ($columns as $column) {
+    if ($column->isPrimaryKey()) {
+        continue;
     }
 
-    $query
-      ->leftJoin($query->getRootAlias().'.<?php echo $relation['refTable']->getOption('name') ?> <?php echo $relation['refTable']->getOption('name') ?>')
-      ->andWhereIn('<?php echo $relation['refTable']->getOption('name') ?>.<?php echo $relation->getForeignFieldName() ?>', $values)
-    ;
-  }
+    $field_name = $column->getFieldName();
+    $padding    = str_repeat(' ', $this->getColumnNameMaxLength() - strlen($field_name));
+?>
+            '<?= $field_name; ?>'<?= $padding; ?> => <?= $this->getValidatorForColumn($column); ?>,
+<?php
+}
+?>
+<?php
+foreach ($relations as $relation) {
+    $alias   = $this->underscore($relation['alias']);
+    $padding = str_repeat(' ', $this->getColumnNameMaxLength() - strlen("{$alias}_list"));
+?>
+            '<?= $alias; ?>_list'<?= $padding; ?> => new sfValidatorDoctrineChoice([
+                'multiple' => true,
+                'model'    => '<?= $relation['table']->getOption('name'); ?>',
+                'required' => false,
+            ]),
+<?php
+}
+?>
+        ]);
 
-<?php endforeach; ?>
-  public function getModelName()
-  {
-    return '<?php echo $this->modelName ?>';
-  }
+        $this->widgetSchema->setNameFormat('<?= $this->underscore($this->modelName); ?>_filters[%s]');
 
-  public function getFields()
-  {
-    return array(
-<?php foreach ($this->getColumns() as $column): ?>
-      '<?php echo $column->getFieldName() ?>'<?php echo str_repeat(' ', $this->getColumnNameMaxLength() - strlen($column->getFieldName())) ?> => '<?php echo $this->getType($column) ?>',
-<?php endforeach; ?>
-<?php foreach ($this->getManyToManyRelations() as $relation): ?>
-      '<?php echo $this->underscore($relation['alias']) ?>_list'<?php echo str_repeat(' ', $this->getColumnNameMaxLength() - strlen($this->underscore($relation['alias']).'_list')) ?> => 'ManyKey',
-<?php endforeach; ?>
-    );
-  }
+        $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+
+        $this->setupInheritance();
+
+        parent::setup();
+    }
+
+<?php
+foreach ($relations as $relation) {
+    $name = $relation['refTable']->getOption('name');
+?>
+    public function add<?= sfInflector::camelize($relation['alias']); ?>ListColumnQuery(Doctrine_Query $query, $field, $values)
+    {
+        if (!is_array($values)) {
+            $values = array($values);
+        }
+
+        if (!count($values)) {
+            return;
+        }
+
+        $query
+            ->leftJoin($query->getRootAlias() . '.<?= $name ?> <?= $name; ?>')
+            ->andWhereIn('<?= $name; ?>.<?= $relation->getForeignFieldName(); ?>', $values);
+    }
+
+<?php
+}
+?>
+    public function getModelName()
+    {
+        return '<?= $this->modelName; ?>';
+    }
+
+    public function getFields()
+    {
+        return [
+<?php
+foreach ($columns as $column) {
+    $field_name = $column->getFieldName();
+    $padding    = str_repeat(' ', $this->getColumnNameMaxLength() - strlen($field_name));
+?>
+            '<?= $field_name ?>'<?= $padding; ?> => '<?= $this->getType($column); ?>',
+<?php
+}
+?>
+<?php
+foreach ($relations as $relation) {
+    $alias = $this->underscore($relation['alias']);
+    $padding = str_repeat(' ', $this->getColumnNameMaxLength() - strlen("{$alias}_list"));
+?>
+            '<?= $alias; ?>_list'<?= $padding; ?> => 'ManyKey',
+<?php
+}
+?>
+        ];
+    }
 }

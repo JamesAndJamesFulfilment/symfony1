@@ -1,97 +1,129 @@
 [?php
 
 /**
- * <?php echo $this->modelName ?> form base class.
+ * <?= $this->modelName; ?> form base class.
  *
- * @method <?php echo $this->modelName ?> getObject() Returns the current form's model object
+ * @method <?= $this->modelName; ?> getObject() Returns the current form's model object
  *
  * @package    ##PROJECT_NAME##
  * @subpackage form
  * @author     ##AUTHOR_NAME##
- * @version    SVN: $Id$
  */
-abstract class Base<?php echo $this->modelName ?>Form extends <?php echo $this->getFormClassToExtend().PHP_EOL ?>
+abstract class Base<?= $this->modelName; ?>Form extends <?= $this->getFormClassToExtend() . PHP_EOL; ?>
 {
-  protected function setupInheritance()
-  {
-    parent::setupInheritance();
-
-<?php foreach ($this->getColumns() as $column): ?>
-    $this->widgetSchema   ['<?php echo $column->getFieldName() ?>'] = new <?php echo $this->getWidgetClassForColumn($column) ?>(<?php echo $this->getWidgetOptionsForColumn($column) ?>);
-    $this->validatorSchema['<?php echo $column->getFieldName() ?>'] = new <?php echo $this->getValidatorClassForColumn($column) ?>(<?php echo $this->getValidatorOptionsForColumn($column) ?>);
-
-<?php endforeach; ?>
-<?php foreach ($this->getManyToManyRelations() as $relation): ?>
-    $this->widgetSchema   ['<?php echo $this->underscore($relation['alias']) ?>_list'] = new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => '<?php echo $relation['table']->getOption('name') ?>'));
-    $this->validatorSchema['<?php echo $this->underscore($relation['alias']) ?>_list'] = new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => '<?php echo $relation['table']->getOption('name') ?>', 'required' => false));
-
-<?php endforeach; ?>
-    $this->widgetSchema->setNameFormat('<?php echo $this->underscore($this->modelName) ?>[%s]');
-  }
-
-  public function getModelName()
-  {
-    return '<?php echo $this->modelName ?>';
-  }
-
-<?php if ($this->getManyToManyRelations()): ?>
-  public function updateDefaultsFromObject()
-  {
-    parent::updateDefaultsFromObject();
-
-<?php foreach ($this->getManyToManyRelations() as $relation): ?>
-    if (isset($this->widgetSchema['<?php echo $this->underscore($relation['alias']) ?>_list']))
+    protected function setupInheritance()
     {
-      $this->setDefault('<?php echo $this->underscore($relation['alias']) ?>_list', $this->object-><?php echo $relation['alias']; ?>->getPrimaryKeys());
+        parent::setupInheritance();
+
+<?php
+foreach ($this->getColumns() as $column) {
+    $field_name          = $column->getFieldName();
+    $widget_class        = $this->getWidgetClassForColumn($column);
+    $widget_arguments    = $this->getWidgetOptionsForColumn($column);
+    $validator_class     = $this->getValidatorClassForColumn($column);
+    $validator_arguments = $this->getValidatorOptionsForColumn($column);
+?>
+        $this->widgetSchema['<?= $field_name; ?>']    = new <?= $widget_class; ?>(<?= $widget_arguments; ?>);
+        $this->validatorSchema['<?= $field_name; ?>'] = new <?= $validator_class; ?>(<?= $validator_arguments; ?>);
+
+<?php
+}
+?>
+<?php
+$relations = $this->getManyToManyRelations();
+foreach ($relations as $relation) {
+    $alias      = $this->underscore($relation['alias']);
+    $table_name = $relation['table']->getOption('name');
+?>
+        $this->widgetSchema['<?= $alias; ?>_list']    = new sfWidgetFormDoctrineChoice([
+            'multiple' => true,
+            'model'    => '<?= $table_name; ?>',
+        ]);
+        $this->validatorSchema['<?= $alias; ?>_list'] = new sfValidatorDoctrineChoice([
+            'multiple' => true,
+            'model'    => '<?= $table_name; ?>',
+            'required' => false,
+        ]);
+
+<?php
+}
+?>
+        $this->widgetSchema->setNameFormat('<?= $this->underscore($this->modelName); ?>[%s]');
     }
 
-<?php endforeach; ?>
-  }
-
-  protected function doUpdateObject($values)
-  {
-<?php foreach ($this->getManyToManyRelations() as $relation): ?>
-    $this->update<?php echo $relation['alias'] ?>List($values);
-<?php endforeach; ?>
-
-    parent::doUpdateObject($values);
-  }
-
-<?php foreach ($this->getManyToManyRelations() as $relation): ?>
-  public function update<?php echo $relation['alias'] ?>List($values)
-  {
-    if (!isset($this->widgetSchema['<?php echo $this->underscore($relation['alias']) ?>_list']))
+    public function getModelName()
     {
-      // somebody has unset this widget
-      return;
+        return '<?= $this->modelName; ?>';
     }
 
-    if (!array_key_exists('<?php echo $this->underscore($relation['alias']) ?>_list', $values))
+<?php
+if ($relations) {
+?>
+    public function updateDefaultsFromObject()
     {
-      // no values for this widget
-      return;
+        parent::updateDefaultsFromObject();
+
+<?php
+    foreach ($relations as $relation) {
+        $alias = $this->underscore($relation['alias']);
+?>
+        if (isset($this->widgetSchema['<?= $alias; ?>_list'])) {
+            $this->setDefault('<?= $alias; ?>_list', $this->object-><?= $relation['alias']; ?>->getPrimaryKeys());
+        }
+
+<?php
+    }
+?>
     }
 
-    $existing = $this->object-><?php echo $relation['alias']; ?>->getPrimaryKeys();
-    $values = $values['<?php echo $this->underscore($relation['alias']) ?>_list'];
-    if (!is_array($values))
+    protected function doUpdateObject($values)
     {
-      $values = array();
+<?php
+    foreach ($relations as $relation) {
+?>
+        $this->update<?= $relation['alias']; ?>List($values);
+<?php
+    }
+?>
+
+        parent::doUpdateObject($values);
     }
 
-    $unlink = array_diff($existing, $values);
-    if (count($unlink))
+<?php
+    foreach ($relations as $relation) {
+        $alias = $this->underscore($relation['alias']);
+?>
+    public function update<?= $relation['alias']; ?>List($values)
     {
-      $this->object->unlink('<?php echo $relation['alias'] ?>', array_values($unlink));
+        if (!isset($this->widgetSchema['<?= $relation; ?>_list'])) {
+            // widget has been unset
+            return;
+        }
+
+        if (!array_key_exists('<?= $alias; ?>_list', $values)) {
+            // no values for this widget
+            return;
+        }
+
+        $existing = $this->object-><?= $relation['alias']; ?>->getPrimaryKeys();
+        $values = $values['<?= $alias; ?>_list'];
+        if (!is_array($values)) {
+            $values = [];
+        }
+
+        $unlink = array_diff($existing, $values);
+        if (count($unlink)) {
+            $this->object->unlink('<?= $relation['alias']; ?>', array_values($unlink));
+        }
+
+        $link = array_diff($values, $existing);
+        if (count($link)) {
+            $this->object->link('<?= $relation['alias'] ?>', array_values($link));
+        }
     }
 
-    $link = array_diff($values, $existing);
-    if (count($link))
-    {
-      $this->object->link('<?php echo $relation['alias'] ?>', array_values($link));
+<?php
     }
-  }
-
-<?php endforeach; ?>
-<?php endif; ?>
+}
+?>
 }
