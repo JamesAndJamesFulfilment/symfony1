@@ -203,8 +203,8 @@ class sfParameterHolder implements Serializable
    *
    * @return Array
    */
-  public function __serialize() {
-
+  public function __serialize()
+  {
       return $this->parameters;
   }
 

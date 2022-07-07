@@ -363,7 +363,8 @@ abstract class sfBrowserBase
       }
       else
       {
-        if($response->getContent()) {
+        if ($response->getContent())
+        {
           @$this->dom->loadHTML($response->getContent());
         }
       }

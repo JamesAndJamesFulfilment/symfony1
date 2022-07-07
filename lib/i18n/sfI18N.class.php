@@ -273,11 +273,13 @@ class sfI18N
 
     // mktime behavior change with php8
     // $hour become not nullable
-    if (!$hour) {
+    if (!$hour)
+    {
       $hour = 0;
     }
     // Before 8.0, $minutes value to null, was casted as (int)0
-    if (!$minute) {
+    if (!$minute)
+    {
       $minute = 0;
     }
     return null === $day ? null : mktime($hour, $minute, 0, $month, $day, $year);

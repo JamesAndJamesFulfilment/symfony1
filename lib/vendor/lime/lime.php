@@ -1103,7 +1103,8 @@ EOF
 
             $this->output->comment(sprintf('  at %s line %s', $this->get_relative_file($testsuite['tests'][$testcase]['file']).$this->extension, $testsuite['tests'][$testcase]['line']));
             $this->output->info('  '.$testsuite['tests'][$testcase]['message']);
-            if(isset($testsuite['tests'][$testcase]['error'])) {
+            if (isset($testsuite['tests'][$testcase]['error']))
+            {
               $this->output->echoln($testsuite['tests'][$testcase]['error'], null, false);
             }
           }

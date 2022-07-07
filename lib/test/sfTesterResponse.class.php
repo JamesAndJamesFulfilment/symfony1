@@ -49,7 +49,8 @@ class sfTesterResponse extends sfTester
       }
       else
       {
-        if($this->response->getContent()) {
+        if ($this->response->getContent())
+        {
           @$this->dom->loadHTML($this->response->getContent());
         }
       }
