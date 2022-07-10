@@ -589,7 +589,7 @@ class lime_test
   }
 
   /**
-   * @param Throwable $exception only available on php7
+   * @param Throwable|Exception $exception
    * @return bool
    */
   public function handle_exception($exception)

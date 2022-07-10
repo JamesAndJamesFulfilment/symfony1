@@ -367,7 +367,7 @@ class sfException extends Exception
   static protected function fileExcerpt($file, $line)
   {
     // $file can be null for RuntimeException
-    if ($file === null)
+    if (null === $file)
     {
       return '';
     }
