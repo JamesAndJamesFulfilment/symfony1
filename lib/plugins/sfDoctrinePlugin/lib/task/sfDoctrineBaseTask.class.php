@@ -187,7 +187,7 @@ abstract class sfDoctrineBaseTask extends sfBaseTask
         $this->logSection('file+', $file);
         file_put_contents($file, sfYaml::dump($models, 4));
 
-        $this->logSection('permissions+', "{$file}: 0666");
+        $this->logSection('chmod 666', $file);
         chmod($file, 0666);
 
         return $file;
