@@ -78,15 +78,15 @@ class sfRouteCollection implements Iterator
     return key($this->routes);
   }
 
-  /**
-   * Returns the current route (implements the Iterator interface).
-   *
-   * @return mixed The escaped value
-   */
-  public function current()
-  {
-    return current($this->routes);
-  }
+    /**
+     * Returns the current route (implements the Iterator interface).
+     *
+     * @return mixed The escaped value
+     */
+    public function current(): mixed
+    {
+        return current($this->routes);
+    }
 
   /**
    * Moves to the next route (implements the Iterator interface).
