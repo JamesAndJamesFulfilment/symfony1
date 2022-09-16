@@ -267,61 +267,68 @@ class sfRoute implements Serializable
     return strlen($a) < strlen($b);
   }
 
-  /**
-   * Generates a URL for the given parameters by using the route tokens.
-   *
-   * @param array $parameters An array of parameters
-   *
-   * @return string
-   */
-  protected function generateWithTokens($parameters)
-  {
-    $url = array();
-    $optional = $this->options['generate_shortest_url'];
-    $first = true;
-    $tokens = array_reverse($this->tokens);
-    foreach ($tokens as $token)
+    /**
+     * Generates a URL for the given parameters by using the route tokens.
+     *
+     * @param array $parameters An array of parameters
+     *
+     * @return string
+     */
+    protected function generateWithTokens($parameters)
     {
-      switch ($token[0])
-      {
-        case 'variable':
-          if (!$optional || !isset($this->defaults[$token[3]]) || $parameters[$token[3]] != $this->defaults[$token[3]])
-          {
-            $url[] = urlencode($parameters[$token[3]]);
-            $optional = false;
-          }
-          break;
-        case 'text':
-          $url[] = $token[2];
-          $optional = false;
-          break;
-        case 'separator':
-          if (false === $optional || $first)
-          {
-            $url[] = $token[2];
-          }
-          break;
-        default:
-          // handle custom tokens
-          if ($segment = call_user_func_array(array($this, 'generateFor'.ucfirst(array_shift($token))), array_merge(array($optional, $parameters), $token)))
-          {
-            $url[] = $segment;
-            $optional = false;
-          }
-          break;
-      }
+        $url      = [];
+        $optional = $this->options['generate_shortest_url'];
+        $first    = true;
+        $tokens   = array_reverse($this->tokens);
 
-      $first = false;
+        foreach ($tokens as $token) {
+            switch ($token[0]) {
+                case 'variable':
+                    if (!$optional || !isset($this->defaults[$token[3]]) || $parameters[$token[3]] != $this->defaults[$token[3]]) {
+                        if (!empty($parameters[$token[3]])) {
+                            $url[] = urlencode($parameters[$token[3]]);
+                        }
+                        $optional = false;
+                    }
+                    break;
+
+                case 'text':
+                    $url[] = $token[2];
+                    $optional = false;
+                    break;
+
+                case 'separator':
+                    if (false === $optional || $first) {
+                        $url[] = $token[2];
+                    }
+                    break;
+
+                default:
+                    // handle custom tokens
+                    $segment = call_user_func_array(
+                        [
+                            $this,
+                            'generateFor' . ucfirst(array_shift($token))
+                        ],
+                        array_merge([$optional, $parameters], $token)
+                    );
+                    if ($segment) {
+                        $url[] = $segment;
+                        $optional = false;
+                    }
+                    break;
+            }
+
+            $first = false;
+        }
+
+        $url = implode('', array_reverse($url));
+        if (!$url) {
+            $url = '/';
+        }
+
+        return $url;
     }
-
-    $url = implode('', array_reverse($url));
-    if (!$url)
-    {
-      $url = '/';
-    }
-
-    return $url;
-  }
 
   /**
    * Returns the route parameters.
