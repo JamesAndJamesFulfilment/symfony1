@@ -781,20 +781,16 @@ class sfRoute implements Serializable
     return $arr1;
   }
 
-  protected function fixDefaults()
-  {
-    foreach ($this->defaults as $key => $value)
+    protected function fixDefaults()
     {
-      if (ctype_digit($key))
-      {
-        $this->defaults[$value] = true;
-      }
-      else
-      {
-        $this->defaults[$key] = urldecode($value);
-      }
+        foreach ($this->defaults as $key => $value) {
+            if (ctype_digit($key)) {
+                $this->defaults[$value] = true;
+            } else {
+                $this->defaults[$key] = is_null($value) ? null : urldecode($value);
+            }
+        }
     }
-  }
 
   protected function fixRequirements()
   {
