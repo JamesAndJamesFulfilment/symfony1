@@ -88,7 +88,7 @@ class sfCacheSessionStorage extends sfStorage
             // split cookie data id:signature(id+secret)
             list($id, $signature) = explode(':', $cookie, 2);
 
-            if ($signature == sha1("{$id}:{$this->options['session_cookie_secret']}") {
+            if ($signature == sha1("{$id}:{$this->options['session_cookie_secret']}")) {
                 // cookie is valid
                 $this->id = $id;
             } else {
