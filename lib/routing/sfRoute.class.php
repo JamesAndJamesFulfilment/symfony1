@@ -766,7 +766,7 @@ class sfRoute implements Serializable
       }
       else
       {
-        $tmp[] = urlencode($key).'/'.urlencode($value);
+        $tmp[] = urlencode($key) . '/' . urlencode($value ?: '');
       }
     }
     $tmp = implode('/', $tmp);
