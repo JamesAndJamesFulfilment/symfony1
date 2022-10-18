@@ -1,7 +1,7 @@
 <?php
 
 // Defining a base class for sfMailer to handle both, Swiftmailer 5 and Swiftmailer 6.
-if(class_exists('Swift') && version_compare(Swift::VERSION, '6.0.0') >= 0) {
+if (class_exists('Swift') && version_compare(Swift::VERSION, '6.0.0') >= 0) {
   class sfMailerBase extends Swift_Mailer
   {
     /**
