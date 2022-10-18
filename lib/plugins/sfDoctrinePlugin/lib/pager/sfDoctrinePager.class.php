@@ -62,9 +62,16 @@ class sfDoctrinePager extends sfPager implements Serializable
    */
   public function unserialize($serialized)
   {
-    $this->__unserialize(unserialize($serialized));
+    $array = unserialize($serialized);
+
+    return $this->__unserialize($array);
   }
 
+  /**
+   * Serializes the current instance for php 7.4+
+   *
+   * @return array
+   */
   public function __serialize()
   {
     $vars = get_object_vars($this);
@@ -72,11 +79,17 @@ class sfDoctrinePager extends sfPager implements Serializable
     return $vars;
   }
 
-  public function __unserialize(array $array)
+  /**
+   * Unserializes a sfDoctrinePager instance for php 7.4+
+   *
+   * @param array $data
+   */
+  public function __unserialize($data)
   {
-    foreach ($array as $name => $values)
+
+    foreach ($data as $name => $values)
     {
-      $this->$name = $values;
+       $this->$name = $values;
     }
 
     $this->tableMethodCalled = false;
@@ -176,8 +189,7 @@ class sfDoctrinePager extends sfPager implements Serializable
     $queryForRetrieve = clone $this->getQuery();
     $queryForRetrieve
       ->offset($offset - 1)
-      ->limit(1)
-    ;
+      ->limit(1);
 
     $results = $queryForRetrieve->execute();
 

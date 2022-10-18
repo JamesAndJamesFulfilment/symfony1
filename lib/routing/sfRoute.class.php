@@ -264,7 +264,7 @@ class sfRoute implements Serializable
 
   static private function generateCompareVarsByStrlen($a, $b)
   {
-    return strlen($a) < strlen($b);
+    return (strlen($a) < strlen($b)) ? 1 : -1;
   }
 
     /**
@@ -284,10 +284,8 @@ class sfRoute implements Serializable
         foreach ($tokens as $token) {
             switch ($token[0]) {
                 case 'variable':
-                    if (!$optional || !isset($this->defaults[$token[3]]) || $parameters[$token[3]] != $this->defaults[$token[3]]) {
-                        if (!empty($parameters[$token[3]])) {
-                            $url[] = urlencode($parameters[$token[3]]);
-                        }
+                    if (!$optional || !isset($this->defaults[$token[3]]) || (isset($parameters[$token[3]]) && $parameters[$token[3]] != $this->defaults[$token[3]])) {
+                        $url[]    = urlencode($parameters[$token[3]]);
                         $optional = false;
                     }
                     break;
@@ -794,7 +792,7 @@ class sfRoute implements Serializable
             if (ctype_digit($key)) {
                 $this->defaults[$value] = true;
             } else {
-                $this->defaults[$key] = is_null($value) ? null : urldecode($value);
+                $this->defaults[$key] = urldecode((string) $value);
             }
         }
     }
@@ -853,11 +851,18 @@ class sfRoute implements Serializable
     return serialize($this->__serialize());
   }
 
-  public function unserialize($data)
+  public function unserialize($serialized)
   {
-    $this->__unserialize(unserialize($data));
+    $array = unserialize($serialized);
+
+    $this->__unserialize($array);
   }
 
+  /**
+   * Serializes the current instance for php 7.4+
+   *
+   * @return array
+   */
   public function __serialize()
   {
     // always serialize compiled routes
@@ -866,9 +871,15 @@ class sfRoute implements Serializable
     return array($this->tokens, $this->defaultOptions, $this->options, $this->pattern, $this->staticPrefix, $this->regex, $this->variables, $this->defaults, $this->requirements, $this->suffix, $this->customToken);
   }
 
-  public function __unserialize(array $data)
+  /**
+   * Unserializes a sfRoute instance for php 7.4+
+   *
+   * @param array $data
+   */
+  public function __unserialize($data)
   {
     list($this->tokens, $this->defaultOptions, $this->options, $this->pattern, $this->staticPrefix, $this->regex, $this->variables, $this->defaults, $this->requirements, $this->suffix, $this->customToken) = $data;
+
     $this->compiled = true;
   }
 

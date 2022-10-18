@@ -176,7 +176,7 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
    *
    * @return int The number of array
    */
-  #[ReturnTypeWillChange]
+  #[\ReturnTypeWillChange]
   public function count()
   {
     return count($this->errors);
@@ -185,7 +185,7 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
   /**
    * Reset the error array to the beginning (implements the Iterator interface).
    */
-  #[ReturnTypeWillChange]
+  #[\ReturnTypeWillChange]
   public function rewind()
   {
     reset($this->errors);
@@ -198,7 +198,7 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
    *
    * @return string The key
    */
-  #[ReturnTypeWillChange]
+  #[\ReturnTypeWillChange]
   public function key()
   {
     return key($this->errors);
@@ -209,7 +209,7 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
    *
    * @return mixed The escaped value
    */
-  #[ReturnTypeWillChange]
+  #[\ReturnTypeWillChange]
   public function current()
   {
     return current($this->errors);
@@ -218,7 +218,7 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
   /**
    * Moves to the next error (implements the Iterator interface).
    */
-  #[ReturnTypeWillChange]
+  #[\ReturnTypeWillChange]
   public function next()
   {
     next($this->errors);
@@ -231,7 +231,7 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
    *
    * @return boolean The validity of the current element; true if it is valid
    */
-  #[ReturnTypeWillChange]
+  #[\ReturnTypeWillChange]
   public function valid()
   {
     return $this->count > 0;
@@ -244,7 +244,7 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
    *
    * @return bool true if the error exists, false otherwise
    */
-  #[ReturnTypeWillChange]
+  #[\ReturnTypeWillChange]
   public function offsetExists($name)
   {
     return isset($this->errors[$name]);
@@ -257,7 +257,7 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
    *
    * @return sfValidatorError A sfValidatorError instance
    */
-  #[ReturnTypeWillChange]
+  #[\ReturnTypeWillChange]
   public function offsetGet($name)
   {
     return isset($this->errors[$name]) ? $this->errors[$name] : null;
@@ -271,7 +271,7 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
    *
    * @throws LogicException
    */
-  #[ReturnTypeWillChange]
+  #[\ReturnTypeWillChange]
   public function offsetSet($offset, $value)
   {
     throw new LogicException('Unable update an error.');
@@ -282,7 +282,7 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
    *
    * @param string $offset  (ignored)
    */
-  #[ReturnTypeWillChange]
+  #[\ReturnTypeWillChange]
   public function offsetUnset($offset)
   {
   }
