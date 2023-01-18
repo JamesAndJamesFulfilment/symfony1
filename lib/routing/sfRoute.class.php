@@ -226,7 +226,7 @@ class sfRoute implements Serializable
 
         $elements = array_merge(
             [SharedCacheHelper::ROUTING_NAMESPACE],
-            $params
+            $tparams
         );
 
         if ($absolute) {
@@ -234,7 +234,7 @@ class sfRoute implements Serializable
         }
 
         $cache_key = SharedCacheHelper::getNamespace($elements);
-        $cached    = SharedCacheHelper::getValue($cached_key);
+        $cached    = SharedCacheHelper::getValue($cache_key);
         if ($cached) {
             return $cached;
         }
