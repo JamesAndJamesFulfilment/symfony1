@@ -11,160 +11,148 @@
 /**
  * sfBrowser simulates a browser which can surf a symfony application.
  *
- * @package    symfony
- * @subpackage util
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+ *
  * @version    SVN: $Id$
  */
 class sfBrowser extends sfBrowserBase
 {
-  protected
-    $listeners        = array(),
-    $context          = null,
-    $currentException = null;
+    protected $listeners = array();
+    protected $context;
+    protected $currentException;
 
-  /**
-   * Calls a request to a uri.
-   */
-  protected function doCall()
-  {
-    // Before getContext, it can trigger some
-    sfConfig::set('sf_test', true);
-
-    // recycle our context object
-    $this->context = $this->getContext(true);
-
-    // we register a fake rendering filter
-    sfConfig::set('sf_rendering_filter', array('sfFakeRenderingFilter', null));
-
-    $this->resetCurrentException();
-
-    // dispatch our request
-    ob_start();
-    $this->context->getController()->dispatch();
-    $retval = ob_get_clean();
-
-    // append retval to the response content
-    $this->context->getResponse()->setContent($retval);
-
-    // manually shutdown user to save current session data
-    if ($this->context->getUser())
+    /**
+     * Calls a request to a uri.
+     */
+    protected function doCall()
     {
-      $this->context->getUser()->shutdown();
-      $this->context->getStorage()->shutdown();
-    }
-  }
+        // Before getContext, it can trigger some
+        sfConfig::set('sf_test', true);
 
-  /**
-   * Returns the current application context.
-   *
-   * @param  bool $forceReload  true to force context reload, false otherwise
-   *
-   * @return sfContext
-   */
-  public function getContext($forceReload = false)
-  {
-    if (null === $this->context || $forceReload)
-    {
-      $isContextEmpty = null === $this->context;
-      $context = $isContextEmpty ? sfContext::getInstance() : $this->context;
+        // recycle our context object
+        $this->context = $this->getContext(true);
 
-      // create configuration
-      $currentConfiguration = $context->getConfiguration();
-      $configuration = ProjectConfiguration::getApplicationConfiguration($currentConfiguration->getApplication(), $currentConfiguration->getEnvironment(), $currentConfiguration->isDebug());
+        // we register a fake rendering filter
+        sfConfig::set('sf_rendering_filter', array('sfFakeRenderingFilter', null));
 
-      // connect listeners
-      $configuration->getEventDispatcher()->connect('application.throw_exception', array($this, 'listenToException'));
-      foreach ($this->listeners as $name => $listener)
-      {
-        $configuration->getEventDispatcher()->connect($name, $listener);
-      }
+        $this->resetCurrentException();
 
-      // create context
-      $this->context = sfContext::createInstance($configuration);
-      unset($currentConfiguration);
+        // dispatch our request
+        ob_start();
+        $this->context->getController()->dispatch();
+        $retval = ob_get_clean();
 
-      if (!$isContextEmpty)
-      {
-        sfConfig::clear();
-        sfConfig::add($this->rawConfiguration);
-      }
-      else
-      {
-        $this->rawConfiguration = sfConfig::getAll();
-      }
+        // append retval to the response content
+        $this->context->getResponse()->setContent($retval);
+
+        // manually shutdown user to save current session data
+        if ($this->context->getUser()) {
+            $this->context->getUser()->shutdown();
+            $this->context->getStorage()->shutdown();
+        }
     }
 
-    return $this->context;
-  }
+    /**
+     * Returns the current application context.
+     *
+     * @param bool $forceReload true to force context reload, false otherwise
+     *
+     * @return sfContext
+     */
+    public function getContext($forceReload = false)
+    {
+        if (null === $this->context || $forceReload) {
+            $isContextEmpty = null === $this->context;
+            $context = $isContextEmpty ? sfContext::getInstance() : $this->context;
 
-  public function addListener($name, $listener)
-  {
-    $this->listeners[$name] = $listener;
-  }
+            // create configuration
+            $currentConfiguration = $context->getConfiguration();
+            $configuration = ProjectConfiguration::getApplicationConfiguration($currentConfiguration->getApplication(), $currentConfiguration->getEnvironment(), $currentConfiguration->isDebug());
 
-  /**
-   * Gets response.
-   *
-   * @return sfWebResponse
-   */
-  public function getResponse()
-  {
-    return $this->context->getResponse();
-  }
+            // connect listeners
+            $configuration->getEventDispatcher()->connect('application.throw_exception', array($this, 'listenToException'));
+            foreach ($this->listeners as $name => $listener) {
+                $configuration->getEventDispatcher()->connect($name, $listener);
+            }
 
-  /**
-   * Gets request.
-   *
-   * @return sfWebRequest
-   */
-  public function getRequest()
-  {
-    return $this->context->getRequest();
-  }
+            // create context
+            $this->context = sfContext::createInstance($configuration);
+            unset($currentConfiguration);
 
-  /**
-   * Gets user.
-   *
-   * @return sfUser
-   */
-  public function getUser()
-  {
-    return $this->context->getUser();
-  }
+            if (!$isContextEmpty) {
+                sfConfig::clear();
+                sfConfig::add($this->rawConfiguration);
+            } else {
+                $this->rawConfiguration = sfConfig::getAll();
+            }
+        }
 
-  /**
-   * Shutdown function to clean up and remove sessions
-   *
-   * @return void
-   */
-  public function shutdown()
-  {
-    parent::shutdown();
+        return $this->context;
+    }
 
-    // we remove all session data
-    sfToolkit::clearDirectory(sfConfig::get('sf_test_cache_dir').'/sessions');
-  }
+    public function addListener($name, $listener)
+    {
+        $this->listeners[$name] = $listener;
+    }
 
-  /**
-   * Listener for exceptions
-   *
-   * @param  sfEvent $event  The event to handle
-   *
-   * @return void
-   */
-  public function listenToException(sfEvent $event)
-  {
-    $this->setCurrentException($event->getSubject());
-  }
+    /**
+     * Gets response.
+     *
+     * @return sfWebResponse
+     */
+    public function getResponse()
+    {
+        return $this->context->getResponse();
+    }
+
+    /**
+     * Gets request.
+     *
+     * @return sfWebRequest
+     */
+    public function getRequest()
+    {
+        return $this->context->getRequest();
+    }
+
+    /**
+     * Gets user.
+     *
+     * @return sfUser
+     */
+    public function getUser()
+    {
+        return $this->context->getUser();
+    }
+
+    /**
+     * Shutdown function to clean up and remove sessions.
+     */
+    public function shutdown()
+    {
+        parent::shutdown();
+
+        // we remove all session data
+        sfToolkit::clearDirectory(sfConfig::get('sf_test_cache_dir').'/sessions');
+    }
+
+    /**
+     * Listener for exceptions.
+     *
+     * @param sfEvent $event The event to handle
+     */
+    public function listenToException(sfEvent $event)
+    {
+        $this->setCurrentException($event->getSubject());
+    }
 }
 
 class sfFakeRenderingFilter extends sfFilter
 {
-  public function execute($filterChain)
-  {
-    $filterChain->execute();
+    public function execute($filterChain)
+    {
+        $filterChain->execute();
 
-    $this->context->getResponse()->sendContent();
-  }
+        $this->context->getResponse()->sendContent();
+    }
 }

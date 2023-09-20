@@ -3,7 +3,7 @@
 /*
  * This file is part of the symfony package.
  * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -13,19 +13,17 @@ require_once sfConfig::get('sf_symfony_lib_dir').'/vendor/lime/lime.php';
 
 class TestTask extends sfBaseTask
 {
-  protected function execute($arguments = array(), $options = array())
-  {
-  }
+    protected function execute($arguments = array(), $options = array()) {}
 
-  public function reloadAutoload()
-  {
-    parent::reloadAutoload();
-  }
+    public function reloadAutoload()
+    {
+        parent::reloadAutoload();
+    }
 
-  public function initializeAutoload(sfProjectConfiguration $configuration, $reload = false)
-  {
-    parent::initializeAutoload($configuration, $reload);
-  }
+    public function initializeAutoload(sfProjectConfiguration $configuration, $reload = false)
+    {
+        parent::initializeAutoload($configuration, $reload);
+    }
 }
 
 $rootDir = __DIR__.'/../../functional/fixtures';
@@ -58,60 +56,53 @@ $t->diag('->run()');
 
 class ApplicationTask extends sfBaseTask
 {
-  protected function configure()
-  {
-    $this->addOption('application', null, sfCommandOption::PARAMETER_REQUIRED, '', true);
-  }
-
-  protected function execute($arguments = array(), $options = array())
-  {
-    if (!$this->configuration instanceof sfApplicationConfiguration)
+    protected function configure()
     {
-      throw new Exception('This task requires an application configuration be loaded.');
+        $this->addOption('application', null, sfCommandOption::PARAMETER_REQUIRED, '', true);
     }
-  }
 
-  public function getServiceContainer()
-  {
-    return parent::getServiceContainer();
-  }
+    protected function execute($arguments = array(), $options = array())
+    {
+        if (!$this->configuration instanceof sfApplicationConfiguration) {
+            throw new Exception('This task requires an application configuration be loaded.');
+        }
+    }
 
-  public function getRouting()
-  {
-    return parent::getRouting();
-  }
+    public function getServiceContainer()
+    {
+        return parent::getServiceContainer();
+    }
 
-  public function getMailer()
-  {
-    return parent::getMailer();
-  }
+    public function getRouting()
+    {
+        return parent::getRouting();
+    }
+
+    public function getMailer()
+    {
+        return parent::getMailer();
+    }
 }
 
 chdir($rootDir);
 
 $task = new ApplicationTask($dispatcher, new sfFormatter());
-try
-{
-  $task->run();
-  $t->pass('->run() creates an application configuration if none is set');
-}
-catch (Exception $e)
-{
-  $t->diag($e->getMessage());
-  $t->fail('->run() creates an application configuration if none is set');
+try {
+    $task->run();
+    $t->pass('->run() creates an application configuration if none is set');
+} catch (Exception $e) {
+    $t->diag($e->getMessage());
+    $t->fail('->run() creates an application configuration if none is set');
 }
 
 $task = new ApplicationTask($dispatcher, new sfFormatter());
 $task->setConfiguration($configuration);
-try
-{
-  $task->run();
-  $t->pass('->run() creates an application configuration if only a project configuration is set');
-}
-catch (Exception $e)
-{
-  $t->diag($e->getMessage());
-  $t->fail('->run() creates an application configuration if only a project configuration is set');
+try {
+    $task->run();
+    $t->pass('->run() creates an application configuration if only a project configuration is set');
+} catch (Exception $e) {
+    $t->diag($e->getMessage());
+    $t->fail('->run() creates an application configuration if only a project configuration is set');
 }
 
 // ->getServiceContainer()

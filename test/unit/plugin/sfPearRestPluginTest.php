@@ -10,15 +10,15 @@
 
 error_reporting(error_reporting() & ~E_STRICT);
 
-require_once(__DIR__.'/../../bootstrap/unit.php');
+require_once __DIR__.'/../../bootstrap/unit.php';
 
 $t = new lime_test(5);
 
-@include_once('PEAR.php');
-if (!class_exists('PEAR'))
-{
-  $t->skip('PEAR must be installed', 5); 
-  return;
+@include_once 'PEAR.php';
+if (!class_exists('PEAR')) {
+    $t->skip('PEAR must be installed', 5);
+
+    return;
 }
 
 require_once __DIR__.'/sfPearDownloaderTest.class.php';
@@ -33,11 +33,11 @@ mkdir($temp, 0777, true);
 define('SF_PLUGIN_TEST_DIR', $temp);
 
 $options = array(
-  'plugin_dir'            => $temp.'/plugins',
-  'cache_dir'             => $temp.'/cache',
-  'preferred_state'       => 'stable',
-  'rest_base_class'       => 'sfPearRestTest',
-  'downloader_base_class' => 'sfPearDownloaderTest',
+    'plugin_dir' => $temp.'/plugins',
+    'cache_dir' => $temp.'/cache',
+    'preferred_state' => 'stable',
+    'rest_base_class' => 'sfPearRestTest',
+    'downloader_base_class' => 'sfPearDownloaderTest',
 );
 
 $dispatcher = new sfEventDispatcher();

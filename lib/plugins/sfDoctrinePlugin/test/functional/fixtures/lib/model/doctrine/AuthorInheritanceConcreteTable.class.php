@@ -1,7 +1,3 @@
 <?php
-/**
- */
-class AuthorInheritanceConcreteTable extends AuthorTable
-{
 
-}
+class AuthorInheritanceConcreteTable extends AuthorTable {}

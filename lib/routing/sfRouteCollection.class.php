@@ -11,52 +11,49 @@
 /**
  * sfRouteCollection represents a collection of routes.
  *
- * @package    symfony
- * @subpackage routing
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+ *
  * @version    SVN: $Id$
  */
 class sfRouteCollection implements Iterator
 {
-  protected
-    $count   = 0,
-    $options = array(),
-    $routes  = array();
+    protected $count = 0;
+    protected $options = array();
+    protected $routes = array();
 
-  /**
-   * Constructor.
-   *
-   * @param array $options An array of options
-   */
-  public function __construct(array $options)
-  {
-    if (!isset($options['name']))
+    /**
+     * Constructor.
+     *
+     * @param array $options An array of options
+     */
+    public function __construct(array $options)
     {
-      throw new InvalidArgumentException('You must pass a "name" option to sfRouteCollection');
+        if (!isset($options['name'])) {
+            throw new InvalidArgumentException('You must pass a "name" option to sfRouteCollection');
+        }
+
+        $this->options = $options;
     }
 
-    $this->options = $options;
-  }
+    /**
+     * Returns the routes.
+     *
+     * @return array The routes
+     */
+    public function getRoutes()
+    {
+        return $this->routes;
+    }
 
-  /**
-   * Returns the routes.
-   *
-   * @return array The routes
-   */
-  public function getRoutes()
-  {
-    return $this->routes;
-  }
-
-  /**
-   * Returns the options.
-   *
-   * @return array The options
-   */
-  public function getOptions()
-  {
-    return $this->options;
-  }
+    /**
+     * Returns the options.
+     *
+     * @return array The options
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
 
     /**
      * Reset the error array to the beginning (implements the Iterator interface).
@@ -98,11 +95,11 @@ class sfRouteCollection implements Iterator
         --$this->count;
     }
 
-  /**
-   * Returns true if the current route is valid (implements the Iterator interface).
-   *
-   * @return boolean The validity of the current route; true if it is valid
-   */
+    /**
+     * Returns true if the current route is valid (implements the Iterator interface).
+     *
+     * @return bool The validity of the current route; true if it is valid
+     */
     public function valid(): bool
     {
         return $this->count > 0;

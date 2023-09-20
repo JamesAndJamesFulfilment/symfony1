@@ -1,7 +1,3 @@
 <?php
-/**
- */
-class FormGeneratorTest2Table extends Doctrine_Table
-{
 
-}
+class FormGeneratorTest2Table extends Doctrine_Table {}
