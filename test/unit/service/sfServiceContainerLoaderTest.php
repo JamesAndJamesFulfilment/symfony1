@@ -36,6 +36,7 @@ $t->is($loader->container, $container, '->setServiceContainer() sets the contain
 // ->load()
 $t->diag('->load()');
 $loader = new ProjectLoader();
+
 try {
     $loader->load('foo');
     $t->fail('->load() throws a LogicException if no container is attached to the loader');

@@ -228,6 +228,7 @@ class sfToolkit
                 array_shift($args);
 
                 return call_user_func_array(array('sfToolkit', 'arrayDeepMerge'), $args);
+
                 break;
         }
     }
@@ -414,6 +415,7 @@ class sfToolkit
                 if (!is_array($array)) {
                     return $default;
                 }
+
                 break;
             }
             if (!isset($array[substr($name, $pos + 1, $end - $pos - 1)])) {
@@ -526,9 +528,11 @@ class sfToolkit
         switch ($position) {
             case 'front':
                 array_unshift($paths, $path);
+
                 break;
             case 'back':
                 $paths[] = $path;
+
                 break;
             default:
                 throw new InvalidArgumentException(sprintf('Unrecognized position: "%s"', $position));

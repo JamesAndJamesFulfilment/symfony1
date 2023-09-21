@@ -165,6 +165,7 @@ class sfVarLogger extends sfLogger
                 || (!in_array($class, array('sfLogger', 'sfEventDispatcher')) && !is_subclass_of($class, 'sfLogger') && !is_subclass_of($class, 'sfEventDispatcher'))
             ) {
                 $traces = array_slice($traces, $i);
+
                 break;
             }
         }

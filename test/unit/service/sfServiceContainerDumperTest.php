@@ -16,6 +16,7 @@ class ProjectDumper extends sfServiceContainerDumper {}
 
 $builder = new sfServiceContainerBuilder();
 $dumper = new ProjectDumper($builder);
+
 try {
     $dumper->dump();
     $t->fail('->dump() returns a LogicException if the dump() method has not been overriden by a children class');

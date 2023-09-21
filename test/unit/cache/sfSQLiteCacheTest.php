@@ -30,6 +30,7 @@ try {
 
 // ->initialize()
 $t->diag('->initialize()');
+
 try {
     $cache = new sfSQLiteCache();
     $t->fail('->initialize() throws an sfInitializationException exception if you don\'t pass a "database" parameter');

@@ -111,6 +111,7 @@ $t->is(count($css->matchAll('#foo_hour')->getNodes()), 0, '->render() does not r
 // date and time options as array
 $t->diag('date and time options as array');
 $w = new sfWidgetFormDateTime(array('date' => 'a string'));
+
 try {
     $w->render('foo');
     $t->fail('__construct() throws a InvalidArgumentException if the date/time options is not an array');

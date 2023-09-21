@@ -52,6 +52,7 @@ $match = null;
 foreach ($routes as $name => $route) {
     if ($route->matchesUrl($url, array('method' => 'get'))) {
         $match = $name;
+
         break;
     }
 }
@@ -64,6 +65,7 @@ $match = null;
 foreach ($routes as $name => $route) {
     if ($route->matchesUrl($url, array('method' => 'post'))) {
         $match = $name;
+
         break;
     }
 }
@@ -90,6 +92,7 @@ $match = null;
 foreach ($routes as $name => $route) {
     if ($route->matchesUrl($url, array('method' => 'post'))) {
         $match = $name;
+
         break;
     }
 }
@@ -100,6 +103,7 @@ $match = null;
 foreach ($routes as $name => $route) {
     if ($route->matchesUrl($url, array('method' => 'post'))) {
         $match = $name;
+
         break;
     }
 }

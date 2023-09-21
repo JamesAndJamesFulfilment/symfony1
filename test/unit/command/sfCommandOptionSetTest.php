@@ -32,6 +32,7 @@ $optionSet->setOptions(array($foo));
 $t->is($optionSet->getOptions(), array('foo' => $foo), '->setOptions() sets the array of sfCommandOption objects');
 $optionSet->setOptions(array($bar));
 $t->is($optionSet->getOptions(), array('bar' => $bar), '->setOptions() clears all sfCommandOption objects');
+
 try {
     $optionSet->getOptionForShortcut('f');
     $t->fail('->setOptions() clears all sfCommandOption objects');
@@ -54,12 +55,14 @@ $optionSet->addOption($foo);
 $t->is($optionSet->getOptions(), array('foo' => $foo), '->addOption() adds a sfCommandOption object');
 $optionSet->addOption($bar);
 $t->is($optionSet->getOptions(), array('foo' => $foo, 'bar' => $bar), '->addOption() adds a sfCommandOption object');
+
 try {
     $optionSet->addOption($foo2);
     $t->fail('->addOption() throws a sfCommandException if the another option is already registered with the same name');
 } catch (sfCommandException $e) {
     $t->pass('->addOption() throws a sfCommandException if the another option is already registered with the same name');
 }
+
 try {
     $optionSet->addOption($foo1);
     $t->fail('->addOption() throws a sfCommandException if the another option is already registered with the same shortcut');
@@ -72,6 +75,7 @@ $t->diag('->getOption()');
 $optionSet = new sfCommandOptionSet();
 $optionSet->addOptions(array($foo));
 $t->is($optionSet->getOption('foo'), $foo, '->getOption() returns a sfCommandOption by its name');
+
 try {
     $optionSet->getOption('bar');
     $t->fail('->getOption() throws an exception if the option name does not exist');
@@ -98,6 +102,7 @@ $t->diag('->getOptionForShortcut()');
 $optionSet = new sfCommandOptionSet();
 $optionSet->addOptions(array($foo));
 $t->is($optionSet->getOptionForShortcut('f'), $foo, '->getOptionForShortcut() returns a sfCommandOption by its shortcut');
+
 try {
     $optionSet->getOptionForShortcut('l');
     $t->fail('->getOption() throws an exception if the shortcut does not exist');

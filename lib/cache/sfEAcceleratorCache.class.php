@@ -42,7 +42,8 @@ class sfEAcceleratorCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param string $key
+     * @param string     $key
+     * @param mixed|null $default
      *
      * @return string|null
      */

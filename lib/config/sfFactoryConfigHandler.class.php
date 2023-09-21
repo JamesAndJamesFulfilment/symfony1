@@ -79,17 +79,20 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
             switch ($factory) {
                 case 'controller':
                     $instances[] = sprintf("  \$class = sfConfig::get('sf_factory_controller', '%s');\n   \$this->factories['controller'] = new \$class(\$this);", $class);
+
                     break;
 
                 case 'request':
                     $parameters['no_script_name'] = sfConfig::get('sf_no_script_name');
                     $instances[] = sprintf("  \$class = sfConfig::get('sf_factory_request', '%s');\n   \$this->factories['request'] = new \$class(\$this->dispatcher, array(), array(), sfConfig::get('sf_factory_request_parameters', %s), sfConfig::get('sf_factory_request_attributes', array()));", $class, var_export($parameters, true));
+
                     break;
 
                 case 'response':
                     $instances[] = sprintf("  \$class = sfConfig::get('sf_factory_response', '%s');\n  \$this->factories['response'] = new \$class(\$this->dispatcher, sfConfig::get('sf_factory_response_parameters', array_merge(array('http_protocol' => isset(\$_SERVER['SERVER_PROTOCOL']) ? \$_SERVER['SERVER_PROTOCOL'] : null), %s)));", $class, var_export($parameters, true));
                     // TODO: this is a bit ugly, as it only works for sfWebRequest & sfWebResponse combination. see #3397
                     $instances[] = sprintf("  if (\$this->factories['request'] instanceof sfWebRequest \n      && \$this->factories['response'] instanceof sfWebResponse \n      && 'HEAD' == \$this->factories['request']->getMethod())\n  {  \n    \$this->factories['response']->setHeaderOnly(true);\n  }\n");
+
                     break;
 
                 case 'storage':
@@ -105,10 +108,12 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
                     }
 
                     $instances[] = sprintf("  \$class = sfConfig::get('sf_factory_storage', '%s');\n  \$this->factories['storage'] = new \$class(array_merge(array(\n%s\n), sfConfig::get('sf_factory_storage_parameters', %s)));", $class, implode("\n", $defaultParameters), var_export($parameters, true));
+
                     break;
 
                 case 'user':
                     $instances[] = sprintf("  \$class = sfConfig::get('sf_factory_user', '%s');\n  \$this->factories['user'] = new \$class(\$this->dispatcher, \$this->factories['storage'], array_merge(array('auto_shutdown' => false, 'culture' => \$this->factories['request']->getParameter('sf_culture')), sfConfig::get('sf_factory_user_parameters', %s)));", $class, var_export($parameters, true));
+
                     break;
 
                 case 'view_cache':
@@ -122,6 +127,7 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
                                        "    \$this->factories['viewCacheManager'] = null;\n".
                                        "  }\n",
                         $class, var_export($parameters, true), $config['view_cache_manager']['class'], var_export($config['view_cache_manager']['param'], true));
+
                     break;
 
                 case 'i18n':
@@ -139,6 +145,7 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
                                "    sfWidgetFormSchemaFormatter::setTranslationCallable(array(\$this->factories['i18n'], '__'));\n".
                                "  }\n", $class, $cache, var_export($parameters, true)
                     );
+
                     break;
 
                 case 'routing':
@@ -158,6 +165,7 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
                                      "}\n",
                         $class, $cache, var_export($parameters, true)
                     );
+
                     break;
 
                 case 'logger':
@@ -194,6 +202,7 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
                     $instances[] = sprintf(
                         "  \$class = sfConfig::get('sf_factory_logger', '%s');\n  \$this->factories['logger'] = new \$class(\$this->dispatcher, array_merge(array('auto_shutdown' => false), sfConfig::get('sf_factory_logger_parameters', %s)));\n".
                         '  %s', $class, var_export($parameters, true), $loggers);
+
                     break;
 
                 case 'mailer':
@@ -203,6 +212,7 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
                         "  require_once \$swift_dir.'/swift_required.php';\n".
                         "}\n".
                         "\$this->setMailerConfiguration(array_merge(array('class' => sfConfig::get('sf_factory_mailer', '%s')), sfConfig::get('sf_factory_mailer_parameters', %s)));\n", $class, var_export($parameters, true));
+
                     break;
 
                 case 'service_container':
@@ -210,6 +220,7 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
                         "\$class = require \$this->configuration->getConfigCache()->checkConfig('config/services.yml', true);\n".
                         "\$this->setServiceContainerConfiguration(array('class' => \$class));\n"
                     );
+
                     break;
             }
         }

@@ -27,6 +27,7 @@ class ValidatorChoiceTestIsEmpty extends sfValidatorChoice
 
 // __construct()
 $t->diag('__construct()');
+
 try {
     new sfValidatorChoice();
     $t->fail('__construct() throws an RuntimeException if you don\'t pass an expected option');
@@ -67,6 +68,7 @@ $t->is($v->clean('2'), '2', '__construct() can take a sfCallable object as a cho
 
 // see bug #4212
 $v = new sfValidatorChoice(array('choices' => array(0, 1, 2)));
+
 try {
     $v->clean('xxx');
     $t->fail('->clean() throws an sfValidatorError if the value is not strictly an expected value');
@@ -78,6 +80,7 @@ try {
 
 // min/max options
 $v = new sfValidatorChoice(array('multiple' => true, 'choices' => array(0, 1, 2, 3, 4, 5), 'min' => 2, 'max' => 3));
+
 try {
     $v->clean(array(0));
     $t->fail('->clean() throws an sfValidatorError if the minimum number of values are not selected');

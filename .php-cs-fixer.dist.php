@@ -18,6 +18,7 @@ $config = new PhpCsFixer\Config();
 $config->setRules(array(
     '@PhpCsFixer' => true,
     '@Symfony' => true,
+    'blank_line_before_statement' => true,
     'array_syntax' => array(
         'syntax' => 'long',
     ),

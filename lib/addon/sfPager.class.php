@@ -29,8 +29,8 @@ abstract class sfPager implements Iterator, Countable
     protected $currentMaxLink = 1;
     protected $parameterHolder;
     protected $maxRecordLimit = false;
-    protected // used by iterator interface
-    $results;
+    // used by iterator interface
+    protected $results;
     protected $resultsCounter = 0;
 
     /**
@@ -425,7 +425,8 @@ abstract class sfPager implements Iterator, Countable
     /**
      * Returns a parameter.
      *
-     * @param string $name
+     * @param string     $name
+     * @param mixed|null $default
      */
     public function getParameter($name, $default = null)
     {

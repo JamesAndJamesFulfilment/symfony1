@@ -63,6 +63,7 @@ $v = new sfValidatorSchema();
 $t->is($v->getFields(), array(), '->__construct() can take no argument');
 $v = new sfValidatorSchema(array('s1' => $v1, 's2' => $v2));
 $t->is($v->getFields(), array('s1' => $v1, 's2' => $v2), '->__construct() can take an array of named sfValidator objects');
+
 try {
     $v = new sfValidatorSchema('string');
     $t->fail('__construct() throws an InvalidArgumentException when passing a non supported first argument');
@@ -137,6 +138,7 @@ try {
 }
 
 $t->diag('required fields');
+
 try {
     $v->clean(array('s1' => 'foo'));
     $t->fail('->clean() throws an sfValidatorErrorSchema exception if a required field is not provided');
@@ -154,6 +156,7 @@ $v2 = new sfValidatorString(array('min_length' => 3, 'required' => false));
 $v = new sfValidatorSchema(array('s1' => $v1, 's2' => $v2));
 $v->setPreValidator($preValidator = new PreValidator());
 $t->ok($v->getPreValidator() == $preValidator, '->getPreValidator() returns the current pre validator');
+
 try {
     $v->clean(array('s1' => 'foo', 's2' => 'bar'));
     $t->fail('->clean() throws an sfValidatorErrorSchema exception if a pre-validator fails');
@@ -178,6 +181,7 @@ $t->is($v->clean(array('s1' => 'foo', 's2' => 'bar')), array('s1' => '*foo*', 's
 
 $v = new sfValidatorSchema(array('s1' => $v1, 's2' => $v2));
 $v->setPostValidator(new Post1Validator());
+
 try {
     $v->clean(array('s1' => 'foo', 's2' => 'foo'));
     $t->fail('->clean() throws an sfValidatorErrorSchema exception if a post-validator fails');
@@ -211,6 +215,7 @@ $t->is($ret, array('s1' => 'foo', 's2' => 'bar', 'foo' => 'bar'), '->clean() do 
 
 $t->diag('one validator fails');
 $v['s2']->setOption('max_length', 2);
+
 try {
     $v->clean(array('s1' => 'foo', 's2' => 'bar'));
     $t->fail('->clean() throws an sfValidatorErrorSchema exception if one of the validators fails');
@@ -224,6 +229,7 @@ try {
 $t->diag('several validators fail');
 $v['s1']->setOption('max_length', 2);
 $v['s2']->setOption('max_length', 2);
+
 try {
     $v->clean(array('s1' => 'foo', 's2' => 'bar'));
     $t->fail('->clean() throws an sfValidatorErrorSchema exception if one of the validators fails');
@@ -255,6 +261,7 @@ $t->diag('postValidator throws global errors');
 foreach (array($userValidator->getPostValidator(), $v->getPostValidator(), $v['embedded']->getPostValidator()) as $validator) {
     $validator->setOption('throw_global_error', true);
 }
+
 try {
     $v->clean(array('test' => 'fabien', 'right' => 'bar', 'embedded' => array('test' => 'fabien', 'left' => 'oof', 'right' => 'rab')));
     $t->skip('', 7);
@@ -272,6 +279,7 @@ $t->diag('postValidator throws named errors');
 foreach (array($userValidator->getPostValidator(), $v->getPostValidator(), $v['embedded']->getPostValidator()) as $validator) {
     $validator->setOption('throw_global_error', false);
 }
+
 try {
     $v->clean(array('test' => 'fabien', 'right' => 'bar', 'embedded' => array('test' => 'fabien', 'left' => 'oof', 'right' => 'rab')));
     $t->skip('', 7);
@@ -294,6 +302,7 @@ $v = new sfValidatorSchema(array(
     'password_bis' => new sfValidatorString(array('min_length' => 2)),
 ));
 $v->setPostValidator(new sfValidatorAnd(array($comparator, $comparator1)));
+
 try {
     $v->clean(array('left' => 'foo', 'right' => 'bar', 'password' => 'oof', 'password_bis' => 'rab'));
     $t->skip('', 3);
@@ -304,6 +313,7 @@ try {
 }
 
 $comparator->setOption('throw_global_error', true);
+
 try {
     $v->clean(array('left' => 'foo', 'right' => 'bar', 'password' => 'oof', 'password_bis' => 'rab'));
     $t->skip('', 3);
@@ -328,6 +338,7 @@ $v = new sfValidatorSchema(array(
     'user' => $userValidator,
 ));
 $v->setPostValidator(new sfValidatorAnd(array($comparator, $comparator1)));
+
 try {
     $v->clean(array('left' => 'foo', 'right' => 'bar', 'password' => 'oof', 'password_bis' => 'rab', 'user' => array('left' => 'foo', 'right' => 'bar', 'password' => 'oof', 'password_bis' => 'rab')));
     $t->skip('', 7);

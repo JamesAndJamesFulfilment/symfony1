@@ -90,6 +90,7 @@ EOF;
         }
 
         $this->logSection('doctrine', sprintf('Migrating from version %s to %s%s', $from, $version, $options['dry-run'] ? ' (dry run)' : ''));
+
         try {
             $migration_classes = $migration->getMigrationClasses();
             if ($version < $from) {

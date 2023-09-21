@@ -192,9 +192,11 @@ foreach ($c->matchAll('h2') as $key => $value) {
     switch ($key) {
         case 0:
             $t->is($value->nodeValue, 'Title 1', 'The object is an iterator');
+
             break;
         case 1:
             $t->is($value->nodeValue, 'Title 2', 'The object is an iterator');
+
             break;
         default:
             $t->fail('The object is an iterator');

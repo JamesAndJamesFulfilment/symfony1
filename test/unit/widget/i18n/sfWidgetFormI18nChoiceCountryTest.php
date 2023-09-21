@@ -17,6 +17,7 @@ $dom->validateOnParse = true;
 
 // ->configure()
 $t->diag('->configure()');
+
 try {
     new sfWidgetFormI18nChoiceCountry(array('culture' => 'en', 'countries' => array('EN')));
     $t->fail('->configure() throws an InvalidArgumentException if a country does not exist');

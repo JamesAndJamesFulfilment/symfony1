@@ -119,6 +119,7 @@ abstract class sfFormObject extends BaseForm
         }
 
         $con->beginTransaction();
+
         try {
             $this->doSave($con);
 

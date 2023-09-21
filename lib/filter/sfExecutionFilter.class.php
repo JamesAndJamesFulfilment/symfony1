@@ -148,11 +148,13 @@ class sfExecutionFilter extends sfFilter
             case sfView::RENDER_CLIENT:
                 $viewData = $view->render();
                 $this->context->getResponse()->setContent($viewData);
+
                 break;
 
             case sfView::RENDER_VAR:
                 $viewData = $view->render();
                 $controller->getActionStack()->getLastEntry()->setPresentation($viewData);
+
                 break;
         }
     }

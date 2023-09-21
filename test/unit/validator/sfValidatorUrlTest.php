@@ -45,6 +45,7 @@ foreach (array(
 }
 
 $v = new sfValidatorUrl(array('protocols' => array('http', 'https')));
+
 try {
     $v->clean('ftp://google.com/foo.tgz');
     $t->fail('->clean() only allows protocols specified in the protocols option');

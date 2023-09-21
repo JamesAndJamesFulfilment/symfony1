@@ -83,6 +83,7 @@ $t->is($test->getWidget('author_id')->getOption('model'), 'BlogAuthor');
 $t->is($test->getValidator('author_id')->getOption('model'), 'BlogAuthor');
 
 $t->diag('Check enum primary keys');
+
 try {
     $test = new ResourceTypeForm();
     $t->pass('enum primary key widgets work');

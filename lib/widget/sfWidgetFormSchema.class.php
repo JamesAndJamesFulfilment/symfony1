@@ -763,9 +763,11 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
         switch ($action) {
             case sfWidgetFormSchema::FIRST:
                 array_unshift($this->positions, $field);
+
                 break;
             case sfWidgetFormSchema::LAST:
                 $this->positions[] = $field;
+
                 break;
             case sfWidgetFormSchema::BEFORE:
                 if (null === $pivot) {
@@ -776,6 +778,7 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
                     array($field),
                     array_slice($this->positions, $pivotPosition)
                 );
+
                 break;
             case sfWidgetFormSchema::AFTER:
                 if (null === $pivot) {
@@ -786,6 +789,7 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
                     array($field),
                     array_slice($this->positions, $pivotPosition + 1)
                 );
+
                 break;
             default:
                 throw new LogicException(sprintf('Unknown move operation for field "%s".', $field));

@@ -24,6 +24,7 @@ $t->ok('1' === $v->clean(1), '->clean() converts the value to a string');
 
 $v->setOption('max_length', 2);
 $t->is($v->clean('fo'), 'fo', '->clean() checks the maximum length allowed');
+
 try {
     $v->clean('foo');
     $t->fail('"max_length" option set the maximum length of the string');
@@ -34,6 +35,7 @@ try {
 }
 
 $v->setMessage('max_length', 'Too long');
+
 try {
     $v->clean('foo');
     $t->fail('"max_length" error message customization');
@@ -45,6 +47,7 @@ $v->setOption('max_length', null);
 
 $v->setOption('min_length', 3);
 $t->is($v->clean('foo'), 'foo', '->clean() checks the minimum length allowed');
+
 try {
     $v->clean('fo');
     $t->fail('"min_length" option set the minimum length of the string');
@@ -55,6 +58,7 @@ try {
 }
 
 $v->setMessage('min_length', 'Too short');
+
 try {
     $v->clean('fo');
     $t->fail('"min_length" error message customization');

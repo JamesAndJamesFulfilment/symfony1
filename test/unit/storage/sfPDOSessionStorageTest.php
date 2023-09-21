@@ -65,6 +65,7 @@ $t->is($retrieved_data, $newSessionData, 'sessionRead() reads session data');
 
 // sessionWrite()
 $otherSessionData = 'foo:foo:foo';
+
 try {
     $write = $storage->sessionWrite($session_id, $otherSessionData);
     $t->pass('sessionWrite() does not throw an exception');

@@ -651,6 +651,7 @@ class sfViewCacheManager
 
         // save content to cache
         $internalUri = $this->routing->getCurrentInternalUri();
+
         try {
             $this->set($data, $internalUri.(strpos($internalUri, '?') ? '&' : '?').'_sf_cache_key='.$name);
         } catch (Exception $e) {

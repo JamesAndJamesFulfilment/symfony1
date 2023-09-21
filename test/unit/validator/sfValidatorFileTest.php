@@ -52,6 +52,7 @@ class testValidatorFile extends sfValidatorFile
 // ->getMimeTypesFromCategory()
 $t->diag('->getMimeTypesFromCategory()');
 $v = new testValidatorFile();
+
 try {
     $t->is($v->getMimeTypesFromCategory('non_existant_category'), '');
     $t->fail('->getMimeTypesFromCategory() throws an InvalidArgumentException if the category does not exist');
@@ -108,6 +109,7 @@ $t->is($v->getMimeType($tmpDir.'/test.txt', 'image/png'), 'nothing/plain', '->ge
 // ->clean()
 $t->diag('->clean()');
 $v = new testValidatorFile();
+
 try {
     $v->clean(array('test' => true));
     $t->fail('->clean() throws an sfValidatorError if the given value is not well formatted');
@@ -142,6 +144,7 @@ foreach (array(UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE, UPLOAD_ERR_PARTIAL, UP
 // max file size
 $t->diag('max file size');
 $v->setOption('max_size', 4);
+
 try {
     $v->clean(array('tmp_name' => $tmpDir.'/test.txt'));
     $t->skip();
@@ -154,6 +157,7 @@ $v->setOption('max_size', null);
 // mime types
 $t->diag('mime types');
 $v->setOption('mime_types', 'web_images');
+
 try {
     $v->clean(array('tmp_name' => $tmpDir.'/test.txt'));
     $t->skip();
@@ -165,6 +169,7 @@ $v->setOption('mime_types', null);
 
 // required
 $v = new testValidatorFile();
+
 try {
     $v->clean(array('tmp_name' => '', 'error' => UPLOAD_ERR_NO_FILE, 'name' => '', 'size' => 0, 'type' => ''));
     $t->fail('->clean() throws an sfValidatorError if the file is required and no file is uploaded');
@@ -173,6 +178,7 @@ try {
     $t->pass('->clean() throws an sfValidatorError if the file is required and no file is uploaded');
     $t->is($e->getCode(), 'required', '->clean() throws an error code of required');
 }
+
 try {
     $v->clean(null);
     $t->fail('->clean() throws an sfValidatorError if the file is required and no file is uploaded');

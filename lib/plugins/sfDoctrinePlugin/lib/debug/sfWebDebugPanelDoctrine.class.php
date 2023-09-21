@@ -129,6 +129,7 @@ class sfWebDebugPanelDoctrine extends sfWebDebugPanel
                     // assume queries are being requested in order
                     unset($logs[$i]);
                     $backtrace = '&nbsp;'.$this->getToggleableDebugStack($log['debug_backtrace']);
+
                     break;
                 }
             }

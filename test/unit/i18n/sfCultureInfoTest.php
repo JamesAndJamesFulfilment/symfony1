@@ -210,6 +210,7 @@ $t->is($c->getCalendar(), $c->Calendar, '->getCalendar() is equivalent to ->Cale
 
 // __get()
 $t->diag('__get()');
+
 try {
     $c->NonExistant;
     $t->fail('__get() throws an exception if the property does not exist');
@@ -219,6 +220,7 @@ try {
 
 // __set()
 $t->diag('__set()');
+
 try {
     $c->NonExistant = 12;
     $t->fail('__set() throws an exception if the property does not exist');

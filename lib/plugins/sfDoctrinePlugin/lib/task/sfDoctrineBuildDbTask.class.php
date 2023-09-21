@@ -64,6 +64,7 @@ EOF;
 
         foreach ($databases as $name => $database) {
             $this->logSection('doctrine', sprintf('Creating "%s" environment "%s" database', $environment, $name));
+
             try {
                 $database->getDoctrineConnection()->createDatabase();
             } catch (Exception $e) {

@@ -54,6 +54,7 @@ class sfTesterDoctrine extends sfTester
 
                 if (null === $condition) {
                     $query->andWhere('a.'.$column.' IS NULL');
+
                     continue;
                 }
 

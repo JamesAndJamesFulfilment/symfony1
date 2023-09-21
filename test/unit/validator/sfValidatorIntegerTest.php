@@ -42,6 +42,7 @@ $t->ok(null === $v->clean(null), '->clean() returns null for null values');
 
 $v->setOption('max', 2);
 $t->is($v->clean(1), 1, '->clean() checks the maximum number allowed');
+
 try {
     $v->clean(3);
     $t->fail('"max" option set the maximum number allowed');
@@ -52,6 +53,7 @@ try {
 }
 
 $v->setMessage('max', 'Too large');
+
 try {
     $v->clean(5);
     $t->fail('"max" error message customization');
@@ -63,6 +65,7 @@ $v->setOption('max', null);
 
 $v->setOption('min', 3);
 $t->is($v->clean(5), 5, '->clean() checks the minimum number allowed');
+
 try {
     $v->clean('1');
     $t->fail('"min" option set the minimum number allowed');
@@ -73,6 +76,7 @@ try {
 }
 
 $v->setMessage('min', 'Too small');
+
 try {
     $v->clean(1);
     $t->fail('"min" error message customization');

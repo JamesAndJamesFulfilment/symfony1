@@ -74,6 +74,7 @@ foreach (array(
 
     foreach (array(true, false) as $globalError) {
         $v->setOption('throw_global_error', $globalError);
+
         try {
             $v->clean($values[0]);
             $t->fail('->clean() throws an sfValidatorError if the value is the comparison failed');
@@ -93,6 +94,7 @@ try {
 }
 
 $v = new sfValidatorSchemaCompare('left', 'foo', 'right');
+
 try {
     $v->clean(array());
     $t->fail('->clean() throws an InvalidArgumentException exception if the operator does not exist');

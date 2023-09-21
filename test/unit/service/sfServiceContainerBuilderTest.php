@@ -80,6 +80,7 @@ $t->ok($builder->hasService('foobar2'), '->hasService() returns true if a servic
 // ->getService()
 $t->diag('->getService()');
 $builder = new sfServiceContainerBuilder();
+
 try {
     $builder->getService('foo');
     $t->fail('->getService() throws an InvalidArgumentException if the service does not exist');
@@ -94,6 +95,7 @@ $builder->register('bar', 'stdClass');
 $t->is($builder->getService('bar'), $bar, '->getService() returns the service associated with the id even if a definition has been defined');
 
 $builder->register('baz', 'stdClass')->setArguments(array(new sfServiceReference('baz')));
+
 try {
     @$builder->getService('baz');
     $t->fail('->getService() throws a LogicException if the service has a circular reference to itself');
@@ -169,6 +171,7 @@ $builder->register('foo3', 'FooClass')->setConfigurator(array(new sfServiceRefer
 $t->ok($builder->getService('foo3')->configured, '->createService() calls the configurator');
 
 $builder->register('foo4', 'FooClass')->setConfigurator('foo');
+
 try {
     $builder->getService('foo4');
     $t->fail('->createService() throws an InvalidArgumentException if the configure callable is not a valid callable');

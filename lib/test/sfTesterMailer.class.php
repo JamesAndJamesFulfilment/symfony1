@@ -200,18 +200,21 @@ class sfTesterMailer extends sfTester
                     if (preg_match($regex, $header)) {
                         $ok = true;
                         $this->tester->pass(sprintf('email header "%s" matches "%s" (%s)', $key, $value, $current));
+
                         break;
                     }
                 } else {
                     if (preg_match($regex, $header)) {
                         $ok = true;
                         $this->tester->fail(sprintf('email header "%s" does not match "%s" (%s)', $key, $value, $current));
+
                         break;
                     }
                 }
             } elseif ($header == $value) {
                 $ok = true;
                 $this->tester->pass(sprintf('email header "%s" is "%s" (%s)', $key, $value, $current));
+
                 break;
             }
         }

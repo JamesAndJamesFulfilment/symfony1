@@ -40,6 +40,7 @@ $t->is($escaped[3][1], '&lt;strong&gt;escaped!&lt;/strong&gt;', 'The escaped obj
 $t->ok(isset($escaped[1]), 'The escaped object behaves like an array (isset)');
 
 $t->diag('ArrayAccess interface is read only');
+
 try {
     unset($escaped[0]);
     $t->fail('The escaped object is read only (unset)');
@@ -60,12 +61,15 @@ foreach ($escaped as $key => $value) {
     switch ($key) {
         case 0:
             $t->is($value, '&lt;strong&gt;escaped!&lt;/strong&gt;', 'The escaped object behaves like an array');
+
             break;
         case 1:
             $t->is($value, 1, 'The escaped object behaves like an array');
+
             break;
         case 2:
             $t->is($value, null, 'The escaped object behaves like an array');
+
             break;
         case 3:
             break;

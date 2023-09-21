@@ -26,6 +26,7 @@ sfConfig::set('sf_logging_enabled', false);
 
 // ->initialize()
 $t->diag('->initialize()');
+
 try {
     $cache = new sfMemcacheCache(array('storeCacheInfo' => true));
 } catch (sfInitializationException $e) {

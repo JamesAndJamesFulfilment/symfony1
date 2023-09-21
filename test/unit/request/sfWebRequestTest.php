@@ -484,6 +484,7 @@ class BaseForm extends sfForm
 sfForm::enableCSRFProtection();
 
 $request = new myRequest($dispatcher);
+
 try {
     $request->checkCSRFProtection();
     $t->fail('->checkCSRFProtection() throws a validator error if CSRF protection fails');
@@ -493,6 +494,7 @@ try {
 
 $request = new myRequest($dispatcher);
 $request->setParameter('_csrf_token', '==TOKEN==');
+
 try {
     $request->checkCSRFProtection();
     $t->pass('->checkCSRFProtection() checks token from BaseForm');

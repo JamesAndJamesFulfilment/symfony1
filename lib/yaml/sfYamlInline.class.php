@@ -42,9 +42,11 @@ class sfYamlInline
         switch ($value[0]) {
             case '[':
                 $result = self::parseSequence($value);
+
                 break;
             case '{':
                 $result = self::parseMapping($value);
+
                 break;
             default:
                 $result = self::parseScalar($value);
@@ -229,10 +231,12 @@ class sfYamlInline
                 case '[':
                     // nested sequence
                     $output[] = self::parseSequence($sequence, $i);
+
                     break;
                 case '{':
                     // nested mapping
                     $output[] = self::parseMapping($sequence, $i);
+
                     break;
                 case ']':
                     return $output;
@@ -283,6 +287,7 @@ class sfYamlInline
                 case ' ':
                 case ',':
                     ++$i;
+
                     continue 2;
                 case '}':
                     return $output;
@@ -299,11 +304,13 @@ class sfYamlInline
                         // nested sequence
                         $output[$key] = self::parseSequence($mapping, $i);
                         $done = true;
+
                         break;
                     case '{':
                         // nested mapping
                         $output[$key] = self::parseMapping($mapping, $i);
                         $done = true;
+
                         break;
                     case ':':
                     case ' ':

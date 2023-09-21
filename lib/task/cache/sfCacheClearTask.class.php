@@ -209,6 +209,7 @@ EOF;
                 }
                 $class = $class['class'];
             }
+
             try {
                 $cache = new $class($parameters);
                 $cache->clean();

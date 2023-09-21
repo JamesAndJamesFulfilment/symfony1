@@ -209,6 +209,7 @@ class sfRoute implements Serializable
                 $this->pattern,
                 implode(', ', $diff)
             );
+
             throw new InvalidArgumentException($message);
         }
 
@@ -282,6 +283,7 @@ class sfRoute implements Serializable
 
             if (is_array($value)) {
                 $flattened[] = $this->flattenArrayElements($value);
+
                 continue;
             }
 
@@ -317,17 +319,20 @@ class sfRoute implements Serializable
                         $url[] = urlencode($parameters[$token[3]]);
                         $optional = false;
                     }
+
                     break;
 
                 case 'text':
                     $url[] = $token[2];
                     $optional = false;
+
                     break;
 
                 case 'separator':
                     if (false === $optional || $first) {
                         $url[] = $token[2];
                     }
+
                     break;
 
                 default:
@@ -343,6 +348,7 @@ class sfRoute implements Serializable
                         $url[] = $segment;
                         $optional = false;
                     }
+
                     break;
             }
 
@@ -539,6 +545,7 @@ class sfRoute implements Serializable
                     if ('*' !== $token[2]) {
                         // non-star text is static
                         $this->staticPrefix .= $token[1].$token[2];
+
                         break;
                     }
                     // no break

@@ -83,6 +83,7 @@ class sfWebRequest extends sfRequest
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
                     $this->setMethod(self::GET);
+
                     break;
 
                 case 'POST':
@@ -96,6 +97,7 @@ class sfWebRequest extends sfRequest
                         $this->setMethod(self::POST);
                     }
                     $this->parameterHolder->remove('sf_method');
+
                     break;
 
                 case 'PUT':
@@ -103,6 +105,7 @@ class sfWebRequest extends sfRequest
                     if ('application/x-www-form-urlencoded' === $this->getContentType()) {
                         parse_str($this->getContent(), $postParameters);
                     }
+
                     break;
 
                 case 'PATCH':
@@ -110,6 +113,7 @@ class sfWebRequest extends sfRequest
                     if ('application/x-www-form-urlencoded' === $this->getContentType()) {
                         parse_str($this->getContent(), $postParameters);
                     }
+
                     break;
 
                 case 'DELETE':
@@ -117,14 +121,17 @@ class sfWebRequest extends sfRequest
                     if ('application/x-www-form-urlencoded' === $this->getContentType()) {
                         parse_str($this->getContent(), $postParameters);
                     }
+
                     break;
 
                 case 'HEAD':
                     $this->setMethod(self::HEAD);
+
                     break;
 
                 case 'OPTIONS':
                     $this->setMethod(self::OPTIONS);
+
                     break;
 
                 default:
@@ -662,6 +669,7 @@ class sfWebRequest extends sfRequest
             switch ($this->getOption('path_info_array')) {
                 case 'SERVER':
                     $this->pathInfoArray = &$_SERVER;
+
                     break;
 
                 case 'ENV':

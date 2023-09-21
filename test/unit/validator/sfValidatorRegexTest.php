@@ -19,6 +19,7 @@ $t = new lime_test(11);
 
 // __construct()
 $t->diag('__construct()');
+
 try {
     new sfValidatorRegex();
     $t->fail('__construct() throws an RuntimeException if you don\'t pass a pattern option');

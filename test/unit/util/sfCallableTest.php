@@ -37,6 +37,7 @@ $c = new sfCallable(array(new TrimTest(), 'trim'));
 $t->is($c->call('  foo  '), 'foo', '->call() calls the callable with the given arguments');
 
 $c = new sfCallable('nonexistantcallable');
+
 try {
     $c->call();
     $t->fail('->call() throws an sfException if the callable is not valid');

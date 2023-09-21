@@ -25,6 +25,7 @@ $v = new sfValidatorAnd($v1);
 $t->is($v->getValidators(), array($v1), '->__construct() can take a validator as its first argument');
 $v = new sfValidatorAnd(array($v1, $v2));
 $t->is($v->getValidators(), array($v1, $v2), '->__construct() can take an array of validators as its first argument');
+
 try {
     $v = new sfValidatorAnd('string');
     $t->fail('__construct() throws an exception when passing a non supported first argument');
@@ -54,6 +55,7 @@ try {
 }
 
 $v2->setOption('max_length', 2);
+
 try {
     $v->clean('foo');
     $t->fail('->clean() throws an sfValidatorError exception if one of the validators fails');
@@ -65,6 +67,7 @@ try {
 }
 
 $v1->setOption('max_length', 2);
+
 try {
     $v->clean('foo');
     $t->fail('->clean() throws an sfValidatorError exception if one of the validators fails');
@@ -78,6 +81,7 @@ try {
 }
 
 $v->setOption('halt_on_error', true);
+
 try {
     $v->clean('foo');
     $t->fail('->clean() throws an sfValidatorError exception if one of the validators fails');

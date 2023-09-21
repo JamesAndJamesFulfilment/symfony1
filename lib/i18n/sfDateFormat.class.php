@@ -263,66 +263,86 @@ class sfDateFormat
         switch ($pattern) {
             case 'd':
                 return $this->formatInfo->ShortDatePattern;
+
                 break;
             case 'D':
                 return $this->formatInfo->LongDatePattern;
+
                 break;
             case 'p':
                 return $this->formatInfo->MediumDatePattern;
+
                 break;
             case 'P':
                 return $this->formatInfo->FullDatePattern;
+
                 break;
             case 't':
                 return $this->formatInfo->ShortTimePattern;
+
                 break;
             case 'T':
                 return $this->formatInfo->LongTimePattern;
+
                 break;
             case 'q':
                 return $this->formatInfo->MediumTimePattern;
+
                 break;
             case 'Q':
                 return $this->formatInfo->FullTimePattern;
+
                 break;
             case 'f':
                 return $this->formatInfo->formatDateTime($this->formatInfo->LongDatePattern, $this->formatInfo->ShortTimePattern);
+
                 break;
             case 'F':
                 return $this->formatInfo->formatDateTime($this->formatInfo->LongDatePattern, $this->formatInfo->LongTimePattern);
+
                 break;
             case 'g':
                 return $this->formatInfo->formatDateTime($this->formatInfo->ShortDatePattern, $this->formatInfo->ShortTimePattern);
+
                 break;
             case 'G':
                 return $this->formatInfo->formatDateTime($this->formatInfo->ShortDatePattern, $this->formatInfo->LongTimePattern);
+
                 break;
             case 'i':
                 return 'yyyy-MM-dd';
+
                 break;
             case 'I':
                 return 'yyyy-MM-dd HH:mm:ss';
+
                 break;
             case 'M':
             case 'm':
                 return 'MMMM dd';
+
                 break;
             case 'R':
             case 'r':
                 return 'EEE, dd MMM yyyy HH:mm:ss';
+
                 break;
             case 's':
                 return 'yyyy-MM-ddTHH:mm:ss';
+
                 break;
             case 'u':
                 return 'yyyy-MM-dd HH:mm:ss z';
+
                 break;
             case 'U':
                 return 'EEEE dd MMMM yyyy HH:mm:ss';
+
                 break;
             case 'Y':
             case 'y':
                 return 'yyyy MMMM';
+
                 break;
             default:
                 return $pattern;
@@ -475,14 +495,17 @@ class sfDateFormat
         switch ($pattern) {
             case 'E':
                 return $day;
+
                 break;
             case 'EE':
                 return $this->formatInfo->NarrowDayNames[$day];
             case 'EEE':
                 return $this->formatInfo->AbbreviatedDayNames[$day];
+
                 break;
             case 'EEEE':
                 return $this->formatInfo->DayNames[$day];
+
                 break;
             default:
                 throw new sfException('The pattern for day of the week is "E", "EE", "EEE", or "EEEE".');
@@ -659,6 +682,7 @@ class sfDateFormat
         switch ($pattern) {
             case 'z':
                 $pattern = 'T';
+
                 break;
             case 'Z':
                 $pattern = 'O';
@@ -700,9 +724,11 @@ class sfDateFormat
         switch ($pattern) {
             case 'F':
                 return @date('j', @mktime(0, 0, 0, $date['mon'], $date['mday'], $date['year']));
+
                 break;
             case 'FF':
                 return @date('d', @mktime(0, 0, 0, $date['mon'], $date['mday'], $date['year']));
+
                 break;
             default:
                 throw new sfException('The pattern for day in month is "F" or "FF".');

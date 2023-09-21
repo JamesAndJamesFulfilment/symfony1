@@ -62,6 +62,7 @@ $object = new stdClass();
 $context1->set('object', $object, '->set() stores an object in the current context instance');
 $t->is($context1->has('object'), true, '->has() returns true if an object is stored for the given name');
 $t->is($context1->get('object'), $object, '->get() returns the object associated with the given name');
+
 try {
     $context1->get('object1');
     $t->fail('->get() throws an sfException if no object is stored for the given name');

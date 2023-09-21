@@ -103,6 +103,7 @@ $t->is($retrieved_data, $session_data, 'sessionRead() reads session data');
 // sessionWrite()
 $_SESSION['baz'] = 'woo';
 $session_data = session_encode();
+
 try {
     $write = $storage->sessionWrite($session_id, $session_data);
     $t->pass('sessionWrite() does not throw an exception');

@@ -85,15 +85,19 @@ class sfWebDebugLogger extends sfVarLogger
         switch ($errno) {
             case E_STRICT:
                 $this->dispatcher->notify(new sfEvent($this, 'application.log', array('priority' => sfLogger::ERR, sprintf($message, 'Strict notice'))));
+
                 break;
             case E_NOTICE:
                 $this->dispatcher->notify(new sfEvent($this, 'application.log', array('priority' => sfLogger::NOTICE, sprintf($message, 'Notice'))));
+
                 break;
             case E_WARNING:
                 $this->dispatcher->notify(new sfEvent($this, 'application.log', array('priority' => sfLogger::WARNING, sprintf($message, 'Warning'))));
+
                 break;
             case E_RECOVERABLE_ERROR:
                 $this->dispatcher->notify(new sfEvent($this, 'application.log', array('priority' => sfLogger::ERR, sprintf($message, 'Error'))));
+
                 break;
         }
 

@@ -135,6 +135,7 @@ abstract class sfDoctrineRecord extends Doctrine_Record
     public function __call($method, $arguments)
     {
         $failed = false;
+
         try {
             if (in_array($verb = substr($method, 0, 3), array('set', 'get'))) {
                 $name = substr($method, 3);

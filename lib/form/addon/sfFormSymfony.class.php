@@ -26,6 +26,8 @@ class sfFormSymfony extends sfForm
      * Notifies the 'form.post_configure' event.
      *
      * @see sfForm
+     *
+     * @param mixed|null $CSRFSecret
      */
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null)
     {

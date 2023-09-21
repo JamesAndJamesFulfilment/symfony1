@@ -23,6 +23,7 @@ function clean_test($validator, $value, $arguments)
 
 // __construct()
 $t->diag('__construct()');
+
 try {
     new sfValidatorCallback();
     $t->fail('__construct() throws an RuntimeException if you don\'t pass a callback option');
@@ -39,6 +40,7 @@ $t->is($v->clean(''), null, '->configure() switch required to false by default')
 // ->clean()
 $t->diag('->clean()');
 $t->is($v->clean('foo'), '*foo*', '->clean() calls our validator callback');
+
 try {
     $v->clean('bar');
     $t->fail('->clean() throws a sfValidatorError');

@@ -320,6 +320,7 @@ $v = $f->getValidatorSchema();
 $t->ok(!isset($v['image']), '"sfForm" ArrayAccess implementation removes the widget and the validator');
 $w = $f->getWidgetSchema();
 $t->ok(!isset($w['image']), '"sfForm" ArrayAccess implementation removes the widget and the validator');
+
 try {
     $f['nonexistant'];
     $t->fail('"sfForm" ArrayAccess implementation throws a LogicException if the form field does not exist');
@@ -666,6 +667,7 @@ $t->is($w['author']['company']->generateName('name'), 'article[author][company][
 
 // tests for ticket #56
 $t->ok($author->getValidator('company') == $company_validator_schema, '->getValidator() gets a validator schema for an embedded form');
+
 try {
     $author->setValidator('company', new sfValidatorPass());
     $t->fail('"sfForm" Trying to set a validator for an embedded form field throws a LogicException');
@@ -715,6 +717,7 @@ $forms = $article->getEmbeddedForms();
 $t->is(array_keys($forms), array('company', 'author'), '->getEmbeddedForms() returns the embedded forms');
 $t->is($forms['company'], $company, '->getEmbeddedForms() returns the embedded forms');
 $t->isa_ok($article->getEmbeddedForm('company'), 'FormTest', '->getEmbeddedForm() return an embedded form');
+
 try {
     $article->getEmbeddedForm('nonexistant');
     $t->fail('->getEmbeddedForm() throws an exception if the embedded form does not exist');
@@ -923,6 +926,7 @@ $f1->getWidgetSchema()->moveField('a', 'last');
 // is moved field well positioned when accessed with iterator interface? (#5551)
 foreach ($f1 as $f1name => $f1field) {
     $t->is($f1name, 'b', 'iterating on form takes in account ->moveField() operations.');
+
     break;
 }
 
@@ -1008,6 +1012,7 @@ $t->is($f1->getErrors(), $expected, '->getErrors() return array of errors');
 
 // bind with a simulated file upload in the POST array
 $f = new FormTest();
+
 try {
     $f->bind(array(
         'file' => array(
@@ -1024,6 +1029,7 @@ try {
 }
 
 $f = new FormTest();
+
 try {
     $f->bind(array(
         'foo' => array(

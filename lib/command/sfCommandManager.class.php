@@ -124,6 +124,7 @@ class sfCommandManager
             if ('--' == $argument) {
                 // stop options parsing
                 $this->parsedArgumentValues = array_merge($this->parsedArgumentValues, $this->arguments);
+
                 break;
             }
 
@@ -141,6 +142,7 @@ class sfCommandManager
             if (array_key_exists($position, $this->parsedArgumentValues)) {
                 if ($argument->isArray()) {
                     $this->argumentValues[$argument->getName()] = array_slice($this->parsedArgumentValues, $position);
+
                     break;
                 }
 
@@ -248,6 +250,7 @@ class sfCommandManager
 
             if (!$this->optionSet->hasShortcut($shortcut)) {
                 $this->errors[] = sprintf('The option "-%s" does not exist.', $shortcut);
+
                 continue;
             }
 
@@ -258,6 +261,7 @@ class sfCommandManager
                 if ($i + 1 < strlen($argument)) {
                     $value = substr($argument, $i + 1);
                     $this->setOption($option, $value);
+
                     break;
                 }
 
@@ -265,6 +269,7 @@ class sfCommandManager
                 if (count($this->arguments) && '-' != $this->arguments[0][0]) {
                     $value = array_shift($this->arguments);
                     $this->setOption($option, $value);
+
                     break;
                 }
 
@@ -283,6 +288,7 @@ class sfCommandManager
                 }
 
                 $this->setOption($option, $value);
+
                 break;
             }
 

@@ -60,6 +60,7 @@ try {
 
 // cannot add a parameter after an array parameter
 $argumentSet->addArgument(new sfCommandArgument('fooarray', sfCommandArgument::IS_ARRAY));
+
 try {
     $argumentSet->addArgument(new sfCommandArgument('anotherbar'));
     $t->fail('->addArgument() throws a sfCommandException if there is an array parameter already registered');
@@ -70,6 +71,7 @@ try {
 // cannot add a required argument after an optional one
 $argumentSet = new sfCommandArgumentSet();
 $argumentSet->addArgument($foo);
+
 try {
     $argumentSet->addArgument($foo2);
     $t->fail('->addArgument() throws an exception if you try to add a required argument after an optional one');
@@ -82,6 +84,7 @@ $t->diag('->getArgument()');
 $argumentSet = new sfCommandArgumentSet();
 $argumentSet->addArguments(array($foo));
 $t->is($argumentSet->getArgument('foo'), $foo, '->getArgument() returns a sfCommandArgument by its name');
+
 try {
     $argumentSet->getArgument('bar');
     $t->fail('->getArgument() throws an exception if the Argument name does not exist');

@@ -51,6 +51,7 @@ class sfTesterForm extends sfTester
             foreach ($action->getVarHolder()->getAll() as $name => $value) {
                 if ($value instanceof sfForm && $value->isBound()) {
                     $this->form = $value;
+
                     break;
                 }
             }
@@ -194,6 +195,7 @@ class sfTesterForm extends sfTester
             foreach ($parameters as $key => $value) {
                 if ($value instanceof sfForm && $value->isBound()) {
                     $this->form = $value;
+
                     break;
                 }
             }

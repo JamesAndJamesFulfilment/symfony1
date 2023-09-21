@@ -25,6 +25,7 @@ $v = new sfValidatorOr($v1);
 $t->is($v->getValidators(), array($v1), '->__construct() can take a validator as its first argument');
 $v = new sfValidatorOr(array($v1, $v2));
 $t->is($v->getValidators(), array($v1, $v2), '->__construct() can take an array of validators as its first argument');
+
 try {
     $v = new sfValidatorOr('string');
     $t->fail('_construct() throws an exception when passing a non supported first argument');
@@ -55,6 +56,7 @@ try {
 
 $v1->setOption('max_length', 1);
 $v2->setOption('min_length', 5);
+
 try {
     $v->clean('foo');
     $t->fail('->clean() throws an sfValidatorError exception if all the validators fails');

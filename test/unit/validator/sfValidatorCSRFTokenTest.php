@@ -14,6 +14,7 @@ $t = new lime_test(5);
 
 // __construct()
 $t->diag('__construct()');
+
 try {
     new sfValidatorCSRFToken();
     $t->fail('__construct() throws an RuntimeException if you don\'t pass a token option');

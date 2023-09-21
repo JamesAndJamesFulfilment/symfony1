@@ -38,6 +38,7 @@ $t->is($dumper->dump(), str_replace('%path%', __DIR__.'/fixtures/includes', file
 
 $dumper = new sfServiceContainerDumperPhp($container = new sfServiceContainerBuilder());
 $container->register('foo', 'FooClass')->addArgument(new stdClass());
+
 try {
     $dumper->dump();
     $t->fail('->dump() throws a RuntimeException if the container to be dumped has reference to objects or resources');

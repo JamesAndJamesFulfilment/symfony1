@@ -153,6 +153,7 @@ EOF;
         foreach ($dirs as $dir) {
             if (is_dir($dir)) {
                 $this->getFilesystem()->mirror($dir, $moduleDir, $finder);
+
                 break;
             }
         }

@@ -381,6 +381,7 @@ EOF;
 
             require_once $configuration;
             $class = $this->getModuleName().'GeneratorConfiguration';
+
             break;
         }
 

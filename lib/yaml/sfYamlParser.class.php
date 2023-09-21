@@ -195,18 +195,23 @@ class sfYamlParser
                 switch (preg_last_error()) {
                     case PREG_INTERNAL_ERROR:
                         $error = 'Internal PCRE error on line';
+
                         break;
                     case PREG_BACKTRACK_LIMIT_ERROR:
                         $error = 'pcre.backtrack_limit reached on line';
+
                         break;
                     case PREG_RECURSION_LIMIT_ERROR:
                         $error = 'pcre.recursion_limit reached on line';
+
                         break;
                     case PREG_BAD_UTF8_ERROR:
                         $error = 'Malformed UTF-8 data on line';
+
                         break;
                     case PREG_BAD_UTF8_OFFSET_ERROR:
                         $error = 'Offset doesn\'t correspond to the begin of a valid UTF-8 code point on line';
+
                         break;
                     default:
                         $error = 'Unable to parse line';
@@ -415,11 +420,13 @@ class sfYamlParser
         switch ($indicator) {
             case '':
                 $text = preg_replace('#\n+$#s', "\n", $text);
+
                 break;
             case '+':
                 break;
             case '-':
                 $text = preg_replace('#\n+$#s', '', $text);
+
                 break;
         }
 

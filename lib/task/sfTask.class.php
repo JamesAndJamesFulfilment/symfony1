@@ -142,6 +142,7 @@ abstract class sfTask
             if (is_string($name)) {
                 if (false === $value || null === $value || (isset($indexedOptions[$name]) && $indexedOptions[$name]->isArray() && !$value)) {
                     unset($options[$name]);
+
                     continue;
                 }
 
@@ -188,9 +189,10 @@ abstract class sfTask
      *
      * @see sfCommandArgument::__construct()
      *
-     * @param string $name
-     * @param int    $mode
-     * @param string $help
+     * @param string     $name
+     * @param int        $mode
+     * @param string     $help
+     * @param mixed|null $default
      */
     public function addArgument($name, $mode = null, $help = '', $default = null)
     {
@@ -224,10 +226,11 @@ abstract class sfTask
      *
      * @see sfCommandOption::__construct()
      *
-     * @param string $name
-     * @param string $shortcut
-     * @param int    $mode
-     * @param string $help
+     * @param string     $name
+     * @param string     $shortcut
+     * @param int        $mode
+     * @param string     $help
+     * @param mixed|null $default
      */
     public function addOption($name, $shortcut = null, $mode = null, $help = '', $default = null)
     {

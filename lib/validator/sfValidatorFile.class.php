@@ -122,6 +122,7 @@ class sfValidatorFile extends sfValidatorBase
                 if ($this->getOption('max_size')) {
                     $max = min($max, $this->getOption('max_size'));
                 }
+
                 throw new sfValidatorError($this, 'max_size', array('max_size' => round($max / 1024, 0), 'size' => (int) $value['size']));
             case UPLOAD_ERR_FORM_SIZE:
                 throw new sfValidatorError($this, 'max_size', array('max_size' => 0, 'size' => (int) $value['size']));

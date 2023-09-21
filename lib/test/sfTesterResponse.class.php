@@ -185,11 +185,13 @@ class sfTesterResponse extends sfTester
                 case 'xsd':
                     $dom->schemaValidate($checkDTD);
                     $message = sprintf('response validates per XSD schema "%s"', basename($checkDTD));
+
                     break;
                 case 'rng':
                 case 'rnc':
                     $dom->relaxNGValidate($checkDTD);
                     $message = sprintf('response validates per relaxNG schema "%s"', basename($checkDTD));
+
                     break;
                 default:
                     $message = $dom->validateOnParse ? sprintf('response validates as "%s"', $dom->doctype->name) : 'response is well-formed "xml"';
@@ -246,18 +248,21 @@ class sfTesterResponse extends sfTester
                     if (preg_match($regex, $header)) {
                         $ok = true;
                         $this->tester->pass(sprintf('response header "%s" matches "%s" (%s)', $key, $value, $this->response->getHttpHeader($key)));
+
                         break;
                     }
                 } else {
                     if (preg_match($regex, $header)) {
                         $ok = true;
                         $this->tester->fail(sprintf('response header "%s" does not match "%s" (%s)', $key, $value, $this->response->getHttpHeader($key)));
+
                         break;
                     }
                 }
             } elseif ($header == $value) {
                 $ok = true;
                 $this->tester->pass(sprintf('response header "%s" is "%s" (%s)', $key, $value, $this->response->getHttpHeader($key)));
+
                 break;
             }
         }

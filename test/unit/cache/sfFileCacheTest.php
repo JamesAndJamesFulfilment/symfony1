@@ -21,6 +21,7 @@ mkdir($temp);
 
 // ->initialize()
 $t->diag('->initialize()');
+
 try {
     $cache = new sfFileCache();
     $t->fail('->initialize() throws an sfInitializationException exception if you don\'t pass a "cache_dir" parameter');

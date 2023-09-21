@@ -85,6 +85,7 @@ class sfEventDispatcher
         foreach ($this->getListeners($event->getName()) as $listener) {
             if (call_user_func($listener, $event)) {
                 $event->setProcessed(true);
+
                 break;
             }
         }

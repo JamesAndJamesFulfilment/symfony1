@@ -53,11 +53,13 @@ class sfI18nPhpExtractor implements sfI18nExtractorInterface
                         } else {
                             $i18n_function = ('__' == $text || 'format_number_choice' == $text) ? 1 : 0;
                         }
+
                         break;
                     case T_WHITESPACE:
                         break;
                     case T_START_HEREDOC:
                         $heredoc = true;
+
                         break;
                     case T_END_HEREDOC:
                         $heredoc = false;
@@ -66,6 +68,7 @@ class sfI18nPhpExtractor implements sfI18nExtractorInterface
                             $buffer = '';
                         }
                         $i18n_function = 0;
+
                         break;
                     case T_CONSTANT_ENCAPSED_STRING:
                         if (2 == $i18n_function) {
@@ -73,6 +76,7 @@ class sfI18nPhpExtractor implements sfI18nExtractorInterface
                             $strings[] = str_replace('\\'.$delimiter, $delimiter, substr($text, 1, -1));
                         }
                         $i18n_function = 0;
+
                         break;
                     default:
                         if ($heredoc && 2 == $i18n_function) {

@@ -318,7 +318,8 @@ EOF;
 
             // optimize string
             return preg_replace(array("/^''\\./", "/\\.''$/", "/\\.''\\./"), array('', '', '.'), $code);
-        } elseif (is_object($value) || is_resource($value)) {
+        }
+        if (is_object($value) || is_resource($value)) {
             throw new RuntimeException('Unable to dump a service container if a parameter is an object or a resource.');
         }
 

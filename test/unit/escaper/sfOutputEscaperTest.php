@@ -88,6 +88,7 @@ $t->isa_ok(sfOutputEscaper::escape('esc_entities', new OutputEscaperTestClassChi
 
 $t->diag('::escape() cannot escape resources');
 $fh = fopen(__FILE__, 'r');
+
 try {
     sfOutputEscaper::escape('esc_entities', $fh);
     $t->fail('::escape() throws an InvalidArgumentException if the value cannot be escaped');

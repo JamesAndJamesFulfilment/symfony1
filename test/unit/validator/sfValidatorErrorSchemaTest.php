@@ -161,6 +161,7 @@ $t->is($e[0], $e2, '"sfValidatorErrorSchema" implements the ArrayAccess interfac
 $t->is($e['2'], $e2, '"sfValidatorErrorSchema" implements the ArrayAccess interface');
 $t->is(isset($e['e1']), true, '"sfValidatorErrorSchema" implements the ArrayAccess interface');
 $t->is(isset($e['e2']), false, '"sfValidatorErrorSchema" implements the ArrayAccess interface');
+
 try {
     $e['e1'] = $e2;
     $t->fail('"sfValidatorErrorSchema" implements the ArrayAccess interface');

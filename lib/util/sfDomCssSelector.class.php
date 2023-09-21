@@ -173,21 +173,27 @@ class sfDomCssSelector implements Countable, Iterator
                             switch ($attrOperator) {
                                 case '=': // Equality
                                     $ok = $found->getAttribute($attrName) == $attrValue;
+
                                     break;
                                 case '~': // Match one of space seperated words
                                     $ok = preg_match('/\b'.preg_quote($attrValue, '/').'\b/', $found->getAttribute($attrName));
+
                                     break;
                                 case '|': // Match start with value followed by optional hyphen
                                     $ok = preg_match('/^'.preg_quote($attrValue, '/').'-?/', $found->getAttribute($attrName));
+
                                     break;
                                 case '^': // Match starts with value
                                     $ok = 0 === strpos($found->getAttribute($attrName), $attrValue);
+
                                     break;
                                 case '$': // Match ends with value
                                     $ok = $attrValue == substr($found->getAttribute($attrName), -strlen($attrValue));
+
                                     break;
                                 case '*': // Match ends with value
                                     $ok = false !== strpos($found->getAttribute($attrName), $attrValue);
+
                                     break;
                                 default:
                                     // Just test for existence of attribute
@@ -234,6 +240,7 @@ class sfDomCssSelector implements Countable, Iterator
                     foreach ($node->getElementsByTagName($tagName) as $element) {
                         $founds[] = $element;
                     }
+
                     break;
                 case '>':
                     // Child selector
@@ -242,6 +249,7 @@ class sfDomCssSelector implements Countable, Iterator
                             $founds[] = $element;
                         }
                     }
+
                     break;
                 case '+':
                     // Adjacent selector
@@ -253,6 +261,7 @@ class sfDomCssSelector implements Countable, Iterator
                     if ($element && $tagName == $element->nodeName) {
                         $founds[] = $element;
                     }
+
                     break;
                 default:
                     throw new Exception(sprintf('Unrecognized combinator "%s".', $combinator));
@@ -376,57 +385,68 @@ class sfDomCssSelector implements Countable, Iterator
                     if (false !== strpos($nodes[$i]->textContent, $selector['parameter'])) {
                         $matchingNodes[] = $nodes[$i];
                     }
+
                     break;
                 case 'nth-child':
                     if ($nodes[$i] === $this->nth($nodes[$i]->parentNode->firstChild, (int) $selector['parameter'])) {
                         $matchingNodes[] = $nodes[$i];
                     }
+
                     break;
                 case 'first-child':
                     if ($nodes[$i] === $this->nth($nodes[$i]->parentNode->firstChild)) {
                         $matchingNodes[] = $nodes[$i];
                     }
+
                     break;
                 case 'last-child':
                     if ($nodes[$i] === $this->nth($nodes[$i]->parentNode->lastChild, 1, 'previousSibling')) {
                         $matchingNodes[] = $nodes[$i];
                     }
+
                     break;
                 case 'lt':
                     if ($i < (int) $selector['parameter']) {
                         $matchingNodes[] = $nodes[$i];
                     }
+
                     break;
                 case 'gt':
                     if ($i > (int) $selector['parameter']) {
                         $matchingNodes[] = $nodes[$i];
                     }
+
                     break;
                 case 'odd':
                     if ($i % 2) {
                         $matchingNodes[] = $nodes[$i];
                     }
+
                     break;
                 case 'even':
                     if (0 == $i % 2) {
                         $matchingNodes[] = $nodes[$i];
                     }
+
                     break;
                 case 'nth':
                 case 'eq':
                     if ($i == (int) $selector['parameter']) {
                         $matchingNodes[] = $nodes[$i];
                     }
+
                     break;
                 case 'first':
                     if (0 == $i) {
                         $matchingNodes[] = $nodes[$i];
                     }
+
                     break;
                 case 'last':
                     if ($i == $max - 1) {
                         $matchingNodes[] = $nodes[$i];
                     }
+
                     break;
                 default:
                     throw new Exception(sprintf('Unrecognized selector "%s".', $selector['selector']));

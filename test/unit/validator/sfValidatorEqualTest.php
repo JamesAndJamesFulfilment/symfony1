@@ -14,6 +14,7 @@ $t = new lime_test(9);
 
 // __construct()
 $t->diag('__construct()');
+
 try {
     new sfValidatorEqual();
     $t->fail('->__construct() throws an "RuntimeException" if you don\'t pass a "value" option');
@@ -40,6 +41,7 @@ try {
 }
 
 $v->setMessage('not_equal', 'Not equal');
+
 try {
     $v->clean('bar');
     $t->fail('"not_equal" error message customization');
@@ -60,6 +62,7 @@ try {
 }
 
 $v->setMessage('not_strictly_equal', 'Not strictly equal');
+
 try {
     $v->clean(0);
     $t->fail('"not_strictly_equal" error message customization');

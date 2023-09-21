@@ -22,6 +22,7 @@ $dispatcher = new sfEventDispatcher();
 
 // ->initialize()
 $t->diag('->initialize()');
+
 try {
     $logger = new sfFileLogger($dispatcher);
     $t->fail('->initialize() parameters must contains a "file" parameter');

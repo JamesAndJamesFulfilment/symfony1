@@ -82,6 +82,7 @@ EOF;
 
         foreach ($databases as $name => $database) {
             $this->logSection('doctrine', sprintf('Dropping "%s" database', $name));
+
             try {
                 $database->getDoctrineConnection()->dropDatabase();
             } catch (Exception $e) {

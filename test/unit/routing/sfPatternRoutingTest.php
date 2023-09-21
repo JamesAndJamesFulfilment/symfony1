@@ -476,6 +476,7 @@ $test_route_names = array_keys($r->getRoutes());
 $t->is(implode('-', $test_route_names), implode('-', $route_names), '->insertRouteBefore() adds a new route before another existings one');
 $r->clearRoutes();
 $msg = '->insertRouteBefore() throws an sfConfigurationException when trying to insert a route before a non existent one';
+
 try {
     $r->insertRouteBefore('test2', 'test', new sfRoute('/index.php/:module/:action', array('module' => 'default', 'action' => 'index')));
     $t->fail($msg);
@@ -548,6 +549,7 @@ $t->is($r->generate('', $params), $url, '->generate() routes takes default value
 $params = array('module' => 'default', 'action' => 'index', 'bar' => 'foo');
 $t->is($r->generate('', $params), $url, '->generate() routes takes default values into account when matching a route');
 $params = array('module' => 'default', 'action' => 'index', 'bar' => 'bar');
+
 try {
     $r->generate('', $params);
     $t->fail('->generate() throws a sfConfigurationException if no route matches the params');
@@ -560,6 +562,7 @@ $t->diag('mandatory parameters');
 $r->clearRoutes();
 $r->connect('test', new sfRoute('/test/:foo/:bar'));
 $params = array('foo' => 'bar');
+
 try {
     $r->generate('test', $params);
     $t->fail('->generate() throws a InvalidArgumentException if some mandatory parameters are not provided');

@@ -299,6 +299,7 @@ class sfNumberFormatInfo
                 for ($i = strlen($pattern) - 1; $i >= 0; --$i) {
                     if ($pattern[$i] == $digit || $pattern[$i] == $hash) {
                         $groupSize1 = $i - $groupPos1;
+
                         break;
                     }
                 }
@@ -317,6 +318,7 @@ class sfNumberFormatInfo
                 }
                 if ($pattern[$i] == $digit) {
                     $decimalPoints = $i - $decimalPos;
+
                     break;
                 }
             }

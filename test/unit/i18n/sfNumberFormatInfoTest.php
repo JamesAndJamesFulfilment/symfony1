@@ -14,6 +14,7 @@ $t = new lime_test(75);
 
 // __construct()
 $t->diag('__construct()');
+
 try {
     $c = new sfNumberFormatInfo();
     $t->fail('__construct() takes a mandatory ICU array as its first argument');

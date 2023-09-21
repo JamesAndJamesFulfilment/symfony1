@@ -17,6 +17,7 @@ $dom->validateOnParse = true;
 
 // ->configure()
 $t->diag('->configure()');
+
 try {
     new sfWidgetFormI18nChoiceLanguage(array('culture' => 'en', 'languages' => array('xx')));
     $t->fail('->configure() throws an InvalidArgumentException if a language does not exist');

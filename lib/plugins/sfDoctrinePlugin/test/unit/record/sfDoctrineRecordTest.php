@@ -53,6 +53,7 @@ $after = unserialize($serialized);
 $t->is($after->title, 'test', '->unserialize() maintains field values on I18n records upon reset');
 
 $article = new Article();
+
 try {
     $article->setAuthor(new stdClass());
 } catch (Exception $e) {

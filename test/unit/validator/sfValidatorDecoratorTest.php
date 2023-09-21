@@ -25,6 +25,7 @@ $t->diag('__construct()');
 $v = new MyValidator(array('required' => false));
 $t->is($v->clean(null), null, '__construct() options override the embedded validator options');
 $v = new MyValidator(array(), array('required' => 'This is required.'));
+
 try {
     $v->clean(null);
     $t->fail('->clean() throws a sfValidatorError if the value is required');
@@ -74,6 +75,7 @@ $v = new MyValidator();
 
 // ->clean()
 $t->diag('->clean()');
+
 try {
     $v->clean(null);
     $t->fail('->clean() throws a sfValidatorError if the value is required');

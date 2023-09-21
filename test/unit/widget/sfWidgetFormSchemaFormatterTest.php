@@ -149,6 +149,7 @@ $f = new MyFormatter2(new sfWidgetFormSchema(array()));
 $f->setTranslationCatalogue('foo');
 $t->is($f->getTranslationCatalogue(), 'foo', 'setTranslationCatalogue() has set the i18n catalogue correctly');
 $t->diag('->setTranslationCatalogue() ->getTranslationCatalogue()');
+
 try {
     $f->setTranslationCatalogue(array('foo'));
     $t->fail('setTranslationCatalogue() does not throw an exception when catalogue name is incorrectly typed');

@@ -70,6 +70,7 @@ $t->is($w->getOption('nonexistant'), null, '->getOption() returns null if the op
 $t->is($w->getOption('nonexistant', 'default value'), 'default value', '->getOption() returns default value if the option does not exist');
 $t->is($w->hasOption('foo'), true, '->hasOption() returns true if the option exist');
 $t->is($w->hasOption('nonexistant'), false, '->hasOption() returns false if the option does not exist');
+
 try {
     $w->setOption('foobar', 'foo');
     $t->fail('->setOption() throws an InvalidArgumentException if the option is not registered');

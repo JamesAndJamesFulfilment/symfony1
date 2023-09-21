@@ -207,6 +207,7 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
                     header('Status: 503 Service Temporarily Unavailable');
 
                     include $file;
+
                     break;
                 }
             }
@@ -409,6 +410,7 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
             foreach ($this->getTemplateDirs($moduleName) as $dir) {
                 if (is_readable($dir.'/'.$templateFile)) {
                     $this->cache['getTemplateDir'][$moduleName][$templateFile] = $dir;
+
                     break;
                 }
             }
@@ -591,6 +593,7 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
                     if (is_readable($dir.'/'.$fileName)) {
                         include_once $dir.'/'.$fileName;
                         $included = true;
+
                         break;
                     }
                 }

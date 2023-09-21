@@ -77,6 +77,7 @@ EOF;
                     array('', 'Continue? (y/N)')
                 ), 'QUESTION_LARGE', false)) {
                     $this->logSection('doctrine', 'Aborting delete of "'.$modelName.'" files');
+
                     continue;
                 }
 

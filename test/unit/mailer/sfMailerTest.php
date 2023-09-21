@@ -19,6 +19,7 @@ $dispatcher = new sfEventDispatcher();
 
 // __construct()
 $t->diag('__construct()');
+
 try {
     new sfMailer($dispatcher, array('delivery_strategy' => 'foo'));
 
@@ -100,6 +101,7 @@ $t->is($messages[0]->getBody(), 'Body', '->composeAndSend() takes the body as it
 $t->diag('->flushQueue()');
 $mailer = new sfMailer($dispatcher, array('delivery_strategy' => 'none'));
 $mailer->composeAndSend('from@example.com', 'to@example.com', 'Subject', 'Body');
+
 try {
     $mailer->flushQueue();
 

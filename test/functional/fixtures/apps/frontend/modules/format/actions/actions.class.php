@@ -39,6 +39,7 @@ class formatActions extends sfActions
     public function executeThrowsNonDebugException()
     {
         sfConfig::set('sf_debug', false);
+
         throw new Exception('Descriptive message');
     }
 }

@@ -209,6 +209,7 @@ class sfPluginManager
         $err = $installer->setDownloadedPackages($packages);
         if (PEAR::isError($err)) {
             PEAR::staticPopErrorHandling();
+
             throw new sfPluginException($err->getMessage());
         }
 

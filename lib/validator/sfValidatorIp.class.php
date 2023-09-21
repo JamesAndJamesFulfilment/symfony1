@@ -52,50 +52,62 @@ class sfValidatorIp extends sfValidatorString
         switch ($this->getOption('version')) {
             case self::IP_V4:
                 $flag = FILTER_FLAG_IPV4;
+
                 break;
 
             case self::IP_V6:
                 $flag = FILTER_FLAG_IPV6;
+
                 break;
 
             case self::IP_V4_NO_PRIV:
                 $flag = FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE;
+
                 break;
 
             case self::IP_V6_NO_PRIV:
                 $flag = FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE;
+
                 break;
 
             case self::IP_ALL_NO_PRIV:
                 $flag = FILTER_FLAG_NO_PRIV_RANGE;
+
                 break;
 
             case self::IP_V4_NO_RES:
                 $flag = FILTER_FLAG_IPV4 | FILTER_FLAG_NO_RES_RANGE;
+
                 break;
 
             case self::IP_V6_NO_RES:
                 $flag = FILTER_FLAG_IPV6 | FILTER_FLAG_NO_RES_RANGE;
+
                 break;
 
             case self::IP_ALL_NO_RES:
                 $flag = FILTER_FLAG_NO_RES_RANGE;
+
                 break;
 
             case self::IP_V4_ONLY_PUBLIC:
                 $flag = FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE;
+
                 break;
 
             case self::IP_V6_ONLY_PUBLIC:
                 $flag = FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE;
+
                 break;
 
             case self::IP_ALL_ONLY_PUBLIC:
                 $flag = FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE;
+
                 break;
 
             default:
                 $flag = null;
+
                 break;
         }
 

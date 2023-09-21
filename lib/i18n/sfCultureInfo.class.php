@@ -622,12 +622,15 @@ class sfCultureInfo
                 sort($all);
 
                 return $all;
+
                 break;
             case sfCultureInfo::NEUTRAL:
                 return $neutral;
+
                 break;
             case sfCultureInfo::SPECIFIC:
                 return $specific;
+
                 break;
         }
     }

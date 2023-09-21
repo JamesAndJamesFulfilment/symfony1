@@ -69,6 +69,7 @@ class sfFunctionCache
                 $data['result'] = call_user_func_array($callable, $arguments);
             } catch (Exception $e) {
                 ob_end_clean();
+
                 throw $e;
             }
 

@@ -23,6 +23,7 @@ $w = new sfWidgetFormSchema(array('w1' => $w1, 'w2' => $w2));
 $w1->setParent($w);
 $w2->setParent($w);
 $t->ok($w->getFields() == array('w1' => $w1, 'w2' => $w2), '__construct() can take an array of named sfWidget objects');
+
 try {
     $w = new sfWidgetFormSchema('string');
     $t->fail('__construct() throws a exception when passing a non supported first argument');
@@ -96,6 +97,7 @@ $w->setFormFormatterName('list');
 $t->is(get_class($w->getFormFormatter()), 'sfWidgetFormSchemaFormatterList', '->setFormFormatterName() set the names of the formatter to use when rendering');
 
 $w->setFormFormatterName('nonexistant');
+
 try {
     $w->getFormFormatter();
     $t->fail('->setFormFormatterName() throws a InvalidArgumentException when the form format name is not associated with a formatter');
@@ -261,12 +263,14 @@ $w->moveField('w1', sfWidgetFormSchema::FIRST);
 $t->is($w->getPositions(), array('w1', 'w2', 'w3', 'w4'), '->moveField() can move a field to the beginning');
 $w->moveField('w1', sfWidgetFormSchema::AFTER, 'w3');
 $t->is($w->getPositions(), array('w2', 'w3', 'w1', 'w4'), '->moveField() can move a field before another one');
+
 try {
     $w->moveField('w1', sfWidgetFormSchema::AFTER);
     $t->fail('->moveField() throws an LogicException if you don\'t pass a relative field name with AFTER');
 } catch (LogicException $e) {
     $t->pass('->moveField() throws an LogicException if you don\'t pass a relative field name with AFTER');
 }
+
 try {
     $w->moveField('w1', sfWidgetFormSchema::BEFORE);
     $t->fail('->moveField() throws an LogicException if you don\'t pass a relative field name with BEFORE');

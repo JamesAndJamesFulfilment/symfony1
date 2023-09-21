@@ -90,6 +90,7 @@ $v = new ValidatorIdentity();
 // ->clean()
 $t->diag('->clean()');
 $t->is($v->clean('foo'), 'foo', '->clean() returns a cleanup version of the data to validate');
+
 try {
     $t->is($v->clean(''), '');
     $t->fail('->clean() throws a sfValidatorError exception if the data does not validate');
@@ -120,6 +121,7 @@ $v->setOption('required', false);
 $t->is($v->clean(''), null, '->setOption() changes options (required for example)');
 $v->setOption('trim', true);
 $t->is($v->clean('  foo  '), 'foo', '->setOption() can turn on whitespace trimming');
+
 try {
     $v->setOption('foobar', 'foo');
     $t->fail('->setOption() throws an InvalidArgumentException if the option is not registered');
@@ -160,6 +162,7 @@ $t->is($v->getMessage('nonexistant'), '', '->getMessage() returns an empty strin
 // ->setMessage()
 $t->diag('->setMessage()');
 $v->setMessage('required', 'The field is required.');
+
 try {
     $v->clean('');
     $t->isnt($e->getMessage(), 'The field is required.', '->setMessage() changes the default error message string');

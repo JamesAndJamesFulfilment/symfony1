@@ -17,6 +17,7 @@ $dom->validateOnParse = true;
 
 // ->configure()
 $t->diag('->configure()');
+
 try {
     new sfWidgetFormI18nChoiceCurrency(array('culture' => 'en', 'currencies' => array('xx')));
     $t->fail('->configure() throws an InvalidArgumentException if a currency does not exist');

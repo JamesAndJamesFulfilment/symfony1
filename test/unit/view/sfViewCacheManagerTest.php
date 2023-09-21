@@ -155,12 +155,14 @@ try {
 } catch (sfException $e) {
     $t->pass('->generateCacheKey() throws an sfException when passed an internal URI with a rule');
 }
+
 try {
     $m->generateCacheKey('@sf_cache_partial?module=mymodule&action=myaction');
     $t->pass('->generateCacheKey() does not throw an sfException when passed an internal URI with a @sf_cache_partial rule');
 } catch (sfException $e) {
     $t->fail('->generateCacheKey() does not throw an sfException when passed an internal URI with a @sf_cache_partial rule');
 }
+
 try {
     $m->generateCacheKey('@sf_cache_partial?key=value');
     $t->fail('->generateCacheKey() throws an sfException when passed an internal URI with a @sf_cache_partial rule with no module or action param');

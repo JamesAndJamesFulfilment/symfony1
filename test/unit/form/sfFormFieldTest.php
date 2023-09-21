@@ -138,6 +138,7 @@ try {
 $t->diag('->renderLabel()');
 $t->is($f->renderLabel(), '<label for="article_title">Title</label>', '->renderLabel() renders the label as HTML');
 $t->is($f->renderLabel(null, array('class' => 'foo')), '<label class="foo" for="article_title">Title</label>', '->renderLabel() renders optional HTML attributes');
+
 try {
     $parent->renderLabel();
     $t->fail('->renderLabel() throws an LogicException if the form field has no parent');
@@ -148,6 +149,7 @@ try {
 // ->renderLabelName()
 $t->diag('->renderLabelName()');
 $t->is($f->renderLabelName(), 'Title', '->renderLabelName() renders the label name');
+
 try {
     $parent->renderLabelName();
     $t->fail('->renderLabelName() throws an LogicException if the form field has no parent');

@@ -41,6 +41,7 @@ $t->diag('ArrayAccess interface');
 $t->is(isset($parent['title']), true, 'sfFormField implements the ArrayAccess interface');
 $t->is(isset($parent['title1']), false, 'sfFormField implements the ArrayAccess interface');
 $t->is($parent['title'], $f, 'sfFormField implements the ArrayAccess interface');
+
 try {
     unset($parent['title']);
     $t->fail('sfFormField implements the ArrayAccess interface but in read-only mode');

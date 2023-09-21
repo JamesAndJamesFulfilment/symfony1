@@ -49,9 +49,11 @@ class sfTestFunctional extends sfTestFunctionalBase
         switch ($position) {
             case 'first':
                 $entry = $actionStack->getFirstEntry();
+
                 break;
             case 'last':
                 $entry = $actionStack->getLastEntry();
+
                 break;
             default:
                 $entry = $actionStack->getEntry($position);

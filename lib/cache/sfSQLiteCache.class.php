@@ -61,6 +61,8 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed|null $default
      */
     public function get($key, $default = null)
     {
@@ -87,6 +89,8 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed|null $lifetime
      */
     public function set($key, $data, $lifetime = null)
     {

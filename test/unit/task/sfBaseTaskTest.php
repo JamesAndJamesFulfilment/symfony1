@@ -87,6 +87,7 @@ class ApplicationTask extends sfBaseTask
 chdir($rootDir);
 
 $task = new ApplicationTask($dispatcher, new sfFormatter());
+
 try {
     $task->run();
     $t->pass('->run() creates an application configuration if none is set');
@@ -97,6 +98,7 @@ try {
 
 $task = new ApplicationTask($dispatcher, new sfFormatter());
 $task->setConfiguration($configuration);
+
 try {
     $task->run();
     $t->pass('->run() creates an application configuration if only a project configuration is set');

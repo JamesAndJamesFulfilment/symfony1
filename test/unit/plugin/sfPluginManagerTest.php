@@ -147,6 +147,7 @@ $t->diag('try to uninstall a non installed plugin');
 $t->ok(!$pluginManager->uninstallPlugin('sfFooPlugin'), '->uninstallPlugin() returns false if the plugin is not installed');
 
 $t->diag('try to install a non existant plugin');
+
 try {
     $pluginManager->installPlugin('sfBarPlugin');
 
@@ -190,6 +191,7 @@ $t->is(count($installed), 2, '->getInstalledPlugin() returns an array of install
 $pluginManager->uninstallPlugin('sfTestPlugin');
 
 $t->diag('install a plugin with a dependency must fail');
+
 try {
     $pluginManager->installPlugin('sfFooPlugin');
     $t->fail('->installPlugin() throws an exception if the plugin needs a dependency to be installed');
@@ -214,6 +216,7 @@ $pluginManager->uninstallPlugin('sfTestPlugin');
 $t->diag('try to uninstall a plugin with a depedency must fail');
 $pluginManager->installPlugin('sfTestPlugin', array('version' => '1.1.4'));
 $pluginManager->installPlugin('sfFooPlugin');
+
 try {
     $pluginManager->uninstallPlugin('sfTestPlugin');
     $t->fail('->uninstallPlugin() throws an exception if you try to uninstall a plugin that is needed for another one');
@@ -227,6 +230,7 @@ $t->diag('install a plugin with a dependency which is installed by with a too ol
 $pluginManager->setMainPackageVersion('1.0.0');
 $pluginManager->installPlugin('sfTestPlugin', array('version' => '1.0.4'));
 $pluginManager->setMainPackageVersion('1.1.0');
+
 try {
     $pluginManager->installPlugin('sfFooPlugin');
     $t->fail('->installPlugin() throws an exception if you try to install a plugin with a dependency that is installed but not in the right version');

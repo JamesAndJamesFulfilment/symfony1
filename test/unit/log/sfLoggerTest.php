@@ -46,6 +46,7 @@ $t->is($logger->getLogLevel(), sfLogger::ERR, '->initialize() takes an array of 
 // ::getPriorityName()
 $t->diag('::getPriorityName()');
 $t->is(sfLogger::getPriorityName(sfLogger::INFO), 'info', '::getPriorityName() returns the name of a priority class constant');
+
 try {
     sfLogger::getPriorityName(100);
     $t->fail('::getPriorityName() throws an sfException if the priority constant does not exist');
