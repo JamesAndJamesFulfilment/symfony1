@@ -47,6 +47,7 @@ class sfDoctrineBuildTask extends sfDoctrineBaseTask
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_OPTIONAL, 'The application name', true),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
         );
+
         if (!sfProjectConfiguration::getActive()->isProduction()) {
             $options = array_merge($options, array(
                 new sfCommandOption('no-confirmation', null, sfCommandOption::PARAMETER_NONE, 'Whether to force dropping of the database'),
@@ -64,6 +65,7 @@ class sfDoctrineBuildTask extends sfDoctrineBaseTask
         }
 
         $this->addOptions($options);
+
         $this->namespace = 'doctrine';
         $this->name = 'build';
 

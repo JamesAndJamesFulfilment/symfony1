@@ -9,7 +9,7 @@
  */
 
 // The current symfony version.
-define('SYMFONY_VERSION', '1.6.0');
+define('SYMFONY_VERSION', '1.6.1');
 
 /**
  * sfCoreAutoload class.
@@ -91,6 +91,7 @@ class sfCoreAutoload
         'sfwebcontroller' => 'controller/sfWebController.class.php',
         'sfdatabase' => 'database/sfDatabase.class.php',
         'sfdatabasemanager' => 'database/sfDatabaseManager.class.php',
+        'sfmysqldatabase' => 'database/sfMySQLDatabase.class.php',
         'sfmysqlidatabase' => 'database/sfMySQLiDatabase.class.php',
         'sfpdodatabase' => 'database/sfPDODatabase.class.php',
         'sfpostgresqldatabase' => 'database/sfPostgreSQLDatabase.class.php',
@@ -171,6 +172,7 @@ class sfCoreAutoload
         'sfmessagesource_aggregate' => 'i18n/sfMessageSource_Aggregate.class.php',
         'sfmessagesource_database' => 'i18n/sfMessageSource_Database.class.php',
         'sfmessagesource_file' => 'i18n/sfMessageSource_File.class.php',
+        'sfmessagesource_mysql' => 'i18n/sfMessageSource_MySQL.class.php',
         'sfmessagesource_mysqli' => 'i18n/sfMessageSource_MySQLi.class.php',
         'sfmessagesource_sqlite' => 'i18n/sfMessageSource_SQLite.class.php',
         'sfmessagesource_sqlite3' => 'i18n/sfMessageSource_SQLite3.class.php',
@@ -233,6 +235,7 @@ class sfCoreAutoload
         'sfservicereference' => 'service/sfServiceReference.class.php',
         'sfcachesessionstorage' => 'storage/sfCacheSessionStorage.class.php',
         'sfdatabasesessionstorage' => 'storage/sfDatabaseSessionStorage.class.php',
+        'sfmysqlsessionstorage' => 'storage/sfMySQLSessionStorage.class.php',
         'sfmysqlisessionstorage' => 'storage/sfMySQLiSessionStorage.class.php',
         'sfnostorage' => 'storage/sfNoStorage.class.php',
         'sfpdosessionstorage' => 'storage/sfPDOSessionStorage.class.php',
@@ -463,7 +466,7 @@ class sfCoreAutoload
      *
      * @param string $class The class name (case insensitive)
      *
-     * @return null|string An absolute path or null
+     * @return string|null An absolute path or null
      */
     public function getClassPath($class)
     {

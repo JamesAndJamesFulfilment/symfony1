@@ -189,7 +189,7 @@ abstract class sfTask
      * @param string     $name
      * @param int        $mode
      * @param string     $help
-     * @param null|mixed $default
+     * @param mixed|null $default
      */
     public function addArgument($name, $mode = null, $help = '', $default = null)
     {
@@ -227,7 +227,7 @@ abstract class sfTask
      * @param string     $shortcut
      * @param int        $mode
      * @param string     $help
-     * @param null|mixed $default
+     * @param mixed|null $default
      */
     public function addOption($name, $shortcut = null, $mode = null, $help = '', $default = null)
     {
@@ -473,6 +473,8 @@ abstract class sfTask
      *
      * @param array|string $question
      *
+     * @return mixed
+     *
      * @throws sfValidatorError
      */
     public function askAndValidate($question, sfValidatorBase $validator, array $options = array())
@@ -496,7 +498,7 @@ abstract class sfTask
         }
 
         // no, ask the user for a valid user
-        /** @var null|sfValidatorError $error */
+        /** @var sfValidatorError|null $error */
         $error = null;
         while (false === $options['attempts'] || $options['attempts']--) {
             if (null !== $error) {
@@ -668,15 +670,15 @@ abstract class sfTask
         return @round($size / pow(1024, $i), 2)." {$unit[$i]}";
     }
 
-    /**
-     * Executes the current task.
-     *
-     * @param array $arguments An array of arguments
-     * @param array $options   An array of options
-     *
-     * @return int 0 if everything went fine, or an error code
-     */
-    abstract protected function execute($arguments = array(), $options = array());
+     /**
+      * Executes the current task.
+      *
+      * @param array    $arguments  An array of arguments
+      * @param array    $options    An array of options
+      *
+      * @return int 0 if everything went fine, or an error code
+      */
+     abstract protected function execute($arguments = array(), $options = array());
 
     protected function strlen($string)
     {

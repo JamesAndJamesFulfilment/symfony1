@@ -53,6 +53,7 @@ abstract class sfCommandApplication
     /** @var sfFormatter */
     protected $formatter;
 
+    /** @var mixed */
     protected $commandOptions;
 
     /**

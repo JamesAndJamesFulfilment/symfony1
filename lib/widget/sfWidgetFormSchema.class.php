@@ -632,7 +632,7 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
      *
      * @param string $name The field name
      *
-     * @return null|sfWidget The sfWidget instance associated with the given name, null if it does not exist
+     * @return sfWidget|null The sfWidget instance associated with the given name, null if it does not exist
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($name)

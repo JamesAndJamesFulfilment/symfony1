@@ -28,7 +28,8 @@ class sfAuthTestBrowser extends sfTestBrowser
             checkElement('#user', '')->
             checkElement('#password', '')->
             checkElement('#msg', 'KO')->
-          end();
+          end()
+        ;
     }
 
     public function checkAuth()
@@ -44,7 +45,8 @@ class sfAuthTestBrowser extends sfTestBrowser
             checkElement('#user', 'foo')->
             checkElement('#password', 'bar')->
             checkElement('#msg', 'OK')->
-          end();
+          end()
+        ;
     }
 }
 

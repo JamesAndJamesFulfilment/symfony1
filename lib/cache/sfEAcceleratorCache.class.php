@@ -42,10 +42,10 @@ class sfEAcceleratorCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param string     $key
-     * @param null|mixed $default
+     * @param string $key
+     * @param mixed  $default
      *
-     * @return null|string
+     * @return string|null
      */
     public function get($key, $default = null)
     {
@@ -71,7 +71,7 @@ class sfEAcceleratorCache extends sfCache
      *
      * @param string   $key
      * @param string   $data
-     * @param null|int $lifetime
+     * @param int|null $lifetime
      *
      * @return bool
      */

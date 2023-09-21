@@ -15,14 +15,14 @@
  *
  * @version    SVN: $Id$
  *
- * @param null|mixed $culture
- * @param null|mixed $charset
  * @param mixed      $start_date
  * @param mixed      $end_date
  * @param mixed      $format
  * @param mixed      $full_text
  * @param mixed      $start_text
  * @param mixed      $end_text
+ * @param mixed|null $culture
+ * @param mixed|null $charset
  */
 function format_daterange($start_date, $end_date, $format = 'd', $full_text = '', $start_text = '', $end_text = '', $culture = null, $charset = null)
 {

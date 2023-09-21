@@ -269,6 +269,8 @@ class sfToolkit
      *
      * @param string $value
      * @param bool   $quoted Quote?
+     *
+     * @return mixed
      */
     public static function literalize($value, $quoted = false)
     {

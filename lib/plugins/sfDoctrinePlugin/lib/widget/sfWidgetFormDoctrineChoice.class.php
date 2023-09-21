@@ -43,6 +43,7 @@ class sfWidgetFormDoctrineChoice extends sfWidgetFormChoice
         if (false !== $this->getOption('add_empty')) {
             $choices[''] = true === $this->getOption('add_empty') ? '' : $this->translate($this->getOption('add_empty'));
         }
+
         if (false !== $this->getOption('add_extra_choices')) {
             foreach ($this->getOption('add_extra_choices') as $key => $value) {
                 $choices[$key] = $this->translate($value);

@@ -176,6 +176,8 @@ class sfCultureInfo
      * as an attribute/property to retrieve the value.
      *
      * @param string $name The property to get
+     *
+     * @return mixed
      */
     public function __get($name)
     {

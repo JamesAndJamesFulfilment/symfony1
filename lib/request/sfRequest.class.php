@@ -32,7 +32,7 @@ abstract class sfRequest implements ArrayAccess
     /** @var sfEventDispatcher */
     protected $dispatcher;
 
-    /** @var null|string */
+    /** @var string|null */
     protected $content;
 
     /** @var string */
@@ -298,6 +298,8 @@ abstract class sfRequest implements ArrayAccess
      *
      * @param string $name    Parameter name
      * @param string $default Parameter default value
+     *
+     * @return mixed
      */
     public function getParameter($name, $default = null)
     {

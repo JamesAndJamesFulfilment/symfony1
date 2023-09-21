@@ -43,6 +43,14 @@ class sfMessageSource_Aggregate extends sfMessageSource
         }
     }
 
+    /**
+     * Determines if the source is valid.
+     *
+     * @param string $source  catalogue+variant
+     * @param mixed  $sources
+     *
+     * @return bool true if valid, false otherwise
+     */
     public function isValidSource($sources)
     {
         foreach ($sources as $source) {
@@ -56,6 +64,13 @@ class sfMessageSource_Aggregate extends sfMessageSource
         return false;
     }
 
+    /**
+     * Gets the source, this could be a filename or database ID.
+     *
+     * @param string $variant catalogue+variant
+     *
+     * @return string the resource key
+     */
     public function getSource($variant)
     {
         $sources = array();
@@ -66,6 +81,14 @@ class sfMessageSource_Aggregate extends sfMessageSource
         return $sources;
     }
 
+    /**
+     * Loads the message for a particular catalogue+variant.
+     * This methods needs to implemented by subclasses.
+     *
+     * @param mixed $sources
+     *
+     * @return array of translation messages
+     */
     public function &loadData($sources)
     {
         $messages = array();
@@ -83,6 +106,14 @@ class sfMessageSource_Aggregate extends sfMessageSource
         return $messages;
     }
 
+    /**
+     * Gets all the variants of a particular catalogue.
+     * This method must be implemented by subclasses.
+     *
+     * @param string $catalogue catalogue name
+     *
+     * @return array list of all variants for this catalogue
+     */
     public function getCatalogueList($catalogue)
     {
         $variants = array();
@@ -95,6 +126,12 @@ class sfMessageSource_Aggregate extends sfMessageSource
         return $variants;
     }
 
+    /**
+     * Adds a untranslated message to the source. Need to call save()
+     * to save the messages to source.
+     *
+     * @param string $message message to add
+     */
     public function append($message)
     {
         // Append to the first message source only
@@ -103,6 +140,16 @@ class sfMessageSource_Aggregate extends sfMessageSource
         }
     }
 
+    /**
+     * Updates the translation.
+     *
+     * @param string $text      the source string
+     * @param string $target    the new translation string
+     * @param string $comments  comments
+     * @param string $catalogue the catalogue of the translation
+     *
+     * @return bool true if translation was updated, false otherwise
+     */
     public function update($text, $target, $comments, $catalogue = 'messages')
     {
         // Only update one message source
@@ -115,6 +162,14 @@ class sfMessageSource_Aggregate extends sfMessageSource
         return false;
     }
 
+    /**
+     * Deletes a particular message from the specified catalogue.
+     *
+     * @param string $message   the source message to delete
+     * @param string $catalogue the catalogue to delete from
+     *
+     * @return bool true if deleted, false otherwise
+     */
     public function delete($message, $catalogue = 'messages')
     {
         $retval = false;
@@ -127,6 +182,15 @@ class sfMessageSource_Aggregate extends sfMessageSource
         return $retval;
     }
 
+    /**
+     * Saves the list of untranslated blocks to the translation source.
+     * If the translation was not found, you should add those
+     * strings to the translation source via the <b>append()</b> method.
+     *
+     * @param string $catalogue the catalogue to add to
+     *
+     * @return bool true if saved successfuly, false otherwise
+     */
     public function save($catalogue = 'messages')
     {
         $retval = false;
@@ -149,11 +213,24 @@ class sfMessageSource_Aggregate extends sfMessageSource
         return md5($id);
     }
 
+    /**
+     * Returns a list of catalogue as key and all it variants as value.
+     *
+     * @return array list of catalogues
+     */
     public function catalogues()
     {
         throw new sfException('The "catalogues()" method is not implemented for this message source.');
     }
 
+    /**
+     * Gets the last modified unix-time for this particular catalogue+variant.
+     *
+     * @param string $source  catalogue+variant
+     * @param mixed  $sources
+     *
+     * @return int last modified in unix-time format
+     */
     protected function getLastModified($sources)
     {
         $lastModified = time();

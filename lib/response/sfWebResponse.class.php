@@ -358,7 +358,8 @@ class sfWebResponse extends sfResponse
 
         // cookies
         foreach ($this->cookies as $cookie) {
-            setrawcookie($cookie['name'], $cookie['value'], isset($cookie['expire']) ? $cookie['expire'] : 0, $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httpOnly']);
+            $expire = isset($cookie['expire']) ? $cookie['expire'] : 0;
+            setrawcookie($cookie['name'], $cookie['value'], $expire, $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httpOnly']);
 
             if ($this->options['logging']) {
                 $this->dispatcher->notify(new sfEvent($this, 'application.log', array(sprintf('Send cookie "%s": "%s"', $cookie['name'], $cookie['value']))));
@@ -826,8 +827,7 @@ class sfWebResponse extends sfResponse
 
     /**
      * @see sfResponse
-     *
-     * @param mixed $serialized
+     * {@inheritdoc}
      */
     public function unserialize($serialized)
     {

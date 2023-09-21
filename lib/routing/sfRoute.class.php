@@ -14,9 +14,6 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  *
  * @version    SVN: $Id$
- *
- * @property $firstOptional int
- * @property $segments      array
  */
 class sfRoute implements Serializable
 {
@@ -36,6 +33,8 @@ class sfRoute implements Serializable
     protected $requirements = array();
     protected $tokens = array();
     protected $customToken = false;
+    protected $firstOptional;
+    protected $segments = array();
 
     /**
      * Constructor.

@@ -68,7 +68,7 @@ abstract class sfPluginConfiguration
      *
      * This method is called after the plugin's classes have been added to sfAutoload.
      *
-     * @return null|bool If false sfApplicationConfiguration will look for a config.php (maintains BC with symfony < 1.2)
+     * @return bool|null If false sfApplicationConfiguration will look for a config.php (maintains BC with symfony < 1.2)
      */
     public function initialize()
     {

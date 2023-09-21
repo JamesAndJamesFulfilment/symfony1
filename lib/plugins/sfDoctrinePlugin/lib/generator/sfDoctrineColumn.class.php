@@ -187,7 +187,7 @@ class sfDoctrineColumn implements ArrayAccess
      *
      * @param string $key
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     public function getRelationKey($key)
     {

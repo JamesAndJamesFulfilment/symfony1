@@ -26,6 +26,8 @@ class sfPDODatabase extends sfDatabase
      *
      * @param string $method
      * @param array  $arguments
+     *
+     * @return mixed
      */
     public function __call($method, $arguments)
     {

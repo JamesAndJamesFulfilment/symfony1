@@ -275,7 +275,7 @@ class sfSimpleAutoload
      *
      * @param string $class A PHP class name
      *
-     * @return null|string An absolute path
+     * @return string|null An absolute path
      */
     public function getClassPath($class)
     {

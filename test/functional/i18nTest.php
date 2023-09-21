@@ -34,7 +34,8 @@ class myTestBrowser extends sfTestBrowser
             // messages in another module catalogue
             checkElement('#action_other_local', '/une autre phrase locale en français/i')->
             checkElement('#template_other_local', '/une autre phrase locale en français/i')->
-          end();
+          end()
+        ;
     }
 }
 

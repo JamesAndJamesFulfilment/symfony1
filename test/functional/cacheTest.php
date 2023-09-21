@@ -91,7 +91,8 @@ class myTestBrowser extends sfTestBrowser
             isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheableComponent&sf_cache_key='.md5(serialize(array('varParam' => 'varParam'))), true)->
 
             isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheableComponent&sf_cache_key='.md5(serialize(array('varParam' => 'another'))), false)->
-          end();
+          end()
+        ;
     }
 
     public function launch()
@@ -111,7 +112,8 @@ class myTestBrowser extends sfTestBrowser
             checkElement('body', '/congratulations/i')->
           end()->
 
-          with('view_cache')->isCached(true);
+          with('view_cache')->isCached(true)
+        ;
 
         $b->
           get('/nocache')->
@@ -123,7 +125,8 @@ class myTestBrowser extends sfTestBrowser
             isStatusCode(200)->
             checkElement('body', '/nocache/i')->
           end()->
-          with('view_cache')->isCached(false);
+          with('view_cache')->isCached(false)
+        ;
 
         $b->
           get('/cache/page')->
@@ -135,7 +138,8 @@ class myTestBrowser extends sfTestBrowser
             isStatusCode(200)->
             checkElement('body', '/page in cache/')->
           end()->
-          with('view_cache')->isCached(true, true);
+          with('view_cache')->isCached(true, true)
+        ;
 
         $b->
           get('/cache/forward')->
@@ -147,7 +151,8 @@ class myTestBrowser extends sfTestBrowser
             isStatusCode(200)->
             checkElement('body', '/page in cache/')->
           end()->
-          with('view_cache')->isCached(true);
+          with('view_cache')->isCached(true)
+        ;
 
         // remove all cache
         sfToolkit::clearDirectory(sfConfig::get('sf_app_cache_dir'));
@@ -163,7 +168,8 @@ class myTestBrowser extends sfTestBrowser
             checkElement('#cacheableComponentVarParam .cacheableComponent_varParam_componentParam_')->
             checkElement('#cacheablePartial .cacheablePartial__')->
             checkElement('#cacheablePartialVarParam .cacheablePartial_varParam_')->
-          end();
+          end()
+        ;
 
         // remove all cache
         sfToolkit::clearDirectory(sfConfig::get('sf_app_cache_dir'));
@@ -194,7 +200,8 @@ class myTestBrowser extends sfTestBrowser
             checkElement('#cacheableComponentVarParam .cacheableComponent_varParam_componentParam_requestParam')->
             checkElement('#cacheablePartial .cacheablePartial__requestParam')->
             checkElement('#cacheablePartialVarParam .cacheablePartial_varParam_requestParam')->
-          end();
+          end()
+        ;
 
         // check contextual cache with another action
         $b->
@@ -233,7 +240,8 @@ class myTestBrowser extends sfTestBrowser
 
             // contextual component cache
             isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheableComponent&sf_cache_key='.md5(serialize(array())), true)->
-          end();
+          end()
+        ;
 
         // remove all cache
         sfToolkit::clearDirectory(sfConfig::get('sf_app_cache_dir'));
@@ -261,7 +269,8 @@ class myTestBrowser extends sfTestBrowser
 
             // contextual component cache
             isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheableComponent&sf_cache_key=contextualCacheableComponent', true)->
-          end();
+          end()
+        ;
 
         // check cache content for actions
 
@@ -275,7 +284,8 @@ class myTestBrowser extends sfTestBrowser
             isParameter('action', 'action')->
           end()->
           with('response')->isStatusCode(200)->
-          with('view_cache')->isCached(true);
+          with('view_cache')->isCached(true)
+        ;
 
         $b->test()->is(sfConfig::get('ACTION_EXECUTED', false), true, 'action is executed when not in cache');
         sfConfig::set('ACTION_EXECUTED', false);
@@ -292,7 +302,8 @@ class myTestBrowser extends sfTestBrowser
             isParameter('action', 'action')->
           end()->
           with('response')->isStatusCode(200)->
-          with('view_cache')->isCached(true);
+          with('view_cache')->isCached(true)
+        ;
 
         $b->test()->is(sfConfig::get('ACTION_EXECUTED', false), false, 'action is not executed when in cache');
 

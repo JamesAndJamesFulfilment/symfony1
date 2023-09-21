@@ -155,6 +155,8 @@ abstract class sfPager implements Iterator, Countable
      * Returns an object by cursor position.
      *
      * @param int $pos
+     *
+     * @return mixed
      */
     public function getObjectByCursor($pos)
     {
@@ -165,6 +167,8 @@ abstract class sfPager implements Iterator, Countable
 
     /**
      * Returns the current object.
+     *
+     * @return mixed
      */
     public function getCurrent()
     {
@@ -174,7 +178,7 @@ abstract class sfPager implements Iterator, Countable
     /**
      * Returns the next object.
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     public function getNext()
     {
@@ -188,7 +192,7 @@ abstract class sfPager implements Iterator, Countable
     /**
      * Returns the previous object.
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     public function getPrevious()
     {
@@ -392,8 +396,10 @@ abstract class sfPager implements Iterator, Countable
     /**
      * Returns a parameter.
      *
-     * @param string     $name
-     * @param null|mixed $default
+     * @param string $name
+     * @param mixed  $default
+     *
+     * @return mixed
      */
     public function getParameter($name, $default = null)
     {
@@ -519,6 +525,8 @@ abstract class sfPager implements Iterator, Countable
      * Used internally by {@link getCurrent()}.
      *
      * @param int $offset
+     *
+     * @return mixed
      */
     abstract protected function retrieveObject($offset);
 

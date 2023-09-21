@@ -73,6 +73,8 @@ class sfPsrLoggerAdapter extends sfLogger
 
     /**
      * Set the logger.
+     *
+     * @param \Psr\Log\LoggerInterface $logger
      */
     public function setLogger(Psr\Log\LoggerInterface $logger)
     {

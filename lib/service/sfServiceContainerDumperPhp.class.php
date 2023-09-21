@@ -41,7 +41,8 @@ class sfServiceContainerDumperPhp extends sfServiceContainerDumper
           $this->addConstructor().
           $this->addServices().
           $this->addDefaultParametersMethod().
-          $this->endClass();
+          $this->endClass()
+        ;
     }
 
     public function replaceParameter($match)
@@ -191,7 +192,8 @@ EOF;
           $this->addServiceInstance($id, $definition).
           $this->addServiceMethodCalls($id, $definition).
           $this->addServiceConfigurator($id, $definition).
-          $this->addServiceReturn($id, $definition);
+          $this->addServiceReturn($id, $definition)
+        ;
 
         return $code;
     }

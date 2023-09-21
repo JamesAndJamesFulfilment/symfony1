@@ -20,7 +20,6 @@
  * @author      Michael Wallner <mike@php.net>
  * @license     PHP License
  */
-
 require_once __DIR__.'/TGettext.class.php';
 
 /**
@@ -66,6 +65,8 @@ class TGettext_MO extends TGettext
      * _read.
      *
      * @param int $bytes
+     *
+     * @return mixed
      */
     public function _read($bytes = 1)
     {

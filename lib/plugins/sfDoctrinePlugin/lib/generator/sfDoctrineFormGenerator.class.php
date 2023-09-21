@@ -597,7 +597,7 @@ class sfDoctrineFormGenerator extends sfGenerator
     /**
      * Returns the name of the model class this model extends.
      *
-     * @return null|string
+     * @return string|null
      */
     public function getParentModel()
     {

@@ -74,7 +74,7 @@ abstract class sfModelGeneratorConfiguration
 
     /**
      * @param string        $context
-     * @param null|string[] $fields
+     * @param string[]|null $fields
      *
      * @return array|sfModelGeneratorConfigurationField[]
      */
@@ -296,8 +296,8 @@ abstract class sfModelGeneratorConfiguration
     /**
      * Gets a new form object.
      *
-     * @param array      $options An array of options to merge with the options returned by getFormOptions()
-     * @param null|mixed $object
+     * @param mixed $object
+     * @param array $options An array of options to merge with the options returned by getFormOptions()
      *
      * @return sfForm
      */

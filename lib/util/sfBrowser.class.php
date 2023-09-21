@@ -20,6 +20,7 @@ class sfBrowser extends sfBrowserBase
     protected $listeners = array();
     protected $context;
     protected $currentException;
+    protected $rawConfiguration = array();
 
     /**
      * Returns the current application context.

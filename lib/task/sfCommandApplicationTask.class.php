@@ -44,8 +44,7 @@ abstract class sfCommandApplicationTask extends sfTask
 
     /**
      * @see sfTask
-     *
-     * @param mixed $messages
+     * {@inheritdoc}
      */
     public function log($messages)
     {
@@ -56,11 +55,7 @@ abstract class sfCommandApplicationTask extends sfTask
 
     /**
      * @see sfTask
-     *
-     * @param null|mixed $size
-     * @param mixed      $section
-     * @param mixed      $message
-     * @param mixed      $style
+     * {@inheritdoc}
      */
     public function logSection($section, $message, $size = null, $style = 'INFO')
     {

@@ -84,6 +84,8 @@ abstract class sfWidgetFormSchemaFormatter
 
     /**
      * Returns the current i18n callable.
+     *
+     * @return mixed
      */
     public static function getTranslationCallable()
     {

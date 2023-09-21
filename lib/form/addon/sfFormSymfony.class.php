@@ -17,7 +17,7 @@
  */
 class sfFormSymfony extends sfForm
 {
-    /** @var null|sfEventDispatcher */
+    /** @var sfEventDispatcher|null */
     protected static $dispatcher;
 
     /**
@@ -64,6 +64,8 @@ class sfFormSymfony extends sfForm
 
     /**
      * Sets the event dispatcher to be used by all forms.
+     *
+     * @param sfEventDispatcher $dispatcher
      */
     public static function setEventDispatcher(sfEventDispatcher $dispatcher = null)
     {

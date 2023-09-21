@@ -86,6 +86,8 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
     /**
      * Adds a collection of errors.
      *
+     * @param sfValidatorErrorSchema $errorsAn sfValidatorErrorSchema instance
+     *
      * @return sfValidatorErrorSchema The current error schema instance
      */
     public function addErrors(sfValidatorErrorSchema $errors)

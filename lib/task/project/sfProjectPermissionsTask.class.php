@@ -25,13 +25,13 @@ class sfProjectPermissionsTask extends sfBaseTask
      *
      * @see http://www.php.net/set_error_handler
      *
-     * @param mixed $no
-     * @param mixed $string
-     * @param mixed $file
-     * @param mixed $line
-     * @param mixed $context
+     * @param mixed      $no
+     * @param mixed      $string
+     * @param mixed      $file
+     * @param mixed      $line
+     * @param mixed|null $context
      */
-    public function handleError($no, $string, $file, $line, $context)
+    public function handleError($no, $string, $file, $line, $context = null)
     {
         $this->failed[] = $this->current;
     }

@@ -32,7 +32,8 @@ foreach ($tests as $url => $check) {
       with('response')->begin()->
         isStatusCode('200')->
         matches($check)->
-      end();
+      end()
+    ;
 }
 
 $article = Doctrine_Core::getTable('Article')->find(1);

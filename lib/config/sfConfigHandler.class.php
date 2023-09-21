@@ -29,7 +29,7 @@ abstract class sfConfigHandler
      *
      * @see initialize()
      *
-     * @param null|array $parameters
+     * @param array|null $parameters
      */
     public function __construct($parameters = null)
     {

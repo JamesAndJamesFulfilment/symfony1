@@ -201,6 +201,8 @@ abstract class sfCache
      *
      * @param string $name  The option name
      * @param mixed  $value The option value
+     *
+     * @return mixed
      */
     public function setOption($name, $value)
     {

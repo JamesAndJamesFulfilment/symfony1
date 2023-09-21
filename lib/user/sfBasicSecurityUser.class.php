@@ -116,8 +116,8 @@ class sfBasicSecurityUser extends sfUser implements sfSecurityUser
     /**
      * Returns true if user has credential.
      *
-     * @param bool  $useAnd      specify the mode, either AND or OR
      * @param mixed $credentials
+     * @param bool  $useAnd      specify the mode, either AND or OR
      *
      * @return bool
      *

@@ -25,7 +25,7 @@ class sfCacheSessionStorage extends sfStorage
     /** @var sfWebResponse */
     protected $response;
 
-    /** @var null|sfCache */
+    /** @var sfCache|null */
     protected $cache;
 
     /** @var array */

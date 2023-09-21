@@ -97,6 +97,8 @@ class sfNumberFormatInfo
      * as an attribute/property to retrieve the value.
      *
      * @param mixed $name
+     *
+     * @return mixed
      */
     public function __get($name)
     {

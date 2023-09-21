@@ -385,6 +385,8 @@ abstract class sfAction extends sfComponent
      *
      * @param string $name    The name of the value to pull from security.yml
      * @param mixed  $default The default value to return if none is found in security.yml
+     *
+     * @return mixed
      */
     public function getSecurityValue($name, $default = null)
     {

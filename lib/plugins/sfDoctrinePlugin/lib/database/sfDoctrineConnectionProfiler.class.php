@@ -35,6 +35,8 @@ class sfDoctrineConnectionProfiler extends Doctrine_Connection_Profiler
      * Returns an option value.
      *
      * @param string $name
+     *
+     * @return mixed
      */
     public function getOption($name)
     {

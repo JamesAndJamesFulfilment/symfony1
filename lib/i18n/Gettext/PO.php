@@ -20,7 +20,6 @@
  * @author      Michael Wallner <mike@php.net>
  * @license     PHP License
  */
-
 require_once __DIR__.'/TGettext.class.php';
 
 /**

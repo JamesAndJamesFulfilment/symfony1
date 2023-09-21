@@ -22,11 +22,11 @@ class sfPearDownloader extends PEAR_Downloader
     /**
      * @see PEAR_REST::downloadHttp()
      *
-     * @param null|mixed $callback
-     * @param null|mixed $lastmodified
      * @param mixed      $url
      * @param mixed      $ui
      * @param mixed      $save_dir
+     * @param mixed|null $callback
+     * @param mixed|null $lastmodified
      * @param mixed      $accept
      * @param mixed      $channel
      */

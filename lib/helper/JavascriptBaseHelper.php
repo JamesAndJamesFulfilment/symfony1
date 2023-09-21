@@ -79,7 +79,7 @@ function button_to_function($name, $function, $html_options = array())
  *   => <script type="text/javascript">alert('All is good')</script>
  *   <?php javascript_tag() ?>alert('All is good')<?php end_javascript_tag() ?>.
  *
- * @param null|mixed $content
+ * @param mixed|null $content
  */
 function javascript_tag($content = null)
 {

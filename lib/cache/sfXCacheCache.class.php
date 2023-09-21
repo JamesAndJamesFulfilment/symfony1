@@ -155,7 +155,7 @@ class sfXCacheCache extends sfCache
     /**
      * @param string $key
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     public function getBaseValue($key)
     {
@@ -190,7 +190,7 @@ class sfXCacheCache extends sfCache
     /**
      * @param string $key
      *
-     * @return null|array
+     * @return array|null
      */
     public function getCacheInfo($key)
     {

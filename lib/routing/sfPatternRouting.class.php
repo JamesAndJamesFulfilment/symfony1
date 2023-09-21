@@ -19,7 +19,7 @@
  */
 class sfPatternRouting extends sfRouting
 {
-    /** @var null|string */
+    /** @var string|null */
     protected $currentRouteName;
     protected $currentInternalUri = array();
 
@@ -44,8 +44,7 @@ class sfPatternRouting extends sfRouting
      *                                      cache backend (like sfAPCCache).
      *
      * @see sfRouting
-     *
-     * @param mixed $options
+     * {@inheritdoc}
      */
     public function initialize(sfEventDispatcher $dispatcher, sfCache $cache = null, $options = array())
     {
@@ -74,6 +73,7 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
+     * {@inheritdoc}
      */
     public function loadConfiguration()
     {
@@ -86,9 +86,7 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
-     *
-     * @param mixed $key
-     * @param mixed $value
+     * {@inheritdoc}
      */
     public function setDefaultParameter($key, $value)
     {
@@ -103,8 +101,7 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
-     *
-     * @param mixed $parameters
+     * {@inheritdoc}
      */
     public function setDefaultParameters($parameters)
     {
@@ -119,8 +116,7 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
-     *
-     * @param mixed $withRouteName
+     * {@inheritdoc}
      */
     public function getCurrentInternalUri($withRouteName = false)
     {
@@ -139,6 +135,7 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
+     * {@inheritdoc}
      */
     public function getRoutes()
     {
@@ -147,8 +144,7 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see  sfRouting
-     *
-     * @param mixed $name
+     * {@inheritdoc}
      */
     public function getRoute($name)
     {
@@ -168,8 +164,7 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
-     *
-     * @param mixed $routes
+     * {@inheritdoc}
      */
     public function setRoutes($routes)
     {
@@ -180,6 +175,7 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
+     * {@inheritdoc}
      */
     public function hasRoutes()
     {
@@ -188,6 +184,7 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
+     * {@inheritdoc}
      */
     public function clearRoutes()
     {
@@ -313,10 +310,7 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
-     *
-     * @param mixed $name
-     * @param mixed $params
-     * @param mixed $absolute
+     * {@inheritdoc}
      */
     public function generate($name, $params = array(), $absolute = false)
     {
@@ -357,8 +351,7 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
-     *
-     * @param mixed $url
+     * {@inheritdoc}
      */
     public function parse($url)
     {
