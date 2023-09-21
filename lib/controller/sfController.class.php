@@ -21,12 +21,16 @@ abstract class sfController
 {
     /** @var sfContext */
     protected $context;
+
     /** @var sfEventDispatcher */
     protected $dispatcher;
+
     /** @var string[] */
     protected $controllerClasses = array();
+
     /** @var int */
     protected $renderMode = sfView::RENDER_CLIENT;
+
     /** @var int */
     protected $maxForwards = 5;
 
@@ -198,6 +202,7 @@ abstract class sfController
 
         // include module configuration
         $viewClass = sfConfig::get('mod_'.strtolower($moduleName).'_view_class', false);
+
         require $this->context->getConfigCache()->checkConfig('modules/'.$moduleName.'/config/module.yml');
         if (false !== $viewClass) {
             sfConfig::set('mod_'.strtolower($moduleName).'_view_class', $viewClass);

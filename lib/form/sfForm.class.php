@@ -32,12 +32,16 @@ class sfForm implements ArrayAccess, Iterator, Countable
 
     /** @var sfWidgetFormSchema|sfWidget[]|sfWidgetFormSchemaDecorator[] */
     protected $widgetSchema;
+
     /** @var sfValidatorSchema|sfValidatorBase[] */
     protected $validatorSchema;
+
     /** @var sfValidatorErrorSchema|sfValidatorError[] */
     protected $errorSchema;
+
     /** @var sfFormFieldSchema|null */
     protected $formFieldSchema;
+
     /** @var sfFormField[] */
     protected $formFields = array();
     protected $isBound = false;
@@ -49,6 +53,7 @@ class sfForm implements ArrayAccess, Iterator, Countable
     protected $options = array();
     protected $count = 0;
     protected $localCSRFSecret;
+
     /** @var sfForm[] */
     protected $embeddedForms = array();
 

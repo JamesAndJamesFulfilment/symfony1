@@ -12,18 +12,25 @@ class sfCacheSessionStorage extends sfStorage
 {
     /** @var string */
     protected $id;
+
     /** @var sfContext */
     protected $context;
+
     /** @var sfEventDispatcher */
     protected $dispatcher;
+
     /** @var sfWebRequest */
     protected $request;
+
     /** @var sfWebResponse */
     protected $response;
+
     /** @var sfCache|null */
     protected $cache;
+
     /** @var array */
     protected $data = array();
+
     /** @var bool */
     protected $dataChanged = false;
 

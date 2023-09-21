@@ -18,6 +18,7 @@
 abstract class sfGenerator
 {
     protected $generatorClass = '';
+
     /** @var sfGeneratorManager */
     protected $generatorManager;
     protected $generatedModuleName = '';
@@ -79,6 +80,7 @@ abstract class sfGenerator
 
         // eval template file
         ob_start();
+
         require $templateFile;
         $content = ob_get_clean();
 

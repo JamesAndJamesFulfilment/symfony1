@@ -541,6 +541,7 @@ class sfRoute implements Serializable
             switch ($token[0]) {
                 case 'separator':
                     break;
+
                 case 'text':
                     if ('*' !== $token[2]) {
                         // non-star text is static
@@ -548,6 +549,7 @@ class sfRoute implements Serializable
 
                         break;
                     }
+
                     // no break
                 default:
                     // everything else indicates variable parts. break switch and for loop

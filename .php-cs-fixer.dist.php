@@ -21,14 +21,27 @@ $config->setRules(array(
     'blank_line_before_statement' => array(
         'statements' => array(
             'break',
+            'case',
             'continue',
             'declare',
+            'default',
             'exit',
+            'goto',
             'include',
+            'include_once',
+            'phpdoc',
+            'require',
+            'require_once',
             'return',
+            'switch',
             'throw',
             'try',
+            'yield',
+            'yield_from',
         ),
+    ),
+    'multiline_whitespace_before_semicolons' => array(
+        'strategy' => 'new_line_for_chained_calls',
     ),
     'array_syntax' => array(
         'syntax' => 'long',

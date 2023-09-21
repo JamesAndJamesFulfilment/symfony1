@@ -270,31 +270,38 @@ class sfDoctrineFormGenerator extends sfGenerator
                 $widgetSubclass = null === $column->getLength() || $column->getLength() > 255 ? 'Textarea' : 'InputText';
 
                 break;
+
             case 'boolean':
                 $widgetSubclass = 'InputCheckbox';
 
                 break;
+
             case 'blob':
             case 'clob':
                 $widgetSubclass = 'Textarea';
 
                 break;
+
             case 'date':
                 $widgetSubclass = 'Date';
 
                 break;
+
             case 'time':
                 $widgetSubclass = 'Time';
 
                 break;
+
             case 'timestamp':
                 $widgetSubclass = 'DateTime';
 
                 break;
+
             case 'enum':
                 $widgetSubclass = 'Choice';
 
                 break;
+
             default:
                 $widgetSubclass = 'InputText';
         }
@@ -342,6 +349,7 @@ class sfDoctrineFormGenerator extends sfGenerator
                 $validatorSubclass = 'Boolean';
 
                 break;
+
             case 'string':
                 if ($column->getDefinitionKey('email')) {
                     $validatorSubclass = 'Email';
@@ -352,36 +360,44 @@ class sfDoctrineFormGenerator extends sfGenerator
                 }
 
                 break;
+
             case 'clob':
             case 'blob':
                 $validatorSubclass = 'String';
 
                 break;
+
             case 'float':
             case 'decimal':
                 $validatorSubclass = 'Number';
 
                 break;
+
             case 'integer':
                 $validatorSubclass = 'Integer';
 
                 break;
+
             case 'date':
                 $validatorSubclass = 'Date';
 
                 break;
+
             case 'time':
                 $validatorSubclass = 'Time';
 
                 break;
+
             case 'timestamp':
                 $validatorSubclass = 'DateTime';
 
                 break;
+
             case 'enum':
                 $validatorSubclass = 'Choice';
 
                 break;
+
             default:
                 $validatorSubclass = 'Pass';
         }
@@ -428,6 +444,7 @@ class sfDoctrineFormGenerator extends sfGenerator
                     }
 
                     break;
+
                 case 'enum':
                     $options[] = '\'choices\' => '.$this->arrayExport($column['values']);
 

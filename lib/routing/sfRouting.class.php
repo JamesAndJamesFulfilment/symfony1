@@ -19,6 +19,7 @@ abstract class sfRouting
 {
     /** @var sfEventDispatcher */
     protected $dispatcher;
+
     /** @var sfCache|null */
     protected $cache;
     protected $defaultParameters = array();

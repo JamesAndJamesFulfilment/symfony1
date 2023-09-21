@@ -9,6 +9,7 @@
  */
 
 require_once __DIR__.'/../../bootstrap/unit.php';
+
 require_once __DIR__.'/../sfContextMock.class.php';
 
 $t = new lime_test(1);

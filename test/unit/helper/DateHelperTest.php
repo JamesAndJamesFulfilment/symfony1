@@ -9,6 +9,7 @@
  */
 
 require_once __DIR__.'/../../bootstrap/unit.php';
+
 require_once $_test_dir.'/unit/sfContextMock.class.php';
 
 $t = new lime_test(592);
@@ -28,7 +29,9 @@ sfConfig::set('sf_charset', 'utf-8');
 $context = sfContext::getInstance(array('user' => 'sfUser'));
 
 require_once __DIR__.'/../../../lib/helper/UrlHelper.php';
+
 require_once __DIR__.'/../../../lib/helper/TagHelper.php';
+
 require_once __DIR__.'/../../../lib/helper/DateHelper.php';
 
 // get a fixed timestamp to test with

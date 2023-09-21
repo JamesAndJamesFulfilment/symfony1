@@ -765,10 +765,12 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
                 array_unshift($this->positions, $field);
 
                 break;
+
             case sfWidgetFormSchema::LAST:
                 $this->positions[] = $field;
 
                 break;
+
             case sfWidgetFormSchema::BEFORE:
                 if (null === $pivot) {
                     throw new LogicException(sprintf('Unable to move field "%s" without a relative field.', $field));
@@ -780,6 +782,7 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
                 );
 
                 break;
+
             case sfWidgetFormSchema::AFTER:
                 if (null === $pivot) {
                     throw new LogicException(sprintf('Unable to move field "%s" without a relative field.', $field));
@@ -791,6 +794,7 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
                 );
 
                 break;
+
             default:
                 throw new LogicException(sprintf('Unknown move operation for field "%s".', $field));
         }

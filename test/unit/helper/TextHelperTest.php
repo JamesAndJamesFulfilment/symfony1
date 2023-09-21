@@ -11,6 +11,7 @@
 require_once __DIR__.'/../../../test/bootstrap/unit.php';
 
 require_once __DIR__.'/../../../lib/helper/TagHelper.php';
+
 require_once __DIR__.'/../../../lib/helper/TextHelper.php';
 
 $t = new lime_test(60);

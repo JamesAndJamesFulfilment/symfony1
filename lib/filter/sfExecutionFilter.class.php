@@ -104,6 +104,7 @@ class sfExecutionFilter extends sfFilter
                 $this->context->getResponse()->setHeaderOnly(true);
 
                 return;
+
             case sfView::NONE:
                 return;
         }

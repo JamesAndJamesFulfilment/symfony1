@@ -117,30 +117,37 @@ class sfPsrLoggerAdapter extends sfLogger
                 $this->logger->emergency($message);
 
                 break;
+
             case sfLogger::ALERT:
                 $this->logger->alert($message);
 
                 break;
+
             case sfLogger::CRIT:
                 $this->logger->critical($message);
 
                 break;
+
             case sfLogger::ERR:
                 $this->logger->error($message);
 
                 break;
+
             case sfLogger::WARNING:
                 $this->logger->warning($message);
 
                 break;
+
             case sfLogger::NOTICE:
                 $this->logger->notice($message);
 
                 break;
+
             case sfLogger::INFO:
                 $this->logger->info($message);
 
                 break;
+
             case sfLogger::DEBUG:
                 $this->logger->debug($message);
 

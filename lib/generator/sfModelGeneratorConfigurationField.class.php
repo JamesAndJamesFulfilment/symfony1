@@ -210,14 +210,17 @@ class sfModelGeneratorConfigurationField
                 $this->setLink(true);
 
                 break;
+
             case '_':
                 $this->setPartial(true);
 
                 break;
+
             case '~':
                 $this->setComponent(true);
 
                 break;
+
             default:
                 throw new InvalidArgumentException(sprintf('Flag "%s" does not exist.', $flag));
         }

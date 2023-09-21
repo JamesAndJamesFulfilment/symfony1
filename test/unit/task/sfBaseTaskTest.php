@@ -9,6 +9,7 @@
  */
 
 include __DIR__.'/../../bootstrap/unit.php';
+
 require_once sfConfig::get('sf_symfony_lib_dir').'/vendor/lime/lime.php';
 
 class TestTask extends sfBaseTask
@@ -30,6 +31,7 @@ $rootDir = __DIR__.'/../../functional/fixtures';
 sfToolkit::clearDirectory($rootDir.'/cache');
 
 $dispatcher = new sfEventDispatcher();
+
 require_once $rootDir.'/config/ProjectConfiguration.class.php';
 $configuration = new ProjectConfiguration($rootDir, $dispatcher);
 $autoload = sfSimpleAutoload::getInstance();

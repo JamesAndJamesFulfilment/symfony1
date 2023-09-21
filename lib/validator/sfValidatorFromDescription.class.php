@@ -184,10 +184,12 @@ class sfValidatorFromDescription extends sfValidatorDecorator
                     $outputStack[] = $token;
 
                     break;
+
                 case 'sfValidatorFDTokenLeftBracket':
                     $operatorStack[] = $token;
 
                     break;
+
                 case 'sfValidatorFDTokenRightBracket':
                     while (!$operatorStack[count($operatorStack) - 1] instanceof sfValidatorFDTokenLeftBracket) {
                         $outputStack[] = array_pop($operatorStack);
@@ -195,6 +197,7 @@ class sfValidatorFromDescription extends sfValidatorDecorator
                     array_pop($operatorStack);
 
                     break;
+
                 case 'sfValidatorFDTokenOperator':
                     while (count($operatorStack) && $precedences[$token->__toString()] <= $precedences[$operatorStack[count($operatorStack) - 1]->__toString()]) {
                         $outputStack[] = array_pop($operatorStack);
@@ -202,6 +205,7 @@ class sfValidatorFromDescription extends sfValidatorDecorator
                     $operatorStack[] = $token;
 
                     break;
+
                 default:
                     $outputStack[] = $token;
             }

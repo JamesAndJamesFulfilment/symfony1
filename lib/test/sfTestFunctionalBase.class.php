@@ -417,6 +417,7 @@ abstract class sfTestFunctionalBase
         }
 
         $msg = sprintf('PHP sent a "%%s" error at %s line %s (%s)', $errfile, $errline, $errstr);
+
         switch ($errno) {
             case E_WARNING:
                 $msg = sprintf($msg, 'warning');
@@ -424,18 +425,21 @@ abstract class sfTestFunctionalBase
                 throw new RuntimeException($msg);
 
                 break;
+
             case E_NOTICE:
                 $msg = sprintf($msg, 'notice');
 
                 throw new RuntimeException($msg);
 
                 break;
+
             case E_STRICT:
                 $msg = sprintf($msg, 'strict');
 
                 throw new RuntimeException($msg);
 
                 break;
+
             case E_RECOVERABLE_ERROR:
                 $msg = sprintf($msg, 'catchable');
 

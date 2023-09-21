@@ -9,13 +9,19 @@
  */
 
 require_once __DIR__.'/../../../lib/vendor/lime/lime.php';
+
 require_once __DIR__.'/../../../lib/escaper/sfOutputEscaper.class.php';
+
 require_once __DIR__.'/../../../lib/escaper/sfOutputEscaperGetterDecorator.class.php';
+
 require_once __DIR__.'/../../../lib/escaper/sfOutputEscaperArrayDecorator.class.php';
+
 require_once __DIR__.'/../../../lib/escaper/sfOutputEscaperObjectDecorator.class.php';
+
 require_once __DIR__.'/../../../lib/escaper/sfOutputEscaperIteratorDecorator.class.php';
 
 require_once __DIR__.'/../../../lib/helper/EscapingHelper.php';
+
 require_once __DIR__.'/../../../lib/config/sfConfig.class.php';
 
 class sfException extends Exception {}
@@ -63,16 +69,20 @@ foreach ($escaped as $key => $value) {
             $t->is($value, '&lt;strong&gt;escaped!&lt;/strong&gt;', 'The escaped object behaves like an array');
 
             break;
+
         case 1:
             $t->is($value, 1, 'The escaped object behaves like an array');
 
             break;
+
         case 2:
             $t->is($value, null, 'The escaped object behaves like an array');
 
             break;
+
         case 3:
             break;
+
         default:
             $t->fail('The escaped object behaves like an array');
     }

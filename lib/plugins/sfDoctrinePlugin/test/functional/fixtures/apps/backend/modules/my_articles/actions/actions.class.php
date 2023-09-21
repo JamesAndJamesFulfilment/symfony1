@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__.'/../lib/my_articlesGeneratorConfiguration.class.php';
+
 require_once __DIR__.'/../lib/my_articlesGeneratorHelper.class.php';
 
 /**

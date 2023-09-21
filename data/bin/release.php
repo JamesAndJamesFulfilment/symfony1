@@ -18,8 +18,11 @@
  * @version    SVN: $Id$
  */
 require_once __DIR__.'/../../lib/exception/sfException.class.php';
+
 require_once __DIR__.'/../../lib/task/sfFilesystem.class.php';
+
 require_once __DIR__.'/../../lib/util/sfFinder.class.php';
+
 require_once __DIR__.'/../../lib/vendor/lime/lime.php';
 
 if (!isset($argv[1])) {

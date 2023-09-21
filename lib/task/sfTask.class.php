@@ -25,8 +25,10 @@ abstract class sfTask
     protected $detailedDescription = '';
     protected $arguments = array();
     protected $options = array();
+
     /** @var sfEventDispatcher */
     protected $dispatcher;
+
     /** @var sfFormatter */
     protected $formatter;
 

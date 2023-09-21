@@ -22,7 +22,9 @@ if (!class_exists('PEAR')) {
 }
 
 require_once __DIR__.'/sfPearDownloaderTest.class.php';
+
 require_once __DIR__.'/sfPearRestTest.class.php';
+
 require_once __DIR__.'/sfPluginTestHelper.class.php';
 
 // setup

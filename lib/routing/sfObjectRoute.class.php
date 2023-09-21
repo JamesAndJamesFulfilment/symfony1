@@ -21,6 +21,7 @@ class sfObjectRoute extends sfRequestRoute
 {
     /** @var bool|object */
     protected $object = false;
+
     /** @var bool|array */
     protected $objects = false;
 

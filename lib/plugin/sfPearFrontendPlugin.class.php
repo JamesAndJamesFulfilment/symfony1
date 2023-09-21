@@ -9,6 +9,7 @@
  */
 
 require_once 'PEAR/Frontend.php';
+
 require_once 'PEAR/Frontend/CLI.php';
 
 /**

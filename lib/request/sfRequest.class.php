@@ -31,13 +31,17 @@ abstract class sfRequest implements ArrayAccess
 
     /** @var sfEventDispatcher */
     protected $dispatcher;
+
     /** @var string|null */
     protected $content;
+
     /** @var string */
     protected $method;
     protected $options = array();
+
     /** @var sfParameterHolder */
     protected $parameterHolder;
+
     /** @var sfParameterHolder */
     protected $attributeHolder;
 

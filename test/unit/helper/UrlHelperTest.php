@@ -9,6 +9,7 @@
  */
 
 require_once __DIR__.'/../../bootstrap/unit.php';
+
 require_once $_test_dir.'/unit/sfContextMock.class.php';
 
 class myController
@@ -54,7 +55,9 @@ $t = new lime_test(44);
 $context = sfContext::getInstance(array('controller' => 'myController', 'request' => 'myRequest'));
 
 require_once __DIR__.'/../../../lib/helper/AssetHelper.php';
+
 require_once __DIR__.'/../../../lib/helper/UrlHelper.php';
+
 require_once __DIR__.'/../../../lib/helper/TagHelper.php';
 
 // url_for()

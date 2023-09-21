@@ -19,18 +19,25 @@ class sfProjectConfiguration
 {
     /** @var string */
     protected $rootDir;
+
     /** @var string */
     protected $symfonyLibDir;
+
     /** @var sfEventDispatcher */
     protected $dispatcher;
+
     /** @var array */
     protected $plugins = array();
+
     /** @var array */
     protected $pluginPaths = array();
+
     /** @var array */
     protected $overriddenPluginPaths = array();
+
     /** @var sfPluginConfiguration[] */
     protected $pluginConfigurations = array();
+
     /** @var bool */
     protected $pluginsLoaded = false;
 

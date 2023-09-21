@@ -46,6 +46,7 @@ EOF;
     protected function execute($arguments = array(), $options = array())
     {
         require_once __DIR__.'/../../vendor/lime/lime.php';
+
         require_once __DIR__.'/lime_symfony.php';
 
         // cleanup

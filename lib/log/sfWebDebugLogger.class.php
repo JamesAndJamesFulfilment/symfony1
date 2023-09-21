@@ -19,8 +19,10 @@ class sfWebDebugLogger extends sfVarLogger
 {
     /** @var sfContext */
     protected $context;
+
     /** @var string */
     protected $webDebugClass;
+
     /** @var sfWebDebug */
     protected $webDebug;
 
@@ -82,19 +84,23 @@ class sfWebDebugLogger extends sfVarLogger
         }
 
         $message = sprintf(' %%s at %s on line %s (%s)', $errfile, $errline, str_replace('%', '%%', $errstr));
+
         switch ($errno) {
             case E_STRICT:
                 $this->dispatcher->notify(new sfEvent($this, 'application.log', array('priority' => sfLogger::ERR, sprintf($message, 'Strict notice'))));
 
                 break;
+
             case E_NOTICE:
                 $this->dispatcher->notify(new sfEvent($this, 'application.log', array('priority' => sfLogger::NOTICE, sprintf($message, 'Notice'))));
 
                 break;
+
             case E_WARNING:
                 $this->dispatcher->notify(new sfEvent($this, 'application.log', array('priority' => sfLogger::WARNING, sprintf($message, 'Warning'))));
 
                 break;
+
             case E_RECOVERABLE_ERROR:
                 $this->dispatcher->notify(new sfEvent($this, 'application.log', array('priority' => sfLogger::ERR, sprintf($message, 'Error'))));
 
@@ -145,6 +151,7 @@ class sfWebDebugLogger extends sfVarLogger
         // * if not rendering to the client
         // * if HTTP headers only
         $response = $event->getSubject();
+
         /** @var sfWebRequest $request */
         $request = $this->context->getRequest();
         if (

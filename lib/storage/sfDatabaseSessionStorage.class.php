@@ -21,6 +21,7 @@ abstract class sfDatabaseSessionStorage extends sfSessionStorage
 {
     /** @var sfDatabase */
     protected $db;
+
     /** @var PDO */
     protected $con;
 

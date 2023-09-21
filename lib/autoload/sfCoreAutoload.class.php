@@ -131,6 +131,7 @@ class sfCoreAutoload
     public static function make()
     {
         $libDir = str_replace(DIRECTORY_SEPARATOR, '/', realpath(__DIR__.DIRECTORY_SEPARATOR.'..'));
+
         require_once $libDir.'/util/sfFinder.class.php';
 
         $files = sfFinder::type('file')

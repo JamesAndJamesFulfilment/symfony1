@@ -51,10 +51,12 @@ class sfTestFunctional extends sfTestFunctionalBase
                 $entry = $actionStack->getFirstEntry();
 
                 break;
+
             case 'last':
                 $entry = $actionStack->getLastEntry();
 
                 break;
+
             default:
                 $entry = $actionStack->getEntry($position);
         }

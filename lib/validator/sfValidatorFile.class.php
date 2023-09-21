@@ -124,14 +124,19 @@ class sfValidatorFile extends sfValidatorBase
                 }
 
                 throw new sfValidatorError($this, 'max_size', array('max_size' => round($max / 1024, 0), 'size' => (int) $value['size']));
+
             case UPLOAD_ERR_FORM_SIZE:
                 throw new sfValidatorError($this, 'max_size', array('max_size' => 0, 'size' => (int) $value['size']));
+
             case UPLOAD_ERR_PARTIAL:
                 throw new sfValidatorError($this, 'partial');
+
             case UPLOAD_ERR_NO_TMP_DIR:
                 throw new sfValidatorError($this, 'no_tmp_dir');
+
             case UPLOAD_ERR_CANT_WRITE:
                 throw new sfValidatorError($this, 'cant_write');
+
             case UPLOAD_ERR_EXTENSION:
                 throw new sfValidatorError($this, 'extension');
         }
@@ -292,12 +297,15 @@ class sfValidatorFile extends sfValidatorBase
         }
 
         $value = (int) $max;
+
         switch (strtolower(substr($max, -1))) {
             case 'g':
                 $value *= 1024;
+
                 // no break
             case 'm':
                 $value *= 1024;
+
                 // no break
             case 'k':
                 $value *= 1024;

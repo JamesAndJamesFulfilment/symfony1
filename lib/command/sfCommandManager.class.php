@@ -19,16 +19,22 @@ class sfCommandManager
 {
     /** @var array */
     protected $arguments = '';
+
     /** @var string[] */
     protected $errors = array();
+
     /** @var sfCommandOptionSet */
     protected $optionSet;
+
     /** @var sfCommandArgumentSet */
     protected $argumentSet = array();
+
     /** @var array */
     protected $optionValues = array();
+
     /** @var array */
     protected $argumentValues = array();
+
     /** @var array */
     protected $parsedArgumentValues = array();
 

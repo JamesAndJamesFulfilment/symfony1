@@ -38,8 +38,10 @@ abstract class sfLogger implements sfLoggerInterface
 
     /** @var sfEventDispatcher */
     protected $dispatcher;
+
     /** @var array */
     protected $options = array();
+
     /** @var int */
     protected $level = self::INFO;
 

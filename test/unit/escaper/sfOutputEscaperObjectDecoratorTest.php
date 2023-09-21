@@ -9,13 +9,19 @@
  */
 
 require_once __DIR__.'/../../../lib/vendor/lime/lime.php';
+
 require_once __DIR__.'/../../../lib/escaper/sfOutputEscaper.class.php';
+
 require_once __DIR__.'/../../../lib/escaper/sfOutputEscaperGetterDecorator.class.php';
+
 require_once __DIR__.'/../../../lib/escaper/sfOutputEscaperArrayDecorator.class.php';
+
 require_once __DIR__.'/../../../lib/escaper/sfOutputEscaperObjectDecorator.class.php';
+
 require_once __DIR__.'/../../../lib/escaper/sfOutputEscaperIteratorDecorator.class.php';
 
 require_once __DIR__.'/../../../lib/helper/EscapingHelper.php';
+
 require_once __DIR__.'/../../../lib/config/sfConfig.class.php';
 
 class sfException extends Exception {}

@@ -11,6 +11,7 @@
 define('SYMFONY_LIB_DIR', realpath(__DIR__.'/../../../..'));
 
 require SYMFONY_LIB_DIR.'/vendor/lime/lime.php';
+
 require SYMFONY_LIB_DIR.'/util/sfFinder.class.php';
 
 $h = new lime_harness();

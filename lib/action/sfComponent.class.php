@@ -19,18 +19,25 @@ abstract class sfComponent
 {
     /** @var string */
     protected $moduleName = '';
+
     /** @var string */
     protected $actionName = '';
+
     /** @var sfContext */
     protected $context;
+
     /** @var sfEventDispatcher */
     protected $dispatcher;
+
     /** @var sfRequest */
     protected $request;
+
     /** @var sfResponse */
     protected $response;
+
     /** @var sfParameterHolder */
     protected $varHolder;
+
     /** @var sfParameterHolder */
     protected $requestParameterHolder;
 

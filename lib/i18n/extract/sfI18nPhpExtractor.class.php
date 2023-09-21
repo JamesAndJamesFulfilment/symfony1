@@ -40,6 +40,7 @@ class sfI18nPhpExtractor implements sfI18nExtractorInterface
                         }
 
                         break;
+
                     default:
                         $i18n_function = 0;
                 }
@@ -55,12 +56,15 @@ class sfI18nPhpExtractor implements sfI18nExtractorInterface
                         }
 
                         break;
+
                     case T_WHITESPACE:
                         break;
+
                     case T_START_HEREDOC:
                         $heredoc = true;
 
                         break;
+
                     case T_END_HEREDOC:
                         $heredoc = false;
                         if ($buffer) {
@@ -70,6 +74,7 @@ class sfI18nPhpExtractor implements sfI18nExtractorInterface
                         $i18n_function = 0;
 
                         break;
+
                     case T_CONSTANT_ENCAPSED_STRING:
                         if (2 == $i18n_function) {
                             $delimiter = $text[0];
@@ -78,6 +83,7 @@ class sfI18nPhpExtractor implements sfI18nExtractorInterface
                         $i18n_function = 0;
 
                         break;
+
                     default:
                         if ($heredoc && 2 == $i18n_function) {
                             $buffer .= $text;

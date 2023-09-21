@@ -266,21 +266,25 @@ class sfNumberFormat
                 $this->formatInfo->setPattern(sfNumberFormatInfo::CURRENCY);
 
                 break;
+
             case 'd':
             case 'D':
                 $this->formatInfo->setPattern(sfNumberFormatInfo::DECIMAL);
 
                 break;
+
             case 'e':
             case 'E':
                 $this->formatInfo->setPattern(sfNumberFormatInfo::SCIENTIFIC);
 
                 break;
+
             case 'p':
             case 'P':
                 $this->formatInfo->setPattern(sfNumberFormatInfo::PERCENTAGE);
 
                 break;
+
             default:
                 $this->formatInfo->setPattern($pattern);
 

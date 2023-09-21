@@ -19,26 +19,37 @@ abstract class sfCommandApplication
 {
     /** @var sfCommandManager */
     protected $commandManager;
+
     /** @var bool */
     protected $trace = false;
+
     /** @var bool */
     protected $verbose = true;
+
     /** @var bool */
     protected $debug = true;
+
     /** @var bool */
     protected $nowrite = false;
+
     /** @var string */
     protected $name = 'UNKNOWN';
+
     /** @var string */
     protected $version = 'UNKNOWN';
+
     /** @var array */
     protected $tasks = array();
+
     /** @var sfTask */
     protected $currentTask;
+
     /** @var sfEventDispatcher */
     protected $dispatcher;
+
     /** @var array */
     protected $options = array();
+
     /** @var sfFormatter */
     protected $formatter;
 

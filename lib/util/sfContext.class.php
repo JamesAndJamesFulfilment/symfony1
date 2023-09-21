@@ -23,6 +23,7 @@ class sfContext implements ArrayAccess
 {
     /** @var sfEventDispatcher */
     protected $dispatcher;
+
     /** @var sfApplicationConfiguration */
     protected $configuration;
     protected $mailerConfiguration = array();

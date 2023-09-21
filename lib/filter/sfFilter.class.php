@@ -21,6 +21,7 @@ abstract class sfFilter
 {
     /** @var sfParameterHolder */
     protected $parameterHolder;
+
     /** @var sfContext */
     protected $context;
 

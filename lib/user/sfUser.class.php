@@ -30,11 +30,14 @@ class sfUser implements ArrayAccess
     public const CULTURE_NAMESPACE = 'symfony/user/sfUser/culture';
 
     protected $options = array();
+
     /** @var sfNamespacedParameterHolder */
     protected $attributeHolder;
     protected $culture;
+
     /** @var sfStorage */
     protected $storage;
+
     /** @var sfEventDispatcher */
     protected $dispatcher;
 

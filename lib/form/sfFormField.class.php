@@ -21,12 +21,16 @@ class sfFormField
 
     /** @var sfWidgetForm */
     protected $widget;
+
     /** @var sfFormField|null */
     protected $parent;
+
     /** @var string */
     protected $name = '';
+
     /** @var string */
     protected $value;
+
     /** @var sfValidatorError|sfValidatorErrorSchema|null */
     protected $error;
 

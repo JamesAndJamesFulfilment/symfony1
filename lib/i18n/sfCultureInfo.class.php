@@ -624,10 +624,12 @@ class sfCultureInfo
                 return $all;
 
                 break;
+
             case sfCultureInfo::NEUTRAL:
                 return $neutral;
 
                 break;
+
             case sfCultureInfo::SPECIFIC:
                 return $specific;
 

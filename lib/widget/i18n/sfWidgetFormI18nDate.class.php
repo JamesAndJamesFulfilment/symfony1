@@ -52,10 +52,13 @@ class sfWidgetFormI18nDate extends sfWidgetFormDate
         switch ($monthFormat) {
             case 'name':
                 return array_combine(range(1, 12), sfDateTimeFormatInfo::getInstance($culture)->getMonthNames());
+
             case 'short_name':
                 return array_combine(range(1, 12), sfDateTimeFormatInfo::getInstance($culture)->getAbbreviatedMonthNames());
+
             case 'number':
                 return $this->getOption('months');
+
             default:
                 throw new InvalidArgumentException(sprintf('The month format "%s" is invalid.', $monthFormat));
         }

@@ -20,8 +20,10 @@ abstract class sfResponse implements Serializable
 {
     /** @var array */
     protected $options = array();
+
     /** @var sfEventDispatcher */
     protected $dispatcher;
+
     /** @var string */
     protected $content = '';
 

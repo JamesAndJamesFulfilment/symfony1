@@ -10,6 +10,7 @@
 
 $app = 'backend';
 $fixtures = 'fixtures';
+
 require_once __DIR__.'/../bootstrap/functional.php';
 
 $tests = array(

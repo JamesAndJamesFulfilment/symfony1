@@ -115,13 +115,17 @@ class sfDoctrineGenerator extends sfModelGenerator
         switch ($column->getDoctrineType()) {
             case 'enum':
                 return 'Enum';
+
             case 'boolean':
                 return 'Boolean';
+
             case 'date':
             case 'timestamp':
                 return 'Date';
+
             case 'time':
                 return 'Time';
+
             default:
                 return 'Text';
         }

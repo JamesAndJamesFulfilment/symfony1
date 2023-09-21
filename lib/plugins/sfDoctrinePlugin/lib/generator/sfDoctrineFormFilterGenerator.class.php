@@ -116,16 +116,19 @@ class sfDoctrineFormFilterGenerator extends sfDoctrineFormGenerator
                 $name = 'Choice';
 
                 break;
+
             case 'date':
             case 'datetime':
             case 'timestamp':
                 $name = 'FilterDate';
 
                 break;
+
             case 'enum':
                 $name = 'Choice';
 
                 break;
+
             default:
                 $name = 'FilterInput';
         }
@@ -149,11 +152,13 @@ class sfDoctrineFormFilterGenerator extends sfDoctrineFormGenerator
         $options = array();
 
         $withEmpty = $column->isNotNull() && !$column->isForeignKey() ? array("'with_empty' => false") : array();
+
         switch ($column->getDoctrineType()) {
             case 'boolean':
                 $options[] = "'choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no')";
 
                 break;
+
             case 'date':
             case 'datetime':
             case 'timestamp':
@@ -161,6 +166,7 @@ class sfDoctrineFormFilterGenerator extends sfDoctrineFormGenerator
                 $options = array_merge($options, $withEmpty);
 
                 break;
+
             case 'enum':
                 $values = array('' => '');
                 $values = array_merge($values, $column['values']);
@@ -168,6 +174,7 @@ class sfDoctrineFormFilterGenerator extends sfDoctrineFormGenerator
                 $options[] = "'choices' => ".$this->arrayExport($values);
 
                 break;
+
             default:
                 $options = array_merge($options, $withEmpty);
         }
@@ -193,25 +200,30 @@ class sfDoctrineFormFilterGenerator extends sfDoctrineFormGenerator
                 $name = 'Choice';
 
                 break;
+
             case 'float':
             case 'decimal':
                 $name = 'Number';
 
                 break;
+
             case 'integer':
                 $name = 'Integer';
 
                 break;
+
             case 'date':
             case 'datetime':
             case 'timestamp':
                 $name = 'DateRange';
 
                 break;
+
             case 'enum':
                 $name = 'Choice';
 
                 break;
+
             default:
                 $name = 'Pass';
         }
@@ -251,15 +263,18 @@ class sfDoctrineFormFilterGenerator extends sfDoctrineFormGenerator
                     $options[] = "'choices' => array('', 1, 0)";
 
                     break;
+
                 case 'date':
                     $options[] = "'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDateTime(array('required' => false))";
 
                     break;
+
                 case 'datetime':
                 case 'timestamp':
                     $options[] = "'from_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 00:00:00')), 'to_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 23:59:59'))";
 
                     break;
+
                 case 'enum':
                     $values = array_combine($column['values'], $column['values']);
                     $options[] = "'choices' => ".$this->arrayExport($values);
@@ -291,16 +306,20 @@ class sfDoctrineFormFilterGenerator extends sfDoctrineFormGenerator
         switch ($column->getDoctrineType()) {
             case 'enum':
                 return 'Enum';
+
             case 'boolean':
                 return 'Boolean';
+
             case 'date':
             case 'datetime':
             case 'timestamp':
                 return 'Date';
+
             case 'integer':
             case 'decimal':
             case 'float':
                 return 'Number';
+
             default:
                 return 'Text';
         }

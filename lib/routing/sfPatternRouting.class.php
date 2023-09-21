@@ -22,6 +22,7 @@ class sfPatternRouting extends sfRouting
     /** @var string|null */
     protected $currentRouteName;
     protected $currentInternalUri = array();
+
     /** @var sfRoute[] */
     protected $routes = array();
     protected $cacheData = array();

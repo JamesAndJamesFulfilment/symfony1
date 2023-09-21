@@ -197,8 +197,10 @@ class sfToolkit
         switch (func_num_args()) {
             case 0:
                 return false;
+
             case 1:
                 return func_get_arg(0);
+
             case 2:
                 $args = func_get_args();
                 $args[2] = array();
@@ -530,10 +532,12 @@ class sfToolkit
                 array_unshift($paths, $path);
 
                 break;
+
             case 'back':
                 $paths[] = $path;
 
                 break;
+
             default:
                 throw new InvalidArgumentException(sprintf('Unrecognized position: "%s"', $position));
         }

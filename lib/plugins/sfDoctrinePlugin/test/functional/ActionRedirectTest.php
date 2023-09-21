@@ -10,6 +10,7 @@
 
 $app = 'frontend';
 $fixtures = 'fixtures';
+
 require_once __DIR__.'/../bootstrap/functional.php';
 
 $browser = new sfTestFunctional(new sfBrowser());
