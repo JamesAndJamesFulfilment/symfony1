@@ -23,6 +23,13 @@ class sfAutoloadAgain
     protected $reloaded = false;
 
     /**
+     * Constructor.
+     */
+    protected function __construct()
+    {
+    }
+
+    /**
      * Returns the singleton autoloader.
      *
      * @return sfAutoloadAgain
@@ -35,11 +42,6 @@ class sfAutoloadAgain
 
         return self::$instance;
     }
-
-    /**
-     * Constructor.
-     */
-    protected function __construct() {}
 
     /**
      * Reloads the autoloader.

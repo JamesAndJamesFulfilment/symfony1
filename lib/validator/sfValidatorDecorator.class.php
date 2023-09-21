@@ -25,6 +25,9 @@ abstract class sfValidatorDecorator extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $options
+     * @param mixed $messages
      */
     public function __construct($options = array(), $messages = array())
     {
@@ -44,16 +47,9 @@ abstract class sfValidatorDecorator extends sfValidatorBase
     }
 
     /**
-     * Returns the decorated validator.
-     *
-     * Every subclass must implement this method.
-     *
-     * @return sfValidatorBase A sfValidatorBase instance
-     */
-    abstract protected function getValidator();
-
-    /**
      * @see sfValidatorBase
+     *
+     * @param mixed $value
      */
     public function clean($value)
     {
@@ -62,14 +58,8 @@ abstract class sfValidatorDecorator extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
-     */
-    protected function doClean($value)
-    {
-        return $this->validator->clean($value);
-    }
-
-    /**
-     * @see sfValidatorBase
+     *
+     * @param mixed $name
      */
     public function getMessage($name)
     {
@@ -78,6 +68,9 @@ abstract class sfValidatorDecorator extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $name
+     * @param mixed $value
      */
     public function setMessage($name, $value)
     {
@@ -94,6 +87,8 @@ abstract class sfValidatorDecorator extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $values
      */
     public function setMessages($values)
     {
@@ -102,6 +97,8 @@ abstract class sfValidatorDecorator extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $name
      */
     public function getOption($name)
     {
@@ -110,6 +107,9 @@ abstract class sfValidatorDecorator extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $name
+     * @param mixed $value
      */
     public function setOption($name, $value)
     {
@@ -118,6 +118,8 @@ abstract class sfValidatorDecorator extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $name
      */
     public function hasOption($name)
     {
@@ -134,6 +136,8 @@ abstract class sfValidatorDecorator extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $values
      */
     public function setOptions($values)
     {
@@ -142,6 +146,8 @@ abstract class sfValidatorDecorator extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $indent
      */
     public function asString($indent = 0)
     {
@@ -162,5 +168,24 @@ abstract class sfValidatorDecorator extends sfValidatorBase
     public function getDefaultMessages()
     {
         return $this->validator->getDefaultMessages();
+    }
+
+    /**
+     * Returns the decorated validator.
+     *
+     * Every subclass must implement this method.
+     *
+     * @return sfValidatorBase A sfValidatorBase instance
+     */
+    abstract protected function getValidator();
+
+    /**
+     * @see sfValidatorBase
+     *
+     * @param mixed $value
+     */
+    protected function doClean($value)
+    {
+        return $this->validator->clean($value);
     }
 }

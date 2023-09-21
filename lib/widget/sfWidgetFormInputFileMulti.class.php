@@ -10,21 +10,6 @@
 class sfWidgetFormInputFileMulti extends sfWidgetFormInputFile
 {
     /**
-     * Configures the current widget.
-     *
-     * @param array $options    An array of options
-     * @param array $attributes An array of default HTML attributes
-     *
-     * @see sfWidgetFormInput
-     */
-    protected function configure($options = array(), $attributes = array())
-    {
-        parent::configure($options, $attributes);
-
-        $this->addOption('multiple', true);
-    }
-
-    /**
      * Renders the widget.
      *
      * @param string $name       The element name
@@ -44,5 +29,20 @@ class sfWidgetFormInputFileMulti extends sfWidgetFormInputFile
         }
 
         return parent::render($name, $value, $attributes, $errors);
+    }
+
+    /**
+     * Configures the current widget.
+     *
+     * @param array $options    An array of options
+     * @param array $attributes An array of default HTML attributes
+     *
+     * @see sfWidgetFormInput
+     */
+    protected function configure($options = array(), $attributes = array())
+    {
+        parent::configure($options, $attributes);
+
+        $this->addOption('multiple', true);
     }
 }

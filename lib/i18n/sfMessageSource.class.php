@@ -270,18 +270,6 @@ abstract class sfMessageSource implements sfIMessageSource
     }
 
     /**
-     * Gets the last modified unix-time for this particular catalogue+variant.
-     *
-     * @param string $source catalogue+variant
-     *
-     * @return int last modified in unix-time format
-     */
-    protected function getLastModified($source)
-    {
-        return 0;
-    }
-
-    /**
      * Loads the message for a particular catalogue+variant.
      * This methods needs to implemented by subclasses.
      *
@@ -329,5 +317,17 @@ abstract class sfMessageSource implements sfIMessageSource
     public function getCatalogueList($catalogue)
     {
         return array();
+    }
+
+    /**
+     * Gets the last modified unix-time for this particular catalogue+variant.
+     *
+     * @param string $source catalogue+variant
+     *
+     * @return int last modified in unix-time format
+     */
+    protected function getLastModified($source)
+    {
+        return 0;
     }
 }

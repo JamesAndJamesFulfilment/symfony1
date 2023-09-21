@@ -14,6 +14,9 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  *
  * @version    SVN: $Id$
+ *
+ * @param mixed $name
+ * @param mixed $vars
  */
 
 /**
@@ -71,6 +74,7 @@ function get_component_slot($name, $vars = array())
  * Returns true if component slot exists.
  *
  * @param  string slot name
+ * @param mixed $name
  *
  * @return bool true if component slot exists, false otherwise
  */

@@ -31,6 +31,7 @@ abstract class sfTestFunctionalBase
      *
      * @param sfBrowserBase $browser A sfBrowserBase instance
      * @param lime_test     $lime    A lime instance
+     * @param mixed         $testers
      */
     public function __construct(sfBrowserBase $browser, lime_test $lime = null, $testers = array())
     {
@@ -53,6 +54,14 @@ abstract class sfTestFunctionalBase
         // register our error/exception handlers
         set_error_handler(array($this, 'handlePhpError'));
         set_exception_handler(array($this, 'handleException'));
+    }
+
+    public function __call($method, $arguments)
+    {
+        $retval = call_user_func_array(array($this->browser, $method), $arguments);
+
+        // fix the fluent interface
+        return $retval === $this->browser ? $this : $retval;
     }
 
     /**
@@ -394,14 +403,6 @@ abstract class sfTestFunctionalBase
         return $empty;
     }
 
-    public function __call($method, $arguments)
-    {
-        $retval = call_user_func_array(array($this->browser, $method), $arguments);
-
-        // fix the fluent interface
-        return $retval === $this->browser ? $this : $retval;
-    }
-
     /**
      * Error handler for the current test browser instance.
      *
@@ -454,7 +455,7 @@ abstract class sfTestFunctionalBase
     /**
      * Exception handler for the current test browser instance.
      *
-     * @param Throwable|Exception $exception The exception
+     * @param Exception|Throwable $exception The exception
      */
     public function handleException($exception)
     {
@@ -474,7 +475,8 @@ abstract class sfTestFunctionalBase
             $line = isset($traceData[$i]['line']) ? $traceData[$i]['line'] : 'n/a';
             $file = isset($traceData[$i]['file']) ? $traceData[$i]['file'] : 'n/a';
             $args = isset($traceData[$i]['args']) ? $traceData[$i]['args'] : array();
-            $this->test()->error(sprintf($lineFormat,
+            $this->test()->error(sprintf(
+                $lineFormat,
                 isset($traceData[$i]['class']) ? $traceData[$i]['class'] : '',
                 isset($traceData[$i]['type']) ? $traceData[$i]['type'] : '',
                 $traceData[$i]['function'],

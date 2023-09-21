@@ -9,9 +9,13 @@
  */
 class cacheActions extends sfActions
 {
-    public function executeIndex() {}
+    public function executeIndex()
+    {
+    }
 
-    public function executePage() {}
+    public function executePage()
+    {
+    }
 
     public function executeList($request)
     {
@@ -28,15 +32,25 @@ class cacheActions extends sfActions
         $this->getResponse()->setTitle('Param: '.$this->getRequestParameter('param'));
     }
 
-    public function executeMultiBis() {}
+    public function executeMultiBis()
+    {
+    }
 
-    public function executePartial() {}
+    public function executePartial()
+    {
+    }
 
-    public function executeAnotherPartial() {}
+    public function executeAnotherPartial()
+    {
+    }
 
-    public function executeComponent() {}
+    public function executeComponent()
+    {
+    }
 
-    public function executeSpecificCacheKey() {}
+    public function executeSpecificCacheKey()
+    {
+    }
 
     public function executeAction()
     {
@@ -74,16 +88,16 @@ class cacheActions extends sfActions
         $this->setLayout(false);
     }
 
+    public function executeLastModifiedResponse()
+    {
+        $this->getResponse()->setHttpHeader('Last-Modified', $this->getResponse()->getDate(sfConfig::get('LAST_MODIFIED')));
+        $this->setTemplate('action');
+    }
+
     protected function prepareImage()
     {
         $this->getResponse()->setContentType('image/png');
         $this->image = file_get_contents(__DIR__.'/../data/ok48.png');
         $this->setTemplate('image');
-    }
-
-    public function executeLastModifiedResponse()
-    {
-        $this->getResponse()->setHttpHeader('Last-Modified', $this->getResponse()->getDate(sfConfig::get('LAST_MODIFIED')));
-        $this->setTemplate('action');
     }
 }

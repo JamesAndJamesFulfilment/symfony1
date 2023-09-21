@@ -64,6 +64,14 @@ class sfDefineEnvironmentConfigHandler extends sfYamlConfigHandler
     }
 
     /**
+     * @see sfConfigHandler
+     */
+    public static function getConfiguration(array $configFiles)
+    {
+        return static::replaceConstants(static::flattenConfigurationWithEnvironment(static::parseYamls($configFiles)));
+    }
+
+    /**
      * Gets values from the configuration array.
      *
      * @param string $prefix   The prefix name
@@ -125,13 +133,5 @@ class sfDefineEnvironmentConfigHandler extends sfYamlConfigHandler
         }
 
         return $category;
-    }
-
-    /**
-     * @see sfConfigHandler
-     */
-    public static function getConfiguration(array $configFiles)
-    {
-        return static::replaceConstants(static::flattenConfigurationWithEnvironment(static::parseYamls($configFiles)));
     }
 }

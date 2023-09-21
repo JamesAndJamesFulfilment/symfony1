@@ -118,35 +118,6 @@ class sfFinder
         return $this;
     }
 
-    /*
-     * glob, patterns (must be //) or strings
-     */
-    protected function to_regex($str)
-    {
-        if (preg_match('/^(!)?([^a-zA-Z0-9\\\\]).+?\\2[ims]?$/', $str)) {
-            return $str;
-        }
-
-        return sfGlobToRegex::glob_to_regex($str);
-    }
-
-    protected function args_to_array($arg_list, $not = false)
-    {
-        $list = array();
-        $nbArgList = count($arg_list);
-        for ($i = 0; $i < $nbArgList; ++$i) {
-            if (is_array($arg_list[$i])) {
-                foreach ($arg_list[$i] as $arg) {
-                    $list[] = array($not, $this->to_regex($arg));
-                }
-            } else {
-                $list[] = array($not, $this->to_regex($arg_list[$i]));
-            }
-        }
-
-        return $list;
-    }
-
     /**
      * Adds rules that files must match.
      *
@@ -387,6 +358,48 @@ class sfFinder
         return array_unique($files);
     }
 
+    public static function isPathAbsolute($path)
+    {
+        if ('/' === $path[0] || '\\' === $path[0]
+            || (
+                strlen($path) > 3 && ctype_alpha($path[0])
+             && ':' === $path[1]
+             && ('\\' === $path[2] || '/' === $path[2])
+            )
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // glob, patterns (must be //) or strings
+    protected function to_regex($str)
+    {
+        if (preg_match('/^(!)?([^a-zA-Z0-9\\\\]).+?\\2[ims]?$/', $str)) {
+            return $str;
+        }
+
+        return sfGlobToRegex::glob_to_regex($str);
+    }
+
+    protected function args_to_array($arg_list, $not = false)
+    {
+        $list = array();
+        $nbArgList = count($arg_list);
+        for ($i = 0; $i < $nbArgList; ++$i) {
+            if (is_array($arg_list[$i])) {
+                foreach ($arg_list[$i] as $arg) {
+                    $list[] = array($not, $this->to_regex($arg));
+                }
+            } else {
+                $list[] = array($not, $this->to_regex($arg_list[$i]));
+            }
+        }
+
+        return $list;
+    }
+
     protected function search_in($dir, $depth = 0)
     {
         if ($depth > $this->maxdepth) {
@@ -560,20 +573,6 @@ class sfFinder
         }
 
         return true;
-    }
-
-    public static function isPathAbsolute($path)
-    {
-        if ('/' === $path[0] || '\\' === $path[0]
-            || (strlen($path) > 3 && ctype_alpha($path[0])
-             && ':' === $path[1]
-             && ('\\' === $path[2] || '/' === $path[2])
-            )
-        ) {
-            return true;
-        }
-
-        return false;
     }
 }
 

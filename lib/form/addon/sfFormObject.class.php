@@ -35,16 +35,6 @@ abstract class sfFormObject extends BaseForm
     abstract public function getConnection();
 
     /**
-     * Updates the values of the object with the cleaned up values.
-     *
-     * If you want to add some logic before updating or update other associated
-     * objects, this is the method to override.
-     *
-     * @param array $values An array of values
-     */
-    abstract protected function doUpdateObject($values);
-
-    /**
      * Processes cleaned up values.
      *
      * @param array $values An array of values
@@ -131,20 +121,6 @@ abstract class sfFormObject extends BaseForm
         }
 
         return $this->getObject();
-    }
-
-    /**
-     * Updates and saves the current object.
-     *
-     * If you want to add some logic before saving or save other associated
-     * objects, this is the method to override.
-     *
-     * @param mixed $con An optional connection object
-     */
-    protected function doSave($con = null)
-    {
-        $this->updateObject();
-        $this->saveObject($con);
     }
 
     /**
@@ -259,6 +235,30 @@ abstract class sfFormObject extends BaseForm
         }
 
         return parent::renderFormTag($url, $attributes);
+    }
+
+    /**
+     * Updates the values of the object with the cleaned up values.
+     *
+     * If you want to add some logic before updating or update other associated
+     * objects, this is the method to override.
+     *
+     * @param array $values An array of values
+     */
+    abstract protected function doUpdateObject($values);
+
+    /**
+     * Updates and saves the current object.
+     *
+     * If you want to add some logic before saving or save other associated
+     * objects, this is the method to override.
+     *
+     * @param mixed $con An optional connection object
+     */
+    protected function doSave($con = null)
+    {
+        $this->updateObject();
+        $this->saveObject($con);
     }
 
     protected function camelize($text)

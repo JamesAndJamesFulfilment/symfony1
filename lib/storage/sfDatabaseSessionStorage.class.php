@@ -65,12 +65,14 @@ abstract class sfDatabaseSessionStorage extends sfSessionStorage
         }
 
         // use this object as the session handler
-        session_set_save_handler(array($this, 'sessionOpen'),
+        session_set_save_handler(
+            array($this, 'sessionOpen'),
             array($this, 'sessionClose'),
             array($this, 'sessionRead'),
             array($this, 'sessionWrite'),
             array($this, 'sessionDestroy'),
-            array($this, 'sessionGC'));
+            array($this, 'sessionGC')
+        );
 
         // start our session
         session_start();

@@ -15,6 +15,11 @@ class AdminGenBrowser extends sfTestBrowser
         $this->_generateAdminGenModules();
     }
 
+    public function __destruct()
+    {
+        $this->_cleanupAdminGenModules();
+    }
+
     public function runTests()
     {
         $this->info('Run sfDoctrinePlugin Admin Generator Tests');
@@ -269,10 +274,5 @@ class AdminGenBrowser extends sfTestBrowser
         ksort($events);
 
         return array_values($events);
-    }
-
-    public function __destruct()
-    {
-        $this->_cleanupAdminGenModules();
     }
 }

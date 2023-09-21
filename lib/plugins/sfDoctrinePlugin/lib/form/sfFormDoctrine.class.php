@@ -133,14 +133,6 @@ abstract class sfFormDoctrine extends sfFormObject
     }
 
     /**
-     * @see sfFormObject
-     */
-    protected function doUpdateObject($values)
-    {
-        $this->getObject()->fromArray($values);
-    }
-
-    /**
      * Processes cleaned up values with user defined methods.
      *
      * To process a value before it is used by the updateObject() method,
@@ -236,6 +228,16 @@ abstract class sfFormDoctrine extends sfFormObject
     public function getI18nModelI18nField()
     {
         return $this->getObject()->getTable()->getTemplate('Doctrine_Template_I18n')->getI18n()->getOption('i18nField');
+    }
+
+    /**
+     * @see sfFormObject
+     *
+     * @param mixed $values
+     */
+    protected function doUpdateObject($values)
+    {
+        $this->getObject()->fromArray($values);
     }
 
     /**
@@ -370,7 +372,9 @@ abstract class sfFormDoctrine extends sfFormObject
     /**
      * Used in generated forms when models use inheritance.
      */
-    protected function setupInheritance() {}
+    protected function setupInheritance()
+    {
+    }
 
     /**
      * Returns the name of the related model.

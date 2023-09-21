@@ -31,6 +31,8 @@ class sfSQLiteCache extends sfCache
      * * see sfCache for options available for all drivers
      *
      * @see sfCache
+     *
+     * @param mixed $options
      */
     public function initialize($options = array())
     {
@@ -52,7 +54,7 @@ class sfSQLiteCache extends sfCache
      *
      * @inheritdo
      *
-     * @return SQLiteDatabase|SQLite3
+     * @return SQLite3|SQLiteDatabase
      */
     public function getBackend()
     {
@@ -62,7 +64,8 @@ class sfSQLiteCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param mixed|null $default
+     * @param null|mixed $default
+     * @param mixed      $key
      */
     public function get($key, $default = null)
     {
@@ -77,6 +80,8 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $key
      */
     public function has($key)
     {
@@ -90,7 +95,9 @@ class sfSQLiteCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param mixed|null $lifetime
+     * @param null|mixed $lifetime
+     * @param mixed      $key
+     * @param mixed      $data
      */
     public function set($key, $data, $lifetime = null)
     {
@@ -107,6 +114,8 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $key
      */
     public function remove($key)
     {
@@ -119,6 +128,8 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $pattern
      */
     public function removePattern($pattern)
     {
@@ -131,6 +142,8 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $mode
      */
     public function clean($mode = sfCache::ALL)
     {
@@ -149,6 +162,8 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $key
      */
     public function getTimeout($key)
     {
@@ -165,6 +180,8 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $key
      */
     public function getLastModified($key)
     {
@@ -177,6 +194,47 @@ class sfSQLiteCache extends sfCache
         $rs = $this->dbh->query(sprintf("SELECT last_modified FROM cache WHERE key = '%s' AND timeout > %d", sqlite_escape_string($key), time()));
 
         return $rs->numRows() ? (int) $rs->fetchSingle() : 0;
+    }
+
+    /**
+     * Callback used when deleting keys from cache.
+     *
+     * @param string $regexp
+     * @param string $key
+     *
+     * @return int
+     */
+    public function removePatternRegexpCallback($regexp, $key)
+    {
+        return preg_match($regexp, $key);
+    }
+
+    /**
+     * @see sfCache
+     *
+     * @param mixed $keys
+     */
+    public function getMany($keys)
+    {
+        if ($this->isSqLite3()) {
+            $data = array();
+            if ($results = $this->dbh->query(sprintf("SELECT key, data FROM cache WHERE key IN ('%s') AND timeout > %d", implode('\', \'', array_map(array($this->dbh, 'escapeString'), $keys)), time()))) {
+                while ($row = $results->fetchArray()) {
+                    $data[$row['key']] = $row['data'];
+                }
+            }
+
+            return $data;
+        }
+
+        $rows = $this->dbh->arrayQuery(sprintf("SELECT key, data FROM cache WHERE key IN ('%s') AND timeout > %d", implode('\', \'', array_map('sqlite_escape_string', $keys)), time()));
+
+        $data = array();
+        foreach ($rows as $row) {
+            $data[$row['key']] = $row['data'];
+        }
+
+        return $data;
     }
 
     /**
@@ -223,45 +281,6 @@ class sfSQLiteCache extends sfCache
         if ($new) {
             $this->createSchema();
         }
-    }
-
-    /**
-     * Callback used when deleting keys from cache.
-     *
-     * @param string $regexp
-     * @param string $key
-     *
-     * @return int
-     */
-    public function removePatternRegexpCallback($regexp, $key)
-    {
-        return preg_match($regexp, $key);
-    }
-
-    /**
-     * @see sfCache
-     */
-    public function getMany($keys)
-    {
-        if ($this->isSqLite3()) {
-            $data = array();
-            if ($results = $this->dbh->query(sprintf("SELECT key, data FROM cache WHERE key IN ('%s') AND timeout > %d", implode('\', \'', array_map(array($this->dbh, 'escapeString'), $keys)), time()))) {
-                while ($row = $results->fetchArray()) {
-                    $data[$row['key']] = $row['data'];
-                }
-            }
-
-            return $data;
-        }
-
-        $rows = $this->dbh->arrayQuery(sprintf("SELECT key, data FROM cache WHERE key IN ('%s') AND timeout > %d", implode('\', \'', array_map('sqlite_escape_string', $keys)), time()));
-
-        $data = array();
-        foreach ($rows as $row) {
-            $data[$row['key']] = $row['data'];
-        }
-
-        return $data;
     }
 
     /**

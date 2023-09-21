@@ -18,21 +18,17 @@
 abstract class sfWidgetFormChoiceBase extends sfWidgetForm
 {
     /**
-     * Constructor.
-     *
-     * Available options:
-     *
-     *  * choices:         An array of possible choices (required)
-     *
-     * @param array $options    An array of options
-     * @param array $attributes An array of default HTML attributes
-     *
-     * @see sfWidgetForm
+     * Clones this object.
      */
-    protected function configure($options = array(), $attributes = array())
+    public function __clone()
     {
-        $this->addRequiredOption('choices');
-        $this->addOption('translate_choices', true);
+        if ($this->getOption('choices') instanceof sfCallable) {
+            $callable = $this->getOption('choices')->getCallable();
+            if (is_array($callable) && $callable[0] instanceof self) {
+                $callable[0] = $this;
+                $this->setOption('choices', new sfCallable($callable));
+            }
+        }
     }
 
     /**
@@ -65,16 +61,20 @@ abstract class sfWidgetFormChoiceBase extends sfWidgetForm
     }
 
     /**
-     * Clones this object.
+     * Constructor.
+     *
+     * Available options:
+     *
+     *  * choices:         An array of possible choices (required)
+     *
+     * @param array $options    An array of options
+     * @param array $attributes An array of default HTML attributes
+     *
+     * @see sfWidgetForm
      */
-    public function __clone()
+    protected function configure($options = array(), $attributes = array())
     {
-        if ($this->getOption('choices') instanceof sfCallable) {
-            $callable = $this->getOption('choices')->getCallable();
-            if (is_array($callable) && $callable[0] instanceof self) {
-                $callable[0] = $this;
-                $this->setOption('choices', new sfCallable($callable));
-            }
-        }
+        $this->addRequiredOption('choices');
+        $this->addOption('translate_choices', true);
     }
 }

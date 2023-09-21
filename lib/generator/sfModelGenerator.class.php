@@ -171,11 +171,6 @@ abstract class sfModelGenerator extends sfGenerator
         return implode(".'&", $params);
     }
 
-    /**
-     * Configures this generator.
-     */
-    abstract protected function configure();
-
     abstract public function getType($column);
 
     abstract public function getAllFieldNames();
@@ -327,6 +322,37 @@ EOF;
     }
 
     /**
+     * Returns the URL for a given action.
+     *
+     * @param string $action
+     *
+     * @return string The URL related to a given action
+     */
+    public function getUrlForAction($action)
+    {
+        if (isset($this->params['route_prefix'])) {
+            return 'list' == $action ? $this->params['route_prefix'] : $this->params['route_prefix'].'_'.$action;
+        }
+
+        return $this->getModuleName().'/'.$action;
+    }
+
+    public function asPhp($variable)
+    {
+        return str_replace(array("\n", 'array ('), array('', 'array('), var_export($variable, true));
+    }
+
+    public function escapeString($string)
+    {
+        return str_replace("'", "\\'", $string);
+    }
+
+    /**
+     * Configures this generator.
+     */
+    abstract protected function configure();
+
+    /**
      * Validates the basic structure of the parameters.
      *
      * @param array $params An array of parameters
@@ -395,31 +421,5 @@ EOF;
         }
 
         return new $class();
-    }
-
-    /**
-     * Returns the URL for a given action.
-     *
-     * @param string $action
-     *
-     * @return string The URL related to a given action
-     */
-    public function getUrlForAction($action)
-    {
-        if (isset($this->params['route_prefix'])) {
-            return 'list' == $action ? $this->params['route_prefix'] : $this->params['route_prefix'].'_'.$action;
-        }
-
-        return $this->getModuleName().'/'.$action;
-    }
-
-    public function asPhp($variable)
-    {
-        return str_replace(array("\n", 'array ('), array('', 'array('), var_export($variable, true));
-    }
-
-    public function escapeString($string)
-    {
-        return str_replace("'", "\\'", $string);
     }
 }

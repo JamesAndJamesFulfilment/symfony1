@@ -22,7 +22,7 @@ class sfFormField
     /** @var sfWidgetForm */
     protected $widget;
 
-    /** @var sfFormField|null */
+    /** @var null|sfFormField */
     protected $parent;
 
     /** @var string */
@@ -31,7 +31,7 @@ class sfFormField
     /** @var string */
     protected $value;
 
-    /** @var sfValidatorError|sfValidatorErrorSchema|null */
+    /** @var null|sfValidatorError|sfValidatorErrorSchema */
     protected $error;
 
     /**

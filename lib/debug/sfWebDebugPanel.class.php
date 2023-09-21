@@ -35,7 +35,9 @@ abstract class sfWebDebugPanel
      *
      * @return string The URL link
      */
-    public function getTitleUrl() {}
+    public function getTitleUrl()
+    {
+    }
 
     /**
      * Gets the text for the link.
@@ -120,7 +122,8 @@ abstract class sfWebDebugPanel
             $html .= sprintf('<span%s>#%s &raquo; ', $isProjectFile ? ' class="sfWebDebugHighlight"' : '', $keys[$j] + 1);
 
             if (isset($trace['function'])) {
-                $html .= sprintf('in <span class="sfWebDebugLogInfo">%s%s%s()</span> ',
+                $html .= sprintf(
+                    'in <span class="sfWebDebugLogInfo">%s%s%s()</span> ',
                     isset($trace['class']) ? $trace['class'] : '',
                     isset($trace['type']) ? $trace['type'] : '',
                     $trace['function']
@@ -165,7 +168,8 @@ abstract class sfWebDebugPanel
                 '<a href="%s" class="sfWebDebugFileLink" title="%s">%s</a>',
                 htmlspecialchars(strtr($linkFormat, array('%f' => $file, '%l' => $line)), ENT_QUOTES, sfConfig::get('sf_charset')),
                 htmlspecialchars($shortFile, ENT_QUOTES, sfConfig::get('sf_charset')),
-                null === $text ? $shortFile : $text);
+                null === $text ? $shortFile : $text
+            );
         }
         if (null === $text) {
             // return the shortened file path

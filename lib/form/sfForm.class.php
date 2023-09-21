@@ -30,16 +30,16 @@ class sfForm implements ArrayAccess, Iterator, Countable
     protected static $CSRFFieldName = '_csrf_token';
     protected static $toStringException;
 
-    /** @var sfWidgetFormSchema|sfWidget[]|sfWidgetFormSchemaDecorator[] */
+    /** @var sfWidget[]|sfWidgetFormSchema|sfWidgetFormSchemaDecorator[] */
     protected $widgetSchema;
 
-    /** @var sfValidatorSchema|sfValidatorBase[] */
+    /** @var sfValidatorBase[]|sfValidatorSchema */
     protected $validatorSchema;
 
-    /** @var sfValidatorErrorSchema|sfValidatorError[] */
+    /** @var sfValidatorError[]|sfValidatorErrorSchema */
     protected $errorSchema;
 
-    /** @var sfFormFieldSchema|null */
+    /** @var null|sfFormFieldSchema */
     protected $formFieldSchema;
 
     /** @var sfFormField[] */
@@ -100,10 +100,16 @@ class sfForm implements ArrayAccess, Iterator, Countable
         }
     }
 
-    /**
-     * Configures the current form.
-     */
-    public function configure() {}
+    public function __clone()
+    {
+        $this->widgetSchema = clone $this->widgetSchema;
+        $this->validatorSchema = clone $this->validatorSchema;
+
+        // we rebind the cloned form because Exceptions are not clonable
+        if ($this->isBound()) {
+            $this->bind($this->taintedValues, $this->taintedFiles);
+        }
+    }
 
     /**
      * Setups the current form.
@@ -114,7 +120,16 @@ class sfForm implements ArrayAccess, Iterator, Countable
      *
      * @see configure()
      */
-    public function setup() {}
+    public function setup()
+    {
+    }
+
+    /**
+     * Configures the current form.
+     */
+    public function configure()
+    {
+    }
 
     /**
      * Renders the widget schema associated with this form.
@@ -236,16 +251,6 @@ class sfForm implements ArrayAccess, Iterator, Countable
         if ($this->embeddedForms) {
             $this->bindEmbeddedForms($this->taintedValues, $this->taintedFiles);
         }
-    }
-
-    /**
-     * Cleans and binds values to the current form.
-     *
-     * @param array $values A merged array of values and files
-     */
-    protected function doBind(array $values)
-    {
-        $this->values = $this->validatorSchema->clean($values);
     }
 
     /**
@@ -393,7 +398,7 @@ class sfForm implements ArrayAccess, Iterator, Countable
      *
      * If the user data is not stored under an array, it returns false.
      *
-     * @return string|bool The name or false if the name format is not an array format
+     * @return bool|string The name or false if the name format is not an array format
      */
     public function getName()
     {
@@ -1242,33 +1247,6 @@ class sfForm implements ArrayAccess, Iterator, Countable
         return $files;
     }
 
-    protected static function fixPhpFilesArray($data)
-    {
-        $fileKeys = array('error', 'name', 'size', 'tmp_name', 'type');
-        $keys = array_keys($data);
-        sort($keys);
-
-        if ($fileKeys != $keys || !isset($data['name']) || !is_array($data['name'])) {
-            return $data;
-        }
-
-        $files = $data;
-        foreach ($fileKeys as $k) {
-            unset($files[$k]);
-        }
-        foreach (array_keys($data['name']) as $key) {
-            $files[$key] = self::fixPhpFilesArray(array(
-                'error' => $data['error'][$key],
-                'name' => $data['name'][$key],
-                'type' => $data['type'][$key],
-                'tmp_name' => $data['tmp_name'][$key],
-                'size' => $data['size'][$key],
-            ));
-        }
-
-        return $files;
-    }
-
     /**
      * Returns true if a form thrown an exception in the __toString() method.
      *
@@ -1307,15 +1285,41 @@ class sfForm implements ArrayAccess, Iterator, Countable
         }
     }
 
-    public function __clone()
+    /**
+     * Cleans and binds values to the current form.
+     *
+     * @param array $values A merged array of values and files
+     */
+    protected function doBind(array $values)
     {
-        $this->widgetSchema = clone $this->widgetSchema;
-        $this->validatorSchema = clone $this->validatorSchema;
+        $this->values = $this->validatorSchema->clean($values);
+    }
 
-        // we rebind the cloned form because Exceptions are not clonable
-        if ($this->isBound()) {
-            $this->bind($this->taintedValues, $this->taintedFiles);
+    protected static function fixPhpFilesArray($data)
+    {
+        $fileKeys = array('error', 'name', 'size', 'tmp_name', 'type');
+        $keys = array_keys($data);
+        sort($keys);
+
+        if ($fileKeys != $keys || !isset($data['name']) || !is_array($data['name'])) {
+            return $data;
         }
+
+        $files = $data;
+        foreach ($fileKeys as $k) {
+            unset($files[$k]);
+        }
+        foreach (array_keys($data['name']) as $key) {
+            $files[$key] = self::fixPhpFilesArray(array(
+                'error' => $data['error'][$key],
+                'name' => $data['name'][$key],
+                'type' => $data['type'][$key],
+                'tmp_name' => $data['tmp_name'][$key],
+                'size' => $data['size'][$key],
+            ));
+        }
+
+        return $files;
     }
 
     /**

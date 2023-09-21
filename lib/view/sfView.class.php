@@ -85,10 +85,35 @@ abstract class sfView
      * Class constructor.
      *
      * @see initialize()
+     *
+     * @param mixed $context
+     * @param mixed $moduleName
+     * @param mixed $actionName
+     * @param mixed $viewName
      */
     public function __construct($context, $moduleName, $actionName, $viewName)
     {
         $this->initialize($context, $moduleName, $actionName, $viewName);
+    }
+
+    /**
+     * Calls methods defined via sfEventDispatcher.
+     *
+     * @param string $method    The method name
+     * @param array  $arguments The method arguments
+     *
+     * @return mixed The returned value of the called method
+     *
+     * @throws sfException< If the calls fails
+     */
+    public function __call($method, $arguments)
+    {
+        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'view.method_not_found', array('method' => $method, 'arguments' => $arguments)));
+        if (!$event->isProcessed()) {
+            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
+        }
+
+        return $event->getReturnValue();
     }
 
     /**
@@ -139,14 +164,6 @@ abstract class sfView
         $this->configure();
 
         return true;
-    }
-
-    protected function initializeAttributeHolder($attributes = array())
-    {
-        return new sfViewParameterHolder($this->dispatcher, $attributes, array(
-            'escaping_method' => sfConfig::get('sf_escaping_method'),
-            'escaping_strategy' => sfConfig::get('sf_escaping_strategy'),
-        ));
     }
 
     /**
@@ -325,34 +342,6 @@ abstract class sfView
     }
 
     /**
-     * Executes a basic pre-render check to verify all required variables exist
-     * and that the template is readable.
-     *
-     * @throws sfRenderException If the pre-render check fails
-     */
-    protected function preRenderCheck()
-    {
-        if (null === $this->template) {
-            // a template has not been set
-            throw new sfRenderException('A template has not been set.');
-        }
-
-        if (!is_readable($this->directory.'/'.$this->template)) {
-            // 404?
-            if ('404' == $this->context->getResponse()->getStatusCode()) {
-                // use default exception templates
-                $this->template = sfException::getTemplatePathForError($this->context->getRequest()->getRequestFormat(), false);
-                $this->directory = dirname($this->template);
-                $this->template = basename($this->template);
-                $this->setAttribute('code', '404');
-                $this->setAttribute('text', 'Not Found');
-            } else {
-                throw new sfRenderException(sprintf('The template "%s" does not exist or is unreadable in "%s".', $this->template, $this->directory));
-            }
-        }
-    }
-
-    /**
      * Renders the presentation.
      *
      * @return string A string representing the rendered presentation
@@ -525,23 +514,39 @@ abstract class sfView
         return $this->viewName;
     }
 
-    /**
-     * Calls methods defined via sfEventDispatcher.
-     *
-     * @param string $method    The method name
-     * @param array  $arguments The method arguments
-     *
-     * @return mixed The returned value of the called method
-     *
-     * @throws sfException< If the calls fails
-     */
-    public function __call($method, $arguments)
+    protected function initializeAttributeHolder($attributes = array())
     {
-        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'view.method_not_found', array('method' => $method, 'arguments' => $arguments)));
-        if (!$event->isProcessed()) {
-            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
+        return new sfViewParameterHolder($this->dispatcher, $attributes, array(
+            'escaping_method' => sfConfig::get('sf_escaping_method'),
+            'escaping_strategy' => sfConfig::get('sf_escaping_strategy'),
+        ));
+    }
+
+    /**
+     * Executes a basic pre-render check to verify all required variables exist
+     * and that the template is readable.
+     *
+     * @throws sfRenderException If the pre-render check fails
+     */
+    protected function preRenderCheck()
+    {
+        if (null === $this->template) {
+            // a template has not been set
+            throw new sfRenderException('A template has not been set.');
         }
 
-        return $event->getReturnValue();
+        if (!is_readable($this->directory.'/'.$this->template)) {
+            // 404?
+            if ('404' == $this->context->getResponse()->getStatusCode()) {
+                // use default exception templates
+                $this->template = sfException::getTemplatePathForError($this->context->getRequest()->getRequestFormat(), false);
+                $this->directory = dirname($this->template);
+                $this->template = basename($this->template);
+                $this->setAttribute('code', '404');
+                $this->setAttribute('text', 'Not Found');
+            } else {
+                throw new sfRenderException(sprintf('The template "%s" does not exist or is unreadable in "%s".', $this->template, $this->directory));
+            }
+        }
     }
 }

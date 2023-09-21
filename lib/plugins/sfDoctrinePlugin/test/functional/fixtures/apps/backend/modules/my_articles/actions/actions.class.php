@@ -11,4 +11,6 @@ require_once __DIR__.'/../lib/my_articlesGeneratorHelper.class.php';
  *
  * @version    SVN: $Id$
  */
-class my_articlesActions extends autoMy_articlesActions {}
+class my_articlesActions extends autoMy_articlesActions
+{
+}

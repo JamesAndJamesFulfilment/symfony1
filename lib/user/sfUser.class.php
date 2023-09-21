@@ -58,6 +58,26 @@ class sfUser implements ArrayAccess
     }
 
     /**
+     * Calls methods defined via sfEventDispatcher.
+     *
+     * @param string $method    The method name
+     * @param array  $arguments The method arguments
+     *
+     * @return mixed The returned value of the called method
+     *
+     * @throws sfException If the calls fails
+     */
+    public function __call($method, $arguments)
+    {
+        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'user.method_not_found', array('method' => $method, 'arguments' => $arguments)));
+        if (!$event->isProcessed()) {
+            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
+        }
+
+        return $event->getReturnValue();
+    }
+
+    /**
      * Initializes this sfUser.
      *
      * Available options:
@@ -300,25 +320,5 @@ class sfUser implements ArrayAccess
 
         // write culture to the storage
         $this->storage->write(self::CULTURE_NAMESPACE, $this->culture);
-    }
-
-    /**
-     * Calls methods defined via sfEventDispatcher.
-     *
-     * @param string $method    The method name
-     * @param array  $arguments The method arguments
-     *
-     * @return mixed The returned value of the called method
-     *
-     * @throws sfException If the calls fails
-     */
-    public function __call($method, $arguments)
-    {
-        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'user.method_not_found', array('method' => $method, 'arguments' => $arguments)));
-        if (!$event->isProcessed()) {
-            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
-        }
-
-        return $event->getReturnValue();
     }
 }

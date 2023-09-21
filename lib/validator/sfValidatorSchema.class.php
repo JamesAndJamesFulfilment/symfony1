@@ -50,128 +50,29 @@ class sfValidatorSchema extends sfValidatorBase implements ArrayAccess
         parent::__construct($options, $messages);
     }
 
-    /**
-     * Configures the validator.
-     *
-     * Available options:
-     *
-     *  * allow_extra_fields:  if false, the validator adds an error if extra fields are given in the input array of values (default to false)
-     *  * filter_extra_fields: if true, the validator filters extra fields from the returned array of cleaned values (default to true)
-     *
-     * Available error codes:
-     *
-     *  * extra_fields
-     *
-     * @param array $options  An array of options
-     * @param array $messages An array of error messages
-     *
-     * @see sfValidatorBase
-     */
-    protected function configure($options = array(), $messages = array())
+    public function __clone()
     {
-        $this->addOption('allow_extra_fields', false);
-        $this->addOption('filter_extra_fields', true);
+        foreach ($this->fields as $name => $field) {
+            $this->fields[$name] = clone $field;
+        }
 
-        $this->addMessage('extra_fields', 'Unexpected extra form field named "%field%".');
-        $this->addMessage('post_max_size', 'The form submission cannot be processed. It probably means that you have uploaded a file that is too big.');
+        if (null !== $this->preValidator) {
+            $this->preValidator = clone $this->preValidator;
+        }
+
+        if (null !== $this->postValidator) {
+            $this->postValidator = clone $this->postValidator;
+        }
     }
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $values
      */
     public function clean($values)
     {
         return $this->doClean($values);
-    }
-
-    /**
-     * @see sfValidatorBase
-     */
-    protected function doClean($values)
-    {
-        if (null === $values) {
-            $values = array();
-        }
-
-        if (!is_array($values)) {
-            throw new InvalidArgumentException('You must pass an array parameter to the clean() method');
-        }
-
-        $clean = array();
-        $unused = array_keys($this->fields);
-        $errorSchema = new sfValidatorErrorSchema($this);
-
-        // check that post_max_size has not been reached
-        if (isset($_SERVER['CONTENT_LENGTH']) && (int) $_SERVER['CONTENT_LENGTH'] > $this->getBytes(ini_get('post_max_size')) && 0 != ini_get('post_max_size')) {
-            $errorSchema->addError(new sfValidatorError($this, 'post_max_size'));
-
-            throw $errorSchema;
-        }
-
-        // pre validator
-        try {
-            $values = $this->preClean($values);
-        } catch (sfValidatorErrorSchema $e) {
-            $errorSchema->addErrors($e);
-        } catch (sfValidatorError $e) {
-            $errorSchema->addError($e);
-        }
-
-        // validate given values
-        foreach ($values as $name => $value) {
-            // field exists in our schema?
-            if (!array_key_exists($name, $this->fields)) {
-                if (!$this->options['allow_extra_fields']) {
-                    $errorSchema->addError(new sfValidatorError($this, 'extra_fields', array('field' => $name)));
-                } elseif (!$this->options['filter_extra_fields']) {
-                    $clean[$name] = $value;
-                }
-
-                continue;
-            }
-
-            unset($unused[array_search($name, $unused, true)]);
-
-            // validate value
-            try {
-                $clean[$name] = $this->fields[$name]->clean($value);
-            } catch (sfValidatorError $e) {
-                $clean[$name] = null;
-
-                $errorSchema->addError($e, (string) $name);
-            } catch (Exception $e) {
-                $class = get_class($e);
-
-                throw new $class($e->getMessage().' of "'.$name.'" field');
-            }
-        }
-
-        // are non given values required?
-        foreach ($unused as $name) {
-            // validate value
-            try {
-                $clean[$name] = $this->fields[$name]->clean(null);
-            } catch (sfValidatorError $e) {
-                $clean[$name] = null;
-
-                $errorSchema->addError($e, (string) $name);
-            }
-        }
-
-        // post validator
-        try {
-            $clean = $this->postClean($clean);
-        } catch (sfValidatorErrorSchema $e) {
-            $errorSchema->addErrors($e);
-        } catch (sfValidatorError $e) {
-            $errorSchema->addError($e);
-        }
-
-        if (count($errorSchema)) {
-            throw $errorSchema;
-        }
-
-        return $clean;
     }
 
     /**
@@ -331,25 +232,130 @@ class sfValidatorSchema extends sfValidatorBase implements ArrayAccess
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $indent
      */
     public function asString($indent = 0)
     {
         throw new Exception('Unable to convert a sfValidatorSchema to string.');
     }
 
-    public function __clone()
+    /**
+     * Configures the validator.
+     *
+     * Available options:
+     *
+     *  * allow_extra_fields:  if false, the validator adds an error if extra fields are given in the input array of values (default to false)
+     *  * filter_extra_fields: if true, the validator filters extra fields from the returned array of cleaned values (default to true)
+     *
+     * Available error codes:
+     *
+     *  * extra_fields
+     *
+     * @param array $options  An array of options
+     * @param array $messages An array of error messages
+     *
+     * @see sfValidatorBase
+     */
+    protected function configure($options = array(), $messages = array())
     {
-        foreach ($this->fields as $name => $field) {
-            $this->fields[$name] = clone $field;
+        $this->addOption('allow_extra_fields', false);
+        $this->addOption('filter_extra_fields', true);
+
+        $this->addMessage('extra_fields', 'Unexpected extra form field named "%field%".');
+        $this->addMessage('post_max_size', 'The form submission cannot be processed. It probably means that you have uploaded a file that is too big.');
+    }
+
+    /**
+     * @see sfValidatorBase
+     *
+     * @param mixed $values
+     */
+    protected function doClean($values)
+    {
+        if (null === $values) {
+            $values = array();
         }
 
-        if (null !== $this->preValidator) {
-            $this->preValidator = clone $this->preValidator;
+        if (!is_array($values)) {
+            throw new InvalidArgumentException('You must pass an array parameter to the clean() method');
         }
 
-        if (null !== $this->postValidator) {
-            $this->postValidator = clone $this->postValidator;
+        $clean = array();
+        $unused = array_keys($this->fields);
+        $errorSchema = new sfValidatorErrorSchema($this);
+
+        // check that post_max_size has not been reached
+        if (isset($_SERVER['CONTENT_LENGTH']) && (int) $_SERVER['CONTENT_LENGTH'] > $this->getBytes(ini_get('post_max_size')) && 0 != ini_get('post_max_size')) {
+            $errorSchema->addError(new sfValidatorError($this, 'post_max_size'));
+
+            throw $errorSchema;
         }
+
+        // pre validator
+        try {
+            $values = $this->preClean($values);
+        } catch (sfValidatorErrorSchema $e) {
+            $errorSchema->addErrors($e);
+        } catch (sfValidatorError $e) {
+            $errorSchema->addError($e);
+        }
+
+        // validate given values
+        foreach ($values as $name => $value) {
+            // field exists in our schema?
+            if (!array_key_exists($name, $this->fields)) {
+                if (!$this->options['allow_extra_fields']) {
+                    $errorSchema->addError(new sfValidatorError($this, 'extra_fields', array('field' => $name)));
+                } elseif (!$this->options['filter_extra_fields']) {
+                    $clean[$name] = $value;
+                }
+
+                continue;
+            }
+
+            unset($unused[array_search($name, $unused, true)]);
+
+            // validate value
+            try {
+                $clean[$name] = $this->fields[$name]->clean($value);
+            } catch (sfValidatorError $e) {
+                $clean[$name] = null;
+
+                $errorSchema->addError($e, (string) $name);
+            } catch (Exception $e) {
+                $class = get_class($e);
+
+                throw new $class($e->getMessage().' of "'.$name.'" field');
+            }
+        }
+
+        // are non given values required?
+        foreach ($unused as $name) {
+            // validate value
+            try {
+                $clean[$name] = $this->fields[$name]->clean(null);
+            } catch (sfValidatorError $e) {
+                $clean[$name] = null;
+
+                $errorSchema->addError($e, (string) $name);
+            }
+        }
+
+        // post validator
+        try {
+            $clean = $this->postClean($clean);
+        } catch (sfValidatorErrorSchema $e) {
+            $errorSchema->addErrors($e);
+        } catch (sfValidatorError $e) {
+            $errorSchema->addError($e);
+        }
+
+        if (count($errorSchema)) {
+            throw $errorSchema;
+        }
+
+        return $clean;
     }
 
     protected function getBytes($value)

@@ -59,11 +59,6 @@ abstract class sfTask
     }
 
     /**
-     * Configures the current task.
-     */
-    protected function configure() {}
-
-    /**
      * Returns the formatter instance.
      *
      * @return sfFormatter The formatter instance
@@ -194,7 +189,7 @@ abstract class sfTask
      * @param string     $name
      * @param int        $mode
      * @param string     $help
-     * @param mixed|null $default
+     * @param null|mixed $default
      */
     public function addArgument($name, $mode = null, $help = '', $default = null)
     {
@@ -232,7 +227,7 @@ abstract class sfTask
      * @param string     $shortcut
      * @param int        $mode
      * @param string     $help
-     * @param mixed|null $default
+     * @param null|mixed $default
      */
     public function addOption($name, $shortcut = null, $mode = null, $help = '', $default = null)
     {
@@ -345,34 +340,6 @@ abstract class sfTask
         return sprintf('%%s %s %s %s', $this->getFullName(), implode(' ', $options), implode(' ', $arguments));
     }
 
-    protected function process(sfCommandManager $commandManager, $options)
-    {
-        $commandManager->process($options);
-        if (!$commandManager->isValid()) {
-            throw new sfCommandArgumentsException(sprintf("The execution of task \"%s\" failed.\n- %s", $this->getFullName(), implode("\n- ", $commandManager->getErrors())));
-        }
-    }
-
-    protected function doRun(sfCommandManager $commandManager, $options)
-    {
-        $event = $this->dispatcher->filter(new sfEvent($this, 'command.filter_options', array('command_manager' => $commandManager)), $options);
-        $options = $event->getReturnValue();
-
-        $this->process($commandManager, $options);
-
-        $event = new sfEvent($this, 'command.pre_command', array('arguments' => $commandManager->getArgumentValues(), 'options' => $commandManager->getOptionValues()));
-        $this->dispatcher->notifyUntil($event);
-        if ($event->isProcessed()) {
-            return $event->getReturnValue();
-        }
-
-        $ret = $this->execute($commandManager->getArgumentValues(), $commandManager->getOptionValues());
-
-        $this->dispatcher->notify(new sfEvent($this, 'command.post_command'));
-
-        return $ret;
-    }
-
     /**
      * Logs a message.
      *
@@ -400,50 +367,6 @@ abstract class sfTask
         $this->dispatcher->notify(new sfEvent($this, 'command.log', array($this->formatter->formatSection($section, $message, $size, $style))));
     }
 
-    /**
-     * Returns the elapsed time that the task has been running.
-     */
-    protected function getElapsedTime()
-    {
-        return round(microtime(true) - $this->start_time);
-    }
-
-    /**
-     * Sibling to the logSection method, without the first parameter
-     * Log title shows elapsed time, used and peak memory
-     * It receives an extra parameter, by default 100 Megabytes
-     * Log changes COLOR when memory left is less than said parameter.
-     *
-     * @param mixed|null $size
-     * @param mixed|null $style
-     */
-    protected function logSectionMemory($message, $size = null, $style = null, $warning_when_remaining = '100M')
-    {
-        $usage = memory_get_usage();
-        $memory = $this->convertIntToUnit($usage, 'mb');
-        $memory_peak = $this->convertIntToUnit(memory_get_peak_usage(), 'mb');
-        $style = $this->usageCloseToLimit($usage, $warning_when_remaining) ? 'COMMENT' : $style;
-        $title = sprintf('%4ss Memory usage: %9s Peak: %9s', $this->getElapsedTime(), $memory, $memory_peak);
-        $this->logSection($title, $message, $size, $style);
-    }
-
-    protected function usageCloseToLimit($usage, $warning_when_remaining)
-    {
-        if (!isset($this->memory_limit)) {
-            $this->memory_limit = $this->convertUnitToInt(ini_get('memory_limit'));
-        }
-
-        return $this->memory_limit - $usage < $this->convertUnitToInt($warning_when_remaining);
-    }
-
-    protected function convertIntToUnit($size)
-    {
-        $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
-        $i = floor(log($size, 1024));
-
-        return @round($size / pow(1024, $i), 2)." {$unit[$i]}";
-    }
-
     public function convertUnitToInt($memory)
     {
         if (preg_match('/^(\d+)(.)$/', $memory, $matches)) {
@@ -460,7 +383,7 @@ abstract class sfTask
     /**
      * Logs a message as a block of text.
      *
-     * @param string|array $messages The message to display in the block
+     * @param array|string $messages The message to display in the block
      * @param string       $style    The style to use
      */
     public function logBlock($messages, $style)
@@ -495,7 +418,7 @@ abstract class sfTask
     /**
      * Asks a question to the user.
      *
-     * @param string|array $question The question to ask
+     * @param array|string $question The question to ask
      * @param string       $style    The style to use (QUESTION by default)
      * @param string       $default  The default answer if none is given by the user
      *
@@ -519,7 +442,7 @@ abstract class sfTask
      *
      * The question will be asked until the user answer by nothing, yes, or no.
      *
-     * @param string|array $question The question to ask
+     * @param array|string $question The question to ask
      * @param string       $style    The style to use (QUESTION by default)
      * @param bool         $default  The default answer if the user enters nothing
      *
@@ -548,7 +471,7 @@ abstract class sfTask
      *  * attempts: Max number of times to ask before giving up (false by default, which means infinite)
      *  * style:    Style for question output (QUESTION by default)
      *
-     * @param string|array $question
+     * @param array|string $question
      *
      * @throws sfValidatorError
      */
@@ -573,7 +496,7 @@ abstract class sfTask
         }
 
         // no, ask the user for a valid user
-        /** @var sfValidatorError|null $error */
+        /** @var null|sfValidatorError $error */
         $error = null;
         while (false === $options['attempts'] || $options['attempts']--) {
             if (null !== $error) {
@@ -662,6 +585,87 @@ abstract class sfTask
         }
 
         return $dom->saveXML();
+    }
+
+    /**
+     * Configures the current task.
+     */
+    protected function configure()
+    {
+    }
+
+    protected function process(sfCommandManager $commandManager, $options)
+    {
+        $commandManager->process($options);
+        if (!$commandManager->isValid()) {
+            throw new sfCommandArgumentsException(sprintf("The execution of task \"%s\" failed.\n- %s", $this->getFullName(), implode("\n- ", $commandManager->getErrors())));
+        }
+    }
+
+    protected function doRun(sfCommandManager $commandManager, $options)
+    {
+        $event = $this->dispatcher->filter(new sfEvent($this, 'command.filter_options', array('command_manager' => $commandManager)), $options);
+        $options = $event->getReturnValue();
+
+        $this->process($commandManager, $options);
+
+        $event = new sfEvent($this, 'command.pre_command', array('arguments' => $commandManager->getArgumentValues(), 'options' => $commandManager->getOptionValues()));
+        $this->dispatcher->notifyUntil($event);
+        if ($event->isProcessed()) {
+            return $event->getReturnValue();
+        }
+
+        $ret = $this->execute($commandManager->getArgumentValues(), $commandManager->getOptionValues());
+
+        $this->dispatcher->notify(new sfEvent($this, 'command.post_command'));
+
+        return $ret;
+    }
+
+    /**
+     * Returns the elapsed time that the task has been running.
+     */
+    protected function getElapsedTime()
+    {
+        return round(microtime(true) - $this->start_time);
+    }
+
+    /**
+     * Sibling to the logSection method, without the first parameter
+     * Log title shows elapsed time, used and peak memory
+     * It receives an extra parameter, by default 100 Megabytes
+     * Log changes COLOR when memory left is less than said parameter.
+     *
+     * @param null|mixed $size
+     * @param null|mixed $style
+     * @param mixed      $message
+     * @param mixed      $warning_when_remaining
+     */
+    protected function logSectionMemory($message, $size = null, $style = null, $warning_when_remaining = '100M')
+    {
+        $usage = memory_get_usage();
+        $memory = $this->convertIntToUnit($usage, 'mb');
+        $memory_peak = $this->convertIntToUnit(memory_get_peak_usage(), 'mb');
+        $style = $this->usageCloseToLimit($usage, $warning_when_remaining) ? 'COMMENT' : $style;
+        $title = sprintf('%4ss Memory usage: %9s Peak: %9s', $this->getElapsedTime(), $memory, $memory_peak);
+        $this->logSection($title, $message, $size, $style);
+    }
+
+    protected function usageCloseToLimit($usage, $warning_when_remaining)
+    {
+        if (!isset($this->memory_limit)) {
+            $this->memory_limit = $this->convertUnitToInt(ini_get('memory_limit'));
+        }
+
+        return $this->memory_limit - $usage < $this->convertUnitToInt($warning_when_remaining);
+    }
+
+    protected function convertIntToUnit($size)
+    {
+        $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
+        $i = floor(log($size, 1024));
+
+        return @round($size / pow(1024, $i), 2)." {$unit[$i]}";
     }
 
     /**

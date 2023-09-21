@@ -582,18 +582,6 @@ class sfWebRequest extends sfRequest
     }
 
     /**
-     * Returns true if the current request is forwarded from a request that is secure.
-     *
-     * @return bool
-     */
-    protected function isForwardedSecure()
-    {
-        $pathArray = $this->getPathInfoArray();
-
-        return isset($pathArray['HTTP_X_FORWARDED_PROTO']) && 'https' == strtolower($pathArray['HTTP_X_FORWARDED_PROTO']);
-    }
-
-    /**
      * Retrieves relative root url.
      *
      * @return string URL
@@ -715,7 +703,7 @@ class sfWebRequest extends sfRequest
      * Associates a format with mime types.
      *
      * @param string       $format    The format
-     * @param string|array $mimeTypes The associated mime types (the preferred one must be the first as it will be used as the content type)
+     * @param array|string $mimeTypes The associated mime types (the preferred one must be the first as it will be used as the content type)
      */
     public function setFormat($format, $mimeTypes)
     {
@@ -782,45 +770,6 @@ class sfWebRequest extends sfRequest
         $files = array();
         foreach ($taintedFiles as $key => $data) {
             $files[$key] = self::fixPhpFilesArray($data);
-        }
-
-        return $files;
-    }
-
-    /**
-     * Fixes PHP files array.
-     *
-     * @param array $data The PHP files
-     *
-     * @return array The fixed PHP files array
-     */
-    protected static function fixPhpFilesArray(array $data)
-    {
-        // remove full_path added on php8.1
-        unset($data['full_path']);
-
-        $fileKeys = array('error', 'name', 'size', 'tmp_name', 'type');
-
-        $keys = array_keys($data);
-        sort($keys);
-
-        if ($fileKeys != $keys || !isset($data['name']) || !is_array($data['name'])) {
-            return $data;
-        }
-
-        $files = $data;
-        foreach ($fileKeys as $k) {
-            unset($files[$k]);
-        }
-
-        foreach (array_keys($data['name']) as $key) {
-            $files[$key] = self::fixPhpFilesArray(array(
-                'error' => $data['error'][$key],
-                'name' => $data['name'][$key],
-                'type' => $data['type'][$key],
-                'tmp_name' => $data['tmp_name'][$key],
-                'size' => $data['size'][$key],
-            ));
         }
 
         return $files;
@@ -897,7 +846,7 @@ class sfWebRequest extends sfRequest
      * This method returns null if no proxy passed this request. Note that some proxies
      * do not use this header, and act as if they were the client.
      *
-     * @return string|null an array of IP from the client and the proxies that passed
+     * @return null|string an array of IP from the client and the proxies that passed
      *                     the request, or null if no proxy was used
      */
     public function getForwardedFor()
@@ -951,18 +900,6 @@ class sfWebRequest extends sfRequest
     }
 
     /**
-     * Parses the request parameters.
-     *
-     * This method notifies the request.filter_parameters event.
-     *
-     * @return array an array of request parameters
-     */
-    protected function parseRequestParameters()
-    {
-        return $this->dispatcher->filter(new sfEvent($this, 'request.filter_parameters', $this->getRequestContext()), array())->getReturnValue();
-    }
-
-    /**
      * Returns the request context used.
      *
      * @return array An array of values representing the current request
@@ -978,6 +915,69 @@ class sfWebRequest extends sfRequest
             'is_secure' => $this->isSecure(),
             'request_uri' => $this->getUri(),
         );
+    }
+
+    /**
+     * Returns true if the current request is forwarded from a request that is secure.
+     *
+     * @return bool
+     */
+    protected function isForwardedSecure()
+    {
+        $pathArray = $this->getPathInfoArray();
+
+        return isset($pathArray['HTTP_X_FORWARDED_PROTO']) && 'https' == strtolower($pathArray['HTTP_X_FORWARDED_PROTO']);
+    }
+
+    /**
+     * Fixes PHP files array.
+     *
+     * @param array $data The PHP files
+     *
+     * @return array The fixed PHP files array
+     */
+    protected static function fixPhpFilesArray(array $data)
+    {
+        // remove full_path added on php8.1
+        unset($data['full_path']);
+
+        $fileKeys = array('error', 'name', 'size', 'tmp_name', 'type');
+
+        $keys = array_keys($data);
+        sort($keys);
+
+        if ($fileKeys != $keys || !isset($data['name']) || !is_array($data['name'])) {
+            return $data;
+        }
+
+        $files = $data;
+        foreach ($fileKeys as $k) {
+            unset($files[$k]);
+        }
+
+        foreach (array_keys($data['name']) as $key) {
+            $files[$key] = self::fixPhpFilesArray(array(
+                'error' => $data['error'][$key],
+                'name' => $data['name'][$key],
+                'type' => $data['type'][$key],
+                'tmp_name' => $data['tmp_name'][$key],
+                'size' => $data['size'][$key],
+            ));
+        }
+
+        return $files;
+    }
+
+    /**
+     * Parses the request parameters.
+     *
+     * This method notifies the request.filter_parameters event.
+     *
+     * @return array an array of request parameters
+     */
+    protected function parseRequestParameters()
+    {
+        return $this->dispatcher->filter(new sfEvent($this, 'request.filter_parameters', $this->getRequestContext()), array())->getReturnValue();
     }
 
     /**

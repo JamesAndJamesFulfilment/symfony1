@@ -74,6 +74,75 @@ class sfDomCssSelector implements Countable, Iterator
         return $nodes ? new sfDomCssSelector($nodes) : new sfDomCssSelector(array());
     }
 
+    /**
+     * Reset the array to the beginning (as required for the Iterator interface).
+     */
+    #[\ReturnTypeWillChange]
+    public function rewind()
+    {
+        reset($this->nodes);
+
+        $this->count = count($this->nodes);
+    }
+
+    /**
+     * Get the key associated with the current value (as required by the Iterator interface).
+     *
+     * @return string The key
+     */
+    #[\ReturnTypeWillChange]
+    public function key()
+    {
+        return key($this->nodes);
+    }
+
+    /**
+     * Escapes and return the current value (as required by the Iterator interface).
+     *
+     * @return mixed The escaped value
+     */
+    #[\ReturnTypeWillChange]
+    public function current()
+    {
+        return current($this->nodes);
+    }
+
+    /**
+     * Moves to the next element (as required by the Iterator interface).
+     */
+    #[\ReturnTypeWillChange]
+    public function next()
+    {
+        next($this->nodes);
+
+        --$this->count;
+    }
+
+    /**
+     * Returns true if the current element is valid (as required by the Iterator interface).
+     *
+     * The current element will not be valid if {@link next()} has fallen off the
+     * end of the array or if there are no elements in the array and {@link * rewind()} was called.
+     *
+     * @return bool The validity of the current element; true if it is valid
+     */
+    #[\ReturnTypeWillChange]
+    public function valid()
+    {
+        return $this->count > 0;
+    }
+
+    /**
+     * Returns the number of matching nodes (implements Countable).
+     *
+     * @param int The number of matching nodes
+     */
+    #[\ReturnTypeWillChange]
+    public function count()
+    {
+        return count($this->nodes);
+    }
+
     protected function getElements($selector)
     {
         $nodes = array();
@@ -529,74 +598,5 @@ class sfDomCssSelector implements Countable, Iterator
                 return $cur;
             }
         }
-    }
-
-    /**
-     * Reset the array to the beginning (as required for the Iterator interface).
-     */
-    #[\ReturnTypeWillChange]
-    public function rewind()
-    {
-        reset($this->nodes);
-
-        $this->count = count($this->nodes);
-    }
-
-    /**
-     * Get the key associated with the current value (as required by the Iterator interface).
-     *
-     * @return string The key
-     */
-    #[\ReturnTypeWillChange]
-    public function key()
-    {
-        return key($this->nodes);
-    }
-
-    /**
-     * Escapes and return the current value (as required by the Iterator interface).
-     *
-     * @return mixed The escaped value
-     */
-    #[\ReturnTypeWillChange]
-    public function current()
-    {
-        return current($this->nodes);
-    }
-
-    /**
-     * Moves to the next element (as required by the Iterator interface).
-     */
-    #[\ReturnTypeWillChange]
-    public function next()
-    {
-        next($this->nodes);
-
-        --$this->count;
-    }
-
-    /**
-     * Returns true if the current element is valid (as required by the Iterator interface).
-     *
-     * The current element will not be valid if {@link next()} has fallen off the
-     * end of the array or if there are no elements in the array and {@link * rewind()} was called.
-     *
-     * @return bool The validity of the current element; true if it is valid
-     */
-    #[\ReturnTypeWillChange]
-    public function valid()
-    {
-        return $this->count > 0;
-    }
-
-    /**
-     * Returns the number of matching nodes (implements Countable).
-     *
-     * @param int The number of matching nodes
-     */
-    #[\ReturnTypeWillChange]
-    public function count()
-    {
-        return count($this->nodes);
     }
 }

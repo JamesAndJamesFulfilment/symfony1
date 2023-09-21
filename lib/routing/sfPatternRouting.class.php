@@ -19,7 +19,7 @@
  */
 class sfPatternRouting extends sfRouting
 {
-    /** @var string|null */
+    /** @var null|string */
     protected $currentRouteName;
     protected $currentInternalUri = array();
 
@@ -44,6 +44,8 @@ class sfPatternRouting extends sfRouting
      *                                      cache backend (like sfAPCCache).
      *
      * @see sfRouting
+     *
+     * @param mixed $options
      */
     public function initialize(sfEventDispatcher $dispatcher, sfCache $cache = null, $options = array())
     {
@@ -84,6 +86,9 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
+     *
+     * @param mixed $key
+     * @param mixed $value
      */
     public function setDefaultParameter($key, $value)
     {
@@ -98,6 +103,8 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
+     *
+     * @param mixed $parameters
      */
     public function setDefaultParameters($parameters)
     {
@@ -110,13 +117,10 @@ class sfPatternRouting extends sfRouting
         }
     }
 
-    protected function getConfigFileName()
-    {
-        return sfContext::getInstance()->getConfigCache()->checkConfig('config/routing.yml', true);
-    }
-
     /**
      * @see sfRouting
+     *
+     * @param mixed $withRouteName
      */
     public function getCurrentInternalUri($withRouteName = false)
     {
@@ -143,6 +147,8 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see  sfRouting
+     *
+     * @param mixed $name
      */
     public function getRoute($name)
     {
@@ -162,6 +168,8 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
+     *
+     * @param mixed $routes
      */
     public function setRoutes($routes)
     {
@@ -305,6 +313,10 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
+     *
+     * @param mixed $name
+     * @param mixed $params
+     * @param mixed $absolute
      */
     public function generate($name, $params = array(), $absolute = false)
     {
@@ -343,13 +355,10 @@ class sfPatternRouting extends sfRouting
         return $this->fixGeneratedUrl($url, $absolute);
     }
 
-    protected function getGenerateCacheKey($name, $params)
-    {
-        return 'generate_'.$name.'_'.md5(serialize(array_merge($this->defaultParameters, $params))).'_'.md5(serialize($this->options['context']));
-    }
-
     /**
      * @see sfRouting
+     *
+     * @param mixed $url
      */
     public function parse($url)
     {
@@ -373,27 +382,6 @@ class sfPatternRouting extends sfRouting
         $info['parameters']['_sf_route'] = $route;
 
         return $info['parameters'];
-    }
-
-    protected function updateCurrentInternalUri($name, array $parameters)
-    {
-        // store the route name
-        $this->currentRouteName = $name;
-
-        $internalUri = array('@'.$this->currentRouteName, $parameters['module'].'/'.$parameters['action']);
-        unset($parameters['module'], $parameters['action']);
-
-        $params = array();
-        foreach ($parameters as $key => $value) {
-            $params[] = $key.'='.$value;
-        }
-
-        // sort to guaranty unicity
-        sort($params);
-
-        $params = $params ? '?'.implode('&', $params) : '';
-
-        $this->currentInternalUri = array($internalUri[0].$params, $internalUri[1].$params);
     }
 
     /**
@@ -441,11 +429,6 @@ class sfPatternRouting extends sfRouting
         return $info;
     }
 
-    protected function getParseCacheKey($url)
-    {
-        return 'parse_'.$url.'_'.md5(serialize($this->options['context']));
-    }
-
     public static function flattenRoutes($routes)
     {
         $flattenRoutes = array();
@@ -458,6 +441,53 @@ class sfPatternRouting extends sfRouting
         }
 
         return $flattenRoutes;
+    }
+
+    /**
+     * @see sfRouting
+     */
+    public function shutdown()
+    {
+        if (null !== $this->cache && $this->cacheChanged) {
+            $this->cacheChanged = false;
+            $this->cache->set('symfony.routing.data', serialize($this->cacheData));
+        }
+    }
+
+    protected function getConfigFileName()
+    {
+        return sfContext::getInstance()->getConfigCache()->checkConfig('config/routing.yml', true);
+    }
+
+    protected function getGenerateCacheKey($name, $params)
+    {
+        return 'generate_'.$name.'_'.md5(serialize(array_merge($this->defaultParameters, $params))).'_'.md5(serialize($this->options['context']));
+    }
+
+    protected function updateCurrentInternalUri($name, array $parameters)
+    {
+        // store the route name
+        $this->currentRouteName = $name;
+
+        $internalUri = array('@'.$this->currentRouteName, $parameters['module'].'/'.$parameters['action']);
+        unset($parameters['module'], $parameters['action']);
+
+        $params = array();
+        foreach ($parameters as $key => $value) {
+            $params[] = $key.'='.$value;
+        }
+
+        // sort to guaranty unicity
+        sort($params);
+
+        $params = $params ? '?'.implode('&', $params) : '';
+
+        $this->currentInternalUri = array($internalUri[0].$params, $internalUri[1].$params);
+    }
+
+    protected function getParseCacheKey($url)
+    {
+        return 'parse_'.$url.'_'.md5(serialize($this->options['context']));
     }
 
     protected function getRouteThatMatchesUrl($url)
@@ -502,16 +532,5 @@ class sfPatternRouting extends sfRouting
 
         // remove multiple /
         return preg_replace('#/+#', '/', $url);
-    }
-
-    /**
-     * @see sfRouting
-     */
-    public function shutdown()
-    {
-        if (null !== $this->cache && $this->cacheChanged) {
-            $this->cacheChanged = false;
-            $this->cache->set('symfony.routing.data', serialize($this->cacheData));
-        }
     }
 }

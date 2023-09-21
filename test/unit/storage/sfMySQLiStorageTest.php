@@ -59,10 +59,11 @@ mysqli_query($connection, "CREATE TABLE `session` (
 ini_set('session.use_cookies', 0);
 $session_id = '1';
 
-$storage = new sfMySQLiSessionStorage(array(
-    'db_table' => 'session',
-    'session_id' => $session_id,
-    'database' => $database)
+$storage = new sfMySQLiSessionStorage(
+    array(
+        'db_table' => 'session',
+        'session_id' => $session_id,
+        'database' => $database)
 );
 
 $t->ok($storage instanceof sfStorage, 'sfMySQLiSessionStorage is an instance of sfStorage');

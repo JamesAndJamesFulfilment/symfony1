@@ -60,6 +60,9 @@ EOF;
 
     /**
      * @see sfTask
+     *
+     * @param mixed $arguments
+     * @param mixed $options
      */
     protected function execute($arguments = array(), $options = array())
     {
@@ -149,7 +152,7 @@ EOF;
     /**
      * Renders the supplied value.
      *
-     * @param string|null $value
+     * @param null|string $value
      *
      * @return string
      */

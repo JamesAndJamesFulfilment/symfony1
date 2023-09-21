@@ -25,7 +25,7 @@ class sfCacheSessionStorage extends sfStorage
     /** @var sfWebResponse */
     protected $response;
 
-    /** @var sfCache|null */
+    /** @var null|sfCache */
     protected $cache;
 
     /** @var array */
@@ -238,13 +238,15 @@ class sfCacheSessionStorage extends sfStorage
         $this->cache->set($this->id, serialize($this->data));
 
         // update session id in signed cookie
-        $this->response->setCookie($this->options['session_name'],
+        $this->response->setCookie(
+            $this->options['session_name'],
             $this->id.':'.sha1($this->id.':'.$this->options['session_cookie_secret']),
             $this->options['session_cookie_lifetime'],
             $this->options['session_cookie_path'],
             $this->options['session_cookie_domain'],
             $this->options['session_cookie_secure'],
-            $this->options['session_cookie_httponly']);
+            $this->options['session_cookie_httponly']
+        );
         session_id($this->id);
 
         return true;

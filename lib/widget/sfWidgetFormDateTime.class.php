@@ -18,6 +18,32 @@
 class sfWidgetFormDateTime extends sfWidgetForm
 {
     /**
+     * Renders the widget.
+     *
+     * @param string $name       The element name
+     * @param string $value      The date and time displayed in this widget
+     * @param array  $attributes An array of HTML attributes to be merged with the default HTML attributes
+     * @param array  $errors     An array of errors for the field
+     *
+     * @return string An HTML tag string
+     *
+     * @see sfWidgetForm
+     */
+    public function render($name, $value = null, $attributes = array(), $errors = array())
+    {
+        $date = $this->getDateWidget($attributes)->render($name, $value);
+
+        if (!$this->getOption('with_time')) {
+            return $date;
+        }
+
+        return strtr($this->getOption('format'), array(
+            '%date%' => $date,
+            '%time%' => $this->getTimeWidget($attributes)->render($name, $value),
+        ));
+    }
+
+    /**
      * Configures the current widget.
      *
      * The attributes are passed to both the date and the time widget.
@@ -43,32 +69,6 @@ class sfWidgetFormDateTime extends sfWidgetForm
         $this->addOption('time', array());
         $this->addOption('with_time', true);
         $this->addOption('format', '%date% %time%');
-    }
-
-    /**
-     * Renders the widget.
-     *
-     * @param string $name       The element name
-     * @param string $value      The date and time displayed in this widget
-     * @param array  $attributes An array of HTML attributes to be merged with the default HTML attributes
-     * @param array  $errors     An array of errors for the field
-     *
-     * @return string An HTML tag string
-     *
-     * @see sfWidgetForm
-     */
-    public function render($name, $value = null, $attributes = array(), $errors = array())
-    {
-        $date = $this->getDateWidget($attributes)->render($name, $value);
-
-        if (!$this->getOption('with_time')) {
-            return $date;
-        }
-
-        return strtr($this->getOption('format'), array(
-            '%date%' => $date,
-            '%time%' => $this->getTimeWidget($attributes)->render($name, $value),
-        ));
     }
 
     /**

@@ -29,6 +29,36 @@
 abstract class sfMessageSource_Database extends sfMessageSource
 {
     /**
+     * Gets all the variants of a particular catalogue.
+     *
+     * @param string $catalogue catalogue name
+     *
+     * @return array list of all variants for this catalogue
+     */
+    public function getCatalogueList($catalogue)
+    {
+        $variants = explode('_', $this->culture);
+
+        $catalogues = array($catalogue);
+
+        $variant = null;
+
+        for ($i = 0, $max = count($variants); $i < $max; ++$i) {
+            if (strlen($variants[$i]) > 0) {
+                $variant .= $variant ? '_'.$variants[$i] : $variants[$i];
+                $catalogues[] = $catalogue.'.'.$variant;
+            }
+        }
+
+        return array_reverse($catalogues);
+    }
+
+    public function getId()
+    {
+        return md5($this->source);
+    }
+
+    /**
      * For a given DSN (database connection string), return some information about the DSN.
      *
      * This function comes from PEAR's DB package.
@@ -149,35 +179,5 @@ abstract class sfMessageSource_Database extends sfMessageSource
         }
 
         return $parsed;
-    }
-
-    /**
-     * Gets all the variants of a particular catalogue.
-     *
-     * @param string $catalogue catalogue name
-     *
-     * @return array list of all variants for this catalogue
-     */
-    public function getCatalogueList($catalogue)
-    {
-        $variants = explode('_', $this->culture);
-
-        $catalogues = array($catalogue);
-
-        $variant = null;
-
-        for ($i = 0, $max = count($variants); $i < $max; ++$i) {
-            if (strlen($variants[$i]) > 0) {
-                $variant .= $variant ? '_'.$variants[$i] : $variants[$i];
-                $catalogues[] = $catalogue.'.'.$variant;
-            }
-        }
-
-        return array_reverse($catalogues);
-    }
-
-    public function getId()
-    {
-        return md5($this->source);
     }
 }

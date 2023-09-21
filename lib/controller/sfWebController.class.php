@@ -22,7 +22,7 @@ abstract class sfWebController extends sfController
     /**
      * Generates an URL from an array of parameters.
      *
-     * @param string|array $parameters an associative array of URL parameters or an internal URI as a string
+     * @param array|string $parameters an associative array of URL parameters or an internal URI as a string
      * @param bool         $absolute   Whether to generate an absolute URL
      *
      * @return string A URL to a symfony resource
@@ -145,7 +145,7 @@ abstract class sfWebController extends sfController
     /**
      * Redirects the request to another URL.
      *
-     * @param string|array $url        An associative array of URL parameters or an internal URI as a string
+     * @param array|string $url        An associative array of URL parameters or an internal URI as a string
      * @param int          $delay      A delay in seconds before redirecting. This is only needed on
      *                                 browsers that do not support HTTP headers
      * @param int          $statusCode The status code

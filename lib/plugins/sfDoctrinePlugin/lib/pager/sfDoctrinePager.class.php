@@ -23,6 +23,33 @@ class sfDoctrinePager extends sfPager implements Serializable
     protected $tableMethodCalled = false;
 
     /**
+     * Serializes the current instance for php 7.4+.
+     *
+     * @return array
+     */
+    public function __serialize()
+    {
+        $vars = get_object_vars($this);
+        unset($vars['query']);
+
+        return $vars;
+    }
+
+    /**
+     * Unserializes a sfDoctrinePager instance for php 7.4+.
+     *
+     * @param array $data
+     */
+    public function __unserialize($data)
+    {
+        foreach ($data as $name => $values) {
+            $this->{$name} = $values;
+        }
+
+        $this->tableMethodCalled = false;
+    }
+
+    /**
      * Get the name of the table method used to retrieve the query object for the pager.
      *
      * @return string $tableMethodName
@@ -62,33 +89,6 @@ class sfDoctrinePager extends sfPager implements Serializable
         $array = unserialize($serialized);
 
         return $this->__unserialize($array);
-    }
-
-    /**
-     * Serializes the current instance for php 7.4+.
-     *
-     * @return array
-     */
-    public function __serialize()
-    {
-        $vars = get_object_vars($this);
-        unset($vars['query']);
-
-        return $vars;
-    }
-
-    /**
-     * Unserializes a sfDoctrinePager instance for php 7.4+.
-     *
-     * @param array $data
-     */
-    public function __unserialize($data)
-    {
-        foreach ($data as $name => $values) {
-            $this->{$name} = $values;
-        }
-
-        $this->tableMethodCalled = false;
     }
 
     /**
@@ -168,6 +168,18 @@ class sfDoctrinePager extends sfPager implements Serializable
     }
 
     /**
+     * Get all the results for the pager instance.
+     *
+     * @param mixed $hydrationMode A hydration mode identifier
+     *
+     * @return array|Doctrine_Collection
+     */
+    public function getResults($hydrationMode = null)
+    {
+        return $this->getQuery()->execute(array(), $hydrationMode);
+    }
+
+    /**
      * Retrieve the object for a certain offset.
      *
      * @param int $offset
@@ -185,18 +197,6 @@ class sfDoctrinePager extends sfPager implements Serializable
         $results = $queryForRetrieve->execute();
 
         return $results[0];
-    }
-
-    /**
-     * Get all the results for the pager instance.
-     *
-     * @param mixed $hydrationMode A hydration mode identifier
-     *
-     * @return Doctrine_Collection|array
-     */
-    public function getResults($hydrationMode = null)
-    {
-        return $this->getQuery()->execute(array(), $hydrationMode);
     }
 
     /**

@@ -71,60 +71,6 @@ class sfMessageSource_XLIFF extends sfMessageSource_File
     }
 
     /**
-     * Creates and returns a new DOMDocument instance.
-     *
-     * @param string $xml XML string
-     *
-     * @return DOMDocument
-     */
-    protected function createDOMDocument($xml = null)
-    {
-        $domimp = new DOMImplementation();
-        $doctype = $domimp->createDocumentType('xliff', '-//XLIFF//DTD XLIFF//EN', 'http://www.oasis-open.org/committees/xliff/documents/xliff.dtd');
-        $dom = $domimp->createDocument('', '', $doctype);
-        $dom->formatOutput = true;
-        $dom->preserveWhiteSpace = false;
-
-        if (null !== $xml && is_string($xml)) {
-            // Add header for XML with UTF-8
-            if (!preg_match('/<\?xml/', $xml)) {
-                $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n".$xml;
-            }
-
-            $dom->loadXML($xml);
-        }
-
-        return $dom;
-    }
-
-    /**
-     * Gets the variant for a catalogue depending on the current culture.
-     *
-     * @param string $catalogue catalogue
-     *
-     * @return string the variant
-     *
-     * @see save()
-     * @see update()
-     * @see delete()
-     */
-    protected function getVariants($catalogue = 'messages')
-    {
-        if (null === $catalogue) {
-            $catalogue = 'messages';
-        }
-
-        foreach ($this->getCatalogueList($catalogue) as $variant) {
-            $file = $this->getSource($variant);
-            if (is_file($file)) {
-                return array($variant, $file);
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Saves the list of untranslated blocks to the translation source.
      * If the translation was not found, you should add those
      * strings to the translation source via the <b>append()</b> method.
@@ -352,6 +298,60 @@ class sfMessageSource_XLIFF extends sfMessageSource_File
 
                     return false;
                 }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Creates and returns a new DOMDocument instance.
+     *
+     * @param string $xml XML string
+     *
+     * @return DOMDocument
+     */
+    protected function createDOMDocument($xml = null)
+    {
+        $domimp = new DOMImplementation();
+        $doctype = $domimp->createDocumentType('xliff', '-//XLIFF//DTD XLIFF//EN', 'http://www.oasis-open.org/committees/xliff/documents/xliff.dtd');
+        $dom = $domimp->createDocument('', '', $doctype);
+        $dom->formatOutput = true;
+        $dom->preserveWhiteSpace = false;
+
+        if (null !== $xml && is_string($xml)) {
+            // Add header for XML with UTF-8
+            if (!preg_match('/<\?xml/', $xml)) {
+                $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n".$xml;
+            }
+
+            $dom->loadXML($xml);
+        }
+
+        return $dom;
+    }
+
+    /**
+     * Gets the variant for a catalogue depending on the current culture.
+     *
+     * @param string $catalogue catalogue
+     *
+     * @return string the variant
+     *
+     * @see save()
+     * @see update()
+     * @see delete()
+     */
+    protected function getVariants($catalogue = 'messages')
+    {
+        if (null === $catalogue) {
+            $catalogue = 'messages';
+        }
+
+        foreach ($this->getCatalogueList($catalogue) as $variant) {
+            $file = $this->getSource($variant);
+            if (is_file($file)) {
+                return array($variant, $file);
             }
         }
 

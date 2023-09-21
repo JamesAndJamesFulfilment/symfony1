@@ -14,8 +14,6 @@ require_once sfConfig::get('sf_symfony_lib_dir').'/vendor/lime/lime.php';
 
 class TestTask extends sfBaseTask
 {
-    protected function execute($arguments = array(), $options = array()) {}
-
     public function reloadAutoload()
     {
         parent::reloadAutoload();
@@ -24,6 +22,10 @@ class TestTask extends sfBaseTask
     public function initializeAutoload(sfProjectConfiguration $configuration, $reload = false)
     {
         parent::initializeAutoload($configuration, $reload);
+    }
+
+    protected function execute($arguments = array(), $options = array())
+    {
     }
 }
 
@@ -58,18 +60,6 @@ $t->diag('->run()');
 
 class ApplicationTask extends sfBaseTask
 {
-    protected function configure()
-    {
-        $this->addOption('application', null, sfCommandOption::PARAMETER_REQUIRED, '', true);
-    }
-
-    protected function execute($arguments = array(), $options = array())
-    {
-        if (!$this->configuration instanceof sfApplicationConfiguration) {
-            throw new Exception('This task requires an application configuration be loaded.');
-        }
-    }
-
     public function getServiceContainer()
     {
         return parent::getServiceContainer();
@@ -83,6 +73,18 @@ class ApplicationTask extends sfBaseTask
     public function getMailer()
     {
         return parent::getMailer();
+    }
+
+    protected function configure()
+    {
+        $this->addOption('application', null, sfCommandOption::PARAMETER_REQUIRED, '', true);
+    }
+
+    protected function execute($arguments = array(), $options = array())
+    {
+        if (!$this->configuration instanceof sfApplicationConfiguration) {
+            throw new Exception('This task requires an application configuration be loaded.');
+        }
     }
 }
 

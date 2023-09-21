@@ -95,6 +95,7 @@ class sfClassManipulator
      * Sets the file associated with this instance.
      *
      * @param string A file name
+     * @param mixed $file
      */
     public function setFile($file)
     {

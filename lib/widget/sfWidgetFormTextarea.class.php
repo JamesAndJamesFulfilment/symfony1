@@ -18,20 +18,6 @@
 class sfWidgetFormTextarea extends sfWidgetForm
 {
     /**
-     * Configures the current widget.
-     *
-     * @param array $options    An array of options
-     * @param array $attributes An array of default HTML attributes
-     *
-     * @see sfWidgetForm
-     */
-    protected function configure($options = array(), $attributes = array())
-    {
-        $this->setAttribute('rows', 4);
-        $this->setAttribute('cols', 30);
-    }
-
-    /**
      * Renders the widget.
      *
      * @param string $name       The element name
@@ -46,5 +32,19 @@ class sfWidgetFormTextarea extends sfWidgetForm
     public function render($name, $value = null, $attributes = array(), $errors = array())
     {
         return $this->renderContentTag('textarea', self::escapeOnce($value), array_merge(array('name' => $name), $attributes));
+    }
+
+    /**
+     * Configures the current widget.
+     *
+     * @param array $options    An array of options
+     * @param array $attributes An array of default HTML attributes
+     *
+     * @see sfWidgetForm
+     */
+    protected function configure($options = array(), $attributes = array())
+    {
+        $this->setAttribute('rows', 4);
+        $this->setAttribute('cols', 30);
     }
 }

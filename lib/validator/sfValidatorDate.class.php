@@ -62,6 +62,8 @@ class sfValidatorDate extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $value
      */
     protected function doClean($value)
     {
@@ -217,6 +219,8 @@ class sfValidatorDate extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $value
      */
     protected function isEmpty($value)
     {

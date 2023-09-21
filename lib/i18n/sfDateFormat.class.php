@@ -227,20 +227,6 @@ class sfDateFormat
     }
 
     /**
-     * For a particular token, get the corresponding function to call.
-     *
-     * @param string $token token
-     *
-     * @return mixed the function if good token, null otherwise
-     */
-    protected function getFunctionName($token)
-    {
-        if (isset($this->tokens[$token[0]])) {
-            return $this->tokens[$token[0]];
-        }
-    }
-
-    /**
      * Gets the pattern from DateTimeFormatInfo or some predefined patterns.
      * If the $pattern parameter is an array of 2 element, it will assume
      * that the first element is the date, and second the time
@@ -385,6 +371,20 @@ class sfDateFormat
         $pattern = strtr($pattern, array('yy' => 'yyyy', 'Y' => 'yyyy'));
 
         return trim($pattern);
+    }
+
+    /**
+     * For a particular token, get the corresponding function to call.
+     *
+     * @param string $token token
+     *
+     * @return mixed the function if good token, null otherwise
+     */
+    protected function getFunctionName($token)
+    {
+        if (isset($this->tokens[$token[0]])) {
+            return $this->tokens[$token[0]];
+        }
     }
 
     /**

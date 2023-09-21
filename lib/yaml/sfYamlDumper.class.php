@@ -39,7 +39,8 @@ class sfYamlDumper
             foreach ($input as $key => $value) {
                 $willBeInlined = $inline - 1 <= 0 || !is_array($value) || empty($value);
 
-                $output .= sprintf('%s%s%s%s',
+                $output .= sprintf(
+                    '%s%s%s%s',
                     $prefix,
                     $isAHash ? sfYamlInline::dump($key).':' : '-',
                     $willBeInlined ? ' ' : "\n",

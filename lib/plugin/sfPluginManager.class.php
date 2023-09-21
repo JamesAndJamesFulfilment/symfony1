@@ -52,7 +52,9 @@ class sfPluginManager
     /**
      * Configures this plugin manager.
      */
-    public function configure() {}
+    public function configure()
+    {
+    }
 
     /**
      * Returns the sfPearEnvironment instance.
@@ -104,132 +106,6 @@ class sfPluginManager
         $this->installing = array();
 
         return $this->doInstallPlugin($plugin, $options);
-    }
-
-    /**
-     * Installs a plugin.
-     *
-     * @see installPlugin()
-     */
-    protected function doInstallPlugin($plugin, $options = array())
-    {
-        $channel = isset($options['channel']) ? $options['channel'] : $this->environment->getConfig()->get('default_channel');
-        $stability = isset($options['stability']) ? $options['stability'] : $this->environment->getConfig()->get('preferred_state', null, $channel);
-        $version = isset($options['version']) ? $options['version'] : null;
-
-        $isPackage = true;
-        if (0 === strpos($plugin, 'http://') || file_exists($plugin)) {
-            if (0 === strpos($plugin, 'http://plugins.symfony-project.')) {
-                throw new sfPluginException("You try to install a symfony 1.0 plugin.\nPlease read the help message of this task to know how to install a plugin for the current version of symfony.");
-            }
-
-            $download = $plugin;
-            $isPackage = false;
-        } elseif (false !== strpos($plugin, '/')) {
-            list($channel, $plugin) = explode('/', $plugin);
-        }
-
-        $this->dispatcher->notify(new sfEvent($this, 'plugin.pre_install', array('channel' => $channel, 'plugin' => $plugin, 'is_package' => $isPackage)));
-
-        if ($isPackage) {
-            $this->environment->getRest()->setChannel($channel);
-
-            if (!preg_match(PEAR_COMMON_PACKAGE_NAME_PREG, $plugin)) {
-                throw new sfPluginException(sprintf('Plugin name "%s" is not a valid package name', $plugin));
-            }
-
-            if (!$version) {
-                $version = $this->getPluginVersion($plugin, $stability);
-            } else {
-                if (!$this->isPluginCompatible($plugin, $version)) {
-                    throw new sfPluginDependencyException(sprintf('Plugin "%s" in version "%s" is not compatible with the current application', $plugin, $version));
-                }
-            }
-
-            if (!preg_match(PEAR_COMMON_PACKAGE_VERSION_PREG, $version)) {
-                throw new sfPluginException(sprintf('Plugin version "%s" is not a valid version', $version));
-            }
-
-            $existing = $this->environment->getRegistry()->packageInfo($plugin, 'version', $channel);
-            if (0 === version_compare($existing, $version)) {
-                $this->dispatcher->notify(new sfEvent($this, 'application.log', array('Plugin is already installed')));
-
-                return true;
-            }
-
-            // skip if the plugin is already installing and we are here through a dependency)
-            if (isset($this->installing[$channel.'/'.$plugin])) {
-                return true;
-            }
-
-            // convert the plugin package into a discrete download URL
-            $download = $this->environment->getRest()->getPluginDownloadURL($plugin, $version, $stability);
-            if (PEAR::isError($download)) {
-                throw new sfPluginException(sprintf('Problem downloading the plugin "%s": %s', $plugin, $download->getMessage()));
-            }
-        }
-
-        // download the plugin and install
-        $class = $this->environment->getOption('downloader_base_class');
-        $downloader = new $class($this, array('upgrade' => true), $this->environment->getConfig());
-
-        $this->installing[$channel.'/'.$plugin] = true;
-
-        if ($isPackage) {
-            $this->checkPluginDependencies($plugin, $version, array(
-                'install_deps' => isset($options['install_deps']) ? (bool) $options['install_deps'] : false,
-                'stability' => $stability,
-            ));
-        }
-
-        // download the actual URL to the plugin
-        $downloaded = $downloader->download(array($download));
-        if (PEAR::isError($downloaded)) {
-            throw new sfPluginException(sprintf('Problem when downloading "%s": %s', $download, $downloaded->getMessage()));
-        }
-        $errors = $downloader->getErrorMsgs();
-        if (count($errors)) {
-            $err = array();
-            foreach ($errors as $error) {
-                $err[] = $error;
-            }
-
-            if (!count($downloaded)) {
-                throw new sfPluginException(sprintf('Plugin "%s" installation failed: %s', $plugin, implode("\n", $err)));
-            }
-        }
-
-        $pluginPackage = $downloaded[0];
-
-        $installer = new PEAR_Installer($this);
-        $installer->setOptions(array('upgrade' => true));
-        $packages = array($pluginPackage);
-        $installer->sortPackagesForInstall($packages);
-        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-        $err = $installer->setDownloadedPackages($packages);
-        if (PEAR::isError($err)) {
-            PEAR::staticPopErrorHandling();
-
-            throw new sfPluginException($err->getMessage());
-        }
-
-        $info = $installer->install($pluginPackage, array('upgrade' => true));
-        PEAR::staticPopErrorHandling();
-        if (PEAR::isError($info)) {
-            throw new sfPluginException(sprintf('Installation of "%s" plugin failed: %s', $plugin, $info->getMessage()));
-        }
-
-        if (is_array($info)) {
-            $this->dispatcher->notify(new sfEvent($this, 'application.log', array(sprintf('Installation successful for plugin "%s"', $plugin))));
-
-            $this->dispatcher->notify(new sfEvent($this, 'plugin.post_install', array('channel' => $channel, 'plugin' => $pluginPackage->getPackage())));
-
-            unset($this->installing[$channel.'/'.$plugin]);
-
-            return $pluginPackage->getPackage();
-        }
-
-        throw new sfPluginException(sprintf('Installation of "%s" plugin failed', $plugin));
     }
 
     /**
@@ -405,6 +281,135 @@ class sfPluginManager
         }
 
         return $rest->getPluginLicense($plugin, $version);
+    }
+
+    /**
+     * Installs a plugin.
+     *
+     * @see installPlugin()
+     *
+     * @param mixed $plugin
+     * @param mixed $options
+     */
+    protected function doInstallPlugin($plugin, $options = array())
+    {
+        $channel = isset($options['channel']) ? $options['channel'] : $this->environment->getConfig()->get('default_channel');
+        $stability = isset($options['stability']) ? $options['stability'] : $this->environment->getConfig()->get('preferred_state', null, $channel);
+        $version = isset($options['version']) ? $options['version'] : null;
+
+        $isPackage = true;
+        if (0 === strpos($plugin, 'http://') || file_exists($plugin)) {
+            if (0 === strpos($plugin, 'http://plugins.symfony-project.')) {
+                throw new sfPluginException("You try to install a symfony 1.0 plugin.\nPlease read the help message of this task to know how to install a plugin for the current version of symfony.");
+            }
+
+            $download = $plugin;
+            $isPackage = false;
+        } elseif (false !== strpos($plugin, '/')) {
+            list($channel, $plugin) = explode('/', $plugin);
+        }
+
+        $this->dispatcher->notify(new sfEvent($this, 'plugin.pre_install', array('channel' => $channel, 'plugin' => $plugin, 'is_package' => $isPackage)));
+
+        if ($isPackage) {
+            $this->environment->getRest()->setChannel($channel);
+
+            if (!preg_match(PEAR_COMMON_PACKAGE_NAME_PREG, $plugin)) {
+                throw new sfPluginException(sprintf('Plugin name "%s" is not a valid package name', $plugin));
+            }
+
+            if (!$version) {
+                $version = $this->getPluginVersion($plugin, $stability);
+            } else {
+                if (!$this->isPluginCompatible($plugin, $version)) {
+                    throw new sfPluginDependencyException(sprintf('Plugin "%s" in version "%s" is not compatible with the current application', $plugin, $version));
+                }
+            }
+
+            if (!preg_match(PEAR_COMMON_PACKAGE_VERSION_PREG, $version)) {
+                throw new sfPluginException(sprintf('Plugin version "%s" is not a valid version', $version));
+            }
+
+            $existing = $this->environment->getRegistry()->packageInfo($plugin, 'version', $channel);
+            if (0 === version_compare($existing, $version)) {
+                $this->dispatcher->notify(new sfEvent($this, 'application.log', array('Plugin is already installed')));
+
+                return true;
+            }
+
+            // skip if the plugin is already installing and we are here through a dependency)
+            if (isset($this->installing[$channel.'/'.$plugin])) {
+                return true;
+            }
+
+            // convert the plugin package into a discrete download URL
+            $download = $this->environment->getRest()->getPluginDownloadURL($plugin, $version, $stability);
+            if (PEAR::isError($download)) {
+                throw new sfPluginException(sprintf('Problem downloading the plugin "%s": %s', $plugin, $download->getMessage()));
+            }
+        }
+
+        // download the plugin and install
+        $class = $this->environment->getOption('downloader_base_class');
+        $downloader = new $class($this, array('upgrade' => true), $this->environment->getConfig());
+
+        $this->installing[$channel.'/'.$plugin] = true;
+
+        if ($isPackage) {
+            $this->checkPluginDependencies($plugin, $version, array(
+                'install_deps' => isset($options['install_deps']) ? (bool) $options['install_deps'] : false,
+                'stability' => $stability,
+            ));
+        }
+
+        // download the actual URL to the plugin
+        $downloaded = $downloader->download(array($download));
+        if (PEAR::isError($downloaded)) {
+            throw new sfPluginException(sprintf('Problem when downloading "%s": %s', $download, $downloaded->getMessage()));
+        }
+        $errors = $downloader->getErrorMsgs();
+        if (count($errors)) {
+            $err = array();
+            foreach ($errors as $error) {
+                $err[] = $error;
+            }
+
+            if (!count($downloaded)) {
+                throw new sfPluginException(sprintf('Plugin "%s" installation failed: %s', $plugin, implode("\n", $err)));
+            }
+        }
+
+        $pluginPackage = $downloaded[0];
+
+        $installer = new PEAR_Installer($this);
+        $installer->setOptions(array('upgrade' => true));
+        $packages = array($pluginPackage);
+        $installer->sortPackagesForInstall($packages);
+        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
+        $err = $installer->setDownloadedPackages($packages);
+        if (PEAR::isError($err)) {
+            PEAR::staticPopErrorHandling();
+
+            throw new sfPluginException($err->getMessage());
+        }
+
+        $info = $installer->install($pluginPackage, array('upgrade' => true));
+        PEAR::staticPopErrorHandling();
+        if (PEAR::isError($info)) {
+            throw new sfPluginException(sprintf('Installation of "%s" plugin failed: %s', $plugin, $info->getMessage()));
+        }
+
+        if (is_array($info)) {
+            $this->dispatcher->notify(new sfEvent($this, 'application.log', array(sprintf('Installation successful for plugin "%s"', $plugin))));
+
+            $this->dispatcher->notify(new sfEvent($this, 'plugin.post_install', array('channel' => $channel, 'plugin' => $pluginPackage->getPackage())));
+
+            unset($this->installing[$channel.'/'.$plugin]);
+
+            return $pluginPackage->getPackage();
+        }
+
+        throw new sfPluginException(sprintf('Installation of "%s" plugin failed', $plugin));
     }
 
     /**

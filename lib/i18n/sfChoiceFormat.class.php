@@ -142,19 +142,6 @@ class sfChoiceFormat
         return $left && $right;
     }
 
-    protected function isValidSetNotation($number, $set)
-    {
-        $str = '$result = '.str_replace('n', '$number', $set).';';
-
-        try {
-            eval($str);
-
-            return $result;
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
     /**
      * Parses a choice string and get a list of sets and a list of strings corresponding to the sets.
      *
@@ -201,5 +188,18 @@ class sfChoiceFormat
         }
 
         return false;
+    }
+
+    protected function isValidSetNotation($number, $set)
+    {
+        $str = '$result = '.str_replace('n', '$number', $set).';';
+
+        try {
+            eval($str);
+
+            return $result;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }

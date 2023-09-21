@@ -29,10 +29,26 @@ class sfI18N
      * Class constructor.
      *
      * @see initialize()
+     *
+     * @param mixed $options
      */
     public function __construct(sfApplicationConfiguration $configuration, sfCache $cache = null, $options = array())
     {
         $this->initialize($configuration, $cache, $options);
+    }
+
+    /**
+     * Gets the translation for the given string.
+     *
+     * @param string $string    The string to translate
+     * @param array  $args      An array of arguments for the translation
+     * @param string $catalogue The catalogue name
+     *
+     * @return string The translated string
+     */
+    public function __($string, $args = array(), $catalogue = 'messages')
+    {
+        return $this->getMessageFormat()->format($string, $args, $catalogue);
     }
 
     /**
@@ -199,20 +215,6 @@ class sfI18N
         }
 
         return $this->messageFormat;
-    }
-
-    /**
-     * Gets the translation for the given string.
-     *
-     * @param string $string    The string to translate
-     * @param array  $args      An array of arguments for the translation
-     * @param string $catalogue The catalogue name
-     *
-     * @return string The translated string
-     */
-    public function __($string, $args = array(), $catalogue = 'messages')
-    {
-        return $this->getMessageFormat()->format($string, $args, $catalogue);
     }
 
     /**

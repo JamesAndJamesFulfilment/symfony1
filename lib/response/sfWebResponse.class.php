@@ -82,6 +82,26 @@ class sfWebResponse extends sfResponse
     );
 
     /**
+     * @see sfResponse
+     *
+     * @return array
+     */
+    public function __serialize()
+    {
+        return array($this->content, $this->statusCode, $this->statusText, $this->options, $this->headerOnly, $this->headers, $this->metas, $this->httpMetas, $this->stylesheets, $this->javascripts, $this->slots);
+    }
+
+    /**
+     * @see sfResponse
+     *
+     * @param array $data
+     */
+    public function __unserialize($data)
+    {
+        list($this->content, $this->statusCode, $this->statusText, $this->options, $this->headerOnly, $this->headers, $this->metas, $this->httpMetas, $this->stylesheets, $this->javascripts, $this->slots) = $data;
+    }
+
+    /**
      * Initializes this sfWebResponse.
      *
      * Available options:
@@ -370,18 +390,6 @@ class sfWebResponse extends sfResponse
             $this->dispatcher->notify(new sfEvent($this, 'response.fastcgi_finish_request'));
             fastcgi_finish_request();
         }
-    }
-
-    /**
-     * Retrieves a normalized Header.
-     *
-     * @param string $name Header name
-     *
-     * @return string Normalized header
-     */
-    protected function normalizeHeaderName($name)
-    {
-        return strtr(ucwords(strtr(strtolower($name), array('_' => ' ', '-' => ' '))), array(' ' => '-'));
     }
 
     /**
@@ -818,6 +826,8 @@ class sfWebResponse extends sfResponse
 
     /**
      * @see sfResponse
+     *
+     * @param mixed $serialized
      */
     public function unserialize($serialized)
     {
@@ -825,23 +835,15 @@ class sfWebResponse extends sfResponse
     }
 
     /**
-     * @see sfResponse
+     * Retrieves a normalized Header.
      *
-     * @return array
-     */
-    public function __serialize()
-    {
-        return array($this->content, $this->statusCode, $this->statusText, $this->options, $this->headerOnly, $this->headers, $this->metas, $this->httpMetas, $this->stylesheets, $this->javascripts, $this->slots);
-    }
-
-    /**
-     * @see sfResponse
+     * @param string $name Header name
      *
-     * @param array $data
+     * @return string Normalized header
      */
-    public function __unserialize($data)
+    protected function normalizeHeaderName($name)
     {
-        list($this->content, $this->statusCode, $this->statusText, $this->options, $this->headerOnly, $this->headers, $this->metas, $this->httpMetas, $this->stylesheets, $this->javascripts, $this->slots) = $data;
+        return strtr(ucwords(strtr(strtolower($name), array('_' => ' ', '-' => ' '))), array(' ' => '-'));
     }
 
     /**

@@ -22,6 +22,17 @@
 class sfPDODatabase extends sfDatabase
 {
     /**
+     * Magic method for calling PDO directly via sfPDODatabase.
+     *
+     * @param string $method
+     * @param array  $arguments
+     */
+    public function __call($method, $arguments)
+    {
+        return call_user_func_array(array($this->getConnection(), $method), $arguments);
+    }
+
+    /**
      * Connects to the database.
      *
      * @throws <b>sfDatabaseException</b> If a connection could not be created
@@ -82,16 +93,5 @@ class sfPDODatabase extends sfDatabase
         if (null !== $this->connection) {
             @$this->connection = null;
         }
-    }
-
-    /**
-     * Magic method for calling PDO directly via sfPDODatabase.
-     *
-     * @param string $method
-     * @param array  $arguments
-     */
-    public function __call($method, $arguments)
-    {
-        return call_user_func_array(array($this->getConnection(), $method), $arguments);
     }
 }

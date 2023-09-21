@@ -205,30 +205,6 @@ class sfPearEnvironment
     }
 
     /**
-     * Initializes the PEAR Frontend instance.
-     */
-    protected function initializeFrontend()
-    {
-        $this->frontend = PEAR_Frontend::singleton('sfPearFrontendPlugin');
-        if (PEAR::isError($this->frontend)) {
-            throw new sfPluginException(sprintf('Unable to initialize PEAR Frontend object: %s', $this->frontend->getMessage()));
-        }
-
-        $this->frontend->setEventDispatcher($this->dispatcher);
-    }
-
-    /**
-     * Initializes the PEAR Registry instance.
-     */
-    protected function initializeRegistry()
-    {
-        $this->registry = $this->config->getRegistry();
-        if (PEAR::isError($this->registry)) {
-            throw new sfPluginException(sprintf('Unable to initialize PEAR registry: %s', $this->registry->getMessage()));
-        }
-    }
-
-    /**
      * Registers the PEAR Configuration instance.
      *
      * @param string $pluginDir The plugin path
@@ -255,5 +231,29 @@ class sfPearEnvironment
         $this->config->set('temp_dir', $cacheDir);
 
         $this->config->set('verbose', 1);
+    }
+
+    /**
+     * Initializes the PEAR Frontend instance.
+     */
+    protected function initializeFrontend()
+    {
+        $this->frontend = PEAR_Frontend::singleton('sfPearFrontendPlugin');
+        if (PEAR::isError($this->frontend)) {
+            throw new sfPluginException(sprintf('Unable to initialize PEAR Frontend object: %s', $this->frontend->getMessage()));
+        }
+
+        $this->frontend->setEventDispatcher($this->dispatcher);
+    }
+
+    /**
+     * Initializes the PEAR Registry instance.
+     */
+    protected function initializeRegistry()
+    {
+        $this->registry = $this->config->getRegistry();
+        if (PEAR::isError($this->registry)) {
+            throw new sfPluginException(sprintf('Unable to initialize PEAR registry: %s', $this->registry->getMessage()));
+        }
     }
 }

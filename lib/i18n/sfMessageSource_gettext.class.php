@@ -70,39 +70,6 @@ class sfMessageSource_gettext extends sfMessageSource_File
     }
 
     /**
-     * Gets the variant for a catalogue depending on the current culture.
-     *
-     * @param string $catalogue catalogue
-     *
-     * @return string the variant
-     *
-     * @see save()
-     * @see update()
-     * @see delete()
-     */
-    protected function getVariants($catalogue = 'messages')
-    {
-        if (empty($catalogue)) {
-            $catalogue = 'messages';
-        }
-
-        foreach ($this->getCatalogueList($catalogue) as $variant) {
-            $file = $this->getSource($variant);
-            $po = $this->getPOFile($file);
-            if (is_file($file) || is_file($po)) {
-                return array($variant, $file, $po);
-            }
-        }
-
-        return false;
-    }
-
-    protected function getPOFile($MOFile)
-    {
-        return substr($MOFile, 0, strlen($MOFile) - strlen($this->dataExt)).$this->poExt;
-    }
-
-    /**
      * Saves the list of untranslated blocks to the translation source.
      * If the translation was not found, you should add those
      * strings to the translation source via the <b>append()</b> method.
@@ -275,6 +242,39 @@ class sfMessageSource_gettext extends sfMessageSource_File
         }
 
         return false;
+    }
+
+    /**
+     * Gets the variant for a catalogue depending on the current culture.
+     *
+     * @param string $catalogue catalogue
+     *
+     * @return string the variant
+     *
+     * @see save()
+     * @see update()
+     * @see delete()
+     */
+    protected function getVariants($catalogue = 'messages')
+    {
+        if (empty($catalogue)) {
+            $catalogue = 'messages';
+        }
+
+        foreach ($this->getCatalogueList($catalogue) as $variant) {
+            $file = $this->getSource($variant);
+            $po = $this->getPOFile($file);
+            if (is_file($file) || is_file($po)) {
+                return array($variant, $file, $po);
+            }
+        }
+
+        return false;
+    }
+
+    protected function getPOFile($MOFile)
+    {
+        return substr($MOFile, 0, strlen($MOFile) - strlen($this->dataExt)).$this->poExt;
     }
 
     protected function createMessageTemplate($catalogue)

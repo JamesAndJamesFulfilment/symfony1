@@ -79,19 +79,6 @@ class sfAggregateLogger extends sfLogger
     }
 
     /**
-     * Logs a message.
-     *
-     * @param string $message  Message
-     * @param int    $priority Message priority
-     */
-    protected function doLog($message, $priority)
-    {
-        foreach ($this->loggers as $logger) {
-            $logger->log($message, $priority);
-        }
-    }
-
-    /**
      * Executes the shutdown method.
      */
     public function shutdown()
@@ -103,5 +90,18 @@ class sfAggregateLogger extends sfLogger
         }
 
         $this->loggers = array();
+    }
+
+    /**
+     * Logs a message.
+     *
+     * @param string $message  Message
+     * @param int    $priority Message priority
+     */
+    protected function doLog($message, $priority)
+    {
+        foreach ($this->loggers as $logger) {
+            $logger->log($message, $priority);
+        }
     }
 }

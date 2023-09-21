@@ -18,6 +18,18 @@
 class sfValidatorRegex extends sfValidatorString
 {
     /**
+     * Returns the current validator's regular expression.
+     *
+     * @return string
+     */
+    public function getPattern()
+    {
+        $pattern = $this->getOption('pattern');
+
+        return $pattern instanceof sfCallable ? $pattern->call() : $pattern;
+    }
+
+    /**
      * Configures the current validator.
      *
      * Available options:
@@ -40,6 +52,8 @@ class sfValidatorRegex extends sfValidatorString
 
     /**
      * @see sfValidatorString
+     *
+     * @param mixed $value
      */
     protected function doClean($value)
     {
@@ -55,17 +69,5 @@ class sfValidatorRegex extends sfValidatorString
         }
 
         return $clean;
-    }
-
-    /**
-     * Returns the current validator's regular expression.
-     *
-     * @return string
-     */
-    public function getPattern()
-    {
-        $pattern = $this->getOption('pattern');
-
-        return $pattern instanceof sfCallable ? $pattern->call() : $pattern;
     }
 }

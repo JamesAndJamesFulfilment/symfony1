@@ -24,45 +24,6 @@ class sfLogRotateTask extends sfBaseTask
     public const DEF_HISTORY = 10;
 
     /**
-     * @see sfTask
-     */
-    protected function configure()
-    {
-        $this->addArguments(array(
-            new sfCommandArgument('application', sfCommandArgument::REQUIRED, 'The application name'),
-            new sfCommandArgument('env', sfCommandArgument::REQUIRED, 'The environment name'),
-        ));
-
-        $this->addOptions(array(
-            new sfCommandOption('history', null, sfCommandOption::PARAMETER_REQUIRED, 'The maximum number of old log files to keep', self::DEF_HISTORY),
-            new sfCommandOption('period', null, sfCommandOption::PARAMETER_REQUIRED, 'The period in days', self::DEF_PERIOD),
-        ));
-
-        $this->namespace = 'log';
-        $this->name = 'rotate';
-        $this->briefDescription = 'Rotates an application\'s log files';
-
-        $this->detailedDescription = <<<'EOF'
-The [log:rotate|INFO] task rotates application log files for a given
-environment:
-
-  [./symfony log:rotate frontend dev|INFO]
-
-You can specify a [period|COMMENT] or a [history|COMMENT] option:
-
-  [./symfony log:rotate frontend dev --history=10 --period=7|INFO]
-EOF;
-    }
-
-    /**
-     * @see sfTask
-     */
-    protected function execute($arguments = array(), $options = array())
-    {
-        $this->rotate($arguments['application'], $arguments['env'], $options['period'], $options['history'], true);
-    }
-
-    /**
      * Rotates log file.
      *
      * @param string $app      Application name
@@ -145,5 +106,47 @@ EOF;
             // release lock
             $this->getFilesystem()->remove($lockFile);
         }
+    }
+
+    /**
+     * @see sfTask
+     */
+    protected function configure()
+    {
+        $this->addArguments(array(
+            new sfCommandArgument('application', sfCommandArgument::REQUIRED, 'The application name'),
+            new sfCommandArgument('env', sfCommandArgument::REQUIRED, 'The environment name'),
+        ));
+
+        $this->addOptions(array(
+            new sfCommandOption('history', null, sfCommandOption::PARAMETER_REQUIRED, 'The maximum number of old log files to keep', self::DEF_HISTORY),
+            new sfCommandOption('period', null, sfCommandOption::PARAMETER_REQUIRED, 'The period in days', self::DEF_PERIOD),
+        ));
+
+        $this->namespace = 'log';
+        $this->name = 'rotate';
+        $this->briefDescription = 'Rotates an application\'s log files';
+
+        $this->detailedDescription = <<<'EOF'
+The [log:rotate|INFO] task rotates application log files for a given
+environment:
+
+  [./symfony log:rotate frontend dev|INFO]
+
+You can specify a [period|COMMENT] or a [history|COMMENT] option:
+
+  [./symfony log:rotate frontend dev --history=10 --period=7|INFO]
+EOF;
+    }
+
+    /**
+     * @see sfTask
+     *
+     * @param mixed $arguments
+     * @param mixed $options
+     */
+    protected function execute($arguments = array(), $options = array())
+    {
+        $this->rotate($arguments['application'], $arguments['env'], $options['period'], $options['history'], true);
     }
 }

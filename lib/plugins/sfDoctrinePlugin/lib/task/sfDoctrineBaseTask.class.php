@@ -61,7 +61,7 @@ abstract class sfDoctrineBaseTask extends sfBaseTask
     /**
      * Returns Doctrine databases from the supplied database manager.
      *
-     * @param array|null $names An array of names or NULL for all databases
+     * @param null|array $names An array of names or NULL for all databases
      *
      * @return array An associative array of {@link sfDoctrineDatabase} objects and their names
      *
@@ -111,6 +111,8 @@ abstract class sfDoctrineBaseTask extends sfBaseTask
      *
      * A schema file is any file saved in a plugin or project's config/doctrine/
      * directory that matches the "*.yml" glob.
+     *
+     * @param mixed $yamlSchemaPath
      *
      * @return string Absolute path to the consolidated schema file
      */

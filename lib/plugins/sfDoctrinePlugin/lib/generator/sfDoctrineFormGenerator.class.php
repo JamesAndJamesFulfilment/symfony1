@@ -52,6 +52,7 @@ class sfDoctrineFormGenerator extends sfGenerator
      * Generates classes and templates in cache.
      *
      * @param array The parameters
+     * @param mixed $params
      *
      * @return string The data to put in configuration cache
      */
@@ -594,6 +595,47 @@ class sfDoctrineFormGenerator extends sfGenerator
     }
 
     /**
+     * Returns the name of the model class this model extends.
+     *
+     * @return null|string
+     */
+    public function getParentModel()
+    {
+        $baseClasses = array(
+            'Doctrine_Record',
+            'sfDoctrineRecord',
+        );
+
+        $builderOptions = sfConfig::get('doctrine_model_builder_options', array());
+        if (isset($builderOptions['baseClassName'])) {
+            $baseClasses[] = $builderOptions['baseClassName'];
+        }
+
+        // find the first non-abstract parent
+        $model = $this->modelName;
+        while ($model = get_parent_class($model)) {
+            if (in_array($model, $baseClasses)) {
+                break;
+            }
+
+            $r = new ReflectionClass($model);
+            if (!$r->isAbstract()) {
+                return $r->getName();
+            }
+        }
+    }
+
+    /**
+     * Get the name of the form class to extend based on the inheritance of the model.
+     *
+     * @return string
+     */
+    public function getFormClassToExtend()
+    {
+        return null === ($model = $this->getParentModel()) ? 'BaseFormDoctrine' : sprintf('%sForm', $model);
+    }
+
+    /**
      * Loads all Doctrine builders.
      */
     protected function loadModels()
@@ -609,6 +651,8 @@ class sfDoctrineFormGenerator extends sfGenerator
 
     /**
      * Filter out models that have disabled generation of form classes.
+     *
+     * @param mixed $models
      *
      * @return array $models Array of models to generate forms for
      */
@@ -645,46 +689,5 @@ class sfDoctrineFormGenerator extends sfGenerator
         $php = str_replace(',)', ')', $php);
 
         return str_replace('  ', ' ', $php);
-    }
-
-    /**
-     * Returns the name of the model class this model extends.
-     *
-     * @return string|null
-     */
-    public function getParentModel()
-    {
-        $baseClasses = array(
-            'Doctrine_Record',
-            'sfDoctrineRecord',
-        );
-
-        $builderOptions = sfConfig::get('doctrine_model_builder_options', array());
-        if (isset($builderOptions['baseClassName'])) {
-            $baseClasses[] = $builderOptions['baseClassName'];
-        }
-
-        // find the first non-abstract parent
-        $model = $this->modelName;
-        while ($model = get_parent_class($model)) {
-            if (in_array($model, $baseClasses)) {
-                break;
-            }
-
-            $r = new ReflectionClass($model);
-            if (!$r->isAbstract()) {
-                return $r->getName();
-            }
-        }
-    }
-
-    /**
-     * Get the name of the form class to extend based on the inheritance of the model.
-     *
-     * @return string
-     */
-    public function getFormClassToExtend()
-    {
-        return null === ($model = $this->getParentModel()) ? 'BaseFormDoctrine' : sprintf('%sForm', $model);
     }
 }

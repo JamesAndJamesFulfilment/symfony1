@@ -61,6 +61,28 @@ class sfOutputEscaperObjectDecorator extends sfOutputEscaperGetterDecorator impl
     }
 
     /**
+     * Try to call decorated object __toString() method if exists.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->escape($this->escapingMethod, (string) $this->value);
+    }
+
+    /**
+     * Asks the wrapped object whether a property is set.
+     *
+     * @param mixed $key
+     *
+     * @return bool
+     */
+    public function __isset($key)
+    {
+        return isset($this->value->{$key});
+    }
+
+    /**
      * Returns the result of calling the get() method on the object, bypassing
      * any escaping, if that method exists.
      *
@@ -79,26 +101,6 @@ class sfOutputEscaperObjectDecorator extends sfOutputEscaperGetterDecorator impl
         }
 
         return $this->value->get($key);
-    }
-
-    /**
-     * Try to call decorated object __toString() method if exists.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->escape($this->escapingMethod, (string) $this->value);
-    }
-
-    /**
-     * Asks the wrapped object whether a property is set.
-     *
-     * @return bool
-     */
-    public function __isset($key)
-    {
-        return isset($this->value->{$key});
     }
 
     /**

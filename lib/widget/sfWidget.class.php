@@ -55,23 +55,6 @@ abstract class sfWidget
     }
 
     /**
-     * Configures the current widget.
-     *
-     * This method allows each widget to add options or HTML attributes
-     * during widget creation.
-     *
-     * If some options and HTML attributes are given in the sfWidget constructor
-     * they will take precedence over the options and HTML attributes you configure
-     * in this method.
-     *
-     * @param array $options    An array of options
-     * @param array $attributes An array of HTML attributes
-     *
-     * @see __construct()
-     */
-    protected function configure($options = array(), $attributes = array()) {}
-
-    /**
      * Renders the widget as HTML.
      *
      * All subclasses must implement this method.
@@ -381,6 +364,25 @@ abstract class sfWidget
         }
 
         return implode('', $attributes);
+    }
+
+    /**
+     * Configures the current widget.
+     *
+     * This method allows each widget to add options or HTML attributes
+     * during widget creation.
+     *
+     * If some options and HTML attributes are given in the sfWidget constructor
+     * they will take precedence over the options and HTML attributes you configure
+     * in this method.
+     *
+     * @param array $options    An array of options
+     * @param array $attributes An array of HTML attributes
+     *
+     * @see __construct()
+     */
+    protected function configure($options = array(), $attributes = array())
+    {
     }
 
     /**

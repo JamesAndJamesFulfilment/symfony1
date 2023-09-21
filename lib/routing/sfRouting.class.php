@@ -20,7 +20,7 @@ abstract class sfRouting
     /** @var sfEventDispatcher */
     protected $dispatcher;
 
-    /** @var sfCache|null */
+    /** @var null|sfCache */
     protected $cache;
     protected $defaultParameters = array();
     protected $options = array();
@@ -258,6 +258,13 @@ abstract class sfRouting
         return array_merge($parameters, $params);
     }
 
+    /**
+     * Execute the shutdown procedure.
+     */
+    public function shutdown()
+    {
+    }
+
     protected function fixGeneratedUrl($url, $absolute = false)
     {
         if (isset($this->options['context']['prefix'])) {
@@ -274,9 +281,4 @@ abstract class sfRouting
 
         return $url;
     }
-
-    /**
-     * Execute the shutdown procedure.
-     */
-    public function shutdown() {}
 }

@@ -38,6 +38,7 @@ class TGettext_PO extends TGettext
      * Constructor.
      *
      * @param   string      path to GNU PO file
+     * @param mixed $file
      *
      * @return object File_Gettext_PO
      */
@@ -69,7 +70,8 @@ class TGettext_PO extends TGettext
         $matched = preg_match_all(
             '/(msgid\s+("([^"]|\\\\")*?"\s*)+)\s+'.
             '(msgstr\s+("([^"]|\\\\")*?"\s*)+)/',
-            $contents, $matches
+            $contents,
+            $matches
         );
         unset($contents);
 
@@ -80,9 +82,15 @@ class TGettext_PO extends TGettext
         // get all msgids and msgtrs
         for ($i = 0; $i < $matched; ++$i) {
             $msgid = preg_replace(
-                '/\s*msgid\s*"(.*)"\s*/s', '\\1', $matches[1][$i]);
+                '/\s*msgid\s*"(.*)"\s*/s',
+                '\\1',
+                $matches[1][$i]
+            );
             $msgstr = preg_replace(
-                '/\s*msgstr\s*"(.*)"\s*/s', '\\1', $matches[4][$i]);
+                '/\s*msgstr\s*"(.*)"\s*/s',
+                '\\1',
+                $matches[4][$i]
+            );
             $this->strings[parent::prepare($msgid)] = parent::prepare($msgstr);
         }
 
@@ -129,7 +137,8 @@ class TGettext_PO extends TGettext
         }
         // write strings
         foreach ($this->strings as $o => $t) {
-            fwrite($fh,
+            fwrite(
+                $fh,
                 'msgid "'.parent::prepare($o, true).'"'."\n".
                 'msgstr "'.parent::prepare($t, true).'"'."\n\n"
             );

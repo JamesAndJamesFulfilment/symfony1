@@ -25,6 +25,8 @@ class sfXCacheCache extends sfCache
      * * see sfCache for options available for all drivers
      *
      * @see sfCache
+     *
+     * @param mixed $options
      */
     public function initialize($options = array())
     {
@@ -42,7 +44,8 @@ class sfXCacheCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param mixed|null $default
+     * @param null|mixed $default
+     * @param mixed      $key
      */
     public function get($key, $default = null)
     {
@@ -57,6 +60,8 @@ class sfXCacheCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $key
      */
     public function has($key)
     {
@@ -66,7 +71,9 @@ class sfXCacheCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param mixed|null $lifetime
+     * @param null|mixed $lifetime
+     * @param mixed      $key
+     * @param mixed      $data
      */
     public function set($key, $data, $lifetime = null)
     {
@@ -83,6 +90,8 @@ class sfXCacheCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $key
      */
     public function remove($key)
     {
@@ -91,6 +100,8 @@ class sfXCacheCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $mode
      */
     public function clean($mode = sfCache::ALL)
     {
@@ -111,6 +122,8 @@ class sfXCacheCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $key
      */
     public function getLastModified($key)
     {
@@ -125,6 +138,8 @@ class sfXCacheCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $key
      */
     public function getTimeout($key)
     {
@@ -140,7 +155,7 @@ class sfXCacheCache extends sfCache
     /**
      * @param string $key
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     public function getBaseValue($key)
     {
@@ -149,6 +164,8 @@ class sfXCacheCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $pattern
      */
     public function removePattern($pattern)
     {
@@ -173,7 +190,7 @@ class sfXCacheCache extends sfCache
     /**
      * @param string $key
      *
-     * @return array|null
+     * @return null|array
      */
     public function getCacheInfo($key)
     {

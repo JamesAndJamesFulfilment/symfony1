@@ -10,8 +10,6 @@
 
 class sfContext
 {
-    protected static $instance;
-
     public $configuration;
     public $request;
     public $response;
@@ -19,8 +17,14 @@ class sfContext
     public $routing;
     public $user;
     public $storage;
+    protected static $instance;
 
     protected $sessionPath = '';
+
+    public function __destruct()
+    {
+        sfToolkit::clearDirectory($this->sessionPath);
+    }
 
     public static function getInstance($factories = array(), $force = false)
     {
@@ -38,11 +42,6 @@ class sfContext
         }
 
         return self::$instance;
-    }
-
-    public function __destruct()
-    {
-        sfToolkit::clearDirectory($this->sessionPath);
     }
 
     public static function hasInstance()

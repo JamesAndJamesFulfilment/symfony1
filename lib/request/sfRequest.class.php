@@ -32,7 +32,7 @@ abstract class sfRequest implements ArrayAccess
     /** @var sfEventDispatcher */
     protected $dispatcher;
 
-    /** @var string|null */
+    /** @var null|string */
     protected $content;
 
     /** @var string */
@@ -57,6 +57,32 @@ abstract class sfRequest implements ArrayAccess
     public function __construct(sfEventDispatcher $dispatcher, $parameters = array(), $attributes = array(), $options = array())
     {
         $this->initialize($dispatcher, $parameters, $attributes, $options);
+    }
+
+    /**
+     * Calls methods defined via sfEventDispatcher.
+     *
+     * @param string $method    The method name
+     * @param array  $arguments The method arguments
+     *
+     * @return mixed The returned value of the called method
+     *
+     * @throws <b>sfException</b> if call fails
+     */
+    public function __call($method, $arguments)
+    {
+        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'request.method_not_found', array('method' => $method, 'arguments' => $arguments)));
+        if (!$event->isProcessed()) {
+            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
+        }
+
+        return $event->getReturnValue();
+    }
+
+    public function __clone()
+    {
+        $this->parameterHolder = clone $this->parameterHolder;
+        $this->attributeHolder = clone $this->attributeHolder;
     }
 
     /**
@@ -304,7 +330,7 @@ abstract class sfRequest implements ArrayAccess
     /**
      * Returns the content of the current request.
      *
-     * @return string|false The content or false if none is available
+     * @return false|string The content or false if none is available
      */
     public function getContent()
     {
@@ -313,31 +339,5 @@ abstract class sfRequest implements ArrayAccess
         }
 
         return $this->content;
-    }
-
-    /**
-     * Calls methods defined via sfEventDispatcher.
-     *
-     * @param string $method    The method name
-     * @param array  $arguments The method arguments
-     *
-     * @return mixed The returned value of the called method
-     *
-     * @throws <b>sfException</b> if call fails
-     */
-    public function __call($method, $arguments)
-    {
-        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'request.method_not_found', array('method' => $method, 'arguments' => $arguments)));
-        if (!$event->isProcessed()) {
-            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
-        }
-
-        return $event->getReturnValue();
-    }
-
-    public function __clone()
-    {
-        $this->parameterHolder = clone $this->parameterHolder;
-        $this->attributeHolder = clone $this->attributeHolder;
     }
 }

@@ -35,6 +35,39 @@ class sfContext implements ArrayAccess
     protected static $current = 'default';
 
     /**
+     * Calls methods defined via sfEventDispatcher.
+     *
+     * If a method cannot be found via sfEventDispatcher, the method name will
+     * be parsed to magically handle getMyFactory() and setMyFactory() methods.
+     *
+     * @param string $method    The method name
+     * @param array  $arguments The method arguments
+     *
+     * @return mixed The returned value of the called method
+     *
+     * @throws <b>sfException</b> if call fails
+     */
+    public function __call($method, $arguments)
+    {
+        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'context.method_not_found', array('method' => $method, 'arguments' => $arguments)));
+        if (!$event->isProcessed()) {
+            $verb = substr($method, 0, 3); // get | set
+            $factory = strtolower(substr($method, 3)); // factory name
+
+            if ('get' == $verb && $this->has($factory)) {
+                return $this->factories[$factory];
+            }
+            if ('set' == $verb && isset($arguments[0])) {
+                return $this->set($factory, $arguments[0]);
+            }
+
+            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
+        }
+
+        return $event->getReturnValue();
+    }
+
+    /**
      * Creates a new context instance.
      *
      * @param sfApplicationConfiguration $configuration An sfApplicationConfiguration instance
@@ -151,7 +184,7 @@ class sfContext implements ArrayAccess
         $this->dispatcher->notify(new sfEvent($this, 'context.load_factories'));
 
         if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_enabled')) {
-            /* @var $timer sfTimer */
+            // @var $timer sfTimer
             $timer->addTime();
         }
     }
@@ -211,7 +244,7 @@ class sfContext implements ArrayAccess
     {
         // get the last action stack entry
         if ($this->factories['actionStack'] && $lastEntry = $this->factories['actionStack']->getLastEntry()) {
-            /* @var $lastEntry sfActionStackEntry */
+            // @var $lastEntry sfActionStackEntry
             return $lastEntry->getActionName();
         }
     }
@@ -317,7 +350,7 @@ class sfContext implements ArrayAccess
     {
         // get the last action stack entry
         if (isset($this->factories['actionStack']) && $lastEntry = $this->factories['actionStack']->getLastEntry()) {
-            /* @var $lastEntry sfActionStackEntry */
+            // @var $lastEntry sfActionStackEntry
             return sfConfig::get('sf_app_module_dir').'/'.$lastEntry->getModuleName();
         }
     }
@@ -332,7 +365,7 @@ class sfContext implements ArrayAccess
     {
         // get the last action stack entry
         if (isset($this->factories['actionStack']) && $lastEntry = $this->factories['actionStack']->getLastEntry()) {
-            /* @var $lastEntry sfActionStackEntry */
+            // @var $lastEntry sfActionStackEntry
             return $lastEntry->getModuleName();
         }
     }
@@ -591,39 +624,6 @@ class sfContext implements ArrayAccess
 
             $this->hasShutdownUserAndStorage = true;
         }
-    }
-
-    /**
-     * Calls methods defined via sfEventDispatcher.
-     *
-     * If a method cannot be found via sfEventDispatcher, the method name will
-     * be parsed to magically handle getMyFactory() and setMyFactory() methods.
-     *
-     * @param string $method    The method name
-     * @param array  $arguments The method arguments
-     *
-     * @return mixed The returned value of the called method
-     *
-     * @throws <b>sfException</b> if call fails
-     */
-    public function __call($method, $arguments)
-    {
-        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'context.method_not_found', array('method' => $method, 'arguments' => $arguments)));
-        if (!$event->isProcessed()) {
-            $verb = substr($method, 0, 3); // get | set
-            $factory = strtolower(substr($method, 3)); // factory name
-
-            if ('get' == $verb && $this->has($factory)) {
-                return $this->factories[$factory];
-            }
-            if ('set' == $verb && isset($arguments[0])) {
-                return $this->set($factory, $arguments[0]);
-            }
-
-            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
-        }
-
-        return $event->getReturnValue();
     }
 
     /**

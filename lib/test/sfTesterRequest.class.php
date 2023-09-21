@@ -22,7 +22,9 @@ class sfTesterRequest extends sfTester
     /**
      * Prepares the tester.
      */
-    public function prepare() {}
+    public function prepare()
+    {
+    }
 
     /**
      * Initializes the tester.
@@ -38,7 +40,7 @@ class sfTesterRequest extends sfTester
      * @param string $key
      * @param string $value
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function isParameter($key, $value)
     {
@@ -52,7 +54,7 @@ class sfTesterRequest extends sfTester
      *
      * @param string $format The request format
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function isFormat($format)
     {
@@ -66,7 +68,7 @@ class sfTesterRequest extends sfTester
      *
      * @param string $method The HTTP method name
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function isMethod($method)
     {
@@ -81,7 +83,7 @@ class sfTesterRequest extends sfTester
      * @param string $name   The cookie name
      * @param bool   $exists Whether the cookie must exist or not
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function hasCookie($name, $exists = true)
     {
@@ -110,7 +112,7 @@ class sfTesterRequest extends sfTester
      * @param string $name  The cookie name
      * @param mixed  $value The expected value
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function isCookie($name, $value)
     {

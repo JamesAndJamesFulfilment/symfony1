@@ -27,6 +27,8 @@ class sfAPCCache extends sfCache
      * * see sfCache for options available for all drivers
      *
      * @see sfCache
+     *
+     * @param mixed $options
      */
     public function initialize($options = array())
     {
@@ -38,7 +40,8 @@ class sfAPCCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param mixed|null $default
+     * @param null|mixed $default
+     * @param mixed      $key
      */
     public function get($key, $default = null)
     {
@@ -53,6 +56,8 @@ class sfAPCCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $key
      */
     public function has($key)
     {
@@ -65,24 +70,12 @@ class sfAPCCache extends sfCache
         return $has;
     }
 
-    private function fetch($key, &$success)
-    {
-        $has = null;
-        $value = apc_fetch($key, $has);
-        // the second argument was added in APC 3.0.17. If it is still null we fall back to the value returned
-        if (null !== $has) {
-            $success = $has;
-        } else {
-            $success = false !== $value;
-        }
-
-        return $value;
-    }
-
     /**
      * @see sfCache
      *
-     * @param mixed|null $lifetime
+     * @param null|mixed $lifetime
+     * @param mixed      $key
+     * @param mixed      $data
      */
     public function set($key, $data, $lifetime = null)
     {
@@ -95,6 +88,8 @@ class sfAPCCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $key
      */
     public function remove($key)
     {
@@ -107,6 +102,8 @@ class sfAPCCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $mode
      */
     public function clean($mode = sfCache::ALL)
     {
@@ -121,6 +118,8 @@ class sfAPCCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $key
      */
     public function getLastModified($key)
     {
@@ -133,6 +132,8 @@ class sfAPCCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $key
      */
     public function getTimeout($key)
     {
@@ -145,6 +146,8 @@ class sfAPCCache extends sfCache
 
     /**
      * @see sfCache
+     *
+     * @param mixed $pattern
      */
     public function removePattern($pattern)
     {
@@ -190,5 +193,19 @@ class sfAPCCache extends sfCache
         }
 
         return null;
+    }
+
+    private function fetch($key, &$success)
+    {
+        $has = null;
+        $value = apc_fetch($key, $has);
+        // the second argument was added in APC 3.0.17. If it is still null we fall back to the value returned
+        if (null !== $has) {
+            $success = $has;
+        } else {
+            $success = false !== $value;
+        }
+
+        return $value;
     }
 }

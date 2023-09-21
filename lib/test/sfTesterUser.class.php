@@ -22,7 +22,9 @@ class sfTesterUser extends sfTester
     /**
      * Prepares the tester.
      */
-    public function prepare() {}
+    public function prepare()
+    {
+    }
 
     /**
      * Initializes the tester.
@@ -39,7 +41,7 @@ class sfTesterUser extends sfTester
      * @param string $value
      * @param string $ns
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function isAttribute($key, $value, $ns = null)
     {
@@ -54,7 +56,7 @@ class sfTesterUser extends sfTester
      * @param string $key
      * @param string $value
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function isFlash($key, $value)
     {
@@ -68,7 +70,7 @@ class sfTesterUser extends sfTester
      *
      * @param string $culture The user culture
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function isCulture($culture)
     {
@@ -82,7 +84,7 @@ class sfTesterUser extends sfTester
      *
      * @param bool $boolean Whether to check if the user is authenticated or not
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function isAuthenticated($boolean = true)
     {
@@ -94,10 +96,11 @@ class sfTesterUser extends sfTester
     /**
      * Tests if the user has some credentials.
      *
-     * @param bool $boolean Whether to check if the user have some credentials or not
-     * @param bool $useAnd  specify the mode, either AND or OR
+     * @param bool  $boolean     Whether to check if the user have some credentials or not
+     * @param bool  $useAnd      specify the mode, either AND or OR
+     * @param mixed $credentials
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function hasCredential($credentials, $boolean = true, $useAnd = true)
     {

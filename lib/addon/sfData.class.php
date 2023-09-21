@@ -44,19 +44,6 @@ abstract class sfData
     }
 
     /**
-     * Loads data for the database from a YAML file.
-     *
-     * @param string $file the path to the YAML file
-     */
-    protected function doLoadDataFromFile($file)
-    {
-        // import new datas
-        $data = sfYaml::load($file, sfConfig::get('sf_charset', 'UTF-8'));
-
-        $this->loadDataFromArray($data);
-    }
-
-    /**
      * Manages the insertion of data into the data source.
      *
      * @param array $data The data to be inserted into the data source
@@ -64,27 +51,11 @@ abstract class sfData
     abstract public function loadDataFromArray($data);
 
     /**
-     * Manages reading all of the fixture data files and
-     * loading them into the data source.
-     *
-     * @param array $files The path names of the YAML data files
-     */
-    protected function doLoadData(array $files)
-    {
-        $this->object_references = array();
-        $this->maps = array();
-
-        foreach ($files as $file) {
-            $this->doLoadDataFromFile($file);
-        }
-    }
-
-    /**
      * Gets a list of one or more *.yml files and returns the list in an array.
      *
      * The returned array of files is sorted by alphabetical order.
      *
-     * @param string|array $element A directory or file name or an array of directories and/or file names
+     * @param array|string $element A directory or file name or an array of directories and/or file names
      *                              If null, then defaults to 'sf_data_dir'/fixtures
      *
      * @return array A list of *.yml files
@@ -114,5 +85,34 @@ abstract class sfData
         sort($files);
 
         return $files;
+    }
+
+    /**
+     * Loads data for the database from a YAML file.
+     *
+     * @param string $file the path to the YAML file
+     */
+    protected function doLoadDataFromFile($file)
+    {
+        // import new datas
+        $data = sfYaml::load($file, sfConfig::get('sf_charset', 'UTF-8'));
+
+        $this->loadDataFromArray($data);
+    }
+
+    /**
+     * Manages reading all of the fixture data files and
+     * loading them into the data source.
+     *
+     * @param array $files The path names of the YAML data files
+     */
+    protected function doLoadData(array $files)
+    {
+        $this->object_references = array();
+        $this->maps = array();
+
+        foreach ($files as $file) {
+            $this->doLoadDataFromFile($file);
+        }
     }
 }

@@ -33,6 +33,9 @@ class sfValidatorDoctrineChoice extends sfValidatorBase
      *  * max:        The maximum number of values that need to be selected (this option is only active if multiple is true)
      *
      * @see sfValidatorBase
+     *
+     * @param mixed $options
+     * @param mixed $messages
      */
     protected function configure($options = array(), $messages = array())
     {
@@ -49,6 +52,8 @@ class sfValidatorDoctrineChoice extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $value
      */
     protected function doClean($value)
     {

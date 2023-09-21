@@ -29,6 +29,16 @@ class sfValidatorUrl extends sfValidatorRegex
     $~ix';
 
     /**
+     * Generates the current validator's regular expression.
+     *
+     * @return string
+     */
+    public function generateRegex()
+    {
+        return sprintf(self::REGEX_URL_FORMAT, implode('|', $this->getOption('protocols')));
+    }
+
+    /**
      * Available options:.
      *
      *  * protocols: An array of acceptable URL protocols (http, https, ftp and ftps by default)
@@ -44,15 +54,5 @@ class sfValidatorUrl extends sfValidatorRegex
 
         $this->addOption('protocols', array('http', 'https', 'ftp', 'ftps'));
         $this->setOption('pattern', new sfCallable(array($this, 'generateRegex')));
-    }
-
-    /**
-     * Generates the current validator's regular expression.
-     *
-     * @return string
-     */
-    public function generateRegex()
-    {
-        return sprintf(self::REGEX_URL_FORMAT, implode('|', $this->getOption('protocols')));
     }
 }

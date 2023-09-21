@@ -21,7 +21,7 @@
  */
 class sfException extends Exception
 {
-    /** @var Exception|Throwable|null */
+    /** @var null|Exception|Throwable */
     protected $wrappedException;
 
     protected static $lastException;
@@ -116,6 +116,33 @@ class sfException extends Exception
         if (!sfConfig::get('sf_test')) {
             exit(1);
         }
+    }
+
+    /**
+     * Returns the path for the template error message.
+     *
+     * @param string $format The request format
+     * @param bool   $debug  Whether to return a template for the debug mode or not
+     *
+     * @return bool|string false if the template cannot be found for the given format,
+     *                     the absolute path to the template otherwise
+     */
+    public static function getTemplatePathForError($format, $debug)
+    {
+        $templatePaths = array(
+            sfConfig::get('sf_app_config_dir').'/error',
+            sfConfig::get('sf_config_dir').'/error',
+            __DIR__.'/data',
+        );
+
+        $template = sprintf('%s.%s.php', $debug ? 'exception' : 'error', $format);
+        foreach ($templatePaths as $path) {
+            if (null !== $path && is_readable($file = $path.'/'.$template)) {
+                return $file;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -230,33 +257,6 @@ class sfException extends Exception
     }
 
     /**
-     * Returns the path for the template error message.
-     *
-     * @param string $format The request format
-     * @param bool   $debug  Whether to return a template for the debug mode or not
-     *
-     * @return string|bool false if the template cannot be found for the given format,
-     *                     the absolute path to the template otherwise
-     */
-    public static function getTemplatePathForError($format, $debug)
-    {
-        $templatePaths = array(
-            sfConfig::get('sf_app_config_dir').'/error',
-            sfConfig::get('sf_config_dir').'/error',
-            __DIR__.'/data',
-        );
-
-        $template = sprintf('%s.%s.php', $debug ? 'exception' : 'error', $format);
-        foreach ($templatePaths as $path) {
-            if (null !== $path && is_readable($file = $path.'/'.$template)) {
-                return $file;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Returns an array of exception traces.
      *
      * @param Exception|Throwable $exception A Throwable implementation instance
@@ -285,7 +285,8 @@ class sfException extends Exception
             $line = isset($traceData[$i]['line']) ? $traceData[$i]['line'] : null;
             $file = isset($traceData[$i]['file']) ? $traceData[$i]['file'] : null;
             $args = isset($traceData[$i]['args']) ? $traceData[$i]['args'] : array();
-            $traces[] = sprintf($lineFormat,
+            $traces[] = sprintf(
+                $lineFormat,
                 isset($traceData[$i]['class']) ? $traceData[$i]['class'] : '',
                 isset($traceData[$i]['type']) ? $traceData[$i]['type'] : '',
                 $traceData[$i]['function'],

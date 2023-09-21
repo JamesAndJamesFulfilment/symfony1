@@ -37,6 +37,18 @@ class sfValidatorSchemaFilter extends sfValidatorSchema
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $indent
+     */
+    public function asString($indent = 0)
+    {
+        return sprintf('%s%s:%s', str_repeat(' ', $indent), $this->getOption('field'), $this->getOption('validator')->asString(0));
+    }
+
+    /**
+     * @see sfValidatorBase
+     *
+     * @param mixed $values
      */
     protected function doClean($values)
     {
@@ -60,13 +72,5 @@ class sfValidatorSchemaFilter extends sfValidatorSchema
         }
 
         return $values;
-    }
-
-    /**
-     * @see sfValidatorBase
-     */
-    public function asString($indent = 0)
-    {
-        return sprintf('%s%s:%s', str_repeat(' ', $indent), $this->getOption('field'), $this->getOption('validator')->asString(0));
     }
 }

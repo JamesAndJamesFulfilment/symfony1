@@ -60,7 +60,8 @@ class sfSymfonyPluginManager extends sfPluginManager
     /**
      * Installs web content for a plugin.
      *
-     * @param string $plugin The plugin name
+     * @param string $plugin          The plugin name
+     * @param mixed  $sourceDirectory
      */
     public function installWebContent($plugin, $sourceDirectory)
     {

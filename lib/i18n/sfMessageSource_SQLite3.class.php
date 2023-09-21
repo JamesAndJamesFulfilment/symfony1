@@ -145,27 +145,6 @@ class sfMessageSource_SQLite3 extends sfMessageSource_Database
     }
 
     /**
-     * Gets the last modified unix-time for this particular catalogue+variant.
-     * We need to query the database to get the date_modified.
-     *
-     * @param string $source catalogue+variant
-     *
-     * @return int last modified in unix-time format
-     */
-    protected function getLastModified($source)
-    {
-        $db = new SQLite3($this->source, SQLITE3_OPEN_READWRITE);
-
-        $source = $db->escapeString($source);
-        $rs = $db->querySingle("SELECT date_modified FROM catalogue WHERE name = '{$source}'");
-        $result = null !== $rs ? (int) $rs : 0;
-
-        $db->close();
-
-        return $result;
-    }
-
-    /**
      * Checks if a particular catalogue+variant exists in the database.
      *
      * @param string $variant catalogue+variant
@@ -183,71 +162,6 @@ class sfMessageSource_SQLite3 extends sfMessageSource_Database
         $db->close();
 
         return $result;
-    }
-
-    /**
-     * Retrieves catalogue details, array($cat_id, $variant, $count).
-     *
-     * @param string $catalogue catalogue
-     *
-     * @return array catalogue details, array($cat_id, $variant, $count)
-     */
-    protected function getCatalogueDetails($catalogue = 'messages')
-    {
-        if (empty($catalogue)) {
-            $catalogue = 'messages';
-        }
-
-        $variant = $catalogue.'.'.$this->culture;
-
-        $db = new SQLite3($this->source, SQLITE3_OPEN_READWRITE);
-
-        $name = $db->escapeString($this->getSource($variant));
-
-        $rs = $db->query("SELECT cat_id FROM catalogue WHERE name = '{$name}'");
-
-        $i = 0;
-        while ($row = $rs->fetchArray(SQLITE3_NUM)) {
-            if (0 == $i) {
-                $cat_id = (int) $row[0];
-            }
-
-            if (1 == $i) {
-                return false;
-            }
-
-            ++$i;
-        }
-
-        // first get the catalogue ID
-        $rs = $db->querySingle("SELECT count(msg_id) FROM trans_unit WHERE cat_id = {$cat_id}");
-
-        $count = (int) $rs;
-
-        $db->close();
-
-        return array($cat_id, $variant, $count);
-    }
-
-    /**
-     * Updates the catalogue last modified time.
-     *
-     * @return bool true if updated, false otherwise
-     */
-    protected function updateCatalogueTime($cat_id, $variant)
-    {
-        $time = time();
-
-        $db = new SQLite3($this->source, SQLITE3_OPEN_READWRITE);
-        $result = $db->exec("UPDATE catalogue SET date_modified = {$time} WHERE cat_id = {$cat_id}");
-        $res = (bool) $db->changes();
-        $db->close();
-
-        if ($this->cache) {
-            $this->cache->remove($variant.':'.$this->culture);
-        }
-
-        return $res;
     }
 
     /**
@@ -396,5 +310,94 @@ class sfMessageSource_SQLite3 extends sfMessageSource_Database
         $db->close();
 
         return $result;
+    }
+
+    /**
+     * Gets the last modified unix-time for this particular catalogue+variant.
+     * We need to query the database to get the date_modified.
+     *
+     * @param string $source catalogue+variant
+     *
+     * @return int last modified in unix-time format
+     */
+    protected function getLastModified($source)
+    {
+        $db = new SQLite3($this->source, SQLITE3_OPEN_READWRITE);
+
+        $source = $db->escapeString($source);
+        $rs = $db->querySingle("SELECT date_modified FROM catalogue WHERE name = '{$source}'");
+        $result = null !== $rs ? (int) $rs : 0;
+
+        $db->close();
+
+        return $result;
+    }
+
+    /**
+     * Retrieves catalogue details, array($cat_id, $variant, $count).
+     *
+     * @param string $catalogue catalogue
+     *
+     * @return array catalogue details, array($cat_id, $variant, $count)
+     */
+    protected function getCatalogueDetails($catalogue = 'messages')
+    {
+        if (empty($catalogue)) {
+            $catalogue = 'messages';
+        }
+
+        $variant = $catalogue.'.'.$this->culture;
+
+        $db = new SQLite3($this->source, SQLITE3_OPEN_READWRITE);
+
+        $name = $db->escapeString($this->getSource($variant));
+
+        $rs = $db->query("SELECT cat_id FROM catalogue WHERE name = '{$name}'");
+
+        $i = 0;
+        while ($row = $rs->fetchArray(SQLITE3_NUM)) {
+            if (0 == $i) {
+                $cat_id = (int) $row[0];
+            }
+
+            if (1 == $i) {
+                return false;
+            }
+
+            ++$i;
+        }
+
+        // first get the catalogue ID
+        $rs = $db->querySingle("SELECT count(msg_id) FROM trans_unit WHERE cat_id = {$cat_id}");
+
+        $count = (int) $rs;
+
+        $db->close();
+
+        return array($cat_id, $variant, $count);
+    }
+
+    /**
+     * Updates the catalogue last modified time.
+     *
+     * @param mixed $cat_id
+     * @param mixed $variant
+     *
+     * @return bool true if updated, false otherwise
+     */
+    protected function updateCatalogueTime($cat_id, $variant)
+    {
+        $time = time();
+
+        $db = new SQLite3($this->source, SQLITE3_OPEN_READWRITE);
+        $result = $db->exec("UPDATE catalogue SET date_modified = {$time} WHERE cat_id = {$cat_id}");
+        $res = (bool) $db->changes();
+        $db->close();
+
+        if ($this->cache) {
+            $this->cache->remove($variant.':'.$this->culture);
+        }
+
+        return $res;
     }
 }

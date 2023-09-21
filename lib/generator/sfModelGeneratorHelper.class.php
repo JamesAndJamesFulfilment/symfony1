@@ -22,7 +22,7 @@ abstract class sfModelGeneratorHelper
     }
 
     /**
-     * @param Persistent|mixed $object
+     * @param mixed|Persistent $object
      * @param array            $params
      *
      * @return string
@@ -47,7 +47,7 @@ abstract class sfModelGeneratorHelper
     }
 
     /**
-     * @param Persistent|mixed $object
+     * @param mixed|Persistent $object
      * @param array            $params
      *
      * @return string

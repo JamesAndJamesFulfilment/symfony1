@@ -76,6 +76,9 @@ EOF;
 
     /**
      * @see sfTask
+     *
+     * @param mixed $arguments
+     * @param mixed $options
      */
     protected function execute($arguments = array(), $options = array())
     {
@@ -184,7 +187,8 @@ EOF;
 
         // customize php and yml files
         $finder = sfFinder::type('file')->name('*.php', '*.yml');
-        $this->constants['CONFIG'] = sprintf(<<<'EOF'
+        $this->constants['CONFIG'] = sprintf(
+            <<<'EOF'
     model_class:           %s
     theme:                 %s
     non_verbose_templates: %s

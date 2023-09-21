@@ -44,6 +44,8 @@ abstract class sfCommandApplicationTask extends sfTask
 
     /**
      * @see sfTask
+     *
+     * @param mixed $messages
      */
     public function log($messages)
     {
@@ -55,13 +57,28 @@ abstract class sfCommandApplicationTask extends sfTask
     /**
      * @see sfTask
      *
-     * @param mixed|null $size
+     * @param null|mixed $size
+     * @param mixed      $section
+     * @param mixed      $message
+     * @param mixed      $style
      */
     public function logSection($section, $message, $size = null, $style = 'INFO')
     {
         if (null === $this->commandApplication || $this->commandApplication->isVerbose()) {
             parent::logSection($section, $message, $size, $style);
         }
+    }
+
+    /**
+     * Retrieves a service from the service container.
+     *
+     * @param string $id The service identifier
+     *
+     * @return object The service instance
+     */
+    public function getService($id)
+    {
+        return $this->getServiceContainer()->getService($id);
     }
 
     /**
@@ -204,18 +221,6 @@ abstract class sfCommandApplicationTask extends sfTask
         }
 
         return $this->serviceContainer;
-    }
-
-    /**
-     * Retrieves a service from the service container.
-     *
-     * @param string $id The service identifier
-     *
-     * @return object The service instance
-     */
-    public function getService($id)
-    {
-        return $this->getServiceContainer()->getService($id);
     }
 
     /**

@@ -41,12 +41,6 @@ class sf_test_project
         chdir($this->current_dir);
     }
 
-    protected function clearTmpDir()
-    {
-        require_once __DIR__.'/../../lib/util/sfToolkit.class.php';
-        sfToolkit::clearDirectory($this->tmp_dir);
-    }
-
     public function execute_command($cmd, $awaited_return = 0)
     {
         chdir($this->tmp_dir);
@@ -63,6 +57,12 @@ class sf_test_project
     public function get_fixture_content($file)
     {
         return str_replace("\r\n", "\n", file_get_contents(__DIR__.'/fixtures/'.$file));
+    }
+
+    protected function clearTmpDir()
+    {
+        require_once __DIR__.'/../../lib/util/sfToolkit.class.php';
+        sfToolkit::clearDirectory($this->tmp_dir);
     }
 }
 

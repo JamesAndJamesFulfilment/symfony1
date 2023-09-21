@@ -141,6 +141,8 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
 
     /**
      * @see sfValidatorError
+     *
+     * @param mixed $raw
      */
     public function getArguments($raw = false)
     {
@@ -267,7 +269,29 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
      * @param string $offset (ignored)
      */
     #[\ReturnTypeWillChange]
-    public function offsetUnset($offset) {}
+    public function offsetUnset($offset)
+    {
+    }
+
+    /**
+     * Serializes the current instance.
+     *
+     * @return string The instance as a serialized string
+     */
+    public function serialize()
+    {
+        return serialize(array($this->validator, $this->arguments, $this->code, $this->message, $this->errors, $this->globalErrors, $this->namedErrors));
+    }
+
+    /**
+     * Unserializes a sfValidatorError instance.
+     *
+     * @param string $serialized A serialized sfValidatorError instance
+     */
+    public function unserialize($serialized)
+    {
+        list($this->validator, $this->arguments, $this->code, $this->message, $this->errors, $this->globalErrors, $this->namedErrors) = unserialize($serialized);
+    }
 
     /**
      * Updates the exception error code according to the current errors.
@@ -289,25 +313,5 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
             array_map(function ($e) { /* @var $e sfValidatorError */ return $e->getMessage(); }, $this->globalErrors),
             array_map(function ($n, $e) { /* @var $e sfValidatorError */ return $n.' ['.$e->getMessage().']'; }, array_keys($this->namedErrors), array_values($this->namedErrors))
         ));
-    }
-
-    /**
-     * Serializes the current instance.
-     *
-     * @return string The instance as a serialized string
-     */
-    public function serialize()
-    {
-        return serialize(array($this->validator, $this->arguments, $this->code, $this->message, $this->errors, $this->globalErrors, $this->namedErrors));
-    }
-
-    /**
-     * Unserializes a sfValidatorError instance.
-     *
-     * @param string $serialized A serialized sfValidatorError instance
-     */
-    public function unserialize($serialized)
-    {
-        list($this->validator, $this->arguments, $this->code, $this->message, $this->errors, $this->globalErrors, $this->namedErrors) = unserialize($serialized);
     }
 }

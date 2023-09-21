@@ -337,7 +337,8 @@ abstract class sfCommandApplication
         );
 
         foreach ($this->commandManager->getOptionSet()->getOptions() as $option) {
-            $messages[] = sprintf('  %-24s %s  %s',
+            $messages[] = sprintf(
+                '  %-24s %s  %s',
                 $this->formatter->format('--'.$option->getName(), 'INFO'),
                 $option->getShortcut() ? $this->formatter->format('-'.$option->getShortcut(), 'INFO') : '  ',
                 $option->getHelp()
@@ -345,49 +346,6 @@ abstract class sfCommandApplication
         }
 
         $this->dispatcher->notify(new sfEvent($this, 'command.log', $messages));
-    }
-
-    /**
-     * Parses and handles command line options.
-     *
-     * @param mixed $options The command line options
-     */
-    protected function handleOptions($options = null)
-    {
-        $this->commandManager->process($options);
-        $this->commandOptions = $options;
-
-        // the order of option processing matters
-        if ($this->commandManager->getOptionSet()->hasOption('no-color') && false !== $this->commandManager->getOptionValue('no-color')) {
-            $this->setFormatter(new sfFormatter());
-        } elseif ($this->commandManager->getOptionSet()->hasOption('color') && false !== $this->commandManager->getOptionValue('color')) {
-            $this->setFormatter(new sfAnsiColorFormatter());
-        }
-
-        if ($this->commandManager->getOptionSet()->hasOption('quiet') && false !== $this->commandManager->getOptionValue('quiet')) {
-            $this->verbose = false;
-        }
-
-        if ($this->commandManager->getOptionSet()->hasOption('no-debug') && false !== $this->commandManager->getOptionValue('no-debug')) {
-            $this->debug = false;
-        }
-
-        if ($this->commandManager->getOptionSet()->hasOption('trace') && false !== $this->commandManager->getOptionValue('trace')) {
-            $this->verbose = true;
-            $this->trace = true;
-        }
-
-        if ($this->commandManager->getOptionSet()->hasOption('help') && false !== $this->commandManager->getOptionValue('help')) {
-            $this->help();
-
-            exit(0);
-        }
-
-        if ($this->commandManager->getOptionSet()->hasOption('version') && false !== $this->commandManager->getOptionValue('version')) {
-            echo $this->getLongVersion();
-
-            exit(0);
-        }
     }
 
     /**
@@ -525,6 +483,49 @@ abstract class sfCommandApplication
         }
 
         return $this->getTask($abbrev[$fullName][0]);
+    }
+
+    /**
+     * Parses and handles command line options.
+     *
+     * @param mixed $options The command line options
+     */
+    protected function handleOptions($options = null)
+    {
+        $this->commandManager->process($options);
+        $this->commandOptions = $options;
+
+        // the order of option processing matters
+        if ($this->commandManager->getOptionSet()->hasOption('no-color') && false !== $this->commandManager->getOptionValue('no-color')) {
+            $this->setFormatter(new sfFormatter());
+        } elseif ($this->commandManager->getOptionSet()->hasOption('color') && false !== $this->commandManager->getOptionValue('color')) {
+            $this->setFormatter(new sfAnsiColorFormatter());
+        }
+
+        if ($this->commandManager->getOptionSet()->hasOption('quiet') && false !== $this->commandManager->getOptionValue('quiet')) {
+            $this->verbose = false;
+        }
+
+        if ($this->commandManager->getOptionSet()->hasOption('no-debug') && false !== $this->commandManager->getOptionValue('no-debug')) {
+            $this->debug = false;
+        }
+
+        if ($this->commandManager->getOptionSet()->hasOption('trace') && false !== $this->commandManager->getOptionValue('trace')) {
+            $this->verbose = true;
+            $this->trace = true;
+        }
+
+        if ($this->commandManager->getOptionSet()->hasOption('help') && false !== $this->commandManager->getOptionValue('help')) {
+            $this->help();
+
+            exit(0);
+        }
+
+        if ($this->commandManager->getOptionSet()->hasOption('version') && false !== $this->commandManager->getOptionValue('version')) {
+            echo $this->getLongVersion();
+
+            exit(0);
+        }
     }
 
     protected function strlen($string)

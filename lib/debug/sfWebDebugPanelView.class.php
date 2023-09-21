@@ -63,25 +63,6 @@ class sfWebDebugPanelView extends sfWebDebugPanel
     }
 
     /**
-     * Returns the path to the last template rendered.
-     *
-     * @param string $class Name of the rendering view class
-     *
-     * @return string|null
-     */
-    protected function getLastTemplate($class = 'sfPHPView')
-    {
-        foreach (array_reverse($this->webDebug->getLogger()->getLogs()) as $log) {
-            if (
-                ($class == $log['type'] || (class_exists($log['type'], false) && is_subclass_of($log['type'], $class)))
-                && preg_match('/^Render "(.*)"$/', $log['message'], $match)
-            ) {
-                return $match[1];
-            }
-        }
-    }
-
-    /**
      * @see sfWebDebugPanel
      */
     public function getTitle()
@@ -115,6 +96,25 @@ class sfWebDebugPanelView extends sfWebDebugPanel
         }
 
         return implode("\n", $html);
+    }
+
+    /**
+     * Returns the path to the last template rendered.
+     *
+     * @param string $class Name of the rendering view class
+     *
+     * @return null|string
+     */
+    protected function getLastTemplate($class = 'sfPHPView')
+    {
+        foreach (array_reverse($this->webDebug->getLogger()->getLogs()) as $log) {
+            if (
+                ($class == $log['type'] || (class_exists($log['type'], false) && is_subclass_of($log['type'], $class)))
+                && preg_match('/^Render "(.*)"$/', $log['message'], $match)
+            ) {
+                return $match[1];
+            }
+        }
     }
 
     /**
@@ -158,6 +158,7 @@ class sfWebDebugPanelView extends sfWebDebugPanel
      * Formats information about a parameter as HTML.
      *
      * @param string $name
+     * @param mixed  $parameter
      *
      * @return string
      */
@@ -253,8 +254,9 @@ class sfWebDebugPanelView extends sfWebDebugPanel
      * Formats information about a parameter as HTML.
      *
      * @param string     $name
-     * @param mixed|null $nameFormat
-     * @param mixed|null $typeFormat
+     * @param null|mixed $nameFormat
+     * @param null|mixed $typeFormat
+     * @param mixed      $parameter
      *
      * @return string
      */

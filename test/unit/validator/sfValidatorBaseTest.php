@@ -14,15 +14,15 @@ $t = new lime_test(47);
 
 class ValidatorIdentity extends sfValidatorBase
 {
+    public function testIsEmpty($value)
+    {
+        return $this->isEmpty($value);
+    }
+
     protected function configure($options = array(), $messages = array())
     {
         $this->addOption('foo', 'bar');
         $this->addMessage('foo', 'bar');
-    }
-
-    public function testIsEmpty($value)
-    {
-        return $this->isEmpty($value);
     }
 
     protected function doClean($value)

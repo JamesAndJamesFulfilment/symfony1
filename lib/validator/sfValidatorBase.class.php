@@ -78,23 +78,6 @@ abstract class sfValidatorBase
     }
 
     /**
-     * Configures the current validator.
-     *
-     * This method allows each validator to add options and error messages
-     * during validator creation.
-     *
-     * If some options and messages are given in the sfValidatorBase constructor
-     * they will take precedence over the options and messages you configure
-     * in this method.
-     *
-     * @param array $options  An array of options
-     * @param array $messages An array of error messages
-     *
-     * @see __construct()
-     */
-    protected function configure($options = array(), $messages = array()) {}
-
-    /**
      * Returns an error message given an error code.
      *
      * @param string $name The error code
@@ -315,19 +298,6 @@ abstract class sfValidatorBase
     }
 
     /**
-     * Cleans the input value.
-     *
-     * Every subclass must implements this method.
-     *
-     * @param mixed $value The input value
-     *
-     * @return mixed The cleaned value
-     *
-     * @throws sfValidatorError
-     */
-    abstract protected function doClean($value);
-
-    /**
      * Sets the charset to use when validating strings.
      *
      * @param string $charset The charset
@@ -345,28 +315,6 @@ abstract class sfValidatorBase
     public static function getCharset()
     {
         return self::$charset;
-    }
-
-    /**
-     * Returns true if the value is empty.
-     *
-     * @param mixed $value The input value
-     *
-     * @return bool true if the value is empty, false otherwise
-     */
-    protected function isEmpty($value)
-    {
-        return in_array($value, array(null, '', array()), true);
-    }
-
-    /**
-     * Returns an empty value for this validator.
-     *
-     * @return mixed The empty value for this validator
-     */
-    protected function getEmptyValue()
-    {
-        return $this->getOption('empty_value');
     }
 
     /**
@@ -392,16 +340,6 @@ abstract class sfValidatorBase
     }
 
     /**
-     * Sets default messages for all possible error codes.
-     *
-     * @param array $messages An array of default error codes and messages
-     */
-    protected function setDefaultMessages($messages)
-    {
-        $this->defaultMessages = $messages;
-    }
-
-    /**
      * Returns default option values.
      *
      * @return array An array of default option values
@@ -409,16 +347,6 @@ abstract class sfValidatorBase
     public function getDefaultOptions()
     {
         return $this->defaultOptions;
-    }
-
-    /**
-     * Sets default option values.
-     *
-     * @param array $options An array of default option values
-     */
-    protected function setDefaultOptions($options)
-    {
-        $this->defaultOptions = $options;
     }
 
     /**
@@ -433,12 +361,87 @@ abstract class sfValidatorBase
         $options = $this->getOptionsWithoutDefaults();
         $messages = $this->getMessagesWithoutDefaults();
 
-        return sprintf('%s%s(%s%s)',
+        return sprintf(
+            '%s%s(%s%s)',
             str_repeat(' ', $indent),
             str_replace('sfValidator', '', get_class($this)),
             $options ? sfYamlInline::dump($options) : ($messages ? '{}' : ''),
             $messages ? ', '.sfYamlInline::dump($messages) : ''
         );
+    }
+
+    /**
+     * Configures the current validator.
+     *
+     * This method allows each validator to add options and error messages
+     * during validator creation.
+     *
+     * If some options and messages are given in the sfValidatorBase constructor
+     * they will take precedence over the options and messages you configure
+     * in this method.
+     *
+     * @param array $options  An array of options
+     * @param array $messages An array of error messages
+     *
+     * @see __construct()
+     */
+    protected function configure($options = array(), $messages = array())
+    {
+    }
+
+    /**
+     * Cleans the input value.
+     *
+     * Every subclass must implements this method.
+     *
+     * @param mixed $value The input value
+     *
+     * @return mixed The cleaned value
+     *
+     * @throws sfValidatorError
+     */
+    abstract protected function doClean($value);
+
+    /**
+     * Returns true if the value is empty.
+     *
+     * @param mixed $value The input value
+     *
+     * @return bool true if the value is empty, false otherwise
+     */
+    protected function isEmpty($value)
+    {
+        return in_array($value, array(null, '', array()), true);
+    }
+
+    /**
+     * Returns an empty value for this validator.
+     *
+     * @return mixed The empty value for this validator
+     */
+    protected function getEmptyValue()
+    {
+        return $this->getOption('empty_value');
+    }
+
+    /**
+     * Sets default messages for all possible error codes.
+     *
+     * @param array $messages An array of default error codes and messages
+     */
+    protected function setDefaultMessages($messages)
+    {
+        $this->defaultMessages = $messages;
+    }
+
+    /**
+     * Sets default option values.
+     *
+     * @param array $options An array of default option values
+     */
+    protected function setDefaultOptions($options)
+    {
+        $this->defaultOptions = $options;
     }
 
     /**

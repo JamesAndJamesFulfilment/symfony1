@@ -18,38 +18,6 @@
 class sfWidgetFormTime extends sfWidgetForm
 {
     /**
-     * Constructor.
-     *
-     * Available options:
-     *
-     *  * format:                 The time format string (%hour%:%minute%:%second%)
-     *  * format_without_seconds: The time format string without seconds (%hour%:%minute%)
-     *  * with_seconds:           Whether to include a select for seconds (false by default)
-     *  * hours:                  An array of hours for the hour select tag (optional)
-     *  * minutes:                An array of minutes for the minute select tag (optional)
-     *  * seconds:                An array of seconds for the second select tag (optional)
-     *  * can_be_empty:           Whether the widget accept an empty value (true by default)
-     *  * empty_values:           An array of values to use for the empty value (empty string for hours, minutes, and seconds by default)
-     *
-     * @param array $options    An array of options
-     * @param array $attributes An array of default HTML attributes
-     *
-     * @see sfWidgetForm
-     */
-    protected function configure($options = array(), $attributes = array())
-    {
-        $this->addOption('format', '%hour%:%minute%:%second%');
-        $this->addOption('format_without_seconds', '%hour%:%minute%');
-        $this->addOption('with_seconds', false);
-        $this->addOption('hours', parent::generateTwoCharsRange(0, 23));
-        $this->addOption('minutes', parent::generateTwoCharsRange(0, 59));
-        $this->addOption('seconds', parent::generateTwoCharsRange(0, 59));
-
-        $this->addOption('can_be_empty', true);
-        $this->addOption('empty_values', array('hour' => '', 'minute' => '', 'second' => ''));
-    }
-
-    /**
      * Renders the widget.
      *
      * @param string $name       The element name
@@ -95,5 +63,37 @@ class sfWidgetFormTime extends sfWidgetForm
         }
 
         return strtr($this->getOption('with_seconds') ? $this->getOption('format') : $this->getOption('format_without_seconds'), $time);
+    }
+
+    /**
+     * Constructor.
+     *
+     * Available options:
+     *
+     *  * format:                 The time format string (%hour%:%minute%:%second%)
+     *  * format_without_seconds: The time format string without seconds (%hour%:%minute%)
+     *  * with_seconds:           Whether to include a select for seconds (false by default)
+     *  * hours:                  An array of hours for the hour select tag (optional)
+     *  * minutes:                An array of minutes for the minute select tag (optional)
+     *  * seconds:                An array of seconds for the second select tag (optional)
+     *  * can_be_empty:           Whether the widget accept an empty value (true by default)
+     *  * empty_values:           An array of values to use for the empty value (empty string for hours, minutes, and seconds by default)
+     *
+     * @param array $options    An array of options
+     * @param array $attributes An array of default HTML attributes
+     *
+     * @see sfWidgetForm
+     */
+    protected function configure($options = array(), $attributes = array())
+    {
+        $this->addOption('format', '%hour%:%minute%:%second%');
+        $this->addOption('format_without_seconds', '%hour%:%minute%');
+        $this->addOption('with_seconds', false);
+        $this->addOption('hours', parent::generateTwoCharsRange(0, 23));
+        $this->addOption('minutes', parent::generateTwoCharsRange(0, 59));
+        $this->addOption('seconds', parent::generateTwoCharsRange(0, 59));
+
+        $this->addOption('can_be_empty', true);
+        $this->addOption('empty_values', array('hour' => '', 'minute' => '', 'second' => ''));
     }
 }

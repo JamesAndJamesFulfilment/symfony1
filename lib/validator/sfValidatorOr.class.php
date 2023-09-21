@@ -50,14 +50,6 @@ class sfValidatorOr extends sfValidatorBase
     }
 
     /**
-     * @see sfValidatorBase
-     */
-    protected function configure($options = array(), $messages = array())
-    {
-        $this->setMessage('invalid', null);
-    }
-
-    /**
      * Adds a validator.
      *
      * @param sfValidatorBase $validator An sfValidatorBase instance
@@ -79,6 +71,51 @@ class sfValidatorOr extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $indent
+     */
+    public function asString($indent = 0)
+    {
+        $validators = '';
+        for ($i = 0, $max = count($this->validators); $i < $max; ++$i) {
+            $validators .= "\n".$this->validators[$i]->asString($indent + 2)."\n";
+
+            if ($i < $max - 1) {
+                $validators .= str_repeat(' ', $indent + 2).'or';
+            }
+
+            if ($i == $max - 2) {
+                $options = $this->getOptionsWithoutDefaults();
+                $messages = $this->getMessagesWithoutDefaults();
+
+                if ($options || $messages) {
+                    $validators .= sprintf(
+                        '(%s%s)',
+                        $options ? sfYamlInline::dump($options) : ($messages ? '{}' : ''),
+                        $messages ? ', '.sfYamlInline::dump($messages) : ''
+                    );
+                }
+            }
+        }
+
+        return sprintf('%s(%s%s)', str_repeat(' ', $indent), $validators, str_repeat(' ', $indent));
+    }
+
+    /**
+     * @see sfValidatorBase
+     *
+     * @param mixed $options
+     * @param mixed $messages
+     */
+    protected function configure($options = array(), $messages = array())
+    {
+        $this->setMessage('invalid', null);
+    }
+
+    /**
+     * @see sfValidatorBase
+     *
+     * @param mixed $value
      */
     protected function doClean($value)
     {
@@ -96,34 +133,5 @@ class sfValidatorOr extends sfValidatorBase
         }
 
         throw $errors;
-    }
-
-    /**
-     * @see sfValidatorBase
-     */
-    public function asString($indent = 0)
-    {
-        $validators = '';
-        for ($i = 0, $max = count($this->validators); $i < $max; ++$i) {
-            $validators .= "\n".$this->validators[$i]->asString($indent + 2)."\n";
-
-            if ($i < $max - 1) {
-                $validators .= str_repeat(' ', $indent + 2).'or';
-            }
-
-            if ($i == $max - 2) {
-                $options = $this->getOptionsWithoutDefaults();
-                $messages = $this->getMessagesWithoutDefaults();
-
-                if ($options || $messages) {
-                    $validators .= sprintf('(%s%s)',
-                        $options ? sfYamlInline::dump($options) : ($messages ? '{}' : ''),
-                        $messages ? ', '.sfYamlInline::dump($messages) : ''
-                    );
-                }
-            }
-        }
-
-        return sprintf('%s(%s%s)', str_repeat(' ', $indent), $validators, str_repeat(' ', $indent));
     }
 }

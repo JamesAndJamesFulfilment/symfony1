@@ -134,59 +134,6 @@ class sfMessageSource_MySQLi extends sfMessageSource_Database
     }
 
     /**
-     * Connects to the MySQL datasource.
-     *
-     * @return resource mySQL connection
-     *
-     * @throws sfException, connection and database errors
-     */
-    protected function connect()
-    {
-        $dsninfo = $this->dsn;
-
-        if (isset($dsninfo['protocol']) && 'unix' == $dsninfo['protocol']) {
-            $dbhost = ':'.$dsninfo['socket'];
-        } else {
-            $dbhost = $dsninfo['hostspec'] ?: 'localhost';
-            if (!empty($dsninfo['port'])) {
-                $dbhost .= ':'.$dsninfo['port'];
-            }
-        }
-        $user = $dsninfo['username'];
-        $pw = $dsninfo['password'];
-
-        $connect_function = 'mysqli_connect';
-
-        if (!function_exists($connect_function)) {
-            throw new RuntimeException('The function mysql_connect() does not exist. Please confirm MySQL is enabled in php.ini');
-        }
-
-        if ($dbhost && $user && $pw) {
-            $conn = @$connect_function($dbhost, $user, $pw);
-        } elseif ($dbhost && $user) {
-            $conn = @$connect_function($dbhost, $user);
-        } elseif ($dbhost) {
-            $conn = @$connect_function($dbhost);
-        } else {
-            $conn = false;
-        }
-
-        if (empty($conn)) {
-            throw new sfException(sprintf('Error in connecting to %s.', $dsninfo));
-        }
-
-        if ($dsninfo['database']) {
-            if (!@mysqli_select_db($conn, $dsninfo['database'])) {
-                throw new sfException(sprintf('Error in connecting database, dsn: %s.', $dsninfo));
-            }
-        } else {
-            throw new sfException('Please provide a database for message translation.');
-        }
-
-        return $conn;
-    }
-
-    /**
      * Gets the database connection.
      *
      * @return db database connection
@@ -229,23 +176,6 @@ class sfMessageSource_MySQLi extends sfMessageSource_Database
     }
 
     /**
-     * Gets the last modified unix-time for this particular catalogue+variant.
-     * We need to query the database to get the date_modified.
-     *
-     * @param string $source catalogue+variant
-     *
-     * @return int last modified in unix-time format
-     */
-    protected function getLastModified($source)
-    {
-        $source = mysqli_real_escape_string($this->db, $source);
-
-        $rs = mysqli_query($this->db, "SELECT date_modified FROM catalogue WHERE name = '{$source}'");
-
-        return $rs ? (int) mysqli_fetch_row($rs)['date_modified'] : 0;
-    }
-
-    /**
      * Checks if a particular catalogue+variant exists in the database.
      *
      * @param string $variant catalogue+variant
@@ -261,57 +191,6 @@ class sfMessageSource_MySQLi extends sfMessageSource_Database
         $row = mysqli_fetch_array($rs, MYSQLI_NUM);
 
         return $row && '1' == $row[0];
-    }
-
-    /**
-     * Retrieves catalogue details, array($cat_id, $variant, $count).
-     *
-     * @param string $catalogue catalogue
-     *
-     * @return array catalogue details, array($cat_id, $variant, $count)
-     */
-    protected function getCatalogueDetails($catalogue = 'messages')
-    {
-        if (empty($catalogue)) {
-            $catalogue = 'messages';
-        }
-
-        $variant = $catalogue.'.'.$this->culture;
-
-        $name = mysqli_real_escape_string($this->db, $this->getSource($variant));
-
-        $rs = mysqli_query($this->db, "SELECT cat_id FROM catalogue WHERE name = '{$name}'");
-
-        if (1 != mysqli_num_rows($rs)) {
-            return false;
-        }
-
-        $cat_id = (int) mysqli_fetch_row($rs)['cat_id'];
-
-        // first get the catalogue ID
-        $rs = mysqli_query($this->db, "SELECT COUNT(*) AS count FROM trans_unit WHERE cat_id = {$cat_id}");
-
-        $count = (int) mysqli_fetch_row($rs)['count'];
-
-        return array($cat_id, $variant, $count);
-    }
-
-    /**
-     * Updates the catalogue last modified time.
-     *
-     * @return bool true if updated, false otherwise
-     */
-    protected function updateCatalogueTime($cat_id, $variant)
-    {
-        $time = time();
-
-        $result = mysqli_query($this->db, "UPDATE catalogue SET date_modified = {$time} WHERE cat_id = {$cat_id}");
-
-        if ($this->cache) {
-            $this->cache->remove($variant.':'.$this->culture);
-        }
-
-        return $result;
     }
 
     /**
@@ -447,6 +326,130 @@ class sfMessageSource_MySQLi extends sfMessageSource_Database
             }
 
             $result[] = $details;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Connects to the MySQL datasource.
+     *
+     * @return resource mySQL connection
+     *
+     * @throws sfException, connection and database errors
+     */
+    protected function connect()
+    {
+        $dsninfo = $this->dsn;
+
+        if (isset($dsninfo['protocol']) && 'unix' == $dsninfo['protocol']) {
+            $dbhost = ':'.$dsninfo['socket'];
+        } else {
+            $dbhost = $dsninfo['hostspec'] ?: 'localhost';
+            if (!empty($dsninfo['port'])) {
+                $dbhost .= ':'.$dsninfo['port'];
+            }
+        }
+        $user = $dsninfo['username'];
+        $pw = $dsninfo['password'];
+
+        $connect_function = 'mysqli_connect';
+
+        if (!function_exists($connect_function)) {
+            throw new RuntimeException('The function mysql_connect() does not exist. Please confirm MySQL is enabled in php.ini');
+        }
+
+        if ($dbhost && $user && $pw) {
+            $conn = @$connect_function($dbhost, $user, $pw);
+        } elseif ($dbhost && $user) {
+            $conn = @$connect_function($dbhost, $user);
+        } elseif ($dbhost) {
+            $conn = @$connect_function($dbhost);
+        } else {
+            $conn = false;
+        }
+
+        if (empty($conn)) {
+            throw new sfException(sprintf('Error in connecting to %s.', $dsninfo));
+        }
+
+        if ($dsninfo['database']) {
+            if (!@mysqli_select_db($conn, $dsninfo['database'])) {
+                throw new sfException(sprintf('Error in connecting database, dsn: %s.', $dsninfo));
+            }
+        } else {
+            throw new sfException('Please provide a database for message translation.');
+        }
+
+        return $conn;
+    }
+
+    /**
+     * Gets the last modified unix-time for this particular catalogue+variant.
+     * We need to query the database to get the date_modified.
+     *
+     * @param string $source catalogue+variant
+     *
+     * @return int last modified in unix-time format
+     */
+    protected function getLastModified($source)
+    {
+        $source = mysqli_real_escape_string($this->db, $source);
+
+        $rs = mysqli_query($this->db, "SELECT date_modified FROM catalogue WHERE name = '{$source}'");
+
+        return $rs ? (int) mysqli_fetch_row($rs)['date_modified'] : 0;
+    }
+
+    /**
+     * Retrieves catalogue details, array($cat_id, $variant, $count).
+     *
+     * @param string $catalogue catalogue
+     *
+     * @return array catalogue details, array($cat_id, $variant, $count)
+     */
+    protected function getCatalogueDetails($catalogue = 'messages')
+    {
+        if (empty($catalogue)) {
+            $catalogue = 'messages';
+        }
+
+        $variant = $catalogue.'.'.$this->culture;
+
+        $name = mysqli_real_escape_string($this->db, $this->getSource($variant));
+
+        $rs = mysqli_query($this->db, "SELECT cat_id FROM catalogue WHERE name = '{$name}'");
+
+        if (1 != mysqli_num_rows($rs)) {
+            return false;
+        }
+
+        $cat_id = (int) mysqli_fetch_row($rs)['cat_id'];
+
+        // first get the catalogue ID
+        $rs = mysqli_query($this->db, "SELECT COUNT(*) AS count FROM trans_unit WHERE cat_id = {$cat_id}");
+
+        $count = (int) mysqli_fetch_row($rs)['count'];
+
+        return array($cat_id, $variant, $count);
+    }
+
+    /**
+     * Updates the catalogue last modified time.
+     *
+     * @param mixed $cat_id
+     * @param mixed $variant
+     *
+     * @return bool true if updated, false otherwise
+     */
+    protected function updateCatalogueTime($cat_id, $variant)
+    {
+        $time = time();
+
+        $result = mysqli_query($this->db, "UPDATE catalogue SET date_modified = {$time} WHERE cat_id = {$cat_id}");
+
+        if ($this->cache) {
+            $this->cache->remove($variant.':'.$this->culture);
         }
 
         return $result;

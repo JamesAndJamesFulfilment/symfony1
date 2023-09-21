@@ -156,7 +156,8 @@ class sfServiceContainerDumperGraphviz extends sfServiceContainerDumper
     {
         $parameters = var_export($this->container->getParameters(), true);
 
-        return sprintf("digraph sc {\n  %s\n  node [%s];\n  edge [%s];\n\n",
+        return sprintf(
+            "digraph sc {\n  %s\n  node [%s];\n  edge [%s];\n\n",
             $this->addOptions($this->options['graph']),
             $this->addOptions($this->options['node']),
             $this->addOptions($this->options['edge'])

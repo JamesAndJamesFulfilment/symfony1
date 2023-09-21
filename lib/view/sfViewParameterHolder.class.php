@@ -25,10 +25,37 @@ class sfViewParameterHolder extends sfParameterHolder
 
     /**
      * Constructor.
+     *
+     * @param mixed $parameters
+     * @param mixed $options
      */
     public function __construct(sfEventDispatcher $dispatcher, $parameters = array(), $options = array())
     {
         $this->initialize($dispatcher, $parameters, $options);
+    }
+
+    /**
+     * Serializes the current instance for PHP 7.4+.
+     *
+     * @return array
+     */
+    public function __serialize()
+    {
+        return array($this->getAll(), $this->escapingMethod, $this->escaping);
+    }
+
+    /**
+     * Unserializes a sfParameterHolder instance for PHP 7.4+.
+     *
+     * @param array $data
+     */
+    public function __unserialize($data)
+    {
+        list($this->parameters, $escapingMethod, $escaping) = $data;
+        $this->initialize(sfContext::hasInstance() ? sfContext::getInstance()->getEventDispatcher() : new sfEventDispatcher());
+
+        $this->setEscapingMethod($escapingMethod);
+        $this->setEscaping($escaping);
     }
 
     /**
@@ -170,29 +197,5 @@ class sfViewParameterHolder extends sfParameterHolder
     public function unserialize($serialized)
     {
         $this->__unserialize(unserialize($serialized));
-    }
-
-    /**
-     * Serializes the current instance for PHP 7.4+.
-     *
-     * @return array
-     */
-    public function __serialize()
-    {
-        return array($this->getAll(), $this->escapingMethod, $this->escaping);
-    }
-
-    /**
-     * Unserializes a sfParameterHolder instance for PHP 7.4+.
-     *
-     * @param array $data
-     */
-    public function __unserialize($data)
-    {
-        list($this->parameters, $escapingMethod, $escaping) = $data;
-        $this->initialize(sfContext::hasInstance() ? sfContext::getInstance()->getEventDispatcher() : new sfEventDispatcher());
-
-        $this->setEscapingMethod($escapingMethod);
-        $this->setEscaping($escaping);
     }
 }

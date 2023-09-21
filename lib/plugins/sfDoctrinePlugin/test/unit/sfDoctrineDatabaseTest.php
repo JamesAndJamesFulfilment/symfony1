@@ -12,7 +12,9 @@ include __DIR__.'/../bootstrap/unit.php';
 
 $t = new lime_test(4);
 
-class ProjectConfiguration extends sfProjectConfiguration {}
+class ProjectConfiguration extends sfProjectConfiguration
+{
+}
 
 $configuration = new ProjectConfiguration(__DIR__.'/../../lib', new sfEventDispatcher());
 

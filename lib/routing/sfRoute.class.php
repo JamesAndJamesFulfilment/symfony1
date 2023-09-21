@@ -62,6 +62,32 @@ class sfRoute implements Serializable
     }
 
     /**
+     * Serializes the current instance for php 7.4+.
+     *
+     * @return array
+     */
+    public function __serialize()
+    {
+        // always serialize compiled routes
+        $this->compile();
+
+        // sfPatternRouting will always re-set defaultParameters, so no need to serialize them
+        return array($this->tokens, $this->defaultOptions, $this->options, $this->pattern, $this->staticPrefix, $this->regex, $this->variables, $this->defaults, $this->requirements, $this->suffix, $this->customToken);
+    }
+
+    /**
+     * Unserializes a sfRoute instance for php 7.4+.
+     *
+     * @param array $data
+     */
+    public function __unserialize($data)
+    {
+        list($this->tokens, $this->defaultOptions, $this->options, $this->pattern, $this->staticPrefix, $this->regex, $this->variables, $this->defaults, $this->requirements, $this->suffix, $this->customToken) = $data;
+
+        $this->compiled = true;
+    }
+
+    /**
      * Binds the current route for a given context and parameters.
      *
      * @param array $context    The context
@@ -254,116 +280,6 @@ class sfRoute implements Serializable
     }
 
     /**
-     * Generates a consistent cache key for a route.
-     */
-    protected function generateCacheKey(array $elements = array(), bool $absolute = false): string
-    {
-        $elements = array(
-            SharedCacheHelper::ROUTING_NAMESPACE,
-            $this->flattenArrayElements($elements),
-        );
-
-        if ($absolute) {
-            $elements[] = 'Absolute';
-        }
-
-        return SharedCacheHelper::getNamespace($elements);
-    }
-
-    /**
-     * Recursive method to pack a key => value pair array down into a flat
-     * numerically-indexed array, with a consistent ordering of elements.
-     */
-    protected function flattenArrayElements(array $elements = array()): array
-    {
-        $flattened = array();
-        ksort($elements);
-        foreach ($elements as $key => $value) {
-            $flattened[] = $key;
-
-            if (is_array($value)) {
-                $flattened[] = $this->flattenArrayElements($value);
-
-                continue;
-            }
-
-            $flattened[] = $value;
-        }
-
-        return $flattened;
-    }
-
-    private static function generateCompareVarsByStrlen($a, $b)
-    {
-        return (strlen($a) < strlen($b)) ? 1 : -1;
-    }
-
-    /**
-     * Generates a URL for the given parameters by using the route tokens.
-     *
-     * @param array $parameters An array of parameters
-     *
-     * @return string
-     */
-    protected function generateWithTokens($parameters)
-    {
-        $url = array();
-        $optional = $this->options['generate_shortest_url'];
-        $first = true;
-        $tokens = array_reverse($this->tokens);
-
-        foreach ($tokens as $token) {
-            switch ($token[0]) {
-                case 'variable':
-                    if (!$optional || !isset($this->defaults[$token[3]]) || (isset($parameters[$token[3]]) && $parameters[$token[3]] != $this->defaults[$token[3]])) {
-                        $url[] = urlencode($parameters[$token[3]]);
-                        $optional = false;
-                    }
-
-                    break;
-
-                case 'text':
-                    $url[] = $token[2];
-                    $optional = false;
-
-                    break;
-
-                case 'separator':
-                    if (false === $optional || $first) {
-                        $url[] = $token[2];
-                    }
-
-                    break;
-
-                default:
-                    // handle custom tokens
-                    $segment = call_user_func_array(
-                        array(
-                            $this,
-                            'generateFor'.ucfirst(array_shift($token)),
-                        ),
-                        array_merge(array($optional, $parameters), $token)
-                    );
-                    if ($segment) {
-                        $url[] = $segment;
-                        $optional = false;
-                    }
-
-                    break;
-            }
-
-            $first = false;
-        }
-
-        $url = implode('', array_reverse($url));
-        if (!$url) {
-            $url = '/';
-        }
-
-        return $url;
-    }
-
-    /**
      * Returns the route parameters.
      *
      * @return array The route parameters
@@ -511,6 +427,143 @@ class sfRoute implements Serializable
         }
 
         $this->regex = '#^'.implode('', $this->segments).''.preg_quote($separator, '#').'$#x';
+    }
+
+    public function getDefaultParameters()
+    {
+        return $this->defaultParameters;
+    }
+
+    public function setDefaultParameters($parameters)
+    {
+        $this->defaultParameters = $parameters;
+    }
+
+    public function getDefaultOptions()
+    {
+        return $this->defaultOptions;
+    }
+
+    public function setDefaultOptions($options)
+    {
+        $this->defaultOptions = $options;
+    }
+
+    public function serialize()
+    {
+        return serialize($this->__serialize());
+    }
+
+    public function unserialize($serialized)
+    {
+        $array = unserialize($serialized);
+
+        $this->__unserialize($array);
+    }
+
+    /**
+     * Generates a consistent cache key for a route.
+     */
+    protected function generateCacheKey(array $elements = array(), bool $absolute = false): string
+    {
+        $elements = array(
+            SharedCacheHelper::ROUTING_NAMESPACE,
+            $this->flattenArrayElements($elements),
+        );
+
+        if ($absolute) {
+            $elements[] = 'Absolute';
+        }
+
+        return SharedCacheHelper::getNamespace($elements);
+    }
+
+    /**
+     * Recursive method to pack a key => value pair array down into a flat
+     * numerically-indexed array, with a consistent ordering of elements.
+     */
+    protected function flattenArrayElements(array $elements = array()): array
+    {
+        $flattened = array();
+        ksort($elements);
+        foreach ($elements as $key => $value) {
+            $flattened[] = $key;
+
+            if (is_array($value)) {
+                $flattened[] = $this->flattenArrayElements($value);
+
+                continue;
+            }
+
+            $flattened[] = $value;
+        }
+
+        return $flattened;
+    }
+
+    /**
+     * Generates a URL for the given parameters by using the route tokens.
+     *
+     * @param array $parameters An array of parameters
+     *
+     * @return string
+     */
+    protected function generateWithTokens($parameters)
+    {
+        $url = array();
+        $optional = $this->options['generate_shortest_url'];
+        $first = true;
+        $tokens = array_reverse($this->tokens);
+
+        foreach ($tokens as $token) {
+            switch ($token[0]) {
+                case 'variable':
+                    if (!$optional || !isset($this->defaults[$token[3]]) || (isset($parameters[$token[3]]) && $parameters[$token[3]] != $this->defaults[$token[3]])) {
+                        $url[] = urlencode($parameters[$token[3]]);
+                        $optional = false;
+                    }
+
+                    break;
+
+                case 'text':
+                    $url[] = $token[2];
+                    $optional = false;
+
+                    break;
+
+                case 'separator':
+                    if (false === $optional || $first) {
+                        $url[] = $token[2];
+                    }
+
+                    break;
+
+                default:
+                    // handle custom tokens
+                    $segment = call_user_func_array(
+                        array(
+                            $this,
+                            'generateFor'.ucfirst(array_shift($token)),
+                        ),
+                        array_merge(array($optional, $parameters), $token)
+                    );
+                    if ($segment) {
+                        $url[] = $segment;
+                        $optional = false;
+                    }
+
+                    break;
+            }
+
+            $first = false;
+        }
+
+        $url = implode('', array_reverse($url));
+        if (!$url) {
+            $url = '/';
+        }
+
+        return $url;
     }
 
     /**
@@ -669,26 +722,8 @@ class sfRoute implements Serializable
         }
     }
 
-    protected function compileForSeparator($separator, $regexSeparator) {}
-
-    public function getDefaultParameters()
+    protected function compileForSeparator($separator, $regexSeparator)
     {
-        return $this->defaultParameters;
-    }
-
-    public function setDefaultParameters($parameters)
-    {
-        $this->defaultParameters = $parameters;
-    }
-
-    public function getDefaultOptions()
-    {
-        return $this->defaultOptions;
-    }
-
-    public function setDefaultOptions($options)
-    {
-        $this->defaultOptions = $options;
     }
 
     protected function initializeOptions()
@@ -713,7 +748,8 @@ class sfRoute implements Serializable
 
             // as of PHP 5.3.0, preg_quote automatically quotes dashes "-" (see http://bugs.php.net/bug.php?id=47229)
             $preg_quote_hash_53 = function ($a) { return str_replace('-', '\-', preg_quote($a, '#')); };
-            $this->options['variable_content_regex'] = '[^'.implode('',
+            $this->options['variable_content_regex'] = '[^'.implode(
+                '',
                 array_map(version_compare(PHP_VERSION, '5.3.0RC4', '>=') ? $preg_quote_hash : $preg_quote_hash_53, $this->options['segment_separators'])
             ).']+';
         } else {
@@ -832,41 +868,8 @@ class sfRoute implements Serializable
         }
     }
 
-    public function serialize()
+    private static function generateCompareVarsByStrlen($a, $b)
     {
-        return serialize($this->__serialize());
-    }
-
-    public function unserialize($serialized)
-    {
-        $array = unserialize($serialized);
-
-        $this->__unserialize($array);
-    }
-
-    /**
-     * Serializes the current instance for php 7.4+.
-     *
-     * @return array
-     */
-    public function __serialize()
-    {
-        // always serialize compiled routes
-        $this->compile();
-
-        // sfPatternRouting will always re-set defaultParameters, so no need to serialize them
-        return array($this->tokens, $this->defaultOptions, $this->options, $this->pattern, $this->staticPrefix, $this->regex, $this->variables, $this->defaults, $this->requirements, $this->suffix, $this->customToken);
-    }
-
-    /**
-     * Unserializes a sfRoute instance for php 7.4+.
-     *
-     * @param array $data
-     */
-    public function __unserialize($data)
-    {
-        list($this->tokens, $this->defaultOptions, $this->options, $this->pattern, $this->staticPrefix, $this->regex, $this->variables, $this->defaults, $this->requirements, $this->suffix, $this->customToken) = $data;
-
-        $this->compiled = true;
+        return (strlen($a) < strlen($b)) ? 1 : -1;
     }
 }

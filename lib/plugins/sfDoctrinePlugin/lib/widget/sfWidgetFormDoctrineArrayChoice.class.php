@@ -21,37 +21,15 @@ class sfWidgetFormDoctrineArrayChoice extends sfWidgetFormChoice
 {
     /**
      * @see sfWidget
+     *
+     * @param mixed $options
+     * @param mixed $attributes
      */
     public function __construct($options = array(), $attributes = array())
     {
         $options['choices'] = array();
 
         parent::__construct($options, $attributes);
-    }
-
-    /**
-     * Constructor.
-     *
-     * Available options:
-     *
-     *  * model:                The model class (required)
-     *  * table_method:         A method to return a formatted array of key => value (required)
-     *  * table_method_params:  An array of parameters to pass to the table_method
-     *  * add_empty:            Whether to add a first empty value or not (false by default)
-     *                          If the option is not a Boolean, the value will be used as the text value
-     *  * multiple:             true if the select tag must allow multiple selections (false by default)
-     *
-     * @see sfWidgetFormChoice
-     */
-    protected function configure($options = array(), $attributes = array())
-    {
-        $this->addRequiredOption('model');
-        $this->addRequiredOption('table_method');
-        $this->addOption('table_method_params', null);
-        $this->addOption('add_empty', false);
-        $this->addOption('multiple', false);
-
-        parent::configure($options, $attributes);
     }
 
     /**
@@ -76,5 +54,33 @@ class sfWidgetFormDoctrineArrayChoice extends sfWidgetFormChoice
         }
 
         return $choices;
+    }
+
+    /**
+     * Constructor.
+     *
+     * Available options:
+     *
+     *  * model:                The model class (required)
+     *  * table_method:         A method to return a formatted array of key => value (required)
+     *  * table_method_params:  An array of parameters to pass to the table_method
+     *  * add_empty:            Whether to add a first empty value or not (false by default)
+     *                          If the option is not a Boolean, the value will be used as the text value
+     *  * multiple:             true if the select tag must allow multiple selections (false by default)
+     *
+     * @see sfWidgetFormChoice
+     *
+     * @param mixed $options
+     * @param mixed $attributes
+     */
+    protected function configure($options = array(), $attributes = array())
+    {
+        $this->addRequiredOption('model');
+        $this->addRequiredOption('table_method');
+        $this->addOption('table_method_params', null);
+        $this->addOption('add_empty', false);
+        $this->addOption('multiple', false);
+
+        parent::configure($options, $attributes);
     }
 }

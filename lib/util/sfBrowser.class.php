@@ -22,37 +22,6 @@ class sfBrowser extends sfBrowserBase
     protected $currentException;
 
     /**
-     * Calls a request to a uri.
-     */
-    protected function doCall()
-    {
-        // Before getContext, it can trigger some
-        sfConfig::set('sf_test', true);
-
-        // recycle our context object
-        $this->context = $this->getContext(true);
-
-        // we register a fake rendering filter
-        sfConfig::set('sf_rendering_filter', array('sfFakeRenderingFilter', null));
-
-        $this->resetCurrentException();
-
-        // dispatch our request
-        ob_start();
-        $this->context->getController()->dispatch();
-        $retval = ob_get_clean();
-
-        // append retval to the response content
-        $this->context->getResponse()->setContent($retval);
-
-        // manually shutdown user to save current session data
-        if ($this->context->getUser()) {
-            $this->context->getUser()->shutdown();
-            $this->context->getStorage()->shutdown();
-        }
-    }
-
-    /**
      * Returns the current application context.
      *
      * @param bool $forceReload true to force context reload, false otherwise
@@ -144,6 +113,37 @@ class sfBrowser extends sfBrowserBase
     public function listenToException(sfEvent $event)
     {
         $this->setCurrentException($event->getSubject());
+    }
+
+    /**
+     * Calls a request to a uri.
+     */
+    protected function doCall()
+    {
+        // Before getContext, it can trigger some
+        sfConfig::set('sf_test', true);
+
+        // recycle our context object
+        $this->context = $this->getContext(true);
+
+        // we register a fake rendering filter
+        sfConfig::set('sf_rendering_filter', array('sfFakeRenderingFilter', null));
+
+        $this->resetCurrentException();
+
+        // dispatch our request
+        ob_start();
+        $this->context->getController()->dispatch();
+        $retval = ob_get_clean();
+
+        // append retval to the response content
+        $this->context->getResponse()->setContent($retval);
+
+        // manually shutdown user to save current session data
+        if ($this->context->getUser()) {
+            $this->context->getUser()->shutdown();
+            $this->context->getStorage()->shutdown();
+        }
     }
 }
 

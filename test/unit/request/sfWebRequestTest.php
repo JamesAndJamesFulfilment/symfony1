@@ -14,11 +14,10 @@ $t = new lime_test(109);
 
 class myRequest extends sfWebRequest
 {
-    protected static $initialPathArrayKeys;
-
     public $languages;
     public $charsets;
     public $acceptableContentTypes;
+    protected static $initialPathArrayKeys;
 
     public function initialize(sfEventDispatcher $dispatcher, $parameters = array(), $attributes = array(), $options = array())
     {

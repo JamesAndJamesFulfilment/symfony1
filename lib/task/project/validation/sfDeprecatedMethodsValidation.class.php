@@ -58,12 +58,10 @@ class sfDeprecatedMethodsValidation extends sfValidation
                 sfConfig::get('sf_test_dir'),
                 sfConfig::get('sf_plugins_dir'),
             )),
-
             $this->doValidate(array(
                 'contains', 'responseContains', 'isRequestParameter', 'isResponseHeader',
                 'isUserCulture', 'isRequestFormat', 'checkResponseElement',
             ), sfConfig::get('sf_test_dir')),
-
             $this->doValidate(array(
                 'getDefaultView', 'handleError', 'validate', 'debugMessage', 'getController()->sendEmail',
             ), $this->getProjectActionDirectories())

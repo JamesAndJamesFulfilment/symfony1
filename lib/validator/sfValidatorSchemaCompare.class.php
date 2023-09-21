@@ -65,6 +65,38 @@ class sfValidatorSchemaCompare extends sfValidatorSchema
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $indent
+     */
+    public function asString($indent = 0)
+    {
+        $options = $this->getOptionsWithoutDefaults();
+        $messages = $this->getMessagesWithoutDefaults();
+        unset($options['left_field'], $options['operator'], $options['right_field']);
+
+        $arguments = '';
+        if ($options || $messages) {
+            $arguments = sprintf(
+                '(%s%s)',
+                $options ? sfYamlInline::dump($options) : ($messages ? '{}' : ''),
+                $messages ? ', '.sfYamlInline::dump($messages) : ''
+            );
+        }
+
+        return sprintf(
+            '%s%s %s%s %s',
+            str_repeat(' ', $indent),
+            $this->getOption('left_field'),
+            $this->getOption('operator'),
+            $arguments,
+            $this->getOption('right_field')
+        );
+    }
+
+    /**
+     * @see sfValidatorBase
+     *
+     * @param mixed $values
      */
     protected function doClean($values)
     {
@@ -141,31 +173,5 @@ class sfValidatorSchemaCompare extends sfValidatorSchema
         }
 
         return $values;
-    }
-
-    /**
-     * @see sfValidatorBase
-     */
-    public function asString($indent = 0)
-    {
-        $options = $this->getOptionsWithoutDefaults();
-        $messages = $this->getMessagesWithoutDefaults();
-        unset($options['left_field'], $options['operator'], $options['right_field']);
-
-        $arguments = '';
-        if ($options || $messages) {
-            $arguments = sprintf('(%s%s)',
-                $options ? sfYamlInline::dump($options) : ($messages ? '{}' : ''),
-                $messages ? ', '.sfYamlInline::dump($messages) : ''
-            );
-        }
-
-        return sprintf('%s%s %s%s %s',
-            str_repeat(' ', $indent),
-            $this->getOption('left_field'),
-            $this->getOption('operator'),
-            $arguments,
-            $this->getOption('right_field')
-        );
     }
 }

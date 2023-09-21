@@ -43,18 +43,6 @@ class sfMessageSource_Aggregate extends sfMessageSource
         }
     }
 
-    protected function getLastModified($sources)
-    {
-        $lastModified = time();
-        foreach ($sources as $source) {
-            if (0 !== $sourceLastModified = $source[0]->getLastModified($source[1])) {
-                $lastModified = min($lastModified, $sourceLastModified);
-            }
-        }
-
-        return $lastModified;
-    }
-
     public function isValidSource($sources)
     {
         foreach ($sources as $source) {
@@ -164,5 +152,17 @@ class sfMessageSource_Aggregate extends sfMessageSource
     public function catalogues()
     {
         throw new sfException('The "catalogues()" method is not implemented for this message source.');
+    }
+
+    protected function getLastModified($sources)
+    {
+        $lastModified = time();
+        foreach ($sources as $source) {
+            if (0 !== $sourceLastModified = $source[0]->getLastModified($source[1])) {
+                $lastModified = min($lastModified, $sourceLastModified);
+            }
+        }
+
+        return $lastModified;
     }
 }

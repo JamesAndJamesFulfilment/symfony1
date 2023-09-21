@@ -22,6 +22,10 @@ class sfValidatorFromDescription extends sfValidatorDecorator
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $string
+     * @param mixed $options
+     * @param mixed $messages
      */
     public function __construct($string, $options = array(), $messages = array())
     {
@@ -320,7 +324,8 @@ class sfValidatorFDTokenOperator
 
     public function asPhp($tokenLeft, $tokenRight)
     {
-        return sprintf('new %s(array(%s, %s), %s)',
+        return sprintf(
+            'new %s(array(%s, %s), %s)',
             $this->class,
             is_object($tokenLeft) && in_array(get_class($tokenLeft), array('sfValidatorFDToken', 'sfValidatorFDTokenFilter')) ? $tokenLeft->asPhp() : $tokenLeft,
             is_object($tokenRight) && in_array(get_class($tokenRight), array('sfValidatorFDToken', 'sfValidatorFDTokenFilter')) ? $tokenRight->asPhp() : $tokenRight,

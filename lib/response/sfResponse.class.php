@@ -40,6 +40,46 @@ abstract class sfResponse implements Serializable
     }
 
     /**
+     * Calls methods defined via sfEventDispatcher.
+     *
+     * @param string $method    The method name
+     * @param array  $arguments The method arguments
+     *
+     * @return mixed The returned value of the called method
+     *
+     * @throws <b>sfException</b> If the calls fails
+     */
+    public function __call($method, $arguments)
+    {
+        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'response.method_not_found', array('method' => $method, 'arguments' => $arguments)));
+        if (!$event->isProcessed()) {
+            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
+        }
+
+        return $event->getReturnValue();
+    }
+
+    /**
+     * Serializes the current instance for php 7.4+.
+     *
+     * @return array
+     */
+    public function __serialize()
+    {
+        return array('content' => $this->content);
+    }
+
+    /**
+     * Unserializes a sfResponse instance for php 7.4+.
+     *
+     * @param array $data
+     */
+    public function __unserialize($data)
+    {
+        $this->content = $data['content'];
+    }
+
+    /**
      * Initializes this sfResponse.
      *
      * Available options:
@@ -125,26 +165,6 @@ abstract class sfResponse implements Serializable
     }
 
     /**
-     * Calls methods defined via sfEventDispatcher.
-     *
-     * @param string $method    The method name
-     * @param array  $arguments The method arguments
-     *
-     * @return mixed The returned value of the called method
-     *
-     * @throws <b>sfException</b> If the calls fails
-     */
-    public function __call($method, $arguments)
-    {
-        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'response.method_not_found', array('method' => $method, 'arguments' => $arguments)));
-        if (!$event->isProcessed()) {
-            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
-        }
-
-        return $event->getReturnValue();
-    }
-
-    /**
      * Serializes the current instance.
      *
      * @return string Objects instance
@@ -164,25 +184,5 @@ abstract class sfResponse implements Serializable
     public function unserialize($serialized)
     {
         $this->content = unserialize($serialized);
-    }
-
-    /**
-     * Serializes the current instance for php 7.4+.
-     *
-     * @return array
-     */
-    public function __serialize()
-    {
-        return array('content' => $this->content);
-    }
-
-    /**
-     * Unserializes a sfResponse instance for php 7.4+.
-     *
-     * @param array $data
-     */
-    public function __unserialize($data)
-    {
-        $this->content = $data['content'];
     }
 }

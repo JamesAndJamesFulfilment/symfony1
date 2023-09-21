@@ -49,7 +49,10 @@ class sfServiceConfigHandler extends sfYamlConfigHandler
             "%s\n".
             "}\n".
             "return \$class;\n\n",
-            date('Y/m/d H:i:s'), $class, $code);
+            date('Y/m/d H:i:s'),
+            $class,
+            $code
+        );
 
         return $retval;
     }

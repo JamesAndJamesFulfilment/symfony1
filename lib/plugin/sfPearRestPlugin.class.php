@@ -37,6 +37,19 @@ class sfPearRestPlugin extends sfPearRest11
     }
 
     /**
+     * Proxies method to the PEAR REST10 object.
+     *
+     * @param string $method    The method name
+     * @param array  $arguments An array of arguments
+     */
+    public function __call($method, $arguments)
+    {
+        if (method_exists($this->rest10, $method)) {
+            return call_user_func_array(array($this->rest10, $method), $arguments);
+        }
+    }
+
+    /**
      * Sets the channel for the REST object.
      *
      * @param string $channel The channel name
@@ -45,27 +58,6 @@ class sfPearRestPlugin extends sfPearRest11
     {
         $this->channel = $channel;
         $this->restBase = $this->getRESTBase($channel);
-    }
-
-    /**
-     * Gets the REST base path.
-     *
-     * @param string $channelName The channel name
-     */
-    protected function getRESTBase($channelName)
-    {
-        $channel = $this->config->getRegistry()->getChannel($channelName);
-        if (PEAR::isError($channel)) {
-            throw new sfPluginException(sprintf('Unable to initialize channel "%s"', $channel->getMessage()));
-        }
-
-        $mirror = $this->config->get('preferred_mirror', null, $channelName);
-
-        if (!$channel->supportsREST($mirror)) {
-            throw new sfPluginRestException(sprintf('The channel "%s" does not support the REST protocol', $channelName));
-        }
-
-        return $channel->getBaseURL('REST1.1', $mirror);
     }
 
     /**
@@ -183,6 +175,27 @@ class sfPearRestPlugin extends sfPearRest11
     }
 
     /**
+     * Gets the REST base path.
+     *
+     * @param string $channelName The channel name
+     */
+    protected function getRESTBase($channelName)
+    {
+        $channel = $this->config->getRegistry()->getChannel($channelName);
+        if (PEAR::isError($channel)) {
+            throw new sfPluginException(sprintf('Unable to initialize channel "%s"', $channel->getMessage()));
+        }
+
+        $mirror = $this->config->get('preferred_mirror', null, $channelName);
+
+        if (!$channel->supportsREST($mirror)) {
+            throw new sfPluginRestException(sprintf('The channel "%s" does not support the REST protocol', $channelName));
+        }
+
+        return $channel->getBaseURL('REST1.1', $mirror);
+    }
+
+    /**
      * Returns an array of set of possible states sorted from most to least stable.
      *
      * @param string $stability Stability name
@@ -194,18 +207,5 @@ class sfPearRestPlugin extends sfPearRest11
         $stability = null === $stability ? $this->config->get('preferred_state', null, $this->channel) : $stability;
 
         return array_flip($this->betterStates($stability, true));
-    }
-
-    /**
-     * Proxies method to the PEAR REST10 object.
-     *
-     * @param string $method    The method name
-     * @param array  $arguments An array of arguments
-     */
-    public function __call($method, $arguments)
-    {
-        if (method_exists($this->rest10, $method)) {
-            return call_user_func_array(array($this->rest10, $method), $arguments);
-        }
     }
 }

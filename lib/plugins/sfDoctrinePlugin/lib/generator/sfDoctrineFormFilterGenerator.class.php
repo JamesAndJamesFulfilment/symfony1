@@ -326,6 +326,16 @@ class sfDoctrineFormFilterGenerator extends sfDoctrineFormGenerator
     }
 
     /**
+     * Get the name of the form class to extend based on the inheritance of the model.
+     *
+     * @return string
+     */
+    public function getFormClassToExtend()
+    {
+        return null === ($model = $this->getParentModel()) ? 'BaseFormFilterDoctrine' : sprintf('%sFormFilter', $model);
+    }
+
+    /**
      * Array export. Export array to formatted php code.
      *
      * @param array $values
@@ -345,6 +355,8 @@ class sfDoctrineFormFilterGenerator extends sfDoctrineFormGenerator
     /**
      * Filter out models that have disabled generation of form classes.
      *
+     * @param mixed $models
+     *
      * @return array $models Array of models to generate forms for
      */
     protected function filterModels($models)
@@ -363,15 +375,5 @@ class sfDoctrineFormFilterGenerator extends sfDoctrineFormGenerator
         }
 
         return $models;
-    }
-
-    /**
-     * Get the name of the form class to extend based on the inheritance of the model.
-     *
-     * @return string
-     */
-    public function getFormClassToExtend()
-    {
-        return null === ($model = $this->getParentModel()) ? 'BaseFormFilterDoctrine' : sprintf('%sFormFilter', $model);
     }
 }

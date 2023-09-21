@@ -51,7 +51,7 @@ abstract class sfYamlConfigHandler extends sfConfigHandler
      *
      * @param string $configFile An absolute filesystem path to a configuration file
      *
-     * @return string|array A parsed .yml configuration
+     * @return array|string A parsed .yml configuration
      *
      * @throws sfConfigurationException If a requested configuration file does not exist or is not readable
      * @throws sfParseException         If a requested configuration file is improperly formatted
@@ -72,6 +72,34 @@ abstract class sfYamlConfigHandler extends sfConfigHandler
         }
 
         return null === $config ? array() : $config;
+    }
+
+    public static function flattenConfiguration($config)
+    {
+        $config['all'] = sfToolkit::arrayDeepMerge(
+            isset($config['default']) && is_array($config['default']) ? $config['default'] : array(),
+            isset($config['all']) && is_array($config['all']) ? $config['all'] : array()
+        );
+
+        unset($config['default']);
+
+        return $config;
+    }
+
+    /**
+     * Merges default, all and current environment configurations.
+     *
+     * @param array $config The main configuratino array
+     *
+     * @return array The merged configuration
+     */
+    public static function flattenConfigurationWithEnvironment($config)
+    {
+        return sfToolkit::arrayDeepMerge(
+            isset($config['default']) && is_array($config['default']) ? $config['default'] : array(),
+            isset($config['all']) && is_array($config['all']) ? $config['all'] : array(),
+            isset($config[sfConfig::get('sf_environment')]) && is_array($config[sfConfig::get('sf_environment')]) ? $config[sfConfig::get('sf_environment')] : array()
+        );
     }
 
     /**
@@ -116,33 +144,5 @@ abstract class sfYamlConfigHandler extends sfConfigHandler
         }
 
         return $defaultValue;
-    }
-
-    public static function flattenConfiguration($config)
-    {
-        $config['all'] = sfToolkit::arrayDeepMerge(
-            isset($config['default']) && is_array($config['default']) ? $config['default'] : array(),
-            isset($config['all']) && is_array($config['all']) ? $config['all'] : array()
-        );
-
-        unset($config['default']);
-
-        return $config;
-    }
-
-    /**
-     * Merges default, all and current environment configurations.
-     *
-     * @param array $config The main configuratino array
-     *
-     * @return array The merged configuration
-     */
-    public static function flattenConfigurationWithEnvironment($config)
-    {
-        return sfToolkit::arrayDeepMerge(
-            isset($config['default']) && is_array($config['default']) ? $config['default'] : array(),
-            isset($config['all']) && is_array($config['all']) ? $config['all'] : array(),
-            isset($config[sfConfig::get('sf_environment')]) && is_array($config[sfConfig::get('sf_environment')]) ? $config[sfConfig::get('sf_environment')] : array()
-        );
     }
 }

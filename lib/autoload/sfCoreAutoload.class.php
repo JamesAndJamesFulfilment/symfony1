@@ -8,9 +8,7 @@
  * file that was distributed with this source code.
  */
 
-/*
- * The current symfony version.
- */
+// The current symfony version.
 define('SYMFONY_VERSION', '1.6.0');
 
 /**
@@ -29,140 +27,6 @@ class sfCoreAutoload
     protected static $instance;
 
     protected $baseDir;
-
-    protected function __construct()
-    {
-        $this->baseDir = realpath(__DIR__.'/..');
-    }
-
-    /**
-     * Retrieves the singleton instance of this class.
-     *
-     * @return sfCoreAutoload a sfCoreAutoload implementation instance
-     */
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new sfCoreAutoload();
-        }
-
-        return self::$instance;
-    }
-
-    /**
-     * Register sfCoreAutoload in spl autoloader.
-     *
-     * @throws sfException If unable to register SPL autoload function
-     */
-    public static function register()
-    {
-        if (self::$registered) {
-            return;
-        }
-
-        ini_set('unserialize_callback_func', 'spl_autoload_call');
-        if (false === spl_autoload_register(array(self::getInstance(), 'autoload'))) {
-            throw new sfException(sprintf('Unable to register %s::autoload as an autoloading method.', get_class(self::getInstance())));
-        }
-
-        self::$registered = true;
-    }
-
-    /**
-     * Unregister sfCoreAutoload from spl autoloader.
-     */
-    public static function unregister()
-    {
-        spl_autoload_unregister(array(self::getInstance(), 'autoload'));
-        self::$registered = false;
-    }
-
-    /**
-     * Handles autoloading of classes.
-     *
-     * @param string $class a class name
-     *
-     * @return bool Returns true if the class has been loaded
-     */
-    public function autoload($class)
-    {
-        if ($path = $this->getClassPath($class)) {
-            require $path;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns the filename of the supplied class.
-     *
-     * @param string $class The class name (case insensitive)
-     *
-     * @return string|null An absolute path or null
-     */
-    public function getClassPath($class)
-    {
-        $class = strtolower($class);
-
-        if (!isset($this->classes[$class])) {
-            return null;
-        }
-
-        return $this->baseDir.'/'.$this->classes[$class];
-    }
-
-    /**
-     * Returns the base directory this autoloader is working on.
-     *
-     * @return string The path to the symfony core lib directory
-     */
-    public function getBaseDir()
-    {
-        return $this->baseDir;
-    }
-
-    /**
-     * Rebuilds the association array between class names and paths.
-     *
-     * This method overrides this file (__FILE__)
-     */
-    public static function make()
-    {
-        $libDir = str_replace(DIRECTORY_SEPARATOR, '/', realpath(__DIR__.DIRECTORY_SEPARATOR.'..'));
-
-        require_once $libDir.'/util/sfFinder.class.php';
-
-        $files = sfFinder::type('file')
-            ->prune('plugins')
-            ->prune('vendor')
-            ->prune('skeleton')
-            ->prune('default')
-            ->prune('helper')
-            ->name('*.php')
-            ->in($libDir)
-        ;
-
-        sort($files, SORT_STRING);
-
-        $classes = '';
-        foreach ($files as $file) {
-            $file = str_replace(DIRECTORY_SEPARATOR, '/', $file);
-            $class = basename($file, false === strpos($file, '.class.php') ? '.php' : '.class.php');
-
-            $contents = file_get_contents($file);
-            if (false !== stripos($contents, 'class '.$class)
-                || false !== stripos($contents, 'interface '.$class)
-                || false !== stripos($contents, 'trait '.$class)) {
-                $classes .= sprintf("    '%s' => '%s',\n", strtolower($class), substr(str_replace($libDir, '', $file), 1));
-            }
-        }
-
-        $content = preg_replace('/protected \$classes = array *\(.*?\);/s', sprintf("protected \$classes = array(\n%s  );", $classes), file_get_contents(__FILE__));
-
-        file_put_contents(__FILE__, $content);
-    }
 
     // Don't edit this property by hand.
     // To update it, use sfCoreAutoload::make()
@@ -528,4 +392,138 @@ class sfCoreAutoload
         'sfyamlinline' => 'yaml/sfYamlInline.class.php',
         'sfyamlparser' => 'yaml/sfYamlParser.class.php',
     );
+
+    protected function __construct()
+    {
+        $this->baseDir = realpath(__DIR__.'/..');
+    }
+
+    /**
+     * Retrieves the singleton instance of this class.
+     *
+     * @return sfCoreAutoload a sfCoreAutoload implementation instance
+     */
+    public static function getInstance()
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new sfCoreAutoload();
+        }
+
+        return self::$instance;
+    }
+
+    /**
+     * Register sfCoreAutoload in spl autoloader.
+     *
+     * @throws sfException If unable to register SPL autoload function
+     */
+    public static function register()
+    {
+        if (self::$registered) {
+            return;
+        }
+
+        ini_set('unserialize_callback_func', 'spl_autoload_call');
+        if (false === spl_autoload_register(array(self::getInstance(), 'autoload'))) {
+            throw new sfException(sprintf('Unable to register %s::autoload as an autoloading method.', get_class(self::getInstance())));
+        }
+
+        self::$registered = true;
+    }
+
+    /**
+     * Unregister sfCoreAutoload from spl autoloader.
+     */
+    public static function unregister()
+    {
+        spl_autoload_unregister(array(self::getInstance(), 'autoload'));
+        self::$registered = false;
+    }
+
+    /**
+     * Handles autoloading of classes.
+     *
+     * @param string $class a class name
+     *
+     * @return bool Returns true if the class has been loaded
+     */
+    public function autoload($class)
+    {
+        if ($path = $this->getClassPath($class)) {
+            require $path;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the filename of the supplied class.
+     *
+     * @param string $class The class name (case insensitive)
+     *
+     * @return null|string An absolute path or null
+     */
+    public function getClassPath($class)
+    {
+        $class = strtolower($class);
+
+        if (!isset($this->classes[$class])) {
+            return null;
+        }
+
+        return $this->baseDir.'/'.$this->classes[$class];
+    }
+
+    /**
+     * Returns the base directory this autoloader is working on.
+     *
+     * @return string The path to the symfony core lib directory
+     */
+    public function getBaseDir()
+    {
+        return $this->baseDir;
+    }
+
+    /**
+     * Rebuilds the association array between class names and paths.
+     *
+     * This method overrides this file (__FILE__)
+     */
+    public static function make()
+    {
+        $libDir = str_replace(DIRECTORY_SEPARATOR, '/', realpath(__DIR__.DIRECTORY_SEPARATOR.'..'));
+
+        require_once $libDir.'/util/sfFinder.class.php';
+
+        $files = sfFinder::type('file')
+            ->prune('plugins')
+            ->prune('vendor')
+            ->prune('skeleton')
+            ->prune('default')
+            ->prune('helper')
+            ->name('*.php')
+            ->in($libDir)
+        ;
+
+        sort($files, SORT_STRING);
+
+        $classes = '';
+        foreach ($files as $file) {
+            $file = str_replace(DIRECTORY_SEPARATOR, '/', $file);
+            $class = basename($file, false === strpos($file, '.class.php') ? '.php' : '.class.php');
+
+            $contents = file_get_contents($file);
+            if (false !== stripos($contents, 'class '.$class)
+                || false !== stripos($contents, 'interface '.$class)
+                || false !== stripos($contents, 'trait '.$class)) {
+                $classes .= sprintf("    '%s' => '%s',\n", strtolower($class), substr(str_replace($libDir, '', $file), 1));
+            }
+        }
+
+        $content = preg_replace('/protected \$classes = array *\(.*?\);/s', sprintf("protected \$classes = array(\n%s  );", $classes), file_get_contents(__FILE__));
+
+        file_put_contents(__FILE__, $content);
+    }
 }

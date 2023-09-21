@@ -34,6 +34,9 @@ class sfViewCacheManager
      * Class constructor.
      *
      * @see initialize()
+     *
+     * @param mixed $context
+     * @param mixed $options
      */
     public function __construct($context, sfCache $cache, $options = array())
     {
@@ -45,6 +48,7 @@ class sfViewCacheManager
      *
      * @param sfContext $context Current application context
      * @param sfCache   $cache   An sfCache instance
+     * @param mixed     $options
      */
     public function initialize($context, sfCache $cache, $options = array())
     {
@@ -186,86 +190,6 @@ class sfViewCacheManager
     }
 
     /**
-     * Gets the vary header part of view cache key.
-     *
-     * @param string $vary
-     *
-     * @return string
-     */
-    protected function getCacheKeyVaryHeaderPart($internalUri, $vary = '')
-    {
-        if (!$this->options['cache_key_use_vary_headers']) {
-            return '';
-        }
-
-        // prefix with vary headers
-        if (!$vary) {
-            $varyHeaders = $this->getVary($internalUri);
-
-            if (!$varyHeaders) {
-                return 'all';
-            }
-
-            sort($varyHeaders);
-            $request = $this->context->getRequest();
-            $varys = array();
-
-            foreach ($varyHeaders as $header) {
-                $varys[] = $header.'-'.preg_replace('/\W+/', '_', $request->getHttpHeader($header));
-            }
-            $vary = implode('-', $varys);
-        }
-
-        return $vary;
-    }
-
-    /**
-     * Gets the hostname part of view cache key.
-     *
-     * @param string $hostName
-     */
-    protected function getCacheKeyHostNamePart($hostName = '')
-    {
-        if (!$this->options['cache_key_use_host_name']) {
-            return '';
-        }
-
-        if (!$hostName) {
-            $hostName = $this->context->getRequest()->getHost();
-        }
-
-        $hostName = preg_replace('/[^a-z0-9\*]/i', '_', $hostName);
-        $hostName = preg_replace('/_+/', '_', $hostName);
-
-        return strtolower($hostName);
-    }
-
-    /**
-     * Transforms an associative array of parameters from an URI into a unique key.
-     *
-     * @param array $params Associative array of parameters from the URI (including, at least, module and action)
-     *
-     * @return string Unique key
-     */
-    protected function convertParametersToKey($params)
-    {
-        if (!isset($params['module']) || !isset($params['action'])) {
-            throw new sfException('A cache key must contain both a module and an action parameter');
-        }
-        $module = $params['module'];
-        unset($params['module']);
-        $action = $params['action'];
-        unset($params['action']);
-        ksort($params);
-        $cacheKey = sprintf('%s/%s', $module, $action);
-        foreach ($params as $key => $value) {
-            $cacheKey .= sprintf('/%s/%s', $key, $value);
-        }
-
-        return $cacheKey;
-    }
-
-    /**
      * Adds a cache to the manager.
      *
      * @param string $moduleName Module name
@@ -365,35 +289,6 @@ class sfViewCacheManager
     public function getVary($internalUri)
     {
         return $this->getCacheConfig($internalUri, 'vary', array());
-    }
-
-    /**
-     * Gets a config option from the cache.
-     *
-     * @param string $internalUri  Internal uniform resource identifier
-     * @param string $key          Option name
-     * @param string $defaultValue Default value of the option
-     *
-     * @return mixed Value of the option
-     */
-    protected function getCacheConfig($internalUri, $key, $defaultValue = null)
-    {
-        list($route_name, $params) = $this->controller->convertUrlStringToParameters($internalUri);
-
-        if (!isset($params['module'])) {
-            return $defaultValue;
-        }
-
-        $this->registerConfiguration($params['module']);
-
-        $value = $defaultValue;
-        if (isset($this->cacheConfig[$params['module']][$params['action']][$key])) {
-            $value = $this->cacheConfig[$params['module']][$params['action']][$key];
-        } elseif (isset($this->cacheConfig[$params['module']]['DEFAULT'][$key])) {
-            $value = $this->cacheConfig[$params['module']]['DEFAULT'][$key];
-        }
-
-        return $value;
     }
 
     /**
@@ -498,25 +393,6 @@ class sfViewCacheManager
         }
 
         return $this->cache->has($this->generateCacheKey($internalUri));
-    }
-
-    /**
-     * Ignores the cache functionality.
-     *
-     * @return bool true, if the cache is ignore otherwise false
-     */
-    protected function ignore()
-    {
-        // ignore cache parameter? (only available in debug mode)
-        if (sfConfig::get('sf_debug') && $this->context->getRequest()->getAttribute('sf_ignore_cache')) {
-            if (sfConfig::get('sf_logging_enabled')) {
-                $this->dispatcher->notify(new sfEvent($this, 'application.log', array('Discard cache')));
-            }
-
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -966,5 +842,134 @@ class sfViewCacheManager
       '.$content.'
       </div></div>
     ';
+    }
+
+    /**
+     * Gets the vary header part of view cache key.
+     *
+     * @param string $vary
+     * @param mixed  $internalUri
+     *
+     * @return string
+     */
+    protected function getCacheKeyVaryHeaderPart($internalUri, $vary = '')
+    {
+        if (!$this->options['cache_key_use_vary_headers']) {
+            return '';
+        }
+
+        // prefix with vary headers
+        if (!$vary) {
+            $varyHeaders = $this->getVary($internalUri);
+
+            if (!$varyHeaders) {
+                return 'all';
+            }
+
+            sort($varyHeaders);
+            $request = $this->context->getRequest();
+            $varys = array();
+
+            foreach ($varyHeaders as $header) {
+                $varys[] = $header.'-'.preg_replace('/\W+/', '_', $request->getHttpHeader($header));
+            }
+            $vary = implode('-', $varys);
+        }
+
+        return $vary;
+    }
+
+    /**
+     * Gets the hostname part of view cache key.
+     *
+     * @param string $hostName
+     */
+    protected function getCacheKeyHostNamePart($hostName = '')
+    {
+        if (!$this->options['cache_key_use_host_name']) {
+            return '';
+        }
+
+        if (!$hostName) {
+            $hostName = $this->context->getRequest()->getHost();
+        }
+
+        $hostName = preg_replace('/[^a-z0-9\*]/i', '_', $hostName);
+        $hostName = preg_replace('/_+/', '_', $hostName);
+
+        return strtolower($hostName);
+    }
+
+    /**
+     * Transforms an associative array of parameters from an URI into a unique key.
+     *
+     * @param array $params Associative array of parameters from the URI (including, at least, module and action)
+     *
+     * @return string Unique key
+     */
+    protected function convertParametersToKey($params)
+    {
+        if (!isset($params['module']) || !isset($params['action'])) {
+            throw new sfException('A cache key must contain both a module and an action parameter');
+        }
+        $module = $params['module'];
+        unset($params['module']);
+        $action = $params['action'];
+        unset($params['action']);
+        ksort($params);
+        $cacheKey = sprintf('%s/%s', $module, $action);
+        foreach ($params as $key => $value) {
+            $cacheKey .= sprintf('/%s/%s', $key, $value);
+        }
+
+        return $cacheKey;
+    }
+
+    /**
+     * Gets a config option from the cache.
+     *
+     * @param string $internalUri  Internal uniform resource identifier
+     * @param string $key          Option name
+     * @param string $defaultValue Default value of the option
+     *
+     * @return mixed Value of the option
+     */
+    protected function getCacheConfig($internalUri, $key, $defaultValue = null)
+    {
+        list($route_name, $params) = $this->controller->convertUrlStringToParameters($internalUri);
+
+        if (!isset($params['module'])) {
+            return $defaultValue;
+        }
+
+        $this->registerConfiguration($params['module']);
+
+        $value = $defaultValue;
+        if (isset($this->cacheConfig[$params['module']][$params['action']][$key])) {
+            $value = $this->cacheConfig[$params['module']][$params['action']][$key];
+        } elseif (isset($this->cacheConfig[$params['module']]['DEFAULT'][$key])) {
+            $value = $this->cacheConfig[$params['module']]['DEFAULT'][$key];
+        }
+
+        return $value;
+    }
+
+    /**
+     * Ignores the cache functionality.
+     *
+     * @return bool true, if the cache is ignore otherwise false
+     */
+    protected function ignore()
+    {
+        // ignore cache parameter? (only available in debug mode)
+        if (sfConfig::get('sf_debug') && $this->context->getRequest()->getAttribute('sf_ignore_cache')) {
+            if (sfConfig::get('sf_logging_enabled')) {
+                $this->dispatcher->notify(new sfEvent($this, 'application.log', array('Discard cache')));
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

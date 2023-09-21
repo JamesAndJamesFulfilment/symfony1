@@ -19,38 +19,9 @@ class sfI18nFindTask extends sfBaseTask
 {
     /**
      * @see sfTask
-     */
-    protected function configure()
-    {
-        $this->addArguments(array(
-            new sfCommandArgument('application', sfCommandArgument::REQUIRED, 'The application name'),
-        ));
-
-        $this->addOptions(array(
-            new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
-        ));
-
-        $this->namespace = 'i18n';
-        $this->name = 'find';
-        $this->briefDescription = 'Finds non "i18n ready" strings in an application';
-
-        $this->detailedDescription = <<<'EOF'
-The [i18n:find|INFO] task finds non internationalized strings embedded in templates:
-
-  [./symfony i18n:find frontend|INFO]
-
-This task is able to find non internationalized strings in pure HTML and in PHP code:
-
-  <p>Non i18n text</p>
-  <p><?php echo 'Test' ?></p>
-
-As the task returns all strings embedded in PHP, you can have some false positive (especially
-if you use the string syntax for helper arguments).
-EOF;
-    }
-
-    /**
-     * @see sfTask
+     *
+     * @param mixed $arguments
+     * @param mixed $options
      */
     public function execute($arguments = array(), $options = array())
     {
@@ -119,5 +90,37 @@ EOF;
                 $this->log("  {$message}\n");
             }
         }
+    }
+
+    /**
+     * @see sfTask
+     */
+    protected function configure()
+    {
+        $this->addArguments(array(
+            new sfCommandArgument('application', sfCommandArgument::REQUIRED, 'The application name'),
+        ));
+
+        $this->addOptions(array(
+            new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
+        ));
+
+        $this->namespace = 'i18n';
+        $this->name = 'find';
+        $this->briefDescription = 'Finds non "i18n ready" strings in an application';
+
+        $this->detailedDescription = <<<'EOF'
+The [i18n:find|INFO] task finds non internationalized strings embedded in templates:
+
+  [./symfony i18n:find frontend|INFO]
+
+This task is able to find non internationalized strings in pure HTML and in PHP code:
+
+  <p>Non i18n text</p>
+  <p><?php echo 'Test' ?></p>
+
+As the task returns all strings embedded in PHP, you can have some false positive (especially
+if you use the string syntax for helper arguments).
+EOF;
     }
 }

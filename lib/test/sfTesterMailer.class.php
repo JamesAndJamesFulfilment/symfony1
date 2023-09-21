@@ -23,7 +23,9 @@ class sfTesterMailer extends sfTester
     /**
      * Prepares the tester.
      */
-    public function prepare() {}
+    public function prepare()
+    {
+    }
 
     /**
      * Initializes the tester.
@@ -44,7 +46,7 @@ class sfTesterMailer extends sfTester
      *
      * @param int $nb number of messages
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function hasSent($nb = null)
     {
@@ -72,10 +74,10 @@ class sfTesterMailer extends sfTester
     /**
      * Changes the context to use the email corresponding to the given criteria.
      *
-     * @param string|array $to       the email or array(email => alias)
+     * @param array|string $to       the email or array(email => alias)
      * @param int          $position address position
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function withMessage($to, $position = 1)
     {
@@ -116,7 +118,7 @@ class sfTesterMailer extends sfTester
      *
      * @param string $value regular expression or value
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function checkBody($value)
     {
@@ -170,7 +172,7 @@ class sfTesterMailer extends sfTester
      * @param string $key   entry to test
      * @param string $value regular expression or value
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function checkHeader($key, $value)
     {

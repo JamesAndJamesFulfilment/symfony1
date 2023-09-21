@@ -14,14 +14,14 @@ $t = new lime_test(33);
 
 class MyWidget extends sfWidget
 {
-    protected function configure($options = array(), $attributes = array())
-    {
-        $this->addOption('foo');
-    }
-
     public function render($name, $value = null, $attributes = array(), $errors = array())
     {
         return $this->attributesToHtml(array_merge($this->attributes, $attributes));
+    }
+
+    protected function configure($options = array(), $attributes = array())
+    {
+        $this->addOption('foo');
     }
 }
 

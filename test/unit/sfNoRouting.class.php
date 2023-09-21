@@ -19,6 +19,8 @@ class sfNoRouting extends sfRouting
 {
     /**
      * @see sfRouting
+     *
+     * @param mixed $with_route_name
      */
     public function getCurrentInternalUri($with_route_name = false)
     {
@@ -35,6 +37,10 @@ class sfNoRouting extends sfRouting
 
     /**
      * @see sfRouting
+     *
+     * @param mixed $name
+     * @param mixed $params
+     * @param mixed $absolute
      */
     public function generate($name, $params = array(), $absolute = false)
     {
@@ -53,6 +59,8 @@ class sfNoRouting extends sfRouting
 
     /**
      * @see sfRouting
+     *
+     * @param mixed $url
      */
     public function parse($url)
     {
@@ -69,6 +77,8 @@ class sfNoRouting extends sfRouting
 
     /**
      * @see sfRouting
+     *
+     * @param mixed $name
      */
     public function getRoute($name)
     {
@@ -77,6 +87,8 @@ class sfNoRouting extends sfRouting
 
     /**
      * @see sfRouting
+     *
+     * @param mixed $routes
      */
     public function setRoutes($routes)
     {
@@ -94,7 +106,9 @@ class sfNoRouting extends sfRouting
     /**
      * @see sfRouting
      */
-    public function clearRoutes() {}
+    public function clearRoutes()
+    {
+    }
 
     protected function mergeArrays($arr1, $arr2)
     {

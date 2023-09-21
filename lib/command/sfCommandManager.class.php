@@ -242,6 +242,15 @@ class sfCommandManager
         return $this->optionValues[$name];
     }
 
+    public function setOption(sfCommandOption $option, $value)
+    {
+        if ($option->isArray()) {
+            $this->optionValues[$option->getName()][] = $value;
+        } else {
+            $this->optionValues[$option->getName()] = $value;
+        }
+    }
+
     /**
      * Parses a short option.
      *
@@ -343,14 +352,5 @@ class sfCommandManager
         }
 
         $this->setOption($option, $value);
-    }
-
-    public function setOption(sfCommandOption $option, $value)
-    {
-        if ($option->isArray()) {
-            $this->optionValues[$option->getName()][] = $value;
-        } else {
-            $this->optionValues[$option->getName()] = $value;
-        }
     }
 }

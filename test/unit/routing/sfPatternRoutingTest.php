@@ -172,8 +172,8 @@ $t->is($r->generate('', array('module' => 'default', 'action' => 'index4', 'para
 $t->is($r->parse($url0), array('module' => 'default', 'action' => 'index0', 'param0' => 'foo0'), '->parse() finds route from URL suffixed by "sf_suffix"');
 $t->is($r->parse($url1), array('module' => 'default', 'action' => 'index1', 'param1' => 'foo1'), '->parse() finds route with no suffix when route ends with .');
 $t->is($r->parse($url2), array('module' => 'default', 'action' => 'index2', 'param2' => 'foo2'), '->parse() finds route with no suffix when route ends with /');
-$t->is($r->parse($url3), array('module' => 'default', 'action' => 'index3',  'param3' => 'foo3'), '->parse() finds route with special suffix when route ends with .suffix');
-$t->is($r->parse($url4), array('module' => 'default', 'action' => 'index4',  'param4' => 'foo', 'param_5' => 'bar'), '->parse() finds route with special suffix when route ends with .:suffix');
+$t->is($r->parse($url3), array('module' => 'default', 'action' => 'index3', 'param3' => 'foo3'), '->parse() finds route with special suffix when route ends with .suffix');
+$t->is($r->parse($url4), array('module' => 'default', 'action' => 'index4', 'param4' => 'foo', 'param_5' => 'bar'), '->parse() finds route with special suffix when route ends with .:suffix');
 
 $r = new sfPatternRoutingTest(new sfEventDispatcher(), null, $options);
 
@@ -189,17 +189,29 @@ $t->is($r->parse($url), $params, '->parse() does not take query string into acco
 $t->diag('default values');
 $r->clearRoutes();
 $r->connect('test', new sfRoute('/:module/:action', array('module' => 'default', 'action' => 'index')));
-$t->is($r->generate('', array('module' => 'default')), '/default/index',
-    '->generate() creates URL for route with missing parameter if parameter is set in the default values');
-$t->is($r->parse('/default'), array('module' => 'default', 'action' => 'index'),
-    '->parse() finds route for URL   with missing parameter if parameter is set in the default values');
+$t->is(
+    $r->generate('', array('module' => 'default')),
+    '/default/index',
+    '->generate() creates URL for route with missing parameter if parameter is set in the default values'
+);
+$t->is(
+    $r->parse('/default'),
+    array('module' => 'default', 'action' => 'index'),
+    '->parse() finds route for URL   with missing parameter if parameter is set in the default values'
+);
 
 $r->clearRoutes();
 $r->connect('test', new sfRoute('/:module/:action/:foo', array('module' => 'default', 'action' => 'index', 'foo' => 'bar')));
-$t->is($r->generate('', array('module' => 'default')), '/default/index/bar',
-    '->generate() creates URL for route with more than one missing parameter if default values are set');
-$t->is($r->parse('/default'), array('module' => 'default', 'action' => 'index', 'foo' => 'bar'),
-    '->parse() finds route for URL   with more than one missing parameter if default values are set');
+$t->is(
+    $r->generate('', array('module' => 'default')),
+    '/default/index/bar',
+    '->generate() creates URL for route with more than one missing parameter if default values are set'
+);
+$t->is(
+    $r->parse('/default'),
+    array('module' => 'default', 'action' => 'index', 'foo' => 'bar'),
+    '->parse() finds route for URL   with more than one missing parameter if default values are set'
+);
 
 $r->clearRoutes();
 $r->connect('test', new sfRoute('/:module/:action', array('module' => 'default', 'action' => 'index')));
@@ -525,9 +537,11 @@ $rCached->parse('/');
 $t->is($rCached->getCurrentInternalUri(), 'default/index', '->getCurrentInternalUri() returns the internal URI for last parsed URL using cache');
 // findRoute was added to be the side effectless version to check an uri
 $parameters = $rCached->findRoute('/test');
-$t->is($parameters,
+$t->is(
+    $parameters,
     array('name' => 'test', 'pattern' => '/:module', 'parameters' => array('action' => 'index', 'module' => 'test')),
-    '->findRoute() returns information about matching route');
+    '->findRoute() returns information about matching route'
+);
 $t->is($rCached->getCurrentInternalUri(), 'default/index', '->findRoute() does not change the internal URI of sfPatternRouting');
 $t->is($rCached->findRoute('/no/match/found'), null, '->findRoute() returns null on non-matching route');
 

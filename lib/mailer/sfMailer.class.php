@@ -10,7 +10,7 @@ if (class_exists('Swift') && version_compare(Swift::VERSION, '6.0.0') >= 0) {
          * @param Swift_Mime_SimpleMessage $message           A transport instance
          * @param string[]                 &$failedRecipients An array of failures by-reference
          *
-         * @return int|false The number of sent emails
+         * @return false|int The number of sent emails
          */
         public function send(Swift_Mime_SimpleMessage $message, &$failedRecipients = null)
         {
@@ -47,7 +47,7 @@ if (class_exists('Swift') && version_compare(Swift::VERSION, '6.0.0') >= 0) {
          * @param Swift_Mime_Message $message           A transport instance
          * @param string[]           &$failedRecipients An array of failures by-reference
          *
-         * @return int|false The number of sent emails
+         * @return false|int The number of sent emails
          */
         public function send(Swift_Mime_Message $message, &$failedRecipients = null)
         {
@@ -277,8 +277,8 @@ class sfMailer extends sfMailerBase
     /**
      * Creates a new message.
      *
-     * @param string|array $from    The from address
-     * @param string|array $to      The recipient(s)
+     * @param array|string $from    The from address
+     * @param array|string $to      The recipient(s)
      * @param string       $subject The subject
      * @param string       $body    The body
      *
@@ -299,8 +299,8 @@ class sfMailer extends sfMailerBase
     /**
      * Sends a message.
      *
-     * @param string|array $from    The from address
-     * @param string|array $to      The recipient(s)
+     * @param array|string $from    The from address
+     * @param array|string $to      The recipient(s)
      * @param string       $subject The subject
      * @param string       $body    The body
      *
@@ -329,7 +329,7 @@ class sfMailer extends sfMailerBase
      * @param Swift_Mime_Message|Swift_Mime_SimpleMessage $message           the message to send
      * @param string[]                                    &$failedRecipients An array of failures by-reference
      *
-     * @return int|false The number of sent emails
+     * @return false|int The number of sent emails
      */
     public function send($message, &$failedRecipients = null)
     {

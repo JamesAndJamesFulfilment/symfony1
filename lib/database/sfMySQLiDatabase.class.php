@@ -30,6 +30,18 @@ class sfMySQLiDatabase extends sfMySQLDatabase
     }
 
     /**
+     * Execute the shutdown procedure.
+     *
+     * @throws <b>sfDatabaseException</b> If an error occurs while shutting down this database
+     */
+    public function shutdown()
+    {
+        if (null != $this->connection) {
+            @mysqli_close($this->connection);
+        }
+    }
+
+    /**
      * Returns the appropriate connect method.
      *
      * @param bool $persistent whether persistent connections are use or not
@@ -53,17 +65,5 @@ class sfMySQLiDatabase extends sfMySQLDatabase
     protected function selectDatabase($database)
     {
         return null != $database && !@mysqli_select_db($this->connection, $database);
-    }
-
-    /**
-     * Execute the shutdown procedure.
-     *
-     * @throws <b>sfDatabaseException</b> If an error occurs while shutting down this database
-     */
-    public function shutdown()
-    {
-        if (null != $this->connection) {
-            @mysqli_close($this->connection);
-        }
     }
 }

@@ -50,25 +50,6 @@ class sfValidatorAnd extends sfValidatorBase
     }
 
     /**
-     * Configures the current validator.
-     *
-     * Available options:
-     *
-     *  * halt_on_error: Whether to halt on the first error or not (false by default)
-     *
-     * @param array $options  An array of options
-     * @param array $messages An array of error messages
-     *
-     * @see sfValidatorBase
-     */
-    protected function configure($options = array(), $messages = array())
-    {
-        $this->addOption('halt_on_error', false);
-
-        $this->setMessage('invalid', null);
-    }
-
-    /**
      * Adds a validator.
      *
      * @param sfValidatorBase $validator A sfValidatorBase instance
@@ -90,6 +71,59 @@ class sfValidatorAnd extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $indent
+     */
+    public function asString($indent = 0)
+    {
+        $validators = '';
+        for ($i = 0, $max = count($this->validators); $i < $max; ++$i) {
+            $validators .= "\n".$this->validators[$i]->asString($indent + 2)."\n";
+
+            if ($i < $max - 1) {
+                $validators .= str_repeat(' ', $indent + 2).'and';
+            }
+
+            if ($i == $max - 2) {
+                $options = $this->getOptionsWithoutDefaults();
+                $messages = $this->getMessagesWithoutDefaults();
+
+                if ($options || $messages) {
+                    $validators .= sprintf(
+                        '(%s%s)',
+                        $options ? sfYamlInline::dump($options) : ($messages ? '{}' : ''),
+                        $messages ? ', '.sfYamlInline::dump($messages) : ''
+                    );
+                }
+            }
+        }
+
+        return sprintf('%s(%s%s)', str_repeat(' ', $indent), $validators, str_repeat(' ', $indent));
+    }
+
+    /**
+     * Configures the current validator.
+     *
+     * Available options:
+     *
+     *  * halt_on_error: Whether to halt on the first error or not (false by default)
+     *
+     * @param array $options  An array of options
+     * @param array $messages An array of error messages
+     *
+     * @see sfValidatorBase
+     */
+    protected function configure($options = array(), $messages = array())
+    {
+        $this->addOption('halt_on_error', false);
+
+        $this->setMessage('invalid', null);
+    }
+
+    /**
+     * @see sfValidatorBase
+     *
+     * @param mixed $value
      */
     protected function doClean($value)
     {
@@ -116,34 +150,5 @@ class sfValidatorAnd extends sfValidatorBase
         }
 
         return $clean;
-    }
-
-    /**
-     * @see sfValidatorBase
-     */
-    public function asString($indent = 0)
-    {
-        $validators = '';
-        for ($i = 0, $max = count($this->validators); $i < $max; ++$i) {
-            $validators .= "\n".$this->validators[$i]->asString($indent + 2)."\n";
-
-            if ($i < $max - 1) {
-                $validators .= str_repeat(' ', $indent + 2).'and';
-            }
-
-            if ($i == $max - 2) {
-                $options = $this->getOptionsWithoutDefaults();
-                $messages = $this->getMessagesWithoutDefaults();
-
-                if ($options || $messages) {
-                    $validators .= sprintf('(%s%s)',
-                        $options ? sfYamlInline::dump($options) : ($messages ? '{}' : ''),
-                        $messages ? ', '.sfYamlInline::dump($messages) : ''
-                    );
-                }
-            }
-        }
-
-        return sprintf('%s(%s%s)', str_repeat(' ', $indent), $validators, str_repeat(' ', $indent));
     }
 }

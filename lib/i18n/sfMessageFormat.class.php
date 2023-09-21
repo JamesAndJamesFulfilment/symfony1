@@ -44,6 +44,13 @@
 class sfMessageFormat
 {
     /**
+     * Set the default catalogue.
+     *
+     * @var string
+     */
+    public $catalogue;
+
+    /**
      * The message source.
      *
      * @var sfMessageSource
@@ -77,13 +84,6 @@ class sfMessageFormat
      * @var array
      */
     protected $postscript = array('', '');
-
-    /**
-     * Set the default catalogue.
-     *
-     * @var string
-     */
-    public $catalogue;
 
     /**
      * Output encoding charset.
@@ -127,26 +127,6 @@ class sfMessageFormat
     }
 
     /**
-     * Loads the message from a particular catalogue. A listed
-     * loaded catalogues is kept to prevent reload of the same
-     * catalogue. The load catalogue messages are stored
-     * in the $this->message array.
-     *
-     * @param string $catalogue message catalogue to load
-     */
-    protected function loadCatalogue($catalogue)
-    {
-        if (in_array($catalogue, $this->catalogues)) {
-            return;
-        }
-
-        if ($this->source->load($catalogue)) {
-            $this->messages[$catalogue] = $this->source->read();
-            $this->catalogues[] = $catalogue;
-        }
-    }
-
-    /**
      * Formats the string. That is, for a particular string find
      * the corresponding translation. Variable subsitution is performed
      * for the $args parameter. A different catalogue can be specified
@@ -171,6 +151,51 @@ class sfMessageFormat
         $s = $this->formatString(sfToolkit::I18N_toUTF8($string, $charset), $args, $catalogue);
 
         return sfToolkit::I18N_toEncoding($s, $charset);
+    }
+
+    /**
+     * Gets the message source.
+     *
+     * @return MessageSource
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * Sets the prefix and suffix to append to untranslated messages.
+     * e.g. $postscript=array('[T]','[/T]'); will output
+     * "[T]Hello[/T]" if the translation for "Hello" can not be determined.
+     *
+     * @param array $postscript first element is the prefix, second element the suffix
+     */
+    public function setUntranslatedPS($postscript)
+    {
+        if (is_array($postscript) && count($postscript) >= 2) {
+            $this->postscript[0] = $postscript[0];
+            $this->postscript[1] = $postscript[1];
+        }
+    }
+
+    /**
+     * Loads the message from a particular catalogue. A listed
+     * loaded catalogues is kept to prevent reload of the same
+     * catalogue. The load catalogue messages are stored
+     * in the $this->message array.
+     *
+     * @param string $catalogue message catalogue to load
+     */
+    protected function loadCatalogue($catalogue)
+    {
+        if (in_array($catalogue, $this->catalogues)) {
+            return;
+        }
+
+        if ($this->source->load($catalogue)) {
+            $this->messages[$catalogue] = $this->source->read();
+            $this->catalogues[] = $catalogue;
+        }
     }
 
     /**
@@ -229,30 +254,5 @@ class sfMessageFormat
         }
 
         return strtr($string, $args);
-    }
-
-    /**
-     * Gets the message source.
-     *
-     * @return MessageSource
-     */
-    public function getSource()
-    {
-        return $this->source;
-    }
-
-    /**
-     * Sets the prefix and suffix to append to untranslated messages.
-     * e.g. $postscript=array('[T]','[/T]'); will output
-     * "[T]Hello[/T]" if the translation for "Hello" can not be determined.
-     *
-     * @param array $postscript first element is the prefix, second element the suffix
-     */
-    public function setUntranslatedPS($postscript)
-    {
-        if (is_array($postscript) && count($postscript) >= 2) {
-            $this->postscript[0] = $postscript[0];
-            $this->postscript[1] = $postscript[1];
-        }
     }
 }

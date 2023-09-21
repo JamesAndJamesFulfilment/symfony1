@@ -50,6 +50,33 @@
 class sfCultureInfo
 {
     /**
+     * Culture type, all.
+     *
+     * @see getCultures()
+     *
+     * @var int
+     */
+    public const ALL = 0;
+
+    /**
+     * Culture type, neutral.
+     *
+     * @see getCultures()
+     *
+     * @var int
+     */
+    public const NEUTRAL = 1;
+
+    /**
+     * Culture type, specific.
+     *
+     * @see getCultures()
+     *
+     * @var int
+     */
+    public const SPECIFIC = 2;
+
+    /**
      * ICU data filename extension.
      *
      * @var string
@@ -106,48 +133,30 @@ class sfCultureInfo
     protected $properties = array();
 
     /**
-     * Culture type, all.
+     * Initializes a new instance of the sfCultureInfo class based on the
+     * culture specified by name. E.g. <code>new sfCultureInfo('en_AU');</code>
+     * The culture indentifier must be of the form
+     * "<language>_(country/region/variant)".
      *
-     * @see getCultures()
+     * @param string $culture a culture name, e.g. "en_AU".
      *
-     * @var int
+     * @return return new sfCultureInfo
      */
-    public const ALL = 0;
-
-    /**
-     * Culture type, neutral.
-     *
-     * @see getCultures()
-     *
-     * @var int
-     */
-    public const NEUTRAL = 1;
-
-    /**
-     * Culture type, specific.
-     *
-     * @see getCultures()
-     *
-     * @var int
-     */
-    public const SPECIFIC = 2;
-
-    /**
-     * Gets the sfCultureInfo that for this culture string.
-     *
-     * @param string $culture The culture for this instance
-     *
-     * @return sfCultureInfo Invariant culture info is "en"
-     */
-    public static function getInstance($culture = 'en')
+    public function __construct($culture = 'en')
     {
-        static $instances = array();
+        $this->properties = get_class_methods($this);
 
-        if (!isset($instances[$culture])) {
-            $instances[$culture] = new sfCultureInfo($culture);
+        if (empty($culture)) {
+            $culture = 'en';
         }
 
-        return $instances[$culture];
+        $this->dataDir = self::dataDir();
+        $this->dataFileExt = self::fileExt();
+
+        $this->setCulture($culture);
+
+        $this->loadCultureData('root');
+        $this->loadCultureData($culture);
     }
 
     /**
@@ -196,51 +205,21 @@ class sfCultureInfo
     }
 
     /**
-     * Initializes a new instance of the sfCultureInfo class based on the
-     * culture specified by name. E.g. <code>new sfCultureInfo('en_AU');</code>
-     * The culture indentifier must be of the form
-     * "<language>_(country/region/variant)".
+     * Gets the sfCultureInfo that for this culture string.
      *
-     * @param string $culture a culture name, e.g. "en_AU".
+     * @param string $culture The culture for this instance
      *
-     * @return return new sfCultureInfo
+     * @return sfCultureInfo Invariant culture info is "en"
      */
-    public function __construct($culture = 'en')
+    public static function getInstance($culture = 'en')
     {
-        $this->properties = get_class_methods($this);
+        static $instances = array();
 
-        if (empty($culture)) {
-            $culture = 'en';
+        if (!isset($instances[$culture])) {
+            $instances[$culture] = new sfCultureInfo($culture);
         }
 
-        $this->dataDir = self::dataDir();
-        $this->dataFileExt = self::fileExt();
-
-        $this->setCulture($culture);
-
-        $this->loadCultureData('root');
-        $this->loadCultureData($culture);
-    }
-
-    /**
-     * Gets the default directory for the ICU data.
-     * The default is the "data" directory for this class.
-     *
-     * @return string directory containing the ICU data
-     */
-    protected static function dataDir()
-    {
-        return __DIR__.'/data/';
-    }
-
-    /**
-     * Gets the filename extension for ICU data. Default is ".dat".
-     *
-     * @return string filename extension for ICU data
-     */
-    protected static function fileExt()
-    {
-        return '.dat';
+        return $instances[$culture];
     }
 
     /**
@@ -258,163 +237,6 @@ class sfCultureInfo
         }
 
         return false;
-    }
-
-    /**
-     * Sets the culture for the current instance. The culture indentifier
-     * must be of the form "<language>_(country/region)".
-     *
-     * @param string $culture culture identifier, e.g. "fr_FR_EURO".
-     */
-    protected function setCulture($culture)
-    {
-        if (!empty($culture)) {
-            if (!preg_match('/^[a-z]{2}(_[A-Z]{2,5}){0,2}$/', $culture)) {
-                throw new sfException(sprintf('Invalid culture supplied: %s', $culture));
-            }
-        }
-
-        $this->culture = $culture;
-    }
-
-    /**
-     * Loads the ICU culture data for the specific culture identifier.
-     *
-     * @param string $culture the culture identifier
-     */
-    protected function loadCultureData($culture)
-    {
-        $file_parts = explode('_', $culture);
-        $current_part = $file_parts[0];
-
-        $files = array($current_part);
-
-        for ($i = 1, $max = count($file_parts); $i < $max; ++$i) {
-            $current_part .= '_'.$file_parts[$i];
-            $files[] = $current_part;
-        }
-
-        foreach ($files as $file) {
-            $filename = $this->dataDir.$file.$this->dataFileExt;
-
-            if (false == is_file($filename)) {
-                throw new sfException(sprintf('Data file for "%s" was not found.', $file));
-            }
-
-            if (false == in_array($filename, $this->dataFiles)) {
-                array_unshift($this->dataFiles, $file);
-
-                $data = &$this->getData($filename);
-                $this->data[$file] = &$data;
-
-                if (isset($data['__ALIAS'])) {
-                    $this->loadCultureData($data['__ALIAS']);
-                }
-                unset($data);
-            }
-        }
-    }
-
-    /**
-     * Gets the data by unserializing the ICU data from disk.
-     * The data files are cached in a static variable inside
-     * this function.
-     *
-     * @param string $filename the ICU data filename
-     *
-     * @return array ICU data
-     */
-    protected function &getData($filename)
-    {
-        static $data = array();
-        static $files = array();
-
-        if (!in_array($filename, $files)) {
-            $data[$filename] = unserialize(file_get_contents($filename));
-            $files[] = $filename;
-        }
-
-        return $data[$filename];
-    }
-
-    /**
-     * Finds the specific ICU data information from the data.
-     * The path to the specific ICU data is separated with a slash "/".
-     * E.g. To find the default calendar used by the culture, the path
-     * "calendar/default" will return the corresponding default calendar.
-     * Use merge=true to return the ICU including the parent culture.
-     * E.g. The currency data for a variant, say "en_AU" contains one
-     * entry, the currency for AUD, the other currency data are stored
-     * in the "en" data file. Thus to retrieve all the data regarding
-     * currency for "en_AU", you need to use findInfo("Currencies,true);.
-     *
-     * @param string $path  the data you want to find
-     * @param bool   $merge merge the data from its parents
-     *
-     * @return mixed the specific ICU data
-     */
-    protected function findInfo($path = '/', $merge = false)
-    {
-        $result = array();
-        foreach ($this->dataFiles as $section) {
-            $info = $this->searchArray($this->data[$section], $path);
-
-            if ($info) {
-                if ($merge) {
-                    $result = $this->array_add($result, $info);
-                } else {
-                    return $info;
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Adds an array to an already existing array.
-     * If an element is already existing in array1 it is not overwritten.
-     * If this element is an array this logic will be applied recursively.
-     */
-    private function array_add($array1, $array2)
-    {
-        foreach ($array2 as $key => $value) {
-            if (isset($array1[$key])) {
-                if (is_array($array1[$key]) && is_array($value)) {
-                    $array1[$key] = $this->array_add($array1[$key], $value);
-                }
-            } else {
-                $array1[$key] = $value;
-            }
-        }
-
-        return $array1;
-    }
-
-    /**
-     * Searches the array for a specific value using a path separated using
-     * slash "/" separated path. e.g to find $info['hello']['world'],
-     * the path "hello/world" will return the corresponding value.
-     *
-     * @param array  $info the array for search
-     * @param string $path slash "/" separated array path
-     *
-     * @return mixed the value array using the path
-     */
-    protected function searchArray($info, $path = '/')
-    {
-        $index = explode('/', $path);
-
-        $array = $info;
-
-        for ($i = 0, $max = count($index); $i < $max; ++$i) {
-            $k = $index[$i];
-            if ($i < $max - 1 && isset($array[$k])) {
-                $array = $array[$k];
-            } elseif ($i == $max - 1 && isset($array[$k])) {
-                return $array[$k];
-            }
-        }
     }
 
     /**
@@ -820,6 +642,7 @@ class sfCultureInfo
      * sorts the passed array according to the locale of this sfCultureInfo class.
      *
      * @param  array the array to be sorted with "asort" and this locale
+     * @param mixed $array
      */
     public function sortArray(&$array)
     {
@@ -827,5 +650,186 @@ class sfCultureInfo
         setlocale(LC_COLLATE, $this->getName());
         asort($array, SORT_LOCALE_STRING);
         setlocale(LC_COLLATE, $oldLocale);
+    }
+
+    /**
+     * Gets the default directory for the ICU data.
+     * The default is the "data" directory for this class.
+     *
+     * @return string directory containing the ICU data
+     */
+    protected static function dataDir()
+    {
+        return __DIR__.'/data/';
+    }
+
+    /**
+     * Gets the filename extension for ICU data. Default is ".dat".
+     *
+     * @return string filename extension for ICU data
+     */
+    protected static function fileExt()
+    {
+        return '.dat';
+    }
+
+    /**
+     * Sets the culture for the current instance. The culture indentifier
+     * must be of the form "<language>_(country/region)".
+     *
+     * @param string $culture culture identifier, e.g. "fr_FR_EURO".
+     */
+    protected function setCulture($culture)
+    {
+        if (!empty($culture)) {
+            if (!preg_match('/^[a-z]{2}(_[A-Z]{2,5}){0,2}$/', $culture)) {
+                throw new sfException(sprintf('Invalid culture supplied: %s', $culture));
+            }
+        }
+
+        $this->culture = $culture;
+    }
+
+    /**
+     * Loads the ICU culture data for the specific culture identifier.
+     *
+     * @param string $culture the culture identifier
+     */
+    protected function loadCultureData($culture)
+    {
+        $file_parts = explode('_', $culture);
+        $current_part = $file_parts[0];
+
+        $files = array($current_part);
+
+        for ($i = 1, $max = count($file_parts); $i < $max; ++$i) {
+            $current_part .= '_'.$file_parts[$i];
+            $files[] = $current_part;
+        }
+
+        foreach ($files as $file) {
+            $filename = $this->dataDir.$file.$this->dataFileExt;
+
+            if (false == is_file($filename)) {
+                throw new sfException(sprintf('Data file for "%s" was not found.', $file));
+            }
+
+            if (false == in_array($filename, $this->dataFiles)) {
+                array_unshift($this->dataFiles, $file);
+
+                $data = &$this->getData($filename);
+                $this->data[$file] = &$data;
+
+                if (isset($data['__ALIAS'])) {
+                    $this->loadCultureData($data['__ALIAS']);
+                }
+                unset($data);
+            }
+        }
+    }
+
+    /**
+     * Gets the data by unserializing the ICU data from disk.
+     * The data files are cached in a static variable inside
+     * this function.
+     *
+     * @param string $filename the ICU data filename
+     *
+     * @return array ICU data
+     */
+    protected function &getData($filename)
+    {
+        static $data = array();
+        static $files = array();
+
+        if (!in_array($filename, $files)) {
+            $data[$filename] = unserialize(file_get_contents($filename));
+            $files[] = $filename;
+        }
+
+        return $data[$filename];
+    }
+
+    /**
+     * Finds the specific ICU data information from the data.
+     * The path to the specific ICU data is separated with a slash "/".
+     * E.g. To find the default calendar used by the culture, the path
+     * "calendar/default" will return the corresponding default calendar.
+     * Use merge=true to return the ICU including the parent culture.
+     * E.g. The currency data for a variant, say "en_AU" contains one
+     * entry, the currency for AUD, the other currency data are stored
+     * in the "en" data file. Thus to retrieve all the data regarding
+     * currency for "en_AU", you need to use findInfo("Currencies,true);.
+     *
+     * @param string $path  the data you want to find
+     * @param bool   $merge merge the data from its parents
+     *
+     * @return mixed the specific ICU data
+     */
+    protected function findInfo($path = '/', $merge = false)
+    {
+        $result = array();
+        foreach ($this->dataFiles as $section) {
+            $info = $this->searchArray($this->data[$section], $path);
+
+            if ($info) {
+                if ($merge) {
+                    $result = $this->array_add($result, $info);
+                } else {
+                    return $info;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Searches the array for a specific value using a path separated using
+     * slash "/" separated path. e.g to find $info['hello']['world'],
+     * the path "hello/world" will return the corresponding value.
+     *
+     * @param array  $info the array for search
+     * @param string $path slash "/" separated array path
+     *
+     * @return mixed the value array using the path
+     */
+    protected function searchArray($info, $path = '/')
+    {
+        $index = explode('/', $path);
+
+        $array = $info;
+
+        for ($i = 0, $max = count($index); $i < $max; ++$i) {
+            $k = $index[$i];
+            if ($i < $max - 1 && isset($array[$k])) {
+                $array = $array[$k];
+            } elseif ($i == $max - 1 && isset($array[$k])) {
+                return $array[$k];
+            }
+        }
+    }
+
+    /**
+     * Adds an array to an already existing array.
+     * If an element is already existing in array1 it is not overwritten.
+     * If this element is an array this logic will be applied recursively.
+     *
+     * @param mixed $array1
+     * @param mixed $array2
+     */
+    private function array_add($array1, $array2)
+    {
+        foreach ($array2 as $key => $value) {
+            if (isset($array1[$key])) {
+                if (is_array($array1[$key]) && is_array($value)) {
+                    $array1[$key] = $this->array_add($array1[$key], $value);
+                }
+            } else {
+                $array1[$key] = $value;
+            }
+        }
+
+        return $array1;
     }
 }

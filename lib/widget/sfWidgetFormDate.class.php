@@ -18,36 +18,6 @@
 class sfWidgetFormDate extends sfWidgetForm
 {
     /**
-     * Configures the current widget.
-     *
-     * Available options:
-     *
-     *  * format:       The date format string (%month%/%day%/%year% by default)
-     *  * years:        An array of years for the year select tag (optional)
-     *                  Be careful that the keys must be the years, and the values what will be displayed to the user
-     *  * months:       An array of months for the month select tag (optional)
-     *  * days:         An array of days for the day select tag (optional)
-     *  * can_be_empty: Whether the widget accept an empty value (true by default)
-     *  * empty_values: An array of values to use for the empty value (empty string for year, month, and day by default)
-     *
-     * @param array $options    An array of options
-     * @param array $attributes An array of default HTML attributes
-     *
-     * @see sfWidgetForm
-     */
-    protected function configure($options = array(), $attributes = array())
-    {
-        $this->addOption('format', '%month%/%day%/%year%');
-        $this->addOption('days', parent::generateTwoCharsRange(1, 31));
-        $this->addOption('months', parent::generateTwoCharsRange(1, 12));
-        $years = range(date('Y') - 5, date('Y') + 5);
-        $this->addOption('years', array_combine($years, $years));
-
-        $this->addOption('can_be_empty', true);
-        $this->addOption('empty_values', array('year' => '', 'month' => '', 'day' => ''));
-    }
-
-    /**
      * Renders the widget.
      *
      * @param string $name       The element name
@@ -82,6 +52,36 @@ class sfWidgetFormDate extends sfWidgetForm
         $date['%year%'] = $this->renderYearWidget($name.'[year]', $value['year'], array('choices' => $this->getOption('can_be_empty') ? array('' => $emptyValues['year']) + $this->getOption('years') : $this->getOption('years'), 'id_format' => $this->getOption('id_format')), array_merge($this->attributes, $attributes));
 
         return strtr($this->getOption('format'), $date);
+    }
+
+    /**
+     * Configures the current widget.
+     *
+     * Available options:
+     *
+     *  * format:       The date format string (%month%/%day%/%year% by default)
+     *  * years:        An array of years for the year select tag (optional)
+     *                  Be careful that the keys must be the years, and the values what will be displayed to the user
+     *  * months:       An array of months for the month select tag (optional)
+     *  * days:         An array of days for the day select tag (optional)
+     *  * can_be_empty: Whether the widget accept an empty value (true by default)
+     *  * empty_values: An array of values to use for the empty value (empty string for year, month, and day by default)
+     *
+     * @param array $options    An array of options
+     * @param array $attributes An array of default HTML attributes
+     *
+     * @see sfWidgetForm
+     */
+    protected function configure($options = array(), $attributes = array())
+    {
+        $this->addOption('format', '%month%/%day%/%year%');
+        $this->addOption('days', parent::generateTwoCharsRange(1, 31));
+        $this->addOption('months', parent::generateTwoCharsRange(1, 12));
+        $years = range(date('Y') - 5, date('Y') + 5);
+        $this->addOption('years', array_combine($years, $years));
+
+        $this->addOption('can_be_empty', true);
+        $this->addOption('empty_values', array('year' => '', 'month' => '', 'day' => ''));
     }
 
     /**

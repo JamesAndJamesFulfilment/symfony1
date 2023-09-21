@@ -27,7 +27,29 @@ class sfParameterHolder implements Serializable
     /**
      * The constructor for sfParameterHolder.
      */
-    public function __construct() {}
+    public function __construct()
+    {
+    }
+
+    /**
+     * Serializes the current instance for PHP 7.4+.
+     *
+     * @return array
+     */
+    public function __serialize()
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * Unserializes a sfParameterHolder instance for PHP 7.4+.
+     *
+     * @param array $data
+     */
+    public function __unserialize($data)
+    {
+        $this->parameters = $data;
+    }
 
     /**
      * Clears all parameters associated with this request.
@@ -186,25 +208,5 @@ class sfParameterHolder implements Serializable
     public function unserialize($serialized)
     {
         $this->__unserialize(unserialize($serialized));
-    }
-
-    /**
-     * Serializes the current instance for PHP 7.4+.
-     *
-     * @return array
-     */
-    public function __serialize()
-    {
-        return $this->parameters;
-    }
-
-    /**
-     * Unserializes a sfParameterHolder instance for PHP 7.4+.
-     *
-     * @param array $data
-     */
-    public function __unserialize($data)
-    {
-        $this->parameters = $data;
     }
 }

@@ -47,6 +47,26 @@ abstract class sfController
     }
 
     /**
+     * Calls methods defined via sfEventDispatcher.
+     *
+     * @param string $method    The method name
+     * @param array  $arguments The method arguments
+     *
+     * @return mixed The returned value of the called method
+     *
+     * @throws sfException
+     */
+    public function __call($method, $arguments)
+    {
+        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'controller.method_not_found', array('method' => $method, 'arguments' => $arguments)));
+        if (!$event->isProcessed()) {
+            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
+        }
+
+        return $event->getReturnValue();
+    }
+
+    /**
      * Initializes this controller.
      *
      * @param sfContext $context A sfContext implementation instance
@@ -81,83 +101,6 @@ abstract class sfController
     public function actionExists($moduleName, $actionName)
     {
         return $this->controllerExists($moduleName, $actionName, 'action', false);
-    }
-
-    /**
-     * Looks for a controller and optionally throw exceptions if existence is required (i.e.
-     * in the case of {@link getController()}).
-     *
-     * @param string $moduleName      The name of the module
-     * @param string $controllerName  The name of the controller within the module
-     * @param string $extension       Either 'action' or 'component' depending on the type of controller to look for
-     * @param bool   $throwExceptions Whether to throw exceptions if the controller doesn't exist
-     *
-     * @return bool true if the controller exists, false otherwise
-     *
-     * @throws sfConfigurationException thrown if the module is not enabled
-     * @throws sfControllerException    thrown if the controller doesn't exist and the $throwExceptions parameter is set to true
-     */
-    protected function controllerExists($moduleName, $controllerName, $extension, $throwExceptions)
-    {
-        $dirs = $this->context->getConfiguration()->getControllerDirs($moduleName);
-        foreach ($dirs as $dir => $checkEnabled) {
-            // plugin module enabled?
-            if ($checkEnabled && !in_array($moduleName, sfConfig::get('sf_enabled_modules')) && is_readable($dir)) {
-                throw new sfConfigurationException(sprintf('The module "%s" is not enabled.', $moduleName));
-            }
-
-            // check for a module generator config file
-            $this->context->getConfigCache()->import('modules/'.$moduleName.'/config/generator.yml', false, true);
-
-            // one action per file or one file for all actions
-            $classFile = strtolower($extension);
-            $classSuffix = ucfirst(strtolower($extension));
-            $file = $dir.'/'.$controllerName.$classSuffix.'.class.php';
-            if (is_readable($file)) {
-                // action class exists
-                require_once $file;
-
-                $this->controllerClasses[$moduleName.'_'.$controllerName.'_'.$classSuffix] = $controllerName.$classSuffix;
-
-                return true;
-            }
-
-            $module_file = $dir.'/'.$classFile.'s.class.php';
-            if (is_readable($module_file)) {
-                // module class exists
-                require_once $module_file;
-
-                if (!class_exists($moduleName.$classSuffix.'s', false)) {
-                    if ($throwExceptions) {
-                        throw new sfControllerException(sprintf('There is no "%s" class in your action file "%s".', $moduleName.$classSuffix.'s', $module_file));
-                    }
-
-                    return false;
-                }
-
-                // action is defined in this class?
-                if (!in_array('execute'.ucfirst($controllerName), get_class_methods($moduleName.$classSuffix.'s'))) {
-                    if ($throwExceptions) {
-                        throw new sfControllerException(sprintf('There is no "%s" method in your action class "%s".', 'execute'.ucfirst($controllerName), $moduleName.$classSuffix.'s'));
-                    }
-
-                    return false;
-                }
-
-                $this->controllerClasses[$moduleName.'_'.$controllerName.'_'.$classSuffix] = $moduleName.$classSuffix.'s';
-
-                return true;
-            }
-        }
-
-        // send an exception if debug
-        if ($throwExceptions && sfConfig::get('sf_debug')) {
-            $dirs = array_map(array('sfDebug', 'shortenFilePath'), array_keys($dirs));
-
-            throw new sfControllerException(sprintf('Controller "%s/%s" does not exist in: %s.', $moduleName, $controllerName, implode(', ', $dirs)));
-        }
-
-        return false;
     }
 
     /**
@@ -268,38 +211,6 @@ abstract class sfController
     public function getComponent($moduleName, $componentName)
     {
         return $this->getController($moduleName, $componentName, 'component');
-    }
-
-    /**
-     * Retrieves a controller implementation instance.
-     *
-     * @param string $moduleName     A module name
-     * @param string $controllerName A component name
-     * @param string $extension      Either 'action' or 'component' depending on the type of controller to look for
-     *
-     * @return sfAction A controller implementation instance, if the controller exists, otherwise null
-     *
-     * @see getComponent(), getAction()
-     */
-    protected function getController($moduleName, $controllerName, $extension)
-    {
-        $classSuffix = ucfirst(strtolower($extension));
-        if (!isset($this->controllerClasses[$moduleName.'_'.$controllerName.'_'.$classSuffix])) {
-            if (!$this->controllerExists($moduleName, $controllerName, $extension, true)) {
-                return null;
-            }
-        }
-
-        $class = $this->controllerClasses[$moduleName.'_'.$controllerName.'_'.$classSuffix];
-
-        // fix for same name classes
-        $moduleClass = $moduleName.'_'.$class;
-
-        if (class_exists($moduleClass, false)) {
-            $class = $moduleClass;
-        }
-
-        return new $class($this->context, $moduleName, $controllerName);
     }
 
     /**
@@ -471,22 +382,111 @@ abstract class sfController
     }
 
     /**
-     * Calls methods defined via sfEventDispatcher.
+     * Looks for a controller and optionally throw exceptions if existence is required (i.e.
+     * in the case of {@link getController()}).
      *
-     * @param string $method    The method name
-     * @param array  $arguments The method arguments
+     * @param string $moduleName      The name of the module
+     * @param string $controllerName  The name of the controller within the module
+     * @param string $extension       Either 'action' or 'component' depending on the type of controller to look for
+     * @param bool   $throwExceptions Whether to throw exceptions if the controller doesn't exist
      *
-     * @return mixed The returned value of the called method
+     * @return bool true if the controller exists, false otherwise
      *
-     * @throws sfException
+     * @throws sfConfigurationException thrown if the module is not enabled
+     * @throws sfControllerException    thrown if the controller doesn't exist and the $throwExceptions parameter is set to true
      */
-    public function __call($method, $arguments)
+    protected function controllerExists($moduleName, $controllerName, $extension, $throwExceptions)
     {
-        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'controller.method_not_found', array('method' => $method, 'arguments' => $arguments)));
-        if (!$event->isProcessed()) {
-            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
+        $dirs = $this->context->getConfiguration()->getControllerDirs($moduleName);
+        foreach ($dirs as $dir => $checkEnabled) {
+            // plugin module enabled?
+            if ($checkEnabled && !in_array($moduleName, sfConfig::get('sf_enabled_modules')) && is_readable($dir)) {
+                throw new sfConfigurationException(sprintf('The module "%s" is not enabled.', $moduleName));
+            }
+
+            // check for a module generator config file
+            $this->context->getConfigCache()->import('modules/'.$moduleName.'/config/generator.yml', false, true);
+
+            // one action per file or one file for all actions
+            $classFile = strtolower($extension);
+            $classSuffix = ucfirst(strtolower($extension));
+            $file = $dir.'/'.$controllerName.$classSuffix.'.class.php';
+            if (is_readable($file)) {
+                // action class exists
+                require_once $file;
+
+                $this->controllerClasses[$moduleName.'_'.$controllerName.'_'.$classSuffix] = $controllerName.$classSuffix;
+
+                return true;
+            }
+
+            $module_file = $dir.'/'.$classFile.'s.class.php';
+            if (is_readable($module_file)) {
+                // module class exists
+                require_once $module_file;
+
+                if (!class_exists($moduleName.$classSuffix.'s', false)) {
+                    if ($throwExceptions) {
+                        throw new sfControllerException(sprintf('There is no "%s" class in your action file "%s".', $moduleName.$classSuffix.'s', $module_file));
+                    }
+
+                    return false;
+                }
+
+                // action is defined in this class?
+                if (!in_array('execute'.ucfirst($controllerName), get_class_methods($moduleName.$classSuffix.'s'))) {
+                    if ($throwExceptions) {
+                        throw new sfControllerException(sprintf('There is no "%s" method in your action class "%s".', 'execute'.ucfirst($controllerName), $moduleName.$classSuffix.'s'));
+                    }
+
+                    return false;
+                }
+
+                $this->controllerClasses[$moduleName.'_'.$controllerName.'_'.$classSuffix] = $moduleName.$classSuffix.'s';
+
+                return true;
+            }
         }
 
-        return $event->getReturnValue();
+        // send an exception if debug
+        if ($throwExceptions && sfConfig::get('sf_debug')) {
+            $dirs = array_map(array('sfDebug', 'shortenFilePath'), array_keys($dirs));
+
+            throw new sfControllerException(sprintf('Controller "%s/%s" does not exist in: %s.', $moduleName, $controllerName, implode(', ', $dirs)));
+        }
+
+        return false;
+    }
+
+    /**
+     * Retrieves a controller implementation instance.
+     *
+     * @param string $moduleName     A module name
+     * @param string $controllerName A component name
+     * @param string $extension      Either 'action' or 'component' depending on the type of controller to look for
+     *
+     * @return sfAction A controller implementation instance, if the controller exists, otherwise null
+     *
+     * @see getComponent(), getAction()
+     */
+    protected function getController($moduleName, $controllerName, $extension)
+    {
+        $classSuffix = ucfirst(strtolower($extension));
+        if (!isset($this->controllerClasses[$moduleName.'_'.$controllerName.'_'.$classSuffix])) {
+            if (!$this->controllerExists($moduleName, $controllerName, $extension, true)) {
+                return null;
+            }
+        }
+
+        $class = $this->controllerClasses[$moduleName.'_'.$controllerName.'_'.$classSuffix];
+
+        // fix for same name classes
+        $moduleClass = $moduleName.'_'.$class;
+
+        if (class_exists($moduleClass, false)) {
+            $class = $moduleClass;
+        }
+
+        return new $class($this->context, $moduleName, $controllerName);
     }
 }

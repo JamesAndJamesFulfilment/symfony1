@@ -20,12 +20,16 @@ class sfTesterDoctrine extends sfTester
     /**
      * Prepares the tester.
      */
-    public function prepare() {}
+    public function prepare()
+    {
+    }
 
     /**
      * Initializes the tester.
      */
-    public function initialize() {}
+    public function initialize()
+    {
+    }
 
     /**
      * Tests a model.
@@ -34,7 +38,7 @@ class sfTesterDoctrine extends sfTester
      * @param array|Doctrine_Query $query A Doctrine_Query object or an array of conditions
      * @param string               $value The value to test
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function check($model, $query, $value = true)
     {

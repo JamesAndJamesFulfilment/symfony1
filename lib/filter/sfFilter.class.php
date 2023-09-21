@@ -19,14 +19,14 @@
  */
 abstract class sfFilter
 {
+    /** @var bool[] */
+    public static $filterCalled = array();
+
     /** @var sfParameterHolder */
     protected $parameterHolder;
 
     /** @var sfContext */
     protected $context;
-
-    /** @var bool[] */
-    public static $filterCalled = array();
 
     /**
      * Class constructor.
@@ -55,23 +55,6 @@ abstract class sfFilter
 
         $this->parameterHolder = new sfParameterHolder();
         $this->parameterHolder->add($parameters);
-
-        return true;
-    }
-
-    /**
-     * Returns true if this is the first call to the sfFilter instance.
-     *
-     * @return bool true if this is the first call to the sfFilter instance, false otherwise
-     */
-    protected function isFirstCall()
-    {
-        $class = get_class($this);
-        if (isset(self::$filterCalled[$class])) {
-            return false;
-        }
-
-        self::$filterCalled[$class] = true;
 
         return true;
     }
@@ -148,5 +131,22 @@ abstract class sfFilter
     public function setParameter($name, $value)
     {
         return $this->parameterHolder->set($name, $value);
+    }
+
+    /**
+     * Returns true if this is the first call to the sfFilter instance.
+     *
+     * @return bool true if this is the first call to the sfFilter instance, false otherwise
+     */
+    protected function isFirstCall()
+    {
+        $class = get_class($this);
+        if (isset(self::$filterCalled[$class])) {
+            return false;
+        }
+
+        self::$filterCalled[$class] = true;
+
+        return true;
     }
 }

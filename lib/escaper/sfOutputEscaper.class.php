@@ -48,6 +48,18 @@ abstract class sfOutputEscaper
     }
 
     /**
+     * Gets a value from the escaper.
+     *
+     * @param string $var Value to get
+     *
+     * @return mixed Value
+     */
+    public function __get($var)
+    {
+        return $this->escape($this->escapingMethod, $this->value->{$var});
+    }
+
+    /**
      * Decorates a PHP variable with something that will escape any data obtained
      * from it.
      *
@@ -206,17 +218,5 @@ abstract class sfOutputEscaper
     public function getRawValue()
     {
         return $this->value;
-    }
-
-    /**
-     * Gets a value from the escaper.
-     *
-     * @param string $var Value to get
-     *
-     * @return mixed Value
-     */
-    public function __get($var)
-    {
-        return $this->escape($this->escapingMethod, $this->value->{$var});
     }
 }

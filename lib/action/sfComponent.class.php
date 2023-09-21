@@ -56,6 +56,89 @@ abstract class sfComponent
     }
 
     /**
+     * Gets the translation for the given string.
+     *
+     * @param string $string    The string to translate
+     * @param array  $args      An array of arguments for the translation
+     * @param string $catalogue The catalogue name
+     *
+     * @return string The translated string
+     */
+    public function __($string, $args = array(), $catalogue = 'messages')
+    {
+        return $this->context->getI18N()->__($string, $args, $catalogue);
+    }
+
+    /**
+     * Sets a variable for the template.
+     *
+     * This is a shortcut for:
+     *
+     * <code>$this->setVar('name', 'value')</code>
+     *
+     * @param string $key   The variable name
+     * @param string $value The variable value
+     *
+     * @return bool always true
+     *
+     * @see setVar()
+     */
+    public function __set($key, $value)
+    {
+        return $this->varHolder->setByRef($key, $value);
+    }
+
+    /**
+     * Returns true if a variable for the template is set.
+     *
+     * This is a shortcut for:
+     *
+     * <code>$this->getVarHolder()->has('name')</code>
+     *
+     * @param string $name The variable name
+     *
+     * @return bool true if the variable is set
+     */
+    public function __isset($name)
+    {
+        return $this->varHolder->has($name);
+    }
+
+    /**
+     * Removes a variable for the template.
+     *
+     * This is just really a shortcut for:
+     *
+     * <code>$this->getVarHolder()->remove('name')</code>
+     *
+     * @param string $name The variable Name
+     */
+    public function __unset($name)
+    {
+        $this->varHolder->remove($name);
+    }
+
+    /**
+     * Calls methods defined via sfEventDispatcher.
+     *
+     * @param string $method    The method name
+     * @param array  $arguments The method arguments
+     *
+     * @return mixed The returned value of the called method
+     *
+     * @throws sfException If called method is undefined
+     */
+    public function __call($method, $arguments)
+    {
+        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'component.method_not_found', array('method' => $method, 'arguments' => $arguments)));
+        if (!$event->isProcessed()) {
+            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
+        }
+
+        return $event->getReturnValue();
+    }
+
+    /**
      * Initializes this component.
      *
      * @param sfContext $context    the current application context
@@ -168,20 +251,6 @@ abstract class sfComponent
         if (sfConfig::get('sf_logging_enabled')) {
             $this->dispatcher->notify(new sfEvent($this, 'application.log', array($message, 'priority' => constant('sfLogger::'.strtoupper($priority)))));
         }
-    }
-
-    /**
-     * Gets the translation for the given string.
-     *
-     * @param string $string    The string to translate
-     * @param array  $args      An array of arguments for the translation
-     * @param string $catalogue The catalogue name
-     *
-     * @return string The translated string
-     */
-    public function __($string, $args = array(), $catalogue = 'messages')
-    {
-        return $this->context->getI18N()->__($string, $args, $catalogue);
     }
 
     /**
@@ -340,25 +409,6 @@ abstract class sfComponent
     }
 
     /**
-     * Sets a variable for the template.
-     *
-     * This is a shortcut for:
-     *
-     * <code>$this->setVar('name', 'value')</code>
-     *
-     * @param string $key   The variable name
-     * @param string $value The variable value
-     *
-     * @return bool always true
-     *
-     * @see setVar()
-     */
-    public function __set($key, $value)
-    {
-        return $this->varHolder->setByRef($key, $value);
-    }
-
-    /**
      * Gets a variable for the template.
      *
      * This is a shortcut for:
@@ -374,55 +424,5 @@ abstract class sfComponent
     public function &__get($key)
     {
         return $this->varHolder->get($key);
-    }
-
-    /**
-     * Returns true if a variable for the template is set.
-     *
-     * This is a shortcut for:
-     *
-     * <code>$this->getVarHolder()->has('name')</code>
-     *
-     * @param string $name The variable name
-     *
-     * @return bool true if the variable is set
-     */
-    public function __isset($name)
-    {
-        return $this->varHolder->has($name);
-    }
-
-    /**
-     * Removes a variable for the template.
-     *
-     * This is just really a shortcut for:
-     *
-     * <code>$this->getVarHolder()->remove('name')</code>
-     *
-     * @param string $name The variable Name
-     */
-    public function __unset($name)
-    {
-        $this->varHolder->remove($name);
-    }
-
-    /**
-     * Calls methods defined via sfEventDispatcher.
-     *
-     * @param string $method    The method name
-     * @param array  $arguments The method arguments
-     *
-     * @return mixed The returned value of the called method
-     *
-     * @throws sfException If called method is undefined
-     */
-    public function __call($method, $arguments)
-    {
-        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'component.method_not_found', array('method' => $method, 'arguments' => $arguments)));
-        if (!$event->isProcessed()) {
-            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
-        }
-
-        return $event->getReturnValue();
     }
 }

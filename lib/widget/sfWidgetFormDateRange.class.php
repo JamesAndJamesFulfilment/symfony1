@@ -18,29 +18,6 @@
 class sfWidgetFormDateRange extends sfWidgetForm
 {
     /**
-     * Configures the current widget.
-     *
-     * Available options:
-     *
-     *  * from_date:   The from date widget (required)
-     *  * to_date:     The to date widget (required)
-     *  * template:    The template to use to render the widget
-     *                 Available placeholders: %from_date%, %to_date%
-     *
-     * @param array $options    An array of options
-     * @param array $attributes An array of default HTML attributes
-     *
-     * @see sfWidgetForm
-     */
-    protected function configure($options = array(), $attributes = array())
-    {
-        $this->addRequiredOption('from_date');
-        $this->addRequiredOption('to_date');
-
-        $this->addOption('template', 'from %from_date% to %to_date%');
-    }
-
-    /**
      * Renders the widget.
      *
      * @param string $name       The element name
@@ -81,5 +58,28 @@ class sfWidgetFormDateRange extends sfWidgetForm
     public function getJavaScripts()
     {
         return array_merge($this->getOption('from_date')->getJavaScripts(), $this->getOption('to_date')->getJavaScripts());
+    }
+
+    /**
+     * Configures the current widget.
+     *
+     * Available options:
+     *
+     *  * from_date:   The from date widget (required)
+     *  * to_date:     The to date widget (required)
+     *  * template:    The template to use to render the widget
+     *                 Available placeholders: %from_date%, %to_date%
+     *
+     * @param array $options    An array of options
+     * @param array $attributes An array of default HTML attributes
+     *
+     * @see sfWidgetForm
+     */
+    protected function configure($options = array(), $attributes = array())
+    {
+        $this->addRequiredOption('from_date');
+        $this->addRequiredOption('to_date');
+
+        $this->addOption('template', 'from %from_date% to %to_date%');
     }
 }

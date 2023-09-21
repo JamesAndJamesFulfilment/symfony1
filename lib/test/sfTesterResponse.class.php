@@ -24,7 +24,9 @@ class sfTesterResponse extends sfTester
     /**
      * Prepares the tester.
      */
-    public function prepare() {}
+    public function prepare()
+    {
+    }
 
     /**
      * Initializes the tester.
@@ -56,7 +58,7 @@ class sfTesterResponse extends sfTester
      * @param mixed  $value    Flag for the selector
      * @param array  $options  Options for the current test
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function checkElement($selector, $value = true, $options = array())
     {
@@ -101,7 +103,7 @@ class sfTesterResponse extends sfTester
      * @param sfForm|string $form     A form object or the name of a form class
      * @param string        $selector CSS selector for the root form element for this form
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function checkForm($form, $selector = 'form')
     {
@@ -138,7 +140,7 @@ class sfTesterResponse extends sfTester
      * @param mixed $checkDTD Either true to validate against the response DTD or
      *                        provide the path to a *.xsd, *.rng or *.rnc schema
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      *
      * @throws LogicException If the response is neither XML nor (X)HTML
      */
@@ -228,7 +230,7 @@ class sfTesterResponse extends sfTester
      * @param string $key
      * @param string $value
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function isHeader($key, $value)
     {
@@ -287,7 +289,7 @@ class sfTesterResponse extends sfTester
      * @param string $value
      * @param array  $attributes Other cookie attributes to check (expires, path, domain, etc)
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function setsCookie($name, $value = null, $attributes = array())
     {
@@ -320,8 +322,9 @@ class sfTesterResponse extends sfTester
      * Tests the response content against a regex.
      *
      * @param string Regex
+     * @param mixed $regex
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function matches($regex)
     {
@@ -343,7 +346,7 @@ class sfTesterResponse extends sfTester
      *
      * @param string $statusCode Status code to check, default 200
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function isStatusCode($statusCode = 200)
     {
@@ -357,7 +360,7 @@ class sfTesterResponse extends sfTester
      *
      * @param bool $boolean Flag for redirection mode
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function isRedirected($boolean = true)
     {

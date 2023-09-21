@@ -211,50 +211,6 @@ class sfServiceContainerBuilder extends sfServiceContainer
     }
 
     /**
-     * Creates a service for a service definition.
-     *
-     * @param sfServiceDefinition $definition A service definition instance
-     *
-     * @return object The service described by the service definition
-     */
-    protected function createService(sfServiceDefinition $definition)
-    {
-        if (null !== $definition->getFile()) {
-            require_once $this->resolveValue($definition->getFile());
-        }
-
-        $r = new ReflectionClass($this->resolveValue($definition->getClass()));
-
-        $arguments = $this->resolveServices($this->resolveValue($definition->getArguments()));
-
-        if (null !== $definition->getConstructor()) {
-            $service = call_user_func_array(array($this->resolveValue($definition->getClass()), $definition->getConstructor()), $arguments);
-        } else {
-            $service = null === $r->getConstructor() ? $r->newInstance() : $r->newInstanceArgs($arguments);
-        }
-
-        foreach ($definition->getMethodCalls() as $call) {
-            call_user_func_array(array($service, $call[0]), $this->resolveServices($this->resolveValue($call[1])));
-        }
-
-        if ($callable = $definition->getConfigurator()) {
-            if (is_array($callable) && is_object($callable[0]) && $callable[0] instanceof sfServiceReference) {
-                $callable[0] = $this->getService((string) $callable[0]);
-            } elseif (is_array($callable)) {
-                $callable[0] = $this->resolveValue($callable[0]);
-            }
-
-            if (!is_callable($callable)) {
-                throw new InvalidArgumentException(sprintf('The configure callable for class "%s" is not a callable.', get_class($service)));
-            }
-
-            call_user_func($callable, $service);
-        }
-
-        return $service;
-    }
-
-    /**
      * Replaces parameter placeholders (%name%) by their values.
      *
      * @param mixed $value A value
@@ -299,6 +255,50 @@ class sfServiceContainerBuilder extends sfServiceContainer
         }
 
         return $value;
+    }
+
+    /**
+     * Creates a service for a service definition.
+     *
+     * @param sfServiceDefinition $definition A service definition instance
+     *
+     * @return object The service described by the service definition
+     */
+    protected function createService(sfServiceDefinition $definition)
+    {
+        if (null !== $definition->getFile()) {
+            require_once $this->resolveValue($definition->getFile());
+        }
+
+        $r = new ReflectionClass($this->resolveValue($definition->getClass()));
+
+        $arguments = $this->resolveServices($this->resolveValue($definition->getArguments()));
+
+        if (null !== $definition->getConstructor()) {
+            $service = call_user_func_array(array($this->resolveValue($definition->getClass()), $definition->getConstructor()), $arguments);
+        } else {
+            $service = null === $r->getConstructor() ? $r->newInstance() : $r->newInstanceArgs($arguments);
+        }
+
+        foreach ($definition->getMethodCalls() as $call) {
+            call_user_func_array(array($service, $call[0]), $this->resolveServices($this->resolveValue($call[1])));
+        }
+
+        if ($callable = $definition->getConfigurator()) {
+            if (is_array($callable) && is_object($callable[0]) && $callable[0] instanceof sfServiceReference) {
+                $callable[0] = $this->getService((string) $callable[0]);
+            } elseif (is_array($callable)) {
+                $callable[0] = $this->resolveValue($callable[0]);
+            }
+
+            if (!is_callable($callable)) {
+                throw new InvalidArgumentException(sprintf('The configure callable for class "%s" is not a callable.', get_class($service)));
+            }
+
+            call_user_func($callable, $service);
+        }
+
+        return $service;
     }
 
     protected function replaceParameter($match)

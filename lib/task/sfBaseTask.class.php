@@ -22,51 +22,6 @@ abstract class sfBaseTask extends sfCommandApplicationTask
     protected $statusStartTime;
 
     /**
-     * @see sfTask
-     */
-    protected function doRun(sfCommandManager $commandManager, $options)
-    {
-        $event = $this->dispatcher->filter(new sfEvent($this, 'command.filter_options', array('command_manager' => $commandManager)), $options);
-        $options = $event->getReturnValue();
-
-        $this->process($commandManager, $options);
-
-        $event = new sfEvent($this, 'command.pre_command', array('arguments' => $commandManager->getArgumentValues(), 'options' => $commandManager->getOptionValues()));
-        $this->dispatcher->notifyUntil($event);
-        if ($event->isProcessed()) {
-            return $event->getReturnValue();
-        }
-
-        $this->checkProjectExists();
-
-        $requiresApplication = $commandManager->getArgumentSet()->hasArgument('application') || $commandManager->getOptionSet()->hasOption('application');
-        if (null === $this->configuration || ($requiresApplication && !$this->configuration instanceof sfApplicationConfiguration)) {
-            $application = $commandManager->getArgumentSet()->hasArgument('application') ? $commandManager->getArgumentValue('application') : ($commandManager->getOptionSet()->hasOption('application') ? $commandManager->getOptionValue('application') : null);
-            $env = $commandManager->getOptionSet()->hasOption('env') ? $commandManager->getOptionValue('env') : 'test';
-
-            if (true === $application) {
-                $application = $this->getFirstApplication();
-
-                if ($commandManager->getOptionSet()->hasOption('application')) {
-                    $commandManager->setOption($commandManager->getOptionSet()->getOption('application'), $application);
-                }
-            }
-
-            $this->configuration = $this->createConfiguration($application, $env);
-        }
-
-        if (!$this->withTrace()) {
-            sfConfig::set('sf_logging_enabled', false);
-        }
-
-        $ret = $this->execute($commandManager->getArgumentValues(), $commandManager->getOptionValues());
-
-        $this->dispatcher->notify(new sfEvent($this, 'command.post_command'));
-
-        return $ret;
-    }
-
-    /**
      * Sets the current task's configuration.
      */
     public function setConfiguration(sfProjectConfiguration $configuration = null)
@@ -137,6 +92,53 @@ abstract class sfBaseTask extends sfCommandApplicationTask
         if (!is_dir(sfConfig::get('sf_apps_dir').'/'.$app.'/modules/'.$module)) {
             throw new sfException(sprintf('Module "%s/%s" does not exist.', $app, $module));
         }
+    }
+
+    /**
+     * @see sfTask
+     *
+     * @param mixed $options
+     */
+    protected function doRun(sfCommandManager $commandManager, $options)
+    {
+        $event = $this->dispatcher->filter(new sfEvent($this, 'command.filter_options', array('command_manager' => $commandManager)), $options);
+        $options = $event->getReturnValue();
+
+        $this->process($commandManager, $options);
+
+        $event = new sfEvent($this, 'command.pre_command', array('arguments' => $commandManager->getArgumentValues(), 'options' => $commandManager->getOptionValues()));
+        $this->dispatcher->notifyUntil($event);
+        if ($event->isProcessed()) {
+            return $event->getReturnValue();
+        }
+
+        $this->checkProjectExists();
+
+        $requiresApplication = $commandManager->getArgumentSet()->hasArgument('application') || $commandManager->getOptionSet()->hasOption('application');
+        if (null === $this->configuration || ($requiresApplication && !$this->configuration instanceof sfApplicationConfiguration)) {
+            $application = $commandManager->getArgumentSet()->hasArgument('application') ? $commandManager->getArgumentValue('application') : ($commandManager->getOptionSet()->hasOption('application') ? $commandManager->getOptionValue('application') : null);
+            $env = $commandManager->getOptionSet()->hasOption('env') ? $commandManager->getOptionValue('env') : 'test';
+
+            if (true === $application) {
+                $application = $this->getFirstApplication();
+
+                if ($commandManager->getOptionSet()->hasOption('application')) {
+                    $commandManager->setOption($commandManager->getOptionSet()->getOption('application'), $application);
+                }
+            }
+
+            $this->configuration = $this->createConfiguration($application, $env);
+        }
+
+        if (!$this->withTrace()) {
+            sfConfig::set('sf_logging_enabled', false);
+        }
+
+        $ret = $this->execute($commandManager->getArgumentValues(), $commandManager->getOptionValues());
+
+        $this->dispatcher->notify(new sfEvent($this, 'command.post_command'));
+
+        return $ret;
     }
 
     /**
@@ -391,6 +393,8 @@ abstract class sfBaseTask extends sfCommandApplicationTask
 
     /**
      * @see sfCommandApplicationTask
+     *
+     * @param mixed $name
      */
     protected function createTask($name)
     {

@@ -18,22 +18,6 @@
 class sfWidgetFormInputRead extends sfWidgetFormInput
 {
     /**
-     * Configures the current widget.
-     *
-     * @param array $options    An array of options
-     * @param array $attributes An array of default HTML attributes
-     *
-     * @see sfWidgetForm
-     */
-    protected function configure($options = array(), $attributes = array())
-    {
-        parent::configure($options, $attributes);
-
-        $this->addOption('text');
-        $this->setOption('type', 'hidden');
-    }
-
-    /**
      * Render the current widget.
      *
      * @param string $name       The element name
@@ -64,5 +48,21 @@ class sfWidgetFormInputRead extends sfWidgetFormInput
             'readonly' => 'readonly',
             'style' => $style,
         ), $attributes));
+    }
+
+    /**
+     * Configures the current widget.
+     *
+     * @param array $options    An array of options
+     * @param array $attributes An array of default HTML attributes
+     *
+     * @see sfWidgetForm
+     */
+    protected function configure($options = array(), $attributes = array())
+    {
+        parent::configure($options, $attributes);
+
+        $this->addOption('text');
+        $this->setOption('type', 'hidden');
     }
 }

@@ -20,6 +20,28 @@ class sfProjectDeployTask extends sfBaseTask
     protected $outputBuffer = '';
     protected $errorBuffer = '';
 
+    public function logOutput($output)
+    {
+        if (false !== $pos = strpos($output, "\n")) {
+            $this->outputBuffer .= substr($output, 0, $pos);
+            $this->log($this->outputBuffer);
+            $this->outputBuffer = substr($output, $pos + 1);
+        } else {
+            $this->outputBuffer .= $output;
+        }
+    }
+
+    public function logErrors($output)
+    {
+        if (false !== $pos = strpos($output, "\n")) {
+            $this->errorBuffer .= substr($output, 0, $pos);
+            $this->log($this->formatter->format($this->errorBuffer, 'ERROR'));
+            $this->errorBuffer = substr($output, $pos + 1);
+        } else {
+            $this->errorBuffer .= $output;
+        }
+    }
+
     /**
      * @see sfTask
      */
@@ -86,6 +108,9 @@ EOF;
 
     /**
      * @see sfTask
+     *
+     * @param mixed $arguments
+     * @param mixed $options
      */
     protected function execute($arguments = array(), $options = array())
     {
@@ -150,28 +175,6 @@ EOF;
         $this->getFilesystem()->execute($command, $options['trace'] ? array($this, 'logOutput') : null, array($this, 'logErrors'));
 
         $this->clearBuffers();
-    }
-
-    public function logOutput($output)
-    {
-        if (false !== $pos = strpos($output, "\n")) {
-            $this->outputBuffer .= substr($output, 0, $pos);
-            $this->log($this->outputBuffer);
-            $this->outputBuffer = substr($output, $pos + 1);
-        } else {
-            $this->outputBuffer .= $output;
-        }
-    }
-
-    public function logErrors($output)
-    {
-        if (false !== $pos = strpos($output, "\n")) {
-            $this->errorBuffer .= substr($output, 0, $pos);
-            $this->log($this->formatter->format($this->errorBuffer, 'ERROR'));
-            $this->errorBuffer = substr($output, $pos + 1);
-        } else {
-            $this->errorBuffer .= $output;
-        }
     }
 
     protected function clearBuffers()

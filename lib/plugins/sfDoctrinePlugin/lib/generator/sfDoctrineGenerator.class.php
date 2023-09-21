@@ -62,25 +62,6 @@ class sfDoctrineGenerator extends sfModelGenerator
     }
 
     /**
-     * Loads primary keys.
-     *
-     * @throws sfException
-     */
-    protected function loadPrimaryKeys()
-    {
-        $this->primaryKey = array();
-        foreach ($this->getColumns() as $name => $column) {
-            if ($column->isPrimaryKey()) {
-                $this->primaryKey[] = $name;
-            }
-        }
-
-        if (!count($this->primaryKey)) {
-            throw new sfException(sprintf('Cannot generate a module for a model without a primary key (%s)', $this->modelClass));
-        }
-    }
-
-    /**
      * Returns the getter either non-developped: 'getFoo' or developped: '$class->getFoo()'.
      *
      * @param string $column    The column name
@@ -259,5 +240,24 @@ class sfDoctrineGenerator extends sfModelGenerator
         }
 
         return $columns;
+    }
+
+    /**
+     * Loads primary keys.
+     *
+     * @throws sfException
+     */
+    protected function loadPrimaryKeys()
+    {
+        $this->primaryKey = array();
+        foreach ($this->getColumns() as $name => $column) {
+            if ($column->isPrimaryKey()) {
+                $this->primaryKey[] = $name;
+            }
+        }
+
+        if (!count($this->primaryKey)) {
+            throw new sfException(sprintf('Cannot generate a module for a model without a primary key (%s)', $this->modelClass));
+        }
     }
 }

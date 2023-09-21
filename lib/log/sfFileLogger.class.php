@@ -157,6 +157,30 @@ class sfFileLogger extends sfLogger
     }
 
     /**
+     * Executes the shutdown method.
+     */
+    public function shutdown()
+    {
+        if (is_resource($this->fp)) {
+            fclose($this->fp);
+        }
+    }
+
+    /**
+     * @param mixed $format
+     *
+     * @return false|string
+     */
+    public static function strftime($format)
+    {
+        if (version_compare(PHP_VERSION, '8.1.0') < 0) {
+            return strftime($format);
+        }
+
+        return date(self::_strftimeFormatToDateFormat($format));
+    }
+
+    /**
      * Logs a message.
      *
      * @param string $message  Message
@@ -188,28 +212,6 @@ class sfFileLogger extends sfLogger
     }
 
     /**
-     * Executes the shutdown method.
-     */
-    public function shutdown()
-    {
-        if (is_resource($this->fp)) {
-            fclose($this->fp);
-        }
-    }
-
-    /**
-     * @return false|string
-     */
-    public static function strftime($format)
-    {
-        if (version_compare(PHP_VERSION, '8.1.0') < 0) {
-            return strftime($format);
-        }
-
-        return date(self::_strftimeFormatToDateFormat($format));
-    }
-
-    /**
      * Try to Convert a strftime to date format.
      *
      * Unable to find a perfect implementation, based on those one (Each contains some errors)
@@ -224,6 +226,8 @@ class sfFileLogger extends sfLogger
      * Private: because it should not be used outside of this scope
      *
      * A better solution is to use : IntlDateFormatter, but it will require to load a new php extension, which could break some setup.
+     *
+     * @param mixed $strftimeFormat
      *
      * @return array|string|string[]
      */

@@ -37,23 +37,6 @@ class sfWidgetFormInputCheckbox extends sfWidgetFormInput
     }
 
     /**
-     * @param array $options    An array of options
-     * @param array $attributes An array of default HTML attributes
-     *
-     * @see sfWidgetFormInput
-     */
-    protected function configure($options = array(), $attributes = array())
-    {
-        parent::configure($options, $attributes);
-
-        $this->setOption('type', 'checkbox');
-
-        if (isset($attributes['value'])) {
-            $this->setOption('value_attribute_value', $attributes['value']);
-        }
-    }
-
-    /**
      * Renders the widget.
      *
      * @param string $name       The element name
@@ -76,5 +59,22 @@ class sfWidgetFormInputCheckbox extends sfWidgetFormInput
         }
 
         return parent::render($name, null, $attributes, $errors);
+    }
+
+    /**
+     * @param array $options    An array of options
+     * @param array $attributes An array of default HTML attributes
+     *
+     * @see sfWidgetFormInput
+     */
+    protected function configure($options = array(), $attributes = array())
+    {
+        parent::configure($options, $attributes);
+
+        $this->setOption('type', 'checkbox');
+
+        if (isset($attributes['value'])) {
+            $this->setOption('value_attribute_value', $attributes['value']);
+        }
     }
 }

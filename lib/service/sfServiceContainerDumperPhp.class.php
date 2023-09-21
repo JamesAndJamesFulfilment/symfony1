@@ -44,6 +44,11 @@ class sfServiceContainerDumperPhp extends sfServiceContainerDumper
           $this->endClass();
     }
 
+    public function replaceParameter($match)
+    {
+        return sprintf("'.\$this->getParameter('%s').'", strtolower($match[2]));
+    }
+
     /**
      * @param string              $id
      * @param sfServiceDefinition $definition
@@ -324,11 +329,6 @@ EOF;
         }
 
         return var_export($value, true);
-    }
-
-    public function replaceParameter($match)
-    {
-        return sprintf("'.\$this->getParameter('%s').'", strtolower($match[2]));
     }
 
     protected function getServiceCall($id)

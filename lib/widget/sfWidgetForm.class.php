@@ -192,22 +192,6 @@ abstract class sfWidgetForm extends sfWidget
     }
 
     /**
-     * Adds an HTML id attributes to the array of attributes if none is given and a name attribute exists.
-     *
-     * @param array $attributes An array of attributes
-     *
-     * @return array an array of attributes with an id
-     */
-    protected function fixFormId($attributes)
-    {
-        if (!isset($attributes['id']) && isset($attributes['name'])) {
-            $attributes['id'] = $this->generateId($attributes['name'], isset($attributes['value']) ? $attributes['value'] : null);
-        }
-
-        return $attributes;
-    }
-
-    /**
      * Returns a formatted id based on the field name and optionally on the field value.
      *
      * This method determines the proper form field id name based on the parameters. If a form field has an
@@ -250,24 +234,6 @@ abstract class sfWidgetForm extends sfWidget
     }
 
     /**
-     * Generates a two chars range.
-     *
-     * @param int $start
-     * @param int $stop
-     *
-     * @return array
-     */
-    protected static function generateTwoCharsRange($start, $stop)
-    {
-        $results = array();
-        for ($i = $start; $i <= $stop; ++$i) {
-            $results[$i] = sprintf('%02d', $i);
-        }
-
-        return $results;
-    }
-
-    /**
      * Sets the parent widget schema.
      *
      * @return sfWidgetForm The current widget instance
@@ -284,11 +250,45 @@ abstract class sfWidgetForm extends sfWidget
      *
      * If no schema has been set with setWidgetSchema(), NULL is returned.
      *
-     * @return sfWidgetFormSchema|null
+     * @return null|sfWidgetFormSchema
      */
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Adds an HTML id attributes to the array of attributes if none is given and a name attribute exists.
+     *
+     * @param array $attributes An array of attributes
+     *
+     * @return array an array of attributes with an id
+     */
+    protected function fixFormId($attributes)
+    {
+        if (!isset($attributes['id']) && isset($attributes['name'])) {
+            $attributes['id'] = $this->generateId($attributes['name'], isset($attributes['value']) ? $attributes['value'] : null);
+        }
+
+        return $attributes;
+    }
+
+    /**
+     * Generates a two chars range.
+     *
+     * @param int $start
+     * @param int $stop
+     *
+     * @return array
+     */
+    protected static function generateTwoCharsRange($start, $stop)
+    {
+        $results = array();
+        for ($i = $start; $i <= $stop; ++$i) {
+            $results[$i] = sprintf('%02d', $i);
+        }
+
+        return $results;
     }
 
     /**

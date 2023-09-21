@@ -29,7 +29,7 @@ abstract class sfConfigHandler
      *
      * @see initialize()
      *
-     * @param array|null $parameters
+     * @param null|array $parameters
      */
     public function __construct($parameters = null)
     {
@@ -68,7 +68,7 @@ abstract class sfConfigHandler
      *
      * @param mixed $value The value on which to run the replacement procedure
      *
-     * @return string|mixed|array The new value
+     * @return array|mixed|string The new value
      */
     public static function replaceConstants($value)
     {

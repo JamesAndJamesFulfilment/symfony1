@@ -12,16 +12,26 @@ require_once __DIR__.'/../../bootstrap/unit.php';
 
 class myResponse extends sfResponse
 {
-    public function serialize() {}
+    public function __serialize()
+    {
+    }
 
-    public function unserialize($serialized) {}
+    public function __unserialize($data)
+    {
+    }
 
-    public function __serialize() {}
+    public function serialize()
+    {
+    }
 
-    public function __unserialize($data) {}
+    public function unserialize($serialized)
+    {
+    }
 }
 
-class fakeResponse {}
+class fakeResponse
+{
+}
 
 $t = new lime_test(8);
 

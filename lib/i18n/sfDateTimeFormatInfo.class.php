@@ -82,34 +82,6 @@ class sfDateTimeFormatInfo
     protected $properties = array();
 
     /**
-     * Allows functions that begins with 'set' to be called directly
-     * as an attribute/property to retrieve the value.
-     */
-    public function __get($name)
-    {
-        $getProperty = 'get'.$name;
-        if (in_array($getProperty, $this->properties)) {
-            return $this->{$getProperty}();
-        }
-
-        throw new sfException(sprintf('Property %s does not exists.', $name));
-    }
-
-    /**
-     * Allows functions that begins with 'set' to be called directly
-     * as an attribute/property to set the value.
-     */
-    public function __set($name, $value)
-    {
-        $setProperty = 'set'.$name;
-        if (in_array($setProperty, $this->properties)) {
-            $this->{$setProperty}($value);
-        } else {
-            throw new sfException(sprintf('Property %s can not be set.', $name));
-        }
-    }
-
-    /**
      * Initializes a new writable instance of the sfDateTimeFormatInfo class
      * that is dependent on the ICU data for date time formatting
      * information. <b>N.B.</b>You should not initialize this class directly
@@ -132,13 +104,36 @@ class sfDateTimeFormatInfo
     }
 
     /**
-     * Gets the internal ICU data for date time formatting.
+     * Allows functions that begins with 'set' to be called directly
+     * as an attribute/property to retrieve the value.
      *
-     * @return array ICU date time formatting data
+     * @param mixed $name
      */
-    protected function getData()
+    public function __get($name)
     {
-        return $this->data;
+        $getProperty = 'get'.$name;
+        if (in_array($getProperty, $this->properties)) {
+            return $this->{$getProperty}();
+        }
+
+        throw new sfException(sprintf('Property %s does not exists.', $name));
+    }
+
+    /**
+     * Allows functions that begins with 'set' to be called directly
+     * as an attribute/property to set the value.
+     *
+     * @param mixed $name
+     * @param mixed $value
+     */
+    public function __set($name, $value)
+    {
+        $setProperty = 'set'.$name;
+        if (in_array($setProperty, $this->properties)) {
+            $this->{$setProperty}($value);
+        } else {
+            throw new sfException(sprintf('Property %s can not be set.', $name));
+        }
     }
 
     /**
@@ -530,10 +525,23 @@ class sfDateTimeFormatInfo
      * Formats the date and time in a culture sensitive paterrn.
      * The default is "Date Time".
      *
+     * @param mixed $date
+     * @param mixed $time
+     *
      * @return string date and time formated
      */
     public function formatDateTime($date, $time)
     {
         return str_replace(array('{0}', '{1}'), array($time, $date), $this->getDateTimeOrderPattern());
+    }
+
+    /**
+     * Gets the internal ICU data for date time formatting.
+     *
+     * @return array ICU date time formatting data
+     */
+    protected function getData()
+    {
+        return $this->data;
     }
 }

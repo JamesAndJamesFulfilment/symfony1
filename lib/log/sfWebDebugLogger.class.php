@@ -55,14 +55,6 @@ class sfWebDebugLogger extends sfVarLogger
     }
 
     /**
-     * Registers logger with PHP error handler.
-     */
-    protected function registerErrorHandler()
-    {
-        set_error_handler(array($this, 'handlePhpError'));
-    }
-
-    /**
      * PHP error handler send PHP errors to log.
      *
      * PHP user space error handler can not handle E_ERROR, E_PARSE,
@@ -169,5 +161,13 @@ class sfWebDebugLogger extends sfVarLogger
         }
 
         return $this->webDebug->injectToolbar($content);
+    }
+
+    /**
+     * Registers logger with PHP error handler.
+     */
+    protected function registerErrorHandler()
+    {
+        set_error_handler(array($this, 'handlePhpError'));
     }
 }

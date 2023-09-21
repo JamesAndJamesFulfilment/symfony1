@@ -117,7 +117,8 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
                     break;
 
                 case 'view_cache':
-                    $instances[] = sprintf("\n  if (sfConfig::get('sf_cache'))\n  {\n".
+                    $instances[] = sprintf(
+                        "\n  if (sfConfig::get('sf_cache'))\n  {\n".
                                        "    \$class = sfConfig::get('sf_factory_view_cache', '%s');\n".
                                        "    \$cache = new \$class(sfConfig::get('sf_factory_view_cache_parameters', %s));\n".
                                        "    \$this->factories['viewCacheManager'] = new %s(\$this, \$cache, %s);\n".
@@ -126,7 +127,11 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
                                        "  {\n".
                                        "    \$this->factories['viewCacheManager'] = null;\n".
                                        "  }\n",
-                        $class, var_export($parameters, true), $config['view_cache_manager']['class'], var_export($config['view_cache_manager']['param'], true));
+                        $class,
+                        var_export($parameters, true),
+                        $config['view_cache_manager']['class'],
+                        var_export($config['view_cache_manager']['param'], true)
+                    );
 
                     break;
 
@@ -138,12 +143,16 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
                         $cache = "    \$cache = null;\n";
                     }
 
-                    $instances[] = sprintf("\n  if (sfConfig::get('sf_i18n'))\n  {\n".
+                    $instances[] = sprintf(
+                        "\n  if (sfConfig::get('sf_i18n'))\n  {\n".
                                "    \$class = sfConfig::get('sf_factory_i18n', '%s');\n".
                                '%s'.
                                "    \$this->factories['i18n'] = new \$class(\$this->configuration, \$cache, %s);\n".
                                "    sfWidgetFormSchemaFormatter::setTranslationCallable(array(\$this->factories['i18n'], '__'));\n".
-                               "  }\n", $class, $cache, var_export($parameters, true)
+                               "  }\n",
+                        $class,
+                        $cache,
+                        var_export($parameters, true)
                     );
 
                     break;
@@ -156,14 +165,17 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
                         $cache = "    \$cache = null;\n";
                     }
 
-                    $instances[] = sprintf("  \$class = sfConfig::get('sf_factory_routing', '%s');\n".
+                    $instances[] = sprintf(
+                        "  \$class = sfConfig::get('sf_factory_routing', '%s');\n".
                                      "  %s\n".
                                      "\$this->factories['routing'] = new \$class(\$this->dispatcher, \$cache, array_merge(array('auto_shutdown' => false, 'context' => \$this->factories['request']->getRequestContext()), sfConfig::get('sf_factory_routing_parameters', %s)));\n".
                                      "if (\$parameters = \$this->factories['routing']->parse(\$this->factories['request']->getPathInfo()))\n".
                                      "{\n".
                                      "  \$this->factories['request']->addRequestParameters(\$parameters);\n".
                                      "}\n",
-                        $class, $cache, var_export($parameters, true)
+                        $class,
+                        $cache,
+                        var_export($parameters, true)
                     );
 
                     break;
@@ -189,7 +201,8 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
 
                             if ($condition) {
                                 // create logger instance
-                                $loggers .= sprintf("\n\$logger = new %s(\$this->dispatcher, array_merge(array('auto_shutdown' => false), %s));\n\$this->factories['logger']->addLogger(\$logger);\n",
+                                $loggers .= sprintf(
+                                    "\n\$logger = new %s(\$this->dispatcher, array_merge(array('auto_shutdown' => false), %s));\n\$this->factories['logger']->addLogger(\$logger);\n",
                                     $keys['class'],
                                     isset($keys['param']) ? var_export($keys['param'], true) : 'array()'
                                 );
@@ -201,7 +214,11 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
 
                     $instances[] = sprintf(
                         "  \$class = sfConfig::get('sf_factory_logger', '%s');\n  \$this->factories['logger'] = new \$class(\$this->dispatcher, array_merge(array('auto_shutdown' => false), sfConfig::get('sf_factory_logger_parameters', %s)));\n".
-                        '  %s', $class, var_export($parameters, true), $loggers);
+                        '  %s',
+                        $class,
+                        var_export($parameters, true),
+                        $loggers
+                    );
 
                     break;
 
@@ -211,7 +228,10 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
                         "  \$swift_dir = sfConfig::get('sf_swiftmailer_dir', sfConfig::get('sf_symfony_lib_dir').'/vendor/swiftmailer/lib');\n".
                         "  require_once \$swift_dir.'/swift_required.php';\n".
                         "}\n".
-                        "\$this->setMailerConfiguration(array_merge(array('class' => sfConfig::get('sf_factory_mailer', '%s')), sfConfig::get('sf_factory_mailer_parameters', %s)));\n", $class, var_export($parameters, true));
+                        "\$this->setMailerConfiguration(array_merge(array('class' => sfConfig::get('sf_factory_mailer', '%s')), sfConfig::get('sf_factory_mailer_parameters', %s)));\n",
+                        $class,
+                        var_export($parameters, true)
+                    );
 
                     break;
 
@@ -226,11 +246,14 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
         }
 
         // compile data
-        $retval = sprintf("<?php\n".
+        $retval = sprintf(
+            "<?php\n".
                           "// auto-generated by sfFactoryConfigHandler\n".
                           "// date: %s\n%s\n%s\n",
-            date('Y/m/d H:i:s'), implode("\n", $includes),
-            implode("\n", $instances));
+            date('Y/m/d H:i:s'),
+            implode("\n", $includes),
+            implode("\n", $instances)
+        );
 
         return $retval;
     }

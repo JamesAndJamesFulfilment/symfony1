@@ -18,26 +18,6 @@
 class sfWidgetFormSelect extends sfWidgetFormChoiceBase
 {
     /**
-     * Constructor.
-     *
-     * Available options:
-     *
-     *  * choices:  An array of possible choices (required)
-     *  * multiple: true if the select tag must allow multiple selections
-     *
-     * @param array $options    An array of options
-     * @param array $attributes An array of default HTML attributes
-     *
-     * @see sfWidgetFormChoiceBase
-     */
-    protected function configure($options = array(), $attributes = array())
-    {
-        parent::configure($options, $attributes);
-
-        $this->addOption('multiple', false);
-    }
-
-    /**
      * Renders the widget.
      *
      * @param string $name       The element name
@@ -62,6 +42,26 @@ class sfWidgetFormSelect extends sfWidgetFormChoiceBase
         $choices = $this->getChoices();
 
         return $this->renderContentTag('select', "\n".implode("\n", $this->getOptionsForSelect($value, $choices))."\n", array_merge(array('name' => $name), $attributes));
+    }
+
+    /**
+     * Constructor.
+     *
+     * Available options:
+     *
+     *  * choices:  An array of possible choices (required)
+     *  * multiple: true if the select tag must allow multiple selections
+     *
+     * @param array $options    An array of options
+     * @param array $attributes An array of default HTML attributes
+     *
+     * @see sfWidgetFormChoiceBase
+     */
+    protected function configure($options = array(), $attributes = array())
+    {
+        parent::configure($options, $attributes);
+
+        $this->addOption('multiple', false);
     }
 
     /**

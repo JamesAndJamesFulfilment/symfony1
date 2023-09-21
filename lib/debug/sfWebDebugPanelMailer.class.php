@@ -72,6 +72,14 @@ class sfWebDebugPanelMailer extends sfWebDebugPanel
         return implode("\n", $html);
     }
 
+    /**
+     * Listens for the mailer.configure event and captures a reference to the mailer.
+     */
+    public function listenForMailerConfigure(sfEvent $event)
+    {
+        $this->mailer = $event->getSubject();
+    }
+
     protected function renderMessageInformation(Swift_Message $message)
     {
         static $i = 0;
@@ -87,13 +95,5 @@ class sfWebDebugPanelMailer extends sfWebDebugPanel
         $html[] = '</div>';
 
         return implode("\n", $html);
-    }
-
-    /**
-     * Listens for the mailer.configure event and captures a reference to the mailer.
-     */
-    public function listenForMailerConfigure(sfEvent $event)
-    {
-        $this->mailer = $event->getSubject();
     }
 }

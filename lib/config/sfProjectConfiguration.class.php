@@ -76,11 +76,33 @@ class sfProjectConfiguration
     }
 
     /**
+     * Calls methods defined via sfEventDispatcher.
+     *
+     * @param string $method    The method name
+     * @param array  $arguments The method arguments
+     *
+     * @return mixed The returned value of the called method
+     *
+     * @throws sfException
+     */
+    public function __call($method, $arguments)
+    {
+        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'configuration.method_not_found', array('method' => $method, 'arguments' => $arguments)));
+        if (!$event->isProcessed()) {
+            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
+        }
+
+        return $event->getReturnValue();
+    }
+
+    /**
      * Setups the current configuration.
      *
      * Override this method if you want to customize your project configuration.
      */
-    public function setup() {}
+    public function setup()
+    {
+    }
 
     /**
      * Loads the project's plugin configurations.
@@ -111,7 +133,9 @@ class sfProjectConfiguration
      *
      * Override this method if you want to customize plugin configurations.
      */
-    public function setupPlugins() {}
+    public function setupPlugins()
+    {
+    }
 
     /**
      * Sets the project root directory.
@@ -582,25 +606,5 @@ class sfProjectConfiguration
         require_once $file;
 
         return new $class($environment, $debug, $rootDir, $dispatcher);
-    }
-
-    /**
-     * Calls methods defined via sfEventDispatcher.
-     *
-     * @param string $method    The method name
-     * @param array  $arguments The method arguments
-     *
-     * @return mixed The returned value of the called method
-     *
-     * @throws sfException
-     */
-    public function __call($method, $arguments)
-    {
-        $event = $this->dispatcher->notifyUntil(new sfEvent($this, 'configuration.method_not_found', array('method' => $method, 'arguments' => $arguments)));
-        if (!$event->isProcessed()) {
-            throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
-        }
-
-        return $event->getReturnValue();
     }
 }

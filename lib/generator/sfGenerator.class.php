@@ -55,53 +55,6 @@ abstract class sfGenerator
     abstract public function generate($params = array());
 
     /**
-     * Generates PHP files for a given module name.
-     *
-     * @param string $generatedModuleName The name of module name to generate
-     * @param array  $files               A list of template files to generate
-     */
-    protected function generatePhpFiles($generatedModuleName, $files = array())
-    {
-        foreach ($files as $file) {
-            $this->getGeneratorManager()->save($generatedModuleName.'/'.$file, $this->evalTemplate($file));
-        }
-    }
-
-    /**
-     * Evaluates a template file.
-     *
-     * @param string $templateFile The template file path
-     *
-     * @return string The evaluated template
-     */
-    protected function evalTemplate($templateFile)
-    {
-        $templateFile = $this->generatorManager->getConfiguration()->getGeneratorTemplate($this->getGeneratorClass(), $this->getTheme(), $templateFile);
-
-        // eval template file
-        ob_start();
-
-        require $templateFile;
-        $content = ob_get_clean();
-
-        // replace [?php and ?]
-        return $this->replacePhpMarks($content);
-    }
-
-    /**
-     * Replaces PHP marks by <?php ?>.
-     *
-     * @param string $text The PHP code
-     *
-     * @return string The converted PHP code
-     */
-    protected function replacePhpMarks($text)
-    {
-        // replace [?php and ?]
-        return str_replace(array('[?php', '[?=', '?]'), array('<?php', '<?php echo', '?>'), $text);
-    }
-
-    /**
      * Gets the generator class.
      *
      * @return string The generator class
@@ -119,16 +72,6 @@ abstract class sfGenerator
     public function setGeneratorClass($generatorClass)
     {
         $this->generatorClass = $generatorClass;
-    }
-
-    /**
-     * Gets the sfGeneratorManager instance.
-     *
-     * @return sfGeneratorManager The sfGeneratorManager instance
-     */
-    protected function getGeneratorManager()
-    {
-        return $this->generatorManager;
     }
 
     /**
@@ -189,5 +132,62 @@ abstract class sfGenerator
     public function setTheme($theme)
     {
         $this->theme = $theme;
+    }
+
+    /**
+     * Generates PHP files for a given module name.
+     *
+     * @param string $generatedModuleName The name of module name to generate
+     * @param array  $files               A list of template files to generate
+     */
+    protected function generatePhpFiles($generatedModuleName, $files = array())
+    {
+        foreach ($files as $file) {
+            $this->getGeneratorManager()->save($generatedModuleName.'/'.$file, $this->evalTemplate($file));
+        }
+    }
+
+    /**
+     * Evaluates a template file.
+     *
+     * @param string $templateFile The template file path
+     *
+     * @return string The evaluated template
+     */
+    protected function evalTemplate($templateFile)
+    {
+        $templateFile = $this->generatorManager->getConfiguration()->getGeneratorTemplate($this->getGeneratorClass(), $this->getTheme(), $templateFile);
+
+        // eval template file
+        ob_start();
+
+        require $templateFile;
+        $content = ob_get_clean();
+
+        // replace [?php and ?]
+        return $this->replacePhpMarks($content);
+    }
+
+    /**
+     * Replaces PHP marks by <?php ?>.
+     *
+     * @param string $text The PHP code
+     *
+     * @return string The converted PHP code
+     */
+    protected function replacePhpMarks($text)
+    {
+        // replace [?php and ?]
+        return str_replace(array('[?php', '[?=', '?]'), array('<?php', '<?php echo', '?>'), $text);
+    }
+
+    /**
+     * Gets the sfGeneratorManager instance.
+     *
+     * @return sfGeneratorManager The sfGeneratorManager instance
+     */
+    protected function getGeneratorManager()
+    {
+        return $this->generatorManager;
     }
 }

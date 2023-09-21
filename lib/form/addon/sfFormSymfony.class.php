@@ -17,7 +17,7 @@
  */
 class sfFormSymfony extends sfForm
 {
-    /** @var sfEventDispatcher|null */
+    /** @var null|sfEventDispatcher */
     protected static $dispatcher;
 
     /**
@@ -27,7 +27,9 @@ class sfFormSymfony extends sfForm
      *
      * @see sfForm
      *
-     * @param mixed|null $CSRFSecret
+     * @param null|mixed $CSRFSecret
+     * @param mixed      $defaults
+     * @param mixed      $options
      */
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null)
     {
@@ -36,6 +38,28 @@ class sfFormSymfony extends sfForm
         if (self::$dispatcher) {
             self::$dispatcher->notify(new sfEvent($this, 'form.post_configure'));
         }
+    }
+
+    /**
+     * Calls methods defined via sfEventDispatcher.
+     *
+     * @param string $method    The method name
+     * @param array  $arguments The method arguments
+     *
+     * @return mixed The returned value of the called method
+     *
+     * @throws sfException
+     */
+    public function __call($method, $arguments)
+    {
+        if (self::$dispatcher) {
+            $event = self::$dispatcher->notifyUntil(new sfEvent($this, 'form.method_not_found', array('method' => $method, 'arguments' => $arguments)));
+            if ($event->isProcessed()) {
+                return $event->getReturnValue();
+            }
+        }
+
+        throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
     }
 
     /**
@@ -76,27 +100,5 @@ class sfFormSymfony extends sfForm
 
             throw $error;
         }
-    }
-
-    /**
-     * Calls methods defined via sfEventDispatcher.
-     *
-     * @param string $method    The method name
-     * @param array  $arguments The method arguments
-     *
-     * @return mixed The returned value of the called method
-     *
-     * @throws sfException
-     */
-    public function __call($method, $arguments)
-    {
-        if (self::$dispatcher) {
-            $event = self::$dispatcher->notifyUntil(new sfEvent($this, 'form.method_not_found', array('method' => $method, 'arguments' => $arguments)));
-            if ($event->isProcessed()) {
-                return $event->getReturnValue();
-            }
-        }
-
-        throw new sfException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
     }
 }

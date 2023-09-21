@@ -19,6 +19,40 @@
 class sfWidgetFormInputFileEditable extends sfWidgetFormInputFile
 {
     /**
+     * Renders the widget.
+     *
+     * @param string $name       The element name
+     * @param string $value      The value displayed in this widget
+     * @param array  $attributes An array of HTML attributes to be merged with the default HTML attributes
+     * @param array  $errors     An array of errors for the field
+     *
+     * @return string An HTML tag string
+     *
+     * @see sfWidgetForm
+     */
+    public function render($name, $value = null, $attributes = array(), $errors = array())
+    {
+        $input = parent::render($name, $value, $attributes, $errors);
+
+        if (!$this->getOption('edit_mode')) {
+            return $input;
+        }
+
+        if ($this->getOption('with_delete')) {
+            $deleteName = ']' == substr($name, -1) ? substr($name, 0, -1).'_delete]' : $name.'_delete';
+
+            $delete = $this->renderTag('input', array_merge(array('type' => 'checkbox', 'name' => $deleteName), $attributes));
+            $deleteLabel = $this->translate($this->getOption('delete_label'));
+            $deleteLabel = $this->renderContentTag('label', $deleteLabel, array_merge(array('for' => $this->generateId($deleteName))));
+        } else {
+            $delete = '';
+            $deleteLabel = '';
+        }
+
+        return strtr($this->getOption('template'), array('%input%' => $input, '%delete%' => $delete, '%delete_label%' => $deleteLabel, '%file%' => $this->getFileAsTag($attributes)));
+    }
+
+    /**
      * Constructor.
      *
      * Available options:
@@ -57,40 +91,6 @@ class sfWidgetFormInputFileEditable extends sfWidgetFormInputFile
         $this->addOption('with_delete', true);
         $this->addOption('delete_label', 'remove the current file');
         $this->addOption('template', '%file%<br />%input%<br />%delete% %delete_label%');
-    }
-
-    /**
-     * Renders the widget.
-     *
-     * @param string $name       The element name
-     * @param string $value      The value displayed in this widget
-     * @param array  $attributes An array of HTML attributes to be merged with the default HTML attributes
-     * @param array  $errors     An array of errors for the field
-     *
-     * @return string An HTML tag string
-     *
-     * @see sfWidgetForm
-     */
-    public function render($name, $value = null, $attributes = array(), $errors = array())
-    {
-        $input = parent::render($name, $value, $attributes, $errors);
-
-        if (!$this->getOption('edit_mode')) {
-            return $input;
-        }
-
-        if ($this->getOption('with_delete')) {
-            $deleteName = ']' == substr($name, -1) ? substr($name, 0, -1).'_delete]' : $name.'_delete';
-
-            $delete = $this->renderTag('input', array_merge(array('type' => 'checkbox', 'name' => $deleteName), $attributes));
-            $deleteLabel = $this->translate($this->getOption('delete_label'));
-            $deleteLabel = $this->renderContentTag('label', $deleteLabel, array_merge(array('for' => $this->generateId($deleteName))));
-        } else {
-            $delete = '';
-            $deleteLabel = '';
-        }
-
-        return strtr($this->getOption('template'), array('%input%' => $input, '%delete%' => $delete, '%delete_label%' => $deleteLabel, '%file%' => $this->getFileAsTag($attributes)));
     }
 
     protected function getFileAsTag($attributes)

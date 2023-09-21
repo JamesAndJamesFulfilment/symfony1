@@ -18,6 +18,29 @@
 class sfWidgetFormFilterDate extends sfWidgetFormDateRange
 {
     /**
+     * Renders the widget.
+     *
+     * @param string $name       The element name
+     * @param string $value      The date displayed in this widget
+     * @param array  $attributes An array of HTML attributes to be merged with the default HTML attributes
+     * @param array  $errors     An array of errors for the field
+     *
+     * @return string An HTML tag string
+     *
+     * @see sfWidgetForm
+     */
+    public function render($name, $value = null, $attributes = array(), $errors = array())
+    {
+        $values = array_merge(array('is_empty' => ''), is_array($value) ? $value : array());
+
+        return strtr($this->getOption('filter_template'), array(
+            '%date_range%' => parent::render($name, $value, $attributes, $errors),
+            '%empty_checkbox%' => $this->getOption('with_empty') ? $this->renderTag('input', array('type' => 'checkbox', 'name' => $name.'[is_empty]', 'checked' => $values['is_empty'] ? 'checked' : '')) : '',
+            '%empty_label%' => $this->getOption('with_empty') ? $this->renderContentTag('label', $this->translate($this->getOption('empty_label')), array('for' => $this->generateId($name.'[is_empty]'))) : '',
+        ));
+    }
+
+    /**
      * Configures the current widget.
      *
      * Available options:
@@ -42,28 +65,5 @@ class sfWidgetFormFilterDate extends sfWidgetFormDateRange
         $this->addOption('empty_label', 'is empty');
         $this->addOption('template', 'from %from_date%<br />to %to_date%');
         $this->addOption('filter_template', '%date_range%<br />%empty_checkbox% %empty_label%');
-    }
-
-    /**
-     * Renders the widget.
-     *
-     * @param string $name       The element name
-     * @param string $value      The date displayed in this widget
-     * @param array  $attributes An array of HTML attributes to be merged with the default HTML attributes
-     * @param array  $errors     An array of errors for the field
-     *
-     * @return string An HTML tag string
-     *
-     * @see sfWidgetForm
-     */
-    public function render($name, $value = null, $attributes = array(), $errors = array())
-    {
-        $values = array_merge(array('is_empty' => ''), is_array($value) ? $value : array());
-
-        return strtr($this->getOption('filter_template'), array(
-            '%date_range%' => parent::render($name, $value, $attributes, $errors),
-            '%empty_checkbox%' => $this->getOption('with_empty') ? $this->renderTag('input', array('type' => 'checkbox', 'name' => $name.'[is_empty]', 'checked' => $values['is_empty'] ? 'checked' : '')) : '',
-            '%empty_label%' => $this->getOption('with_empty') ? $this->renderContentTag('label', $this->translate($this->getOption('empty_label')), array('for' => $this->generateId($name.'[is_empty]'))) : '',
-        ));
     }
 }

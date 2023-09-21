@@ -61,15 +61,6 @@ abstract class sfPager implements Iterator, Countable
     abstract public function getResults();
 
     /**
-     * Returns an object at a certain offset.
-     *
-     * Used internally by {@link getCurrent()}.
-     *
-     * @param int $offset
-     */
-    abstract protected function retrieveObject($offset);
-
-    /**
      * Returns the current pager's max link.
      *
      * @return int
@@ -183,7 +174,7 @@ abstract class sfPager implements Iterator, Countable
     /**
      * Returns the next object.
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     public function getNext()
     {
@@ -197,7 +188,7 @@ abstract class sfPager implements Iterator, Countable
     /**
      * Returns the previous object.
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     public function getPrevious()
     {
@@ -271,16 +262,6 @@ abstract class sfPager implements Iterator, Countable
     }
 
     /**
-     * Sets the number of results.
-     *
-     * @param int $nb
-     */
-    protected function setNbResults($nb)
-    {
-        $this->nbResults = $nb;
-    }
-
-    /**
      * Returns the first page number.
      *
      * @return int
@@ -298,20 +279,6 @@ abstract class sfPager implements Iterator, Countable
     public function getLastPage()
     {
         return $this->lastPage;
-    }
-
-    /**
-     * Sets the last page number.
-     *
-     * @param int $page
-     */
-    protected function setLastPage($page)
-    {
-        $this->lastPage = $page;
-
-        if ($this->getPage() > $page) {
-            $this->setPage($page);
-        }
     }
 
     /**
@@ -426,7 +393,7 @@ abstract class sfPager implements Iterator, Countable
      * Returns a parameter.
      *
      * @param string     $name
-     * @param mixed|null $default
+     * @param null|mixed $default
      */
     public function getParameter($name, $default = null)
     {
@@ -449,38 +416,11 @@ abstract class sfPager implements Iterator, Countable
      * Sets a parameter.
      *
      * @param string $name
+     * @param mixed  $value
      */
     public function setParameter($name, $value)
     {
         $this->parameterHolder->set($name, $value);
-    }
-
-    /**
-     * Returns true if the properties used for iteration have been initialized.
-     *
-     * @return bool
-     */
-    protected function isIteratorInitialized()
-    {
-        return null !== $this->results;
-    }
-
-    /**
-     * Loads data into properties used for iteration.
-     */
-    protected function initializeIterator()
-    {
-        $this->results = $this->getResults();
-        $this->resultsCounter = count($this->results);
-    }
-
-    /**
-     * Empties properties used for iteration.
-     */
-    protected function resetIterator()
-    {
-        $this->results = null;
-        $this->resultsCounter = 0;
     }
 
     /**
@@ -571,5 +511,66 @@ abstract class sfPager implements Iterator, Countable
     public function count()
     {
         return $this->getNbResults();
+    }
+
+    /**
+     * Returns an object at a certain offset.
+     *
+     * Used internally by {@link getCurrent()}.
+     *
+     * @param int $offset
+     */
+    abstract protected function retrieveObject($offset);
+
+    /**
+     * Sets the number of results.
+     *
+     * @param int $nb
+     */
+    protected function setNbResults($nb)
+    {
+        $this->nbResults = $nb;
+    }
+
+    /**
+     * Sets the last page number.
+     *
+     * @param int $page
+     */
+    protected function setLastPage($page)
+    {
+        $this->lastPage = $page;
+
+        if ($this->getPage() > $page) {
+            $this->setPage($page);
+        }
+    }
+
+    /**
+     * Returns true if the properties used for iteration have been initialized.
+     *
+     * @return bool
+     */
+    protected function isIteratorInitialized()
+    {
+        return null !== $this->results;
+    }
+
+    /**
+     * Loads data into properties used for iteration.
+     */
+    protected function initializeIterator()
+    {
+        $this->results = $this->getResults();
+        $this->resultsCounter = count($this->results);
+    }
+
+    /**
+     * Empties properties used for iteration.
+     */
+    protected function resetIterator()
+    {
+        $this->results = null;
+        $this->resultsCounter = 0;
     }
 }

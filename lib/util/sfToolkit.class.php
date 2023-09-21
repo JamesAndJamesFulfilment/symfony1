@@ -117,7 +117,8 @@ class sfToolkit
     public static function isPathAbsolute($path)
     {
         if ('/' == $path[0] || '\\' == $path[0]
-            || (strlen($path) > 3 && ctype_alpha($path[0])
+            || (
+                strlen($path) > 3 && ctype_alpha($path[0])
              && ':' == $path[1]
              && ('\\' == $path[2] || '/' == $path[2])
             )
@@ -352,6 +353,7 @@ class sfToolkit
      * Licensed under the BSD open source license
      *
      * @param string
+     * @param mixed $string
      *
      * @return bool true if $string is valid UTF-8 and false otherwise
      */

@@ -22,7 +22,79 @@ class sfPHPView extends sfView
     /**
      * Executes any presentation logic for this view.
      */
-    public function execute() {}
+    public function execute()
+    {
+    }
+
+    /**
+     * Retrieves the template engine associated with this view.
+     *
+     * Note: This will return null because PHP itself has no engine reference.
+     */
+    public function getEngine()
+    {
+        return null;
+    }
+
+    /**
+     * Configures template.
+     */
+    public function configure()
+    {
+        // store our current view
+        $this->context->set('view_instance', $this);
+
+        // require our configuration
+        require $this->context->getConfigCache()->checkConfig('modules/'.$this->moduleName.'/config/view.yml');
+
+        // set template directory
+        if (!$this->directory) {
+            $this->setDirectory($this->context->getConfiguration()->getTemplateDir($this->moduleName, $this->getTemplate()));
+        }
+    }
+
+    /**
+     * Renders the presentation.
+     *
+     * @return string A string representing the rendered presentation
+     */
+    public function render()
+    {
+        $content = null;
+        if (sfConfig::get('sf_cache')) {
+            $viewCache = $this->context->getViewCacheManager();
+            $uri = $viewCache->getCurrentCacheKey();
+
+            if (null !== $uri) {
+                list($content, $decoratorTemplate) = $viewCache->getActionCache($uri);
+                if (null !== $content) {
+                    $this->setDecoratorTemplate($decoratorTemplate);
+                }
+            }
+        }
+
+        // render template if no cache
+        if (null === $content) {
+            // execute pre-render check
+            $this->preRenderCheck();
+
+            $this->attributeHolder->set('sf_type', 'action');
+
+            // render template file
+            $content = $this->renderFile($this->getDirectory().'/'.$this->getTemplate());
+
+            if (sfConfig::get('sf_cache') && null !== $uri) {
+                $content = $viewCache->setActionCache($uri, $content, $this->isDecorator() ? $this->getDecoratorDirectory().'/'.$this->getDecoratorTemplate() : false);
+            }
+        }
+
+        // now render decorator template, if one exists
+        if ($this->isDecorator()) {
+            $content = $this->decorate($content);
+        }
+
+        return $content;
+    }
 
     /**
      * Loads core and standard helpers to be use in the template.
@@ -78,33 +150,6 @@ class sfPHPView extends sfView
     }
 
     /**
-     * Retrieves the template engine associated with this view.
-     *
-     * Note: This will return null because PHP itself has no engine reference.
-     */
-    public function getEngine()
-    {
-        return null;
-    }
-
-    /**
-     * Configures template.
-     */
-    public function configure()
-    {
-        // store our current view
-        $this->context->set('view_instance', $this);
-
-        // require our configuration
-        require $this->context->getConfigCache()->checkConfig('modules/'.$this->moduleName.'/config/view.yml');
-
-        // set template directory
-        if (!$this->directory) {
-            $this->setDirectory($this->context->getConfiguration()->getTemplateDir($this->moduleName, $this->getTemplate()));
-        }
-    }
-
-    /**
      * Loop through all template slots and fill them in with the results of presentation data.
      *
      * @param string $content A chunk of decorator content
@@ -134,48 +179,5 @@ class sfPHPView extends sfView
         $this->attributeHolder = $attributeHolder;
 
         return $ret;
-    }
-
-    /**
-     * Renders the presentation.
-     *
-     * @return string A string representing the rendered presentation
-     */
-    public function render()
-    {
-        $content = null;
-        if (sfConfig::get('sf_cache')) {
-            $viewCache = $this->context->getViewCacheManager();
-            $uri = $viewCache->getCurrentCacheKey();
-
-            if (null !== $uri) {
-                list($content, $decoratorTemplate) = $viewCache->getActionCache($uri);
-                if (null !== $content) {
-                    $this->setDecoratorTemplate($decoratorTemplate);
-                }
-            }
-        }
-
-        // render template if no cache
-        if (null === $content) {
-            // execute pre-render check
-            $this->preRenderCheck();
-
-            $this->attributeHolder->set('sf_type', 'action');
-
-            // render template file
-            $content = $this->renderFile($this->getDirectory().'/'.$this->getTemplate());
-
-            if (sfConfig::get('sf_cache') && null !== $uri) {
-                $content = $viewCache->setActionCache($uri, $content, $this->isDecorator() ? $this->getDecoratorDirectory().'/'.$this->getDecoratorTemplate() : false);
-            }
-        }
-
-        // now render decorator template, if one exists
-        if ($this->isDecorator()) {
-            $content = $this->decorate($content);
-        }
-
-        return $content;
     }
 }

@@ -19,6 +19,45 @@ class sfCacheClearTask extends sfBaseTask
 {
     protected $config;
 
+    public function getFactoriesConfiguration(sfApplicationConfiguration $appConfiguration)
+    {
+        $app = $appConfiguration->getApplication();
+        $env = $appConfiguration->getEnvironment();
+
+        if (!isset($this->config[$app])) {
+            $this->config[$app] = array();
+        }
+
+        if (!isset($this->config[$app][$env])) {
+            $this->config[$app][$env] = sfFactoryConfigHandler::getConfiguration($appConfiguration->getConfigPaths('config/factories.yml'));
+        }
+
+        return $this->config[$app][$env];
+    }
+
+    public function cleanCacheFromFactoryConfig($class, $parameters = array())
+    {
+        if ($class) {
+            // the standard array with ['class'] and ['param'] can be passed as well
+            if (is_array($class)) {
+                if (!isset($class['class'])) {
+                    return;
+                }
+                if (isset($class['param'])) {
+                    $parameters = $class['param'];
+                }
+                $class = $class['class'];
+            }
+
+            try {
+                $cache = new $class($parameters);
+                $cache->clean();
+            } catch (Exception $e) {
+                $this->logSection('error', $e->getMessage(), 255, 'ERROR');
+            }
+        }
+    }
+
     /**
      * @see sfTask
      */
@@ -67,6 +106,9 @@ EOF;
 
     /**
      * @see sfTask
+     *
+     * @param mixed $arguments
+     * @param mixed $options
      */
     protected function execute($arguments = array(), $options = array())
     {
@@ -177,45 +219,6 @@ EOF;
         if (is_dir($subDir)) {
             // remove cache files
             $this->getFilesystem()->remove(sfFinder::type('file')->discard('.*')->in($subDir));
-        }
-    }
-
-    public function getFactoriesConfiguration(sfApplicationConfiguration $appConfiguration)
-    {
-        $app = $appConfiguration->getApplication();
-        $env = $appConfiguration->getEnvironment();
-
-        if (!isset($this->config[$app])) {
-            $this->config[$app] = array();
-        }
-
-        if (!isset($this->config[$app][$env])) {
-            $this->config[$app][$env] = sfFactoryConfigHandler::getConfiguration($appConfiguration->getConfigPaths('config/factories.yml'));
-        }
-
-        return $this->config[$app][$env];
-    }
-
-    public function cleanCacheFromFactoryConfig($class, $parameters = array())
-    {
-        if ($class) {
-            // the standard array with ['class'] and ['param'] can be passed as well
-            if (is_array($class)) {
-                if (!isset($class['class'])) {
-                    return;
-                }
-                if (isset($class['param'])) {
-                    $parameters = $class['param'];
-                }
-                $class = $class['class'];
-            }
-
-            try {
-                $cache = new $class($parameters);
-                $cache->clean();
-            } catch (Exception $e) {
-                $this->logSection('error', $e->getMessage(), 255, 'ERROR');
-            }
         }
     }
 

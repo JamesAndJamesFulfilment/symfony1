@@ -345,11 +345,6 @@ abstract class sfBrowserBase
     }
 
     /**
-     * Calls a request to a uri.
-     */
-    abstract protected function doCall();
-
-    /**
      * Go back in the browser history stack.
      *
      * @return sfBrowserBase
@@ -601,7 +596,7 @@ abstract class sfBrowserBase
      *  * method:   The method to used instead of the form ones
      *              (useful when you need to click on a link that is converted to a form with JavaScript code)
      *
-     * @param string|DOMElement $name      The link, button text, CSS selector or DOMElement
+     * @param DOMElement|string $name      The link, button text, CSS selector or DOMElement
      * @param array             $arguments The arguments to pass to the link
      * @param array             $options   An array of options
      *
@@ -825,34 +820,6 @@ abstract class sfBrowserBase
     }
 
     /**
-     * Parses arguments as array.
-     *
-     * @param string $name  The argument name
-     * @param string $value The argument value
-     * @param array  $vars
-     */
-    protected function parseArgumentAsArray($name, $value, &$vars)
-    {
-        if (false !== $pos = strpos($name, '[')) {
-            $var = &$vars;
-            $tmps = array_filter(preg_split('/(\[ | \[\] | \])/x', $name), function ($s) { return '' !== $s; });
-            foreach ($tmps as $tmp) {
-                $var = &$var[$tmp];
-            }
-            if ($var && '[]' === substr($name, -2)) {
-                if (!is_array($var)) {
-                    $var = array($var);
-                }
-                $var[] = $value;
-            } else {
-                $var = $value;
-            }
-        } else {
-            $vars[$name] = $value;
-        }
-    }
-
-    /**
      * Reset browser to original state.
      *
      * @return sfBrowserBase
@@ -906,6 +873,39 @@ abstract class sfBrowserBase
         }
 
         return $uri;
+    }
+
+    /**
+     * Calls a request to a uri.
+     */
+    abstract protected function doCall();
+
+    /**
+     * Parses arguments as array.
+     *
+     * @param string $name  The argument name
+     * @param string $value The argument value
+     * @param array  $vars
+     */
+    protected function parseArgumentAsArray($name, $value, &$vars)
+    {
+        if (false !== $pos = strpos($name, '[')) {
+            $var = &$vars;
+            $tmps = array_filter(preg_split('/(\[ | \[\] | \])/x', $name), function ($s) { return '' !== $s; });
+            foreach ($tmps as $tmp) {
+                $var = &$var[$tmp];
+            }
+            if ($var && '[]' === substr($name, -2)) {
+                if (!is_array($var)) {
+                    $var = array($var);
+                }
+                $var[] = $value;
+            } else {
+                $var = $value;
+            }
+        } else {
+            $vars[$name] = $value;
+        }
     }
 
     /**

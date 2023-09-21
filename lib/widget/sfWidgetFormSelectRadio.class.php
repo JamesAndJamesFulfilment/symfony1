@@ -18,35 +18,6 @@
 class sfWidgetFormSelectRadio extends sfWidgetFormChoiceBase
 {
     /**
-     * Constructor.
-     *
-     * Available options:
-     *
-     *  * choices:         An array of possible choices (required)
-     *  * label_separator: The separator to use between the input radio and the label
-     *  * separator:       The separator to use between each input radio
-     *  * class:           The class to use for the main <ul> tag
-     *  * formatter:       A callable to call to format the radio choices
-     *                     The formatter callable receives the widget and the array of inputs as arguments
-     *  * template:        The template to use when grouping option in groups (%group% %options%)
-     *
-     * @param array $options    An array of options
-     * @param array $attributes An array of default HTML attributes
-     *
-     * @see sfWidgetFormChoiceBase
-     */
-    protected function configure($options = array(), $attributes = array())
-    {
-        parent::configure($options, $attributes);
-
-        $this->addOption('class', 'radio_list');
-        $this->addOption('label_separator', '&nbsp;');
-        $this->addOption('separator', "\n");
-        $this->addOption('formatter', array($this, 'formatter'));
-        $this->addOption('template', '%group% %options%');
-    }
-
-    /**
      * Renders the widget.
      *
      * @param string $name       The element name
@@ -79,6 +50,45 @@ class sfWidgetFormSelectRadio extends sfWidgetFormChoiceBase
         return $this->formatChoices($name, $value, $choices, $attributes);
     }
 
+    public function formatter($widget, $inputs)
+    {
+        $rows = array();
+        foreach ($inputs as $input) {
+            $rows[] = $this->renderContentTag('li', $input['input'].$this->getOption('label_separator').$input['label']);
+        }
+
+        return !$rows ? '' : $this->renderContentTag('ul', implode($this->getOption('separator'), $rows), array('class' => $this->getOption('class')));
+    }
+
+    /**
+     * Constructor.
+     *
+     * Available options:
+     *
+     *  * choices:         An array of possible choices (required)
+     *  * label_separator: The separator to use between the input radio and the label
+     *  * separator:       The separator to use between each input radio
+     *  * class:           The class to use for the main <ul> tag
+     *  * formatter:       A callable to call to format the radio choices
+     *                     The formatter callable receives the widget and the array of inputs as arguments
+     *  * template:        The template to use when grouping option in groups (%group% %options%)
+     *
+     * @param array $options    An array of options
+     * @param array $attributes An array of default HTML attributes
+     *
+     * @see sfWidgetFormChoiceBase
+     */
+    protected function configure($options = array(), $attributes = array())
+    {
+        parent::configure($options, $attributes);
+
+        $this->addOption('class', 'radio_list');
+        $this->addOption('label_separator', '&nbsp;');
+        $this->addOption('separator', "\n");
+        $this->addOption('formatter', array($this, 'formatter'));
+        $this->addOption('template', '%group% %options%');
+    }
+
     protected function formatChoices($name, $value, $choices, $attributes)
     {
         $inputs = array();
@@ -101,15 +111,5 @@ class sfWidgetFormSelectRadio extends sfWidgetFormChoiceBase
         }
 
         return call_user_func($this->getOption('formatter'), $this, $inputs);
-    }
-
-    public function formatter($widget, $inputs)
-    {
-        $rows = array();
-        foreach ($inputs as $input) {
-            $rows[] = $this->renderContentTag('li', $input['input'].$this->getOption('label_separator').$input['label']);
-        }
-
-        return !$rows ? '' : $this->renderContentTag('ul', implode($this->getOption('separator'), $rows), array('class' => $this->getOption('class')));
     }
 }

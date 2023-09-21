@@ -66,14 +66,18 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
      *
      * Override this method if you want to customize your application configuration.
      */
-    public function configure() {}
+    public function configure()
+    {
+    }
 
     /**
      * Initialized the current configuration.
      *
      * Override this method if you want to customize your application initialization.
      */
-    public function initialize() {}
+    public function initialize()
+    {
+    }
 
     public function activate()
     {
@@ -142,21 +146,6 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
     }
 
     /**
-     * Initializes plugin configuration objects.
-     */
-    protected function initializePlugins()
-    {
-        foreach ($this->pluginConfigurations as $name => $configuration) {
-            if (
-                false === $configuration->initialize()
-                && is_readable($config = $configuration->getRootDir().'/config/config.php')
-            ) {
-                require $config;
-            }
-        }
-    }
-
-    /**
      * Adds enabled plugins to autoload config.
      *
      * @return array
@@ -217,31 +206,6 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
     }
 
     /**
-     * Determines if a lock file is present.
-     *
-     * @param string $lockFile            name of the lock file
-     * @param int    $maxLockFileLifeTime a max amount of life time for the lock file
-     *
-     * @return bool true, if the lock file is present, otherwise false
-     */
-    protected function hasLockFile($lockFile, $maxLockFileLifeTime = 0)
-    {
-        $isLocked = false;
-        if (is_readable($lockFile) && ($last_access = fileatime($lockFile))) {
-            $now = time();
-            $timeDiff = $now - $last_access;
-
-            if (!$maxLockFileLifeTime || $timeDiff < $maxLockFileLifeTime) {
-                $isLocked = true;
-            } else {
-                $isLocked = @unlink($lockFile) ? false : true;
-            }
-        }
-
-        return $isLocked;
-    }
-
-    /**
      * Sets the project root directory.
      *
      * @param string $rootDir The project root directory
@@ -281,6 +245,8 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
 
     /**
      * @see sfProjectConfiguration
+     *
+     * @param mixed $cacheDir
      */
     public function setCacheDir($cacheDir)
     {
@@ -635,5 +601,45 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
     public function isDebug()
     {
         return $this->debug;
+    }
+
+    /**
+     * Initializes plugin configuration objects.
+     */
+    protected function initializePlugins()
+    {
+        foreach ($this->pluginConfigurations as $name => $configuration) {
+            if (
+                false === $configuration->initialize()
+                && is_readable($config = $configuration->getRootDir().'/config/config.php')
+            ) {
+                require $config;
+            }
+        }
+    }
+
+    /**
+     * Determines if a lock file is present.
+     *
+     * @param string $lockFile            name of the lock file
+     * @param int    $maxLockFileLifeTime a max amount of life time for the lock file
+     *
+     * @return bool true, if the lock file is present, otherwise false
+     */
+    protected function hasLockFile($lockFile, $maxLockFileLifeTime = 0)
+    {
+        $isLocked = false;
+        if (is_readable($lockFile) && ($last_access = fileatime($lockFile))) {
+            $now = time();
+            $timeDiff = $now - $last_access;
+
+            if (!$maxLockFileLifeTime || $timeDiff < $maxLockFileLifeTime) {
+                $isLocked = true;
+            } else {
+                $isLocked = @unlink($lockFile) ? false : true;
+            }
+        }
+
+        return $isLocked;
     }
 }

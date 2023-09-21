@@ -73,6 +73,19 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
         $this->helps = $helps;
     }
 
+    public function __clone()
+    {
+        foreach ($this->fields as $name => $field) {
+            // offsetSet will clone the field and change the parent
+            $this[$name] = $field;
+        }
+
+        foreach ($this->formFormatters as &$formFormatter) {
+            $formFormatter = clone $formFormatter;
+            $formFormatter->setWidgetSchema($this);
+        }
+    }
+
     /**
      * Sets the default value for a field.
      *
@@ -619,7 +632,7 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
      *
      * @param string $name The field name
      *
-     * @return sfWidget|null The sfWidget instance associated with the given name, null if it does not exist
+     * @return null|sfWidget The sfWidget instance associated with the given name, null if it does not exist
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($name)
@@ -797,19 +810,6 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
 
             default:
                 throw new LogicException(sprintf('Unknown move operation for field "%s".', $field));
-        }
-    }
-
-    public function __clone()
-    {
-        foreach ($this->fields as $name => $field) {
-            // offsetSet will clone the field and change the parent
-            $this[$name] = $field;
-        }
-
-        foreach ($this->formFormatters as &$formFormatter) {
-            $formFormatter = clone $formFormatter;
-            $formFormatter->setWidgetSchema($this);
         }
     }
 }

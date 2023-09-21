@@ -23,83 +23,6 @@ abstract class sfDoctrineRecord extends Doctrine_Record
     protected static $_defaultCulture = 'en';
 
     /**
-     * Initializes internationalization.
-     *
-     * @see Doctrine_Record
-     */
-    public function construct()
-    {
-        if ($this->getTable()->hasRelation('Translation')) {
-            // only add filter to each table once
-            if (!$this->getTable()->getOption('has_symfony_i18n_filter')) {
-                $this->getTable()
-                    ->unshiftFilter(new sfDoctrineRecordI18nFilter())
-                    ->setOption('has_symfony_i18n_filter', true)
-                ;
-            }
-        }
-    }
-
-    /**
-     * Listens to the user.change_culture event.
-     *
-     * @param sfEvent An sfEvent instance
-     */
-    public static function listenToChangeCultureEvent(sfEvent $event)
-    {
-        self::$_defaultCulture = $event['culture'];
-    }
-
-    /**
-     * Sets the default culture.
-     *
-     * @param string $culture
-     */
-    public static function setDefaultCulture($culture)
-    {
-        self::$_defaultCulture = $culture;
-    }
-
-    /**
-     * Return the default culture.
-     *
-     * @return string the default culture
-     */
-    public static function getDefaultCulture()
-    {
-        if (!self::$_defaultCulture) {
-            throw new sfException('The default culture has not been set');
-        }
-
-        return self::$_defaultCulture;
-    }
-
-    /**
-     * Returns the current record's primary key.
-     *
-     * This a proxy method to {@link Doctrine_Record::identifier()} for
-     * compatibility with a Propel-style API.
-     *
-     * @return mixed The value of the current model's last identifier column
-     */
-    public function getPrimaryKey()
-    {
-        $identifier = (array) $this->identifier();
-
-        return end($identifier);
-    }
-
-    /**
-     * Function require by symfony >= 1.2 admin generators.
-     *
-     * @return bool
-     */
-    public function isNew()
-    {
-        return !$this->exists();
-    }
-
-    /**
      * Returns a string representation of the record.
      *
      * @return string A string representation of the record
@@ -192,11 +115,88 @@ abstract class sfDoctrineRecord extends Doctrine_Record
     }
 
     /**
+     * Initializes internationalization.
+     *
+     * @see Doctrine_Record
+     */
+    public function construct()
+    {
+        if ($this->getTable()->hasRelation('Translation')) {
+            // only add filter to each table once
+            if (!$this->getTable()->getOption('has_symfony_i18n_filter')) {
+                $this->getTable()
+                    ->unshiftFilter(new sfDoctrineRecordI18nFilter())
+                    ->setOption('has_symfony_i18n_filter', true)
+                ;
+            }
+        }
+    }
+
+    /**
+     * Listens to the user.change_culture event.
+     *
+     * @param sfEvent An sfEvent instance
+     */
+    public static function listenToChangeCultureEvent(sfEvent $event)
+    {
+        self::$_defaultCulture = $event['culture'];
+    }
+
+    /**
+     * Sets the default culture.
+     *
+     * @param string $culture
+     */
+    public static function setDefaultCulture($culture)
+    {
+        self::$_defaultCulture = $culture;
+    }
+
+    /**
+     * Return the default culture.
+     *
+     * @return string the default culture
+     */
+    public static function getDefaultCulture()
+    {
+        if (!self::$_defaultCulture) {
+            throw new sfException('The default culture has not been set');
+        }
+
+        return self::$_defaultCulture;
+    }
+
+    /**
+     * Returns the current record's primary key.
+     *
+     * This a proxy method to {@link Doctrine_Record::identifier()} for
+     * compatibility with a Propel-style API.
+     *
+     * @return mixed The value of the current model's last identifier column
+     */
+    public function getPrimaryKey()
+    {
+        $identifier = (array) $this->identifier();
+
+        return end($identifier);
+    }
+
+    /**
+     * Function require by symfony >= 1.2 admin generators.
+     *
+     * @return bool
+     */
+    public function isNew()
+    {
+        return !$this->exists();
+    }
+
+    /**
      * Get the Doctrine date value as a PHP DateTime object, null if the value is not set.
      *
      * @param string $dateFieldName The field name to get the DateTime object for
      *
-     * @return DateTime|null $dateTime     The instance of PHPs DateTime
+     * @return null|DateTime $dateTime     The instance of PHPs DateTime
      *
      * @throws sfException if the field is not one of date, datetime, or timestamp types
      */

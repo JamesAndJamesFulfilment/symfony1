@@ -130,7 +130,7 @@ class sfWebDebug
      * Gets an option value by name.
      *
      * @param string     $name    The option name
-     * @param mixed|null $default
+     * @param null|mixed $default
      *
      * @return mixed The option value
      */
@@ -188,14 +188,16 @@ class sfWebDebug
             if ($title = $panel->getTitle()) {
                 if (($content = $panel->getPanelContent()) || $panel->getTitleUrl()) {
                     $id = sprintf('sfWebDebug%sDetails', $name);
-                    $titles[] = sprintf('<li%s><a title="%s" href="%s"%s>%s</a></li>',
+                    $titles[] = sprintf(
+                        '<li%s><a title="%s" href="%s"%s>%s</a></li>',
                         $panel->getStatus() ? ' class="sfWebDebug'.ucfirst($this->getPriority($panel->getStatus())).'"' : '',
                         $panel->getPanelTitle(),
                         $panel->getTitleUrl() ?: '#',
                         $panel->getTitleUrl() ? '' : ' onclick="sfWebDebugShowDetailsFor(\''.$id.'\'); return false;"',
                         $title
                     );
-                    $panels[] = sprintf('<div id="%s" class="sfWebDebugTop" style="display:%s"><h1>%s</h1>%s</div>',
+                    $panels[] = sprintf(
+                        '<div id="%s" class="sfWebDebugTop" style="display:%s"><h1>%s</h1>%s</div>',
                         $id,
                         $name == $current ? 'block' : 'none',
                         $panel->getPanelTitle(),

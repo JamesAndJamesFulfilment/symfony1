@@ -23,10 +23,10 @@ abstract class sfDatabase
     /** @var sfParameterHolder */
     protected $parameterHolder;
 
-    /** @var resource|PDO */
+    /** @var PDO|resource */
     protected $connection;
 
-    /** @var resource|PDO (It's interchangeable with. Can be dropped at all.) */
+    /** @var PDO|resource (It's interchangeable with. Can be dropped at all.) */
     protected $resource;
 
     /**

@@ -24,7 +24,9 @@ class sfTesterViewCache extends sfTester
     /**
      * Prepares the tester.
      */
-    public function prepare() {}
+    public function prepare()
+    {
+    }
 
     /**
      * Initializes the tester.
@@ -42,7 +44,7 @@ class sfTesterViewCache extends sfTester
      * @param bool $boolean     Flag for checking the cache
      * @param bool $with_layout If have or not layout
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function isCached($boolean, $with_layout = false)
     {
@@ -56,7 +58,7 @@ class sfTesterViewCache extends sfTester
      * @param bool   $boolean     Flag for checking the cache
      * @param bool   $with_layout If have or not layout
      *
-     * @return sfTestFunctionalBase|sfTester
+     * @return sfTester|sfTestFunctionalBase
      */
     public function isUriCached($uri, $boolean, $with_layout = false)
     {

@@ -65,17 +65,20 @@ $t->is(truncate_text($text, 200, '[...]', false, '/[.]\s+?/', 0), $result, 'trun
 
 // highlight_text()
 $t->diag('highlight_text()');
-$t->is(highlight_text('This is a beautiful morning', 'beautiful'),
+$t->is(
+    highlight_text('This is a beautiful morning', 'beautiful'),
     'This is a <strong class="highlight">beautiful</strong> morning',
     'text_highlighter() highlights a word given as its second argument'
 );
 
-$t->is(highlight_text('This is a beautiful morning, but also a beautiful day', 'beautiful'),
+$t->is(
+    highlight_text('This is a beautiful morning, but also a beautiful day', 'beautiful'),
     'This is a <strong class="highlight">beautiful</strong> morning, but also a <strong class="highlight">beautiful</strong> day',
     'text_highlighter() highlights all occurrences of a word given as its second argument'
 );
 
-$t->is(highlight_text('This is a beautiful morning, but also a beautiful day', 'beautiful', '<b>\\1</b>'),
+$t->is(
+    highlight_text('This is a beautiful morning, but also a beautiful day', 'beautiful', '<b>\\1</b>'),
     'This is a <b>beautiful</b> morning, but also a <b>beautiful</b> day',
     'text_highlighter() takes a pattern as its third argument'
 );

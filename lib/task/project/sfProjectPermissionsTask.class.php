@@ -21,6 +21,22 @@ class sfProjectPermissionsTask extends sfBaseTask
     protected $failed = array();
 
     /**
+     * Captures those chmod commands that fail.
+     *
+     * @see http://www.php.net/set_error_handler
+     *
+     * @param mixed $no
+     * @param mixed $string
+     * @param mixed $file
+     * @param mixed $line
+     * @param mixed $context
+     */
+    public function handleError($no, $string, $file, $line, $context)
+    {
+        $this->failed[] = $this->current;
+    }
+
+    /**
      * @see sfTask
      */
     protected function configure()
@@ -38,6 +54,9 @@ EOF;
 
     /**
      * @see sfTask
+     *
+     * @param mixed $arguments
+     * @param mixed $options
      */
     protected function execute($arguments = array(), $options = array())
     {
@@ -96,15 +115,5 @@ EOF;
 
             restore_error_handler();
         }
-    }
-
-    /**
-     * Captures those chmod commands that fail.
-     *
-     * @see http://www.php.net/set_error_handler
-     */
-    public function handleError($no, $string, $file, $line, $context)
-    {
-        $this->failed[] = $this->current;
     }
 }
