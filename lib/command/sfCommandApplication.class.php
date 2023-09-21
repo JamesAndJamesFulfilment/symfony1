@@ -368,11 +368,13 @@ abstract class sfCommandApplication
 
         if ($this->commandManager->getOptionSet()->hasOption('help') && false !== $this->commandManager->getOptionValue('help')) {
             $this->help();
+
             exit(0);
         }
 
         if ($this->commandManager->getOptionSet()->hasOption('version') && false !== $this->commandManager->getOptionValue('version')) {
             echo $this->getLongVersion();
+
             exit(0);
         }
     }

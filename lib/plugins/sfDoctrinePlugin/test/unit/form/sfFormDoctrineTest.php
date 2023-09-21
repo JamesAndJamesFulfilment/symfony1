@@ -1,6 +1,7 @@
 <?php
 
 $app = 'frontend';
+
 include __DIR__.'/../../bootstrap/functional.php';
 
 $t = new lime_test(13);

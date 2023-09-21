@@ -127,6 +127,7 @@ EOF;
         if ($options['installer'] && $this->commandApplication) {
             if ($this->canRunInstaller($options['installer'])) {
                 $this->reloadTasks();
+
                 include $options['installer'];
             }
         }

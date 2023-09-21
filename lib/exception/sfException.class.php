@@ -214,6 +214,7 @@ class sfException extends Exception
         if ($template = self::getTemplatePathForError($format, true)) {
             if (isset($dispatcher)) {
                 ob_start();
+
                 include $template;
                 $content = ob_get_clean();
 

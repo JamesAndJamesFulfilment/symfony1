@@ -21,11 +21,13 @@ require_once __DIR__.'/../../lib/task/sfFilesystem.class.php';
 
 if (!isset($argv[1])) {
     echo "You must provide a revision range (-r123:456)\n";
+
     exit(1);
 }
 
 if (!isset($argv[2])) {
     echo "You must provide a repository path (/branches/1.4)\n";
+
     exit(1);
 }
 

@@ -18,7 +18,18 @@ $config = new PhpCsFixer\Config();
 $config->setRules(array(
     '@PhpCsFixer' => true,
     '@Symfony' => true,
-    'blank_line_before_statement' => true,
+    'blank_line_before_statement' => array(
+        'statements' => array(
+            'break',
+            'continue',
+            'declare',
+            'exit',
+            'include',
+            'return',
+            'throw',
+            'try',
+        ),
+    ),
     'array_syntax' => array(
         'syntax' => 'long',
     ),
