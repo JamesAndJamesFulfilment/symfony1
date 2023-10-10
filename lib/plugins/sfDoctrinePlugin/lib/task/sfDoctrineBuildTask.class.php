@@ -261,7 +261,7 @@ EOF;
         $mode = 0;
         foreach ($this->getBuildOptions() as $name => $value) {
             if (isset($options[$name]) && true === $options[$name]) {
-                $mode = $mode | $value;
+                $mode |= $value;
             }
         }
 

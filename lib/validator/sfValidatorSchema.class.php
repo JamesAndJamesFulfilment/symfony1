@@ -372,7 +372,7 @@ class sfValidatorSchema extends sfValidatorBase implements ArrayAccess
 
         if (array_key_exists($modifier, $exp_by_modifier)) {
             $exp = $exp_by_modifier[$modifier];
-            $number = $number * pow(1024, $exp);
+            $number *= pow(1024, $exp);
         }
 
         return $number;
