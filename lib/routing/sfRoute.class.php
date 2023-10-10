@@ -465,8 +465,8 @@ class sfRoute implements Serializable
      */
     protected function generateCacheKey(array $elements = array(), bool $absolute = false): string
     {
-        $elements = array(
-            SharedCacheHelper::ROUTING_NAMESPACE,
+        $elements = array_merge(
+            [SharedCacheHelper::ROUTING_NAMESPACE],
             $this->flattenArrayElements($elements),
         );
 
@@ -489,7 +489,7 @@ class sfRoute implements Serializable
             $flattened[] = $key;
 
             if (is_array($value)) {
-                $flattened[] = $this->flattenArrayElements($value);
+                $flattened = array_merge($flattened, $this->flattenArrayElements($value));
 
                 continue;
             }
