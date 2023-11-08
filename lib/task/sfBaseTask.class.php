@@ -98,6 +98,8 @@ abstract class sfBaseTask extends sfCommandApplicationTask
 
     /**
      * @see sfTask
+     *
+     * @param mixed $options
      */
     protected function doRun(sfCommandManager $commandManager, $options)
     {

@@ -827,6 +827,8 @@ class sfWebResponse extends sfResponse
 
     /**
      * @see sfResponse
+     *
+     * @param mixed $serialized
      */
     public function unserialize($serialized)
     {
