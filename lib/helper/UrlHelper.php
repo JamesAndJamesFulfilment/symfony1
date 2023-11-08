@@ -120,9 +120,6 @@ function url_for1($internal_uri, $absolute = false)
  *    => http://myapp.example.com/path/to/my/action
  * </code>
  *
- * @param string $internal_uri 'module/action' or '@rule' of the action
- * @param bool   $absolute     return absolute path?
- *
  * @return string routed URL
  */
 function url_for()
@@ -168,10 +165,6 @@ function url_for()
  *  echo link_to('Delete this page', 'my_module/my_action', array('id' => 'myid', 'confirm' => 'Are you sure?', 'absolute' => true));
  *    => <a href="http://myapp.example.com/path/to/my/action" id="myid" onclick="return confirm('Are you sure?');">Delete this page</a>
  * </code>
- *
- * @param string $name         name of the link, i.e. string to appear between the <a> tags
- * @param string $internal_uri 'module/action' or '@rule' of the action
- * @param array  $options      additional HTML compliant <a> tag parameters
  *
  * @return string XHTML compliant <a href> tag
  *
@@ -233,11 +226,6 @@ function form_tag_for(sfForm $form, $routePrefix, $attributes = array())
  *    => <span>Delete this page</span>
  * </code>
  *
- * @param bool   $condition    condition
- * @param string $name         name of the link, i.e. string to appear between the <a> tags
- * @param string $internal_uri 'module/action' or '@rule' of the action
- * @param array  $options      additional HTML compliant <a> tag parameters
- *
  * @return string XHTML compliant <a href> tag or name
  *
  * @see    link_to
@@ -288,11 +276,6 @@ function link_to_if()
  *  echo link_to_unless(!$user->isAdministrator(), 'Delete this page', 'my_module/my_action');
  *    => <a href="/path/to/my/action">Delete this page</a>
  * </code>
- *
- * @param bool   $condition    condition
- * @param string $name         name of the link, i.e. string to appear between the <a> tags
- * @param string $internal_uri 'module/action' or '@rule' of the action
- * @param array  $options      additional HTML compliant <a> tag parameters
  *
  * @return string XHTML compliant <a href> tag or name
  *

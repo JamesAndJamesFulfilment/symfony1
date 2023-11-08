@@ -21,7 +21,7 @@
  */
 class sfException extends Exception
 {
-    /** @var Exception|Throwable|null */
+    /** @var null|Exception|Throwable */
     protected $wrappedException;
 
     protected static $lastException;

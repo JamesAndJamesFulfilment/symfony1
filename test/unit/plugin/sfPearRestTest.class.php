@@ -25,7 +25,7 @@ class sfPearRestTest extends sfPearRest
      * @see PEAR_REST::downloadHttp()
      *
      * @param mixed      $url
-     * @param mixed|null $lastmodified
+     * @param null|mixed $lastmodified
      * @param mixed      $accept
      * @param mixed      $channel
      */

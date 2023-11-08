@@ -178,7 +178,7 @@ abstract class sfPager implements Iterator, Countable
     /**
      * Returns the next object.
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     public function getNext()
     {
@@ -192,7 +192,7 @@ abstract class sfPager implements Iterator, Countable
     /**
      * Returns the previous object.
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     public function getPrevious()
     {

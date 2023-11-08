@@ -23,11 +23,8 @@ abstract class sfBaseTask extends sfCommandApplicationTask
     protected $filesystem;
     protected $tokens = array();
 
-
     /**
      * Sets the current task's configuration.
-     *
-     * @param sfProjectConfiguration $configuration
      */
     public function setConfiguration(sfProjectConfiguration $configuration = null)
     {
@@ -101,7 +98,6 @@ abstract class sfBaseTask extends sfCommandApplicationTask
 
     /**
      * @see sfTask
-     * {@inheritdoc}
      */
     protected function doRun(sfCommandManager $commandManager, $options)
     {

@@ -21,8 +21,8 @@
  * @param mixed      $length
  * @param mixed      $truncate_string
  * @param mixed      $truncate_lastspace
- * @param mixed|null $truncate_pattern
- * @param mixed|null $length_max
+ * @param null|mixed $truncate_pattern
+ * @param null|mixed $length_max
  */
 
 /**

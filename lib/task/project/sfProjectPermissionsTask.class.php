@@ -29,7 +29,7 @@ class sfProjectPermissionsTask extends sfBaseTask
      * @param mixed      $string
      * @param mixed      $file
      * @param mixed      $line
-     * @param mixed|null $context
+     * @param null|mixed $context
      */
     public function handleError($no, $string, $file, $line, $context = null)
     {

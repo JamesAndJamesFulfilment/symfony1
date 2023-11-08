@@ -29,8 +29,8 @@ class sfPearDownloaderTest extends sfPearDownloader
      * @param mixed      $url
      * @param mixed      $ui
      * @param mixed      $save_dir
-     * @param mixed|null $callback
-     * @param mixed|null $lastmodified
+     * @param null|mixed $callback
+     * @param null|mixed $lastmodified
      * @param mixed      $accept
      * @param mixed      $channel
      */

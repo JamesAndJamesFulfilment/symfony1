@@ -103,7 +103,7 @@ class sfWebDebugPanelView extends sfWebDebugPanel
      *
      * @param string $class Name of the rendering view class
      *
-     * @return string|null
+     * @return null|string
      */
     protected function getLastTemplate($class = 'sfPHPView')
     {
@@ -255,8 +255,8 @@ class sfWebDebugPanelView extends sfWebDebugPanel
      *
      * @param string     $name
      * @param mixed      $parameter
-     * @param mixed|null $nameFormat
-     * @param mixed|null $typeFormat
+     * @param null|mixed $nameFormat
+     * @param null|mixed $typeFormat
      *
      * @return string
      */

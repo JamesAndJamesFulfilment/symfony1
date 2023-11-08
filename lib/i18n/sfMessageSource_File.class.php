@@ -162,8 +162,8 @@ abstract class sfMessageSource_File extends sfMessageSource
      * of directory structures.
      * E.g. array('messages', 'en_AU').
      *
-     * @param mixed|null $dir
-     * @param mixed|null $variant
+     * @param null|mixed $dir
+     * @param null|mixed $variant
      *
      * @return array list of catalogues
      */

@@ -250,7 +250,7 @@ abstract class sfWidgetForm extends sfWidget
      *
      * If no schema has been set with setWidgetSchema(), NULL is returned.
      *
-     * @return sfWidgetFormSchema|null
+     * @return null|sfWidgetFormSchema
      */
     public function getParent()
     {

@@ -61,7 +61,7 @@ abstract class sfDoctrineBaseTask extends sfBaseTask
     /**
      * Returns Doctrine databases from the supplied database manager.
      *
-     * @param array|null $names An array of names or NULL for all databases
+     * @param null|array $names An array of names or NULL for all databases
      *
      * @return array An associative array of {@link sfDoctrineDatabase} objects and their names
      *

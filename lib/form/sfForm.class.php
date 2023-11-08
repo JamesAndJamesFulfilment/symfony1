@@ -39,7 +39,7 @@ class sfForm implements ArrayAccess, Iterator, Countable
     /** @var sfValidatorError[]|sfValidatorErrorSchema */
     protected $errorSchema;
 
-    /** @var sfFormFieldSchema|null */
+    /** @var null|sfFormFieldSchema */
     protected $formFieldSchema;
 
     /** @var sfFormField[] */
@@ -255,9 +255,6 @@ class sfForm implements ArrayAccess, Iterator, Countable
 
     /**
      * Bind embedded forms (recursivly).
-     *
-     * @param array $taintedValues
-     * @param array $taintedFiles
      */
     public function bindEmbeddedForms(array $taintedValues = null, array $taintedFiles = null)
     {

@@ -578,8 +578,7 @@ class sfWebRequest extends sfRequest
         return
           (isset($pathArray['HTTPS']) && ('on' == strtolower($pathArray['HTTPS']) || 1 == $pathArray['HTTPS']))
           || ($this->getOption('trust_proxy') && isset($pathArray['HTTP_SSL_HTTPS']) && ('on' == strtolower($pathArray['HTTP_SSL_HTTPS']) || 1 == $pathArray['HTTP_SSL_HTTPS']))
-          || ($this->getOption('trust_proxy') && $this->isForwardedSecure())
-        ;
+          || ($this->getOption('trust_proxy') && $this->isForwardedSecure());
     }
 
     /**
@@ -847,7 +846,7 @@ class sfWebRequest extends sfRequest
      * This method returns null if no proxy passed this request. Note that some proxies
      * do not use this header, and act as if they were the client.
      *
-     * @return string|null an array of IP from the client and the proxies that passed
+     * @return null|string an array of IP from the client and the proxies that passed
      *                     the request, or null if no proxy was used
      */
     public function getForwardedFor()

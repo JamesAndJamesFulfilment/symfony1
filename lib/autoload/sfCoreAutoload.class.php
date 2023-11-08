@@ -466,7 +466,7 @@ class sfCoreAutoload
      *
      * @param string $class The class name (case insensitive)
      *
-     * @return string|null An absolute path or null
+     * @return null|string An absolute path or null
      */
     public function getClassPath($class)
     {

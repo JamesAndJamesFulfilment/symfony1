@@ -152,7 +152,7 @@ EOF;
     /**
      * Renders the supplied value.
      *
-     * @param string|null $value
+     * @param null|string $value
      *
      * @return string
      */

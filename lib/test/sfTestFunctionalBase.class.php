@@ -197,8 +197,7 @@ abstract class sfTestFunctionalBase
             isParameter('module', $module)->
             isParameter('action', $action)->
           end()->
-          with('response')->isStatusCode($code)
-        ;
+          with('response')->isStatusCode($code);
     }
 
     /**

@@ -20,7 +20,7 @@ abstract class sfRouting
     /** @var sfEventDispatcher */
     protected $dispatcher;
 
-    /** @var sfCache|null */
+    /** @var null|sfCache */
     protected $cache;
     protected $defaultParameters = array();
     protected $options = array();
@@ -30,8 +30,7 @@ abstract class sfRouting
      *
      * @see initialize()
      *
-     * @param sfCache $cache
-     * @param array   $options
+     * @param array $options
      */
     public function __construct(sfEventDispatcher $dispatcher, sfCache $cache = null, $options = array())
     {

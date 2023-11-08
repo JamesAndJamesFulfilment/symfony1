@@ -86,7 +86,7 @@ class sfAutoload
      *
      * @param string $class A PHP class name
      *
-     * @return string|null An absolute path
+     * @return null|string An absolute path
      */
     public function getClassPath($class)
     {

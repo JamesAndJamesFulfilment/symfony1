@@ -74,7 +74,7 @@ abstract class sfModelGeneratorConfiguration
 
     /**
      * @param string        $context
-     * @param string[]|null $fields
+     * @param null|string[] $fields
      *
      * @return array|sfModelGeneratorConfigurationField[]
      */

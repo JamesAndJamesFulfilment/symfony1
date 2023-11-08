@@ -111,7 +111,7 @@ class sfDoctrineDatabase extends sfDatabase
     /**
      * Returns the connection profiler.
      *
-     * @return sfDoctrineConnectionProfiler|null
+     * @return null|sfDoctrineConnectionProfiler
      */
     public function getProfiler()
     {
