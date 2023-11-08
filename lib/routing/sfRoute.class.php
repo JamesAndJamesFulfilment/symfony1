@@ -238,12 +238,6 @@ class sfRoute implements Serializable
             throw new InvalidArgumentException($message);
         }
 
-        $cache_key = $this->generateCacheKey($tparams, $absolute);
-        $cached = SharedCacheHelper::getValue($cache_key);
-        if ($cached) {
-            return $cached;
-        }
-
         if ($this->options['generate_shortest_url'] || $this->customToken) {
             $url = $this->generateWithTokens($tparams);
         } else {
@@ -268,12 +262,6 @@ class sfRoute implements Serializable
                 $url .= '?'.http_build_query($extra);
             }
         }
-
-        SharedCacheHelper::setValue(
-            $cache_key,
-            $url,
-            SharedCacheHelper::THREE_MONTHS
-        );
 
         return $url;
     }
@@ -458,46 +446,6 @@ class sfRoute implements Serializable
         $array = unserialize($serialized);
 
         $this->__unserialize($array);
-    }
-
-    /**
-     * Generates a consistent cache key for a route.
-     */
-    protected function generateCacheKey(array $elements = array(), bool $absolute = false): string
-    {
-        $elements = array_merge(
-            [SharedCacheHelper::ROUTING_NAMESPACE],
-            $this->flattenArrayElements($elements),
-        );
-
-        if ($absolute) {
-            $elements[] = 'Absolute';
-        }
-
-        return SharedCacheHelper::getNamespace($elements);
-    }
-
-    /**
-     * Recursive method to pack a key => value pair array down into a flat
-     * numerically-indexed array, with a consistent ordering of elements.
-     */
-    protected function flattenArrayElements(array $elements = array()): array
-    {
-        $flattened = array();
-        ksort($elements);
-        foreach ($elements as $key => $value) {
-            $flattened[] = $key;
-
-            if (is_array($value)) {
-                $flattened = array_merge($flattened, $this->flattenArrayElements($value));
-
-                continue;
-            }
-
-            $flattened[] = $value;
-        }
-
-        return $flattened;
     }
 
     /**
