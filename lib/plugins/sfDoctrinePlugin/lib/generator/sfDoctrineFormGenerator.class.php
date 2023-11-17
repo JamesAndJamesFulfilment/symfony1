@@ -21,6 +21,11 @@
  */
 class sfDoctrineFormGenerator extends sfGenerator
 {
+    public $params = array();
+
+    public $table;
+    public $modelName;
+
     /**
      * Array of all the loaded models.
      *
