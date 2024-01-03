@@ -232,8 +232,6 @@ abstract class sfFormDoctrine extends sfFormObject
 
     /**
      * @see sfFormObject
-     *
-     * @param mixed $values
      */
     protected function doUpdateObject($values)
     {

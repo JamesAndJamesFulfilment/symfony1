@@ -137,7 +137,6 @@ class sfYamlInline
      * @param string $delimiters
      * @param int    $i
      * @param bool   $evaluate
-     * @param mixed  $stringDelimiters
      *
      * @return string A YAML string
      */

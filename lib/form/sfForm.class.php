@@ -762,8 +762,6 @@ class sfForm implements ArrayAccess, Iterator, Countable
      *
      * @param string $name    The option name
      * @param mixed  $default The default value (null by default)
-     *
-     * @return mixed
      */
     public function getOption($name, $default = null)
     {

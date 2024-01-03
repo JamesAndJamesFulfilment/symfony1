@@ -31,8 +31,6 @@ class sfSQLiteCache extends sfCache
      * * see sfCache for options available for all drivers
      *
      * @see sfCache
-     *
-     * @param mixed $options
      */
     public function initialize($options = array())
     {
@@ -64,8 +62,7 @@ class sfSQLiteCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param null|mixed $default
-     * @param mixed      $key
+     * @param mixed|null $default
      */
     public function get($key, $default = null)
     {
@@ -80,8 +77,6 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
-     *
-     * @param mixed $key
      */
     public function has($key)
     {
@@ -95,9 +90,7 @@ class sfSQLiteCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param null|mixed $lifetime
-     * @param mixed      $key
-     * @param mixed      $data
+     * @param mixed|null $lifetime
      */
     public function set($key, $data, $lifetime = null)
     {
@@ -114,8 +107,6 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
-     *
-     * @param mixed $key
      */
     public function remove($key)
     {
@@ -128,8 +119,6 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
-     *
-     * @param mixed $pattern
      */
     public function removePattern($pattern)
     {
@@ -142,8 +131,6 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
-     *
-     * @param mixed $mode
      */
     public function clean($mode = sfCache::ALL)
     {
@@ -162,8 +149,6 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
-     *
-     * @param mixed $key
      */
     public function getTimeout($key)
     {
@@ -180,8 +165,6 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
-     *
-     * @param mixed $key
      */
     public function getLastModified($key)
     {
@@ -211,8 +194,6 @@ class sfSQLiteCache extends sfCache
 
     /**
      * @see sfCache
-     *
-     * @param mixed $keys
      */
     public function getMany($keys)
     {

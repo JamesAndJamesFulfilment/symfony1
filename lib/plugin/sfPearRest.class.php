@@ -22,10 +22,7 @@ class sfPearRest extends PEAR_REST
     /**
      * @see PEAR_REST::downloadHttp()
      *
-     * @param mixed      $url
-     * @param null|mixed $lastmodified
-     * @param mixed      $accept
-     * @param mixed      $channel
+     * @param mixed|null $lastmodified
      */
     public function downloadHttp($url, $lastmodified = null, $accept = false, $channel = false)
     {

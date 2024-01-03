@@ -44,8 +44,6 @@ class sfPatternRouting extends sfRouting
      *                                      cache backend (like sfAPCCache).
      *
      * @see sfRouting
-     *
-     * @param mixed $options
      */
     public function initialize(sfEventDispatcher $dispatcher, sfCache $cache = null, $options = array())
     {
@@ -86,9 +84,6 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
-     *
-     * @param mixed $key
-     * @param mixed $value
      */
     public function setDefaultParameter($key, $value)
     {
@@ -103,8 +98,6 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
-     *
-     * @param mixed $parameters
      */
     public function setDefaultParameters($parameters)
     {
@@ -119,8 +112,6 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
-     *
-     * @param mixed $withRouteName
      */
     public function getCurrentInternalUri($withRouteName = false)
     {
@@ -147,8 +138,6 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see  sfRouting
-     *
-     * @param mixed $name
      */
     public function getRoute($name)
     {
@@ -168,8 +157,6 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
-     *
-     * @param mixed $routes
      */
     public function setRoutes($routes)
     {
@@ -313,10 +300,6 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
-     *
-     * @param mixed $name
-     * @param mixed $params
-     * @param mixed $absolute
      */
     public function generate($name, $params = array(), $absolute = false)
     {
@@ -357,8 +340,6 @@ class sfPatternRouting extends sfRouting
 
     /**
      * @see sfRouting
-     *
-     * @param mixed $url
      */
     public function parse($url)
     {

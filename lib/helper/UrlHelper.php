@@ -14,11 +14,6 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  *
  * @version    SVN: $Id$
- *
- * @param mixed $name
- * @param mixed $routeName
- * @param mixed $params
- * @param mixed $options
  */
 
 /**
@@ -33,10 +28,6 @@ function link_to2($name, $routeName, $params, $options = array())
 
 /**
  * @ignore
- *
- * @param mixed $name
- * @param mixed $internal_uri
- * @param mixed $options
  */
 function link_to1($name, $internal_uri, $options = array())
 {
@@ -83,10 +74,6 @@ function link_to1($name, $internal_uri, $options = array())
 
 /**
  * @ignore
- *
- * @param mixed $routeName
- * @param mixed $params
- * @param mixed $absolute
  */
 function url_for2($routeName, $params = array(), $absolute = false)
 {
@@ -97,9 +84,6 @@ function url_for2($routeName, $params = array(), $absolute = false)
 
 /**
  * @ignore
- *
- * @param mixed $internal_uri
- * @param mixed $absolute
  */
 function url_for1($internal_uri, $absolute = false)
 {

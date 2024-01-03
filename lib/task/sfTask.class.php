@@ -189,7 +189,7 @@ abstract class sfTask
      * @param string     $name
      * @param int        $mode
      * @param string     $help
-     * @param null|mixed $default
+     * @param mixed|null $default
      */
     public function addArgument($name, $mode = null, $help = '', $default = null)
     {
@@ -227,7 +227,7 @@ abstract class sfTask
      * @param string     $shortcut
      * @param int        $mode
      * @param string     $help
-     * @param null|mixed $default
+     * @param mixed|null $default
      */
     public function addOption($name, $shortcut = null, $mode = null, $help = '', $default = null)
     {
@@ -473,8 +473,6 @@ abstract class sfTask
      *
      * @param array|string $question
      *
-     * @return mixed
-     *
      * @throws sfValidatorError
      */
     public function askAndValidate($question, sfValidatorBase $validator, array $options = array())
@@ -667,7 +665,7 @@ abstract class sfTask
         $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
         $i = floor(log($size, 1024));
 
-        return @round($size / pow(1024, $i), 2)." {$unit[$i]}";
+        return @round($size / pow(1024, $i), 2) . " {$unit[$i]}";
     }
 
     /**

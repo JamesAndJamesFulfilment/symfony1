@@ -27,9 +27,7 @@ class sfFormSymfony extends sfForm
      *
      * @see sfForm
      *
-     * @param null|mixed $CSRFSecret
-     * @param mixed      $defaults
-     * @param mixed      $options
+     * @param mixed|null $CSRFSecret
      */
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null)
     {
