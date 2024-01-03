@@ -21,6 +21,9 @@ class sfWidgetFormDoctrineChoice extends sfWidgetFormChoice
 {
     /**
      * @see sfWidget
+     *
+     * @param mixed $options
+     * @param mixed $attributes
      */
     public function __construct($options = array(), $attributes = array())
     {
@@ -97,6 +100,9 @@ class sfWidgetFormDoctrineChoice extends sfWidgetFormChoice
      *  * table_method: A method to return either a query, collection or single object
      *
      * @see sfWidgetFormSelect
+     *
+     * @param mixed $options
+     * @param mixed $attributes
      */
     protected function configure($options = array(), $attributes = array())
     {

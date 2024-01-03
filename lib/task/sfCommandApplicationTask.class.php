@@ -44,6 +44,8 @@ abstract class sfCommandApplicationTask extends sfTask
 
     /**
      * @see sfTask
+     *
+     * @param mixed $messages
      */
     public function log($messages)
     {
@@ -55,7 +57,10 @@ abstract class sfCommandApplicationTask extends sfTask
     /**
      * @see sfTask
      *
-     * @param mixed|null $size
+     * @param null|mixed $size
+     * @param mixed      $section
+     * @param mixed      $message
+     * @param mixed      $style
      */
     public function logSection($section, $message, $size = null, $style = 'INFO')
     {

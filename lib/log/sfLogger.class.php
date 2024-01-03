@@ -100,6 +100,7 @@ abstract class sfLogger implements sfLoggerInterface
      * Returns the options for the logger instance.
      *
      * @param string $name
+     * @param mixed  $value
      */
     public function setOption($name, $value)
     {

@@ -158,6 +158,7 @@ class sfWebDebugPanelView extends sfWebDebugPanel
      * Formats information about a parameter as HTML.
      *
      * @param string $name
+     * @param mixed  $parameter
      *
      * @return string
      */
@@ -253,8 +254,9 @@ class sfWebDebugPanelView extends sfWebDebugPanel
      * Formats information about a parameter as HTML.
      *
      * @param string     $name
-     * @param mixed|null $nameFormat
-     * @param mixed|null $typeFormat
+     * @param null|mixed $nameFormat
+     * @param null|mixed $typeFormat
+     * @param mixed      $parameter
      *
      * @return string
      */

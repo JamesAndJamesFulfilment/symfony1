@@ -25,6 +25,9 @@ class sfI18nExtractTask extends sfBaseTask
 {
     /**
      * @see sfTask
+     *
+     * @param mixed $arguments
+     * @param mixed $options
      */
     public function execute($arguments = array(), $options = array())
     {

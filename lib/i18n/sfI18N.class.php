@@ -29,6 +29,8 @@ class sfI18N
      * Class constructor.
      *
      * @see initialize()
+     *
+     * @param mixed $options
      */
     public function __construct(sfApplicationConfiguration $configuration, sfCache $cache = null, $options = array())
     {

@@ -141,6 +141,8 @@ class sfValidatorErrorSchema extends sfValidatorError implements ArrayAccess, It
 
     /**
      * @see sfValidatorError
+     *
+     * @param mixed $raw
      */
     public function getArguments($raw = false)
     {

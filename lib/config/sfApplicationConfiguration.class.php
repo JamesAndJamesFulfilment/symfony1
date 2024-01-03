@@ -245,6 +245,8 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
 
     /**
      * @see sfProjectConfiguration
+     *
+     * @param mixed $cacheDir
      */
     public function setCacheDir($cacheDir)
     {

@@ -353,6 +353,7 @@ class sfToolkit
      * Licensed under the BSD open source license
      *
      * @param string
+     * @param mixed $string
      *
      * @return bool true if $string is valid UTF-8 and false otherwise
      */

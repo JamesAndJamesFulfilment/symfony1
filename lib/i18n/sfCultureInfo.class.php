@@ -642,6 +642,7 @@ class sfCultureInfo
      * sorts the passed array according to the locale of this sfCultureInfo class.
      *
      * @param  array the array to be sorted with "asort" and this locale
+     * @param mixed $array
      */
     public function sortArray(&$array)
     {
@@ -813,6 +814,9 @@ class sfCultureInfo
      * Adds an array to an already existing array.
      * If an element is already existing in array1 it is not overwritten.
      * If this element is an array this logic will be applied recursively.
+     *
+     * @param mixed $array1
+     * @param mixed $array2
      */
     private function array_add($array1, $array2)
     {

@@ -16,6 +16,10 @@
  * @author     David Heinemeier Hansson
  *
  * @version    SVN: $Id$
+ *
+ * @param mixed $name
+ * @param mixed $options
+ * @param mixed $open
  */
 
 /**
@@ -67,6 +71,8 @@ function comment_as_conditional($condition, $content)
 
 /**
  * Escape carrier returns and single and double quotes for Javascript segments.
+ *
+ * @param mixed $javascript
  */
 function escape_javascript($javascript = '')
 {

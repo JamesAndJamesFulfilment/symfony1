@@ -297,7 +297,7 @@ abstract class sfModelGeneratorConfiguration
      * Gets a new form object.
      *
      * @param array      $options An array of options to merge with the options returned by getFormOptions()
-     * @param mixed|null $object
+     * @param null|mixed $object
      *
      * @return sfForm
      */

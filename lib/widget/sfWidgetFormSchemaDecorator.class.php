@@ -70,6 +70,8 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
 
     /**
      * @see sfWidgetFormSchema
+     *
+     * @param mixed $name
      */
     public function addFormFormatter($name, sfWidgetFormSchemaFormatter $formatter)
     {
@@ -88,6 +90,8 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
 
     /**
      * @see sfWidgetFormSchema
+     *
+     * @param mixed $name
      */
     public function setFormFormatterName($name)
     {
@@ -114,6 +118,8 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
 
     /**
      * @see sfWidgetFormSchema
+     *
+     * @param mixed $format
      */
     public function setNameFormat($format)
     {
@@ -151,6 +157,8 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
     /**
      * @see sfWidgetFormSchema
      *
+     * @param mixed      $name
+     * @param null|mixed $value
      */
     public function setLabel($name, $value = null)
     {
@@ -166,6 +174,7 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
     /**
      * @see sfWidgetFormSchema
      *
+     * @param null|mixed $name
      */
     public function getLabel($name = null)
     {
@@ -192,6 +201,9 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
 
     /**
      * @see sfWidgetFormSchema
+     *
+     * @param mixed $name
+     * @param mixed $help
      */
     public function setHelp($name, $help)
     {
@@ -202,6 +214,8 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
 
     /**
      * @see sfWidgetFormSchema
+     *
+     * @param mixed $name
      */
     public function getHelp($name)
     {
@@ -239,6 +253,10 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
     /**
      * @see sfWidgetFormSchema
      *
+     * @param mixed      $name
+     * @param null|mixed $value
+     * @param mixed      $attributes
+     * @param mixed      $errors
      */
     public function renderField($name, $value = null, $attributes = array(), $errors = array())
     {
@@ -247,6 +265,8 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
 
     /**
      * @see sfWidgetFormSchemaFormatter
+     *
+     * @param mixed $name
      */
     public function generateLabel($name)
     {
@@ -255,6 +275,8 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
 
     /**
      * @see sfWidgetFormSchemaFormatter
+     *
+     * @param mixed $name
      */
     public function generateLabelName($name)
     {
@@ -263,6 +285,8 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
 
     /**
      * @see sfWidgetFormSchema
+     *
+     * @param mixed $name
      */
     public function generateName($name)
     {
@@ -316,7 +340,9 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
     /**
      * @see sfWidgetFormSchema
      *
-     * @param mixed|null $pivot
+     * @param null|mixed $pivot
+     * @param mixed      $field
+     * @param mixed      $action
      */
     public function moveField($field, $action, $pivot = null)
     {

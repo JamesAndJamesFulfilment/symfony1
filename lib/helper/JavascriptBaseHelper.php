@@ -18,6 +18,10 @@
  * @author     Fabian Lange <fabian.lange@symfony-project.com>
  *
  * @version    SVN: $Id$
+ *
+ * @param mixed $name
+ * @param mixed $function
+ * @param mixed $html_options
  */
 
 // Provides a set basic of helpers for calling JavaScript functions.
@@ -51,6 +55,10 @@ function link_to_function($name, $function, $html_options = array())
  *
  * Examples:
  *   <?php echo button_to_function('Greeting', "alert('Hello world!')") ?>
+ *
+ * @param mixed $name
+ * @param mixed $function
+ * @param mixed $html_options
  */
 function button_to_function($name, $function, $html_options = array())
 {
@@ -120,6 +128,7 @@ function end_if_javascript()
  * javascript strings need to be single quoted.
  *
  * @param option (typically from option array)
+ * @param mixed $option
  *
  * @return string javascript string or array equivalent
  */
@@ -139,6 +148,7 @@ function array_or_string_for_javascript($option)
  * converts the the PHP options array into a javscript array.
  *
  * @param array
+ * @param mixed $options
  *
  * @return string javascript arry equivalent
  */
@@ -161,6 +171,7 @@ function options_for_javascript($options)
  * booleans need to be true or false (php would print 1 or nothing).
  *
  * @param bool (typically from option array)
+ * @param mixed $bool
  *
  * @return string javascript boolean equivalent
  */

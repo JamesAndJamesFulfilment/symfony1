@@ -93,6 +93,8 @@ abstract class sfWidgetFormSchemaFormatter
     /**
      * Sets a callable which aims to translate form labels, errors and help messages.
      *
+     * @param mixed $callable
+     *
      * @throws InvalidArgumentException if an invalid php callable or sfCallable has been provided
      */
     public static function setTranslationCallable($callable)

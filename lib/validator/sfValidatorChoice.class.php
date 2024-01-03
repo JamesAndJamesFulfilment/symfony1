@@ -60,6 +60,8 @@ class sfValidatorChoice extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $value
      */
     protected function doClean($value)
     {
@@ -79,7 +81,8 @@ class sfValidatorChoice extends sfValidatorBase
     /**
      * Cleans a value when multiple is true.
      *
-     * @param mixed $value The submitted value
+     * @param mixed $value   The submitted value
+     * @param mixed $choices
      *
      * @return array The cleaned value
      */

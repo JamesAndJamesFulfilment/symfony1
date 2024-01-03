@@ -88,6 +88,8 @@ class sfFileLogger extends sfLogger
     }
 
     /**
+     * @param mixed $format
+     *
      * @return false|string
      */
     public static function strftime($format)
@@ -145,6 +147,8 @@ class sfFileLogger extends sfLogger
      * Private: because it should not be used outside of this scope
      *
      * A better solution is to use : IntlDateFormatter, but it will require to load a new php extension, which could break some setup.
+     *
+     * @param mixed $strftimeFormat
      *
      * @return array|string|string[]
      */

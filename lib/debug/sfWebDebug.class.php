@@ -130,7 +130,7 @@ class sfWebDebug
      * Gets an option value by name.
      *
      * @param string     $name    The option name
-     * @param mixed|null $default
+     * @param null|mixed $default
      *
      * @return mixed The option value
      */

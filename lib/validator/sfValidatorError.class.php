@@ -63,6 +63,8 @@ class sfValidatorError extends Exception implements Serializable
 
     /**
      * Unserializes a sfValidatorError instance for php 7.4+.
+     *
+     * @param mixed $data
      */
     public function __unserialize($data)
     {

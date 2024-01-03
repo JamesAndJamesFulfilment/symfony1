@@ -46,6 +46,8 @@ class sfMessageSource_Aggregate extends sfMessageSource
     /**
      * Determines if the source is valid.
      *
+     * @param mixed $sources
+     *
      * @return bool true if valid, false otherwise
      */
     public function isValidSource($sources)
@@ -81,6 +83,8 @@ class sfMessageSource_Aggregate extends sfMessageSource
     /**
      * Loads the message for a particular catalogue+variant.
      * This methods needs to implemented by subclasses.
+     *
+     * @param mixed $sources
      *
      * @return array of translation messages
      */
@@ -220,6 +224,8 @@ class sfMessageSource_Aggregate extends sfMessageSource
 
     /**
      * Gets the last modified unix-time for this particular catalogue+variant.
+     *
+     * @param mixed $sources
      *
      * @return int last modified in unix-time format
      */

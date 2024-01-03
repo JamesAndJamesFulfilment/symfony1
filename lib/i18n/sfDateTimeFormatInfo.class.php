@@ -106,6 +106,8 @@ class sfDateTimeFormatInfo
     /**
      * Allows functions that begins with 'set' to be called directly
      * as an attribute/property to retrieve the value.
+     *
+     * @param mixed $name
      */
     public function __get($name)
     {
@@ -120,6 +122,9 @@ class sfDateTimeFormatInfo
     /**
      * Allows functions that begins with 'set' to be called directly
      * as an attribute/property to set the value.
+     *
+     * @param mixed $name
+     * @param mixed $value
      */
     public function __set($name, $value)
     {
@@ -519,6 +524,9 @@ class sfDateTimeFormatInfo
     /**
      * Formats the date and time in a culture sensitive paterrn.
      * The default is "Date Time".
+     *
+     * @param mixed $date
+     * @param mixed $time
      *
      * @return string date and time formated
      */

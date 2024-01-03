@@ -71,6 +71,8 @@ class sfValidatorAnd extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $indent
      */
     public function asString($indent = 0)
     {
@@ -120,6 +122,8 @@ class sfValidatorAnd extends sfValidatorBase
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $value
      */
     protected function doClean($value)
     {

@@ -43,6 +43,8 @@ class sfWidgetFormI18nDateTime extends sfWidgetFormDateTime
 
     /**
      * @see sfWidgetFormDateTime
+     *
+     * @param mixed $attributes
      */
     protected function getDateWidget($attributes = array())
     {
@@ -51,6 +53,8 @@ class sfWidgetFormI18nDateTime extends sfWidgetFormDateTime
 
     /**
      * @see sfWidgetFormDateTime
+     *
+     * @param mixed $attributes
      */
     protected function getTimeWidget($attributes = array())
     {

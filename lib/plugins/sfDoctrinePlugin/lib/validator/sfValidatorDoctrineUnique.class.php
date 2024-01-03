@@ -28,6 +28,8 @@ class sfValidatorDoctrineUnique extends sfValidatorSchema
      *
      * @param array  An array of options
      * @param array  An array of error messages
+     * @param mixed $options
+     * @param mixed $messages
      *
      * @see sfValidatorSchema
      */
@@ -50,6 +52,9 @@ class sfValidatorDoctrineUnique extends sfValidatorSchema
      *  * throw_global_error: Whether to throw a global error (false by default) or an error tied to the first field related to the column option array
      *
      * @see sfValidatorBase
+     *
+     * @param mixed $options
+     * @param mixed $messages
      */
     protected function configure($options = array(), $messages = array())
     {
@@ -64,6 +69,8 @@ class sfValidatorDoctrineUnique extends sfValidatorSchema
 
     /**
      * @see sfValidatorBase
+     *
+     * @param mixed $values
      */
     protected function doClean($values)
     {
@@ -118,6 +125,7 @@ class sfValidatorDoctrineUnique extends sfValidatorSchema
      * @param BaseObject  A Doctrine object
      * @param array       An array of values
      * @param bool     true if the object is being updated, false otherwise
+     * @param mixed $values
      */
     protected function isUpdate(Doctrine_Record $object, $values)
     {
