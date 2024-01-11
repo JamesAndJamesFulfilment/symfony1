@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 $t = new lime_test(76);
 
@@ -319,8 +319,8 @@ $t->is($b->getDefaultServerArray('HTTPS'), null, '->call() preserve non-secure r
 // file uploads
 $t->diag('file uploads');
 
-$unexistentFilename = sfConfig::get('sf_test_cache_dir').DIRECTORY_SEPARATOR.'unexistent-file-'.md5(getmypid().'-'.microtime());
-$existentFilename = sfConfig::get('sf_test_cache_dir').DIRECTORY_SEPARATOR.'existent-file-'.md5(getmypid().'-'.microtime());
+$unexistentFilename = sfConfig::get('sf_test_cache_dir') . DIRECTORY_SEPARATOR . 'unexistent-file-' . md5(getmypid() . '-' . microtime());
+$existentFilename = sfConfig::get('sf_test_cache_dir') . DIRECTORY_SEPARATOR . 'existent-file-' . md5(getmypid() . '-' . microtime());
 file_put_contents($existentFilename, 'test');
 
 list($method, $uri, $parameters) = $b->click('submit', array('myfile' => $unexistentFilename));

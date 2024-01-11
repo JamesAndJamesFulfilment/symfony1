@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 sfYaml::setSpecVersion('1.1');
 
@@ -16,12 +16,12 @@ $t = new lime_test(150);
 
 $parser = new sfYamlParser();
 
-$path = __DIR__.'/fixtures';
-$files = $parser->parse(file_get_contents($path.'/index.yml'));
+$path = __DIR__ . '/fixtures';
+$files = $parser->parse(file_get_contents($path . '/index.yml'));
 foreach ($files as $file) {
     $t->diag($file);
 
-    $yamls = file_get_contents($path.'/'.$file.'.yml');
+    $yamls = file_get_contents($path . '/' . $file . '.yml');
 
     // split YAMLs documents
     foreach (preg_split('/^---( %YAML\:1\.0)?/m', $yamls) as $yaml) {
@@ -33,7 +33,7 @@ foreach ($files as $file) {
         if (isset($test['todo']) && $test['todo']) {
             $t->todo($test['test']);
         } else {
-            $expected = var_export(eval('return '.trim($test['php']).';'), true);
+            $expected = var_export(eval('return ' . trim($test['php']) . ';'), true);
 
             $t->is(var_export($parser->parse($test['yaml']), true), $expected, $test['test']);
         }

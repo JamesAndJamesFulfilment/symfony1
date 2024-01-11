@@ -65,7 +65,7 @@ class sfTesterMailer extends sfTester
     public function debug()
     {
         foreach ($this->logger->getMessages() as $message) {
-            echo $message->toString()."\n\n";
+            echo $message->toString() . "\n\n";
         }
 
         exit(1);

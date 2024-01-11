@@ -45,8 +45,8 @@ abstract class sfMessageSource_Database extends sfMessageSource
 
         for ($i = 0, $max = count($variants); $i < $max; ++$i) {
             if (strlen($variants[$i]) > 0) {
-                $variant .= $variant ? '_'.$variants[$i] : $variants[$i];
-                $catalogues[] = $catalogue.'.'.$variant;
+                $variant .= $variant ? '_' . $variants[$i] : $variants[$i];
+                $catalogues[] = $catalogue . '.' . $variant;
             }
         }
 
@@ -128,7 +128,7 @@ abstract class sfMessageSource_Database extends sfMessageSource
             $proto = $match[1];
             $proto_opts = (!empty($match[2])) ? $match[2] : false;
             $dsn = $match[3];
-            // $dsn => protocol+hostspec/database (old format)
+        // $dsn => protocol+hostspec/database (old format)
         } else {
             if (false !== strpos($dsn, '+')) {
                 list($proto, $dsn) = explode('+', $dsn, 2);
@@ -160,7 +160,7 @@ abstract class sfMessageSource_Database extends sfMessageSource
             // /database
             if (($pos = strpos($dsn, '?')) === false) {
                 $parsed['database'] = $dsn;
-                // /database?param1=value1&param2=value2
+            // /database?param1=value1&param2=value2
             } else {
                 $parsed['database'] = substr($dsn, 0, $pos);
                 $dsn = substr($dsn, $pos + 1);

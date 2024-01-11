@@ -132,11 +132,11 @@ function include_component($moduleName, $componentName, $vars = array())
 function get_component($moduleName, $componentName, $vars = array())
 {
     $context = sfContext::getInstance();
-    $actionName = '_'.$componentName;
+    $actionName = '_' . $componentName;
 
-    require $context->getConfigCache()->checkConfig('modules/'.$moduleName.'/config/module.yml');
+    require $context->getConfigCache()->checkConfig('modules/' . $moduleName . '/config/module.yml');
 
-    $class = sfConfig::get('mod_'.strtolower($moduleName).'_partial_view_class', 'sf').'PartialView';
+    $class = sfConfig::get('mod_' . strtolower($moduleName) . '_partial_view_class', 'sf') . 'PartialView';
     $view = new $class($context, $moduleName, $actionName, '');
     $view->setPartialVars(true === sfConfig::get('sf_escaping_strategy') ? sfOutputEscaper::unescape($vars) : $vars);
 
@@ -205,9 +205,9 @@ function get_partial($templateName, $vars = array())
     } else {
         $moduleName = $context->getActionStack()->getLastEntry()->getModuleName();
     }
-    $actionName = '_'.$templateName;
+    $actionName = '_' . $templateName;
 
-    $class = sfConfig::get('mod_'.strtolower($moduleName).'_partial_view_class', 'sf').'PartialView';
+    $class = sfConfig::get('mod_' . strtolower($moduleName) . '_partial_view_class', 'sf') . 'PartialView';
     $view = new $class($context, $moduleName, $actionName, '');
     $view->setPartialVars(true === sfConfig::get('sf_escaping_strategy') ? sfOutputEscaper::unescape($vars) : $vars);
 
@@ -346,13 +346,13 @@ function _call_component($moduleName, $componentName, $vars)
     $componentInstance = $controller->getComponent($moduleName, $componentName);
 
     // load component's module config file
-    require $context->getConfigCache()->checkConfig('modules/'.$moduleName.'/config/module.yml');
+    require $context->getConfigCache()->checkConfig('modules/' . $moduleName . '/config/module.yml');
 
     // pass unescaped vars to the component if escaping_strategy is set to true
     $componentInstance->getVarHolder()->add(true === sfConfig::get('sf_escaping_strategy') ? sfOutputEscaper::unescape($vars) : $vars);
 
     // dispatch component
-    $componentToRun = 'execute'.ucfirst($componentName);
+    $componentToRun = 'execute' . ucfirst($componentName);
     if (!method_exists($componentInstance, $componentToRun)) {
         if (!method_exists($componentInstance, 'execute')) {
             // component not found

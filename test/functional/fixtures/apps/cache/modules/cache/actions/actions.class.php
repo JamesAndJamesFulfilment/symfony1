@@ -29,7 +29,7 @@ class cacheActions extends sfActions
 
     public function executeMulti()
     {
-        $this->getResponse()->setTitle('Param: '.$this->getRequestParameter('param'));
+        $this->getResponse()->setTitle('Param: ' . $this->getRequestParameter('param'));
     }
 
     public function executeMultiBis()
@@ -97,7 +97,7 @@ class cacheActions extends sfActions
     protected function prepareImage()
     {
         $this->getResponse()->setContentType('image/png');
-        $this->image = file_get_contents(__DIR__.'/../data/ok48.png');
+        $this->image = file_get_contents(__DIR__ . '/../data/ok48.png');
         $this->setTemplate('image');
     }
 }

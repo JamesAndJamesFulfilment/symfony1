@@ -10,7 +10,7 @@
 
 error_reporting(error_reporting() & ~E_STRICT);
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 $t = new lime_test(3);
 
@@ -21,11 +21,11 @@ if (!class_exists('PEAR')) {
     return;
 }
 
-require_once __DIR__.'/sfPearDownloaderTest.class.php';
+require_once __DIR__ . '/sfPearDownloaderTest.class.php';
 
-require_once __DIR__.'/sfPearRestTest.class.php';
+require_once __DIR__ . '/sfPearRestTest.class.php';
 
-require_once __DIR__.'/sfPluginTestHelper.class.php';
+require_once __DIR__ . '/sfPluginTestHelper.class.php';
 
 // setup
 $temp = tempnam('/tmp/sf_plugin_test', 'tmp');
@@ -35,8 +35,8 @@ mkdir($temp, 0777, true);
 define('SF_PLUGIN_TEST_DIR', $temp);
 
 $options = array(
-    'plugin_dir' => $temp.'/plugins',
-    'cache_dir' => $temp.'/cache',
+    'plugin_dir' => $temp . '/plugins',
+    'cache_dir' => $temp . '/cache',
     'preferred_state' => 'stable',
     'rest_base_class' => 'sfPearRestTest',
     'downloader_base_class' => 'sfPearDownloaderTest',

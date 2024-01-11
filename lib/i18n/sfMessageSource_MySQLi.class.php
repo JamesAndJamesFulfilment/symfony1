@@ -343,11 +343,11 @@ class sfMessageSource_MySQLi extends sfMessageSource_Database
         $dsninfo = $this->dsn;
 
         if (isset($dsninfo['protocol']) && 'unix' == $dsninfo['protocol']) {
-            $dbhost = ':'.$dsninfo['socket'];
+            $dbhost = ':' . $dsninfo['socket'];
         } else {
             $dbhost = $dsninfo['hostspec'] ?: 'localhost';
             if (!empty($dsninfo['port'])) {
-                $dbhost .= ':'.$dsninfo['port'];
+                $dbhost .= ':' . $dsninfo['port'];
             }
         }
         $user = $dsninfo['username'];
@@ -414,7 +414,7 @@ class sfMessageSource_MySQLi extends sfMessageSource_Database
             $catalogue = 'messages';
         }
 
-        $variant = $catalogue.'.'.$this->culture;
+        $variant = $catalogue . '.' . $this->culture;
 
         $name = mysqli_real_escape_string($this->db, $this->getSource($variant));
 
@@ -449,7 +449,7 @@ class sfMessageSource_MySQLi extends sfMessageSource_Database
         $result = mysqli_query($this->db, "UPDATE catalogue SET date_modified = {$time} WHERE cat_id = {$cat_id}");
 
         if ($this->cache) {
-            $this->cache->remove($variant.':'.$this->culture);
+            $this->cache->remove($variant . ':' . $this->culture);
         }
 
         return $result;

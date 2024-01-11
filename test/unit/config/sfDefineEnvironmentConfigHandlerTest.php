@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
-sfConfig::set('sf_symfony_lib_dir', realpath(__DIR__.'/../../../lib'));
+sfConfig::set('sf_symfony_lib_dir', realpath(__DIR__ . '/../../../lib'));
 
 $t = new lime_test(1);
 
@@ -18,11 +18,11 @@ $t = new lime_test(1);
 $handler = new sfDefineEnvironmentConfigHandler();
 $handler->initialize(array('prefix' => 'sf_'));
 
-$dir = __DIR__.DIRECTORY_SEPARATOR.'fixtures'.DIRECTORY_SEPARATOR.'sfDefineEnvironmentConfigHandler'.DIRECTORY_SEPARATOR;
+$dir = __DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'sfDefineEnvironmentConfigHandler' . DIRECTORY_SEPARATOR;
 
 $files = array(
-    $dir.'prefix_default.yml',
-    $dir.'prefix_all.yml',
+    $dir . 'prefix_default.yml',
+    $dir . 'prefix_all.yml',
 );
 
 sfConfig::set('sf_environment', 'prod');
@@ -30,4 +30,4 @@ sfConfig::set('sf_environment', 'prod');
 $data = $handler->execute($files);
 $data = preg_replace('#date\: \d+/\d+/\d+ \d+\:\d+\:\d+#', '', $data);
 
-$t->is($data, str_replace("\r\n", "\n", file_get_contents($dir.'prefix_result.php')));
+$t->is($data, str_replace("\r\n", "\n", file_get_contents($dir . 'prefix_result.php')));

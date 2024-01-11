@@ -161,7 +161,7 @@ class sfCacheFilter extends sfFilter
         }
 
         if (sfConfig::get('sf_etag')) {
-            $etag = '"'.md5($this->response->getContent()).'"';
+            $etag = '"' . md5($this->response->getContent()) . '"';
             $this->response->setHttpHeader('ETag', $etag);
         }
     }
@@ -173,7 +173,7 @@ class sfCacheFilter extends sfFilter
     {
         // Etag support
         if (sfConfig::get('sf_etag')) {
-            $etag = '"'.md5($this->response->getContent()).'"';
+            $etag = '"' . md5($this->response->getContent()) . '"';
 
             if ($this->request->getHttpHeader('IF_NONE_MATCH') == $etag) {
                 $this->response->setStatusCode(304);

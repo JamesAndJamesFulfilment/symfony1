@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
-require_once __DIR__.'/sfCacheDriverTests.class.php';
+require_once __DIR__ . '/sfCacheDriverTests.class.php';
 
 $t = new lime_test(15);
 
@@ -67,7 +67,7 @@ class testFunctionCache
     {
         ++self::$count;
 
-        return $arg1.$arg2;
+        return $arg1 . $arg2;
     }
 }
 
@@ -78,7 +78,7 @@ function testFunctionCache($arg1, $arg2)
 
     ++$count;
 
-    return $arg1.$arg2;
+    return $arg1 . $arg2;
 }
 
 // ->call()

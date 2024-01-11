@@ -7,6 +7,6 @@ class Article extends BaseArticle
 {
     public function getTestingNonColumn()
     {
-        return 'test-'.$this->slug;
+        return 'test-' . $this->slug;
     }
 }

@@ -114,7 +114,7 @@ class sfMessageSource_Aggregate extends sfMessageSource
         $variants = array();
         foreach ($this->messageSources as $messageSource) {
             foreach ($messageSource->getCatalogueList($catalogue) as $variant) {
-                $variants[] = $messageSource->getId().$variant;
+                $variants[] = $messageSource->getId() . $variant;
             }
         }
 

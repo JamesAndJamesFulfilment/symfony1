@@ -45,13 +45,13 @@ EOF;
      */
     protected function execute($arguments = array(), $options = array())
     {
-        require_once __DIR__.'/../../vendor/lime/lime.php';
+        require_once __DIR__ . '/../../vendor/lime/lime.php';
 
-        require_once __DIR__.'/lime_symfony.php';
+        require_once __DIR__ . '/lime_symfony.php';
 
         // cleanup
-        require_once __DIR__.'/../../util/sfToolkit.class.php';
-        if ($files = glob(sys_get_temp_dir().DIRECTORY_SEPARATOR.'/sf_autoload_unit_*')) {
+        require_once __DIR__ . '/../../util/sfToolkit.class.php';
+        if ($files = glob(sys_get_temp_dir() . DIRECTORY_SEPARATOR . '/sf_autoload_unit_*')) {
             foreach ($files as $file) {
                 unlink($file);
             }
@@ -59,12 +59,12 @@ EOF;
 
         // update sfCoreAutoload
         if ($options['update-autoloader']) {
-            require_once __DIR__.'/../../autoload/sfCoreAutoload.class.php';
+            require_once __DIR__ . '/../../autoload/sfCoreAutoload.class.php';
             sfCoreAutoload::make();
         }
 
         $status = false;
-        $statusFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.sprintf('/.test_symfony_%s_status', md5(__DIR__));
+        $statusFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . sprintf('/.test_symfony_%s_status', md5(__DIR__));
         if ($options['only-failed']) {
             if (file_exists($statusFile)) {
                 $status = unserialize(file_get_contents($statusFile));
@@ -72,12 +72,12 @@ EOF;
         }
 
         $h = new lime_symfony(array('force_colors' => $options['color'], 'verbose' => $options['trace']));
-        $h->base_dir = realpath(__DIR__.'/../../../test');
+        $h->base_dir = realpath(__DIR__ . '/../../../test');
 
         // remove generated files
         if ($options['rebuild-all']) {
             $finder = sfFinder::type('dir')->name(array('base', 'om', 'map'));
-            foreach ($finder->in(glob($h->base_dir.'/../lib/plugins/*/test/functional/fixtures/lib')) as $dir) {
+            foreach ($finder->in(glob($h->base_dir . '/../lib/plugins/*/test/functional/fixtures/lib')) as $dir) {
                 sfToolkit::clearDirectory($dir);
             }
         }
@@ -89,15 +89,15 @@ EOF;
         } else {
             $h->register(sfFinder::type('file')->prune('fixtures')->name('*Test.php')->in(array_merge(
                 // unit tests
-                array($h->base_dir.'/unit'),
-                glob($h->base_dir.'/../lib/plugins/*/test/unit'),
+                array($h->base_dir . '/unit'),
+                glob($h->base_dir . '/../lib/plugins/*/test/unit'),
 
                 // functional tests
-                array($h->base_dir.'/functional'),
-                glob($h->base_dir.'/../lib/plugins/*/test/functional'),
+                array($h->base_dir . '/functional'),
+                glob($h->base_dir . '/../lib/plugins/*/test/functional'),
 
                 // other tests
-                array($h->base_dir.'/other')
+                array($h->base_dir . '/other')
             )));
         }
 

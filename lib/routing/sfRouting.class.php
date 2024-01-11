@@ -269,14 +269,14 @@ abstract class sfRouting
     {
         if (isset($this->options['context']['prefix'])) {
             if (0 === strpos($url, 'http')) {
-                $url = preg_replace('#https?\://[^/]+#', '$0'.$this->options['context']['prefix'], $url);
+                $url = preg_replace('#https?\://[^/]+#', '$0' . $this->options['context']['prefix'], $url);
             } else {
-                $url = $this->options['context']['prefix'].$url;
+                $url = $this->options['context']['prefix'] . $url;
             }
         }
 
         if ($absolute && isset($this->options['context']['host']) && 0 !== strpos($url, 'http')) {
-            $url = 'http'.(isset($this->options['context']['is_secure']) && $this->options['context']['is_secure'] ? 's' : '').'://'.$this->options['context']['host'].$url;
+            $url = 'http' . (isset($this->options['context']['is_secure']) && $this->options['context']['is_secure'] ? 's' : '') . '://' . $this->options['context']['host'] . $url;
         }
 
         return $url;

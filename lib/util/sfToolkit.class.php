@@ -62,18 +62,18 @@ class sfToolkit
 
         while (($file = readdir($fp)) !== false) {
             if (!in_array($file, $ignore)) {
-                if (is_link($directory.'/'.$file)) {
+                if (is_link($directory . '/' . $file)) {
                     // delete symlink
-                    unlink($directory.'/'.$file);
-                } elseif (is_dir($directory.'/'.$file)) {
+                    unlink($directory . '/' . $file);
+                } elseif (is_dir($directory . '/' . $file)) {
                     // recurse through directory
-                    self::clearDirectory($directory.'/'.$file);
+                    self::clearDirectory($directory . '/' . $file);
 
                     // delete the directory
-                    rmdir($directory.'/'.$file);
+                    rmdir($directory . '/' . $file);
                 } else {
                     // delete the file
-                    unlink($directory.'/'.$file);
+                    unlink($directory . '/' . $file);
                 }
             }
         }
@@ -289,7 +289,7 @@ class sfToolkit
         } else {
             $value = self::replaceConstants($value);
             if ($quoted) {
-                $value = '\''.str_replace('\'', '\\\'', $value).'\'';
+                $value = '\'' . str_replace('\'', '\\\'', $value) . '\'';
             }
         }
 
@@ -310,7 +310,7 @@ class sfToolkit
         }
 
         return preg_replace_callback('/%(.+?)%/', function ($v) {
-            return sfConfig::has(strtolower($v[1])) ? sfConfig::get(strtolower($v[1])) : '%'.$v[1].'%';
+            return sfConfig::has(strtolower($v[1])) ? sfConfig::get(strtolower($v[1])) : '%' . $v[1] . '%';
         }, $value);
     }
 
@@ -449,7 +449,7 @@ class sfToolkit
         foreach (array('php5', 'php') as $phpCli) {
             foreach ($suffixes as $suffix) {
                 foreach (explode(PATH_SEPARATOR, $path) as $dir) {
-                    if (is_file($file = $dir.DIRECTORY_SEPARATOR.$phpCli.$suffix) && is_executable($file)) {
+                    if (is_file($file = $dir . DIRECTORY_SEPARATOR . $phpCli . $suffix) && is_executable($file)) {
                         return $file;
                     }
                 }

@@ -366,7 +366,7 @@ abstract class sfValidatorBase
             str_repeat(' ', $indent),
             str_replace('sfValidator', '', get_class($this)),
             $options ? sfYamlInline::dump($options) : ($messages ? '{}' : ''),
-            $messages ? ', '.sfYamlInline::dump($messages) : ''
+            $messages ? ', ' . sfYamlInline::dump($messages) : ''
         );
     }
 

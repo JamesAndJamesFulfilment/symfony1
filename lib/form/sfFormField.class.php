@@ -65,7 +65,7 @@ class sfFormField
             self::setToStringException($e);
 
             // we return a simple Exception message in case the form framework is used out of symfony.
-            return 'Exception: '.$e->getMessage();
+            return 'Exception: ' . $e->getMessage();
         }
     }
 

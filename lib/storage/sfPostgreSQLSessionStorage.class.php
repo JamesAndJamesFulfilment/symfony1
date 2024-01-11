@@ -40,7 +40,7 @@ class sfPostgreSQLSessionStorage extends sfDatabaseSessionStorage
         $id = addslashes($id);
 
         // delete the record associated with this id
-        $sql = 'DELETE FROM '.$db_table.' WHERE '.$db_id_col.' = \''.$id.'\'';
+        $sql = 'DELETE FROM ' . $db_table . ' WHERE ' . $db_id_col . ' = \'' . $id . '\'';
 
         if (@pg_query($this->db, $sql)) {
             return true;
@@ -66,7 +66,7 @@ class sfPostgreSQLSessionStorage extends sfDatabaseSessionStorage
         $db_time_col = $this->options['db_time_col'];
 
         // delete the record associated with this id
-        $sql = 'DELETE FROM '.$db_table.' WHERE '.$db_time_col.' < '.(time() - $lifetime);
+        $sql = 'DELETE FROM ' . $db_table . ' WHERE ' . $db_time_col . ' < ' . (time() - $lifetime);
 
         if (!@pg_query($this->db, $sql)) {
             throw new sfDatabaseException('sfPostgreSQLSessionStorage cannot delete old sessions.');
@@ -96,7 +96,7 @@ class sfPostgreSQLSessionStorage extends sfDatabaseSessionStorage
         $id = addslashes($id);
 
         // delete the record associated with this id
-        $sql = 'SELECT '.$db_data_col.' FROM '.$db_table.' WHERE '.$db_id_col.' = \''.$id.'\'';
+        $sql = 'SELECT ' . $db_data_col . ' FROM ' . $db_table . ' WHERE ' . $db_id_col . ' = \'' . $id . '\'';
 
         $result = @pg_query($this->db, $sql);
 
@@ -108,7 +108,7 @@ class sfPostgreSQLSessionStorage extends sfDatabaseSessionStorage
         }
 
         // session does not exist, create it
-        $sql = 'INSERT INTO '.$db_table.' ('.$db_id_col.', '.$db_data_col.', '.$db_time_col.') VALUES (\''.$id.'\', \'\', '.time().')';
+        $sql = 'INSERT INTO ' . $db_table . ' (' . $db_id_col . ', ' . $db_data_col . ', ' . $db_time_col . ') VALUES (\'' . $id . '\', \'\', ' . time() . ')';
 
         if (@pg_query($this->db, $sql)) {
             return '';
@@ -141,7 +141,7 @@ class sfPostgreSQLSessionStorage extends sfDatabaseSessionStorage
         $data = addslashes($data);
 
         // delete the record associated with this id
-        $sql = 'UPDATE '.$db_table.' SET '.$db_data_col.' = \''.$data.'\', '.$db_time_col.' = '.time().' WHERE '.$db_id_col.' = \''.$id.'\'';
+        $sql = 'UPDATE ' . $db_table . ' SET ' . $db_data_col . ' = \'' . $data . '\', ' . $db_time_col . ' = ' . time() . ' WHERE ' . $db_id_col . ' = \'' . $id . '\'';
 
         if (@pg_query($this->db, $sql)) {
             return true;

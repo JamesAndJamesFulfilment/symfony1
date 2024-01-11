@@ -179,7 +179,7 @@ class sfCultureInfo
      */
     public function __get($name)
     {
-        $getProperty = 'get'.$name;
+        $getProperty = 'get' . $name;
         if (in_array($getProperty, $this->properties)) {
             return $this->{$getProperty}();
         }
@@ -196,7 +196,7 @@ class sfCultureInfo
      */
     public function __set($name, $value)
     {
-        $setProperty = 'set'.$name;
+        $setProperty = 'set' . $name;
         if (in_array($setProperty, $this->properties)) {
             $this->{$setProperty}($value);
         } else {
@@ -233,7 +233,7 @@ class sfCultureInfo
     public static function validCulture($culture)
     {
         if (preg_match('/^[a-z]{2}(_[A-Z]{2,5}){0,2}$/', $culture)) {
-            return is_file(self::dataDir().$culture.self::fileExt());
+            return is_file(self::dataDir() . $culture . self::fileExt());
         }
 
         return false;
@@ -301,7 +301,7 @@ class sfCultureInfo
         $language = $this->findInfo("Languages/{$lang}");
         $region = $this->findInfo("Countries/{$reg}");
         if ($region) {
-            return $language.' ('.$region.')';
+            return $language . ' (' . $region . ')';
         }
 
         return $language;
@@ -327,7 +327,7 @@ class sfCultureInfo
 
         $region = $culture->findInfo("Countries/{$reg}");
 
-        return $region ? $language.' ('.$region.')' : $language;
+        return $region ? $language . ' (' . $region . ')' : $language;
     }
 
     /**
@@ -427,7 +427,7 @@ class sfCultureInfo
         $specific = array();
 
         while (false !== ($entry = $dir->read())) {
-            if (is_file($dataDir.$entry) && substr($entry, -4) == $dataExt && $entry != 'root'.$dataExt) {
+            if (is_file($dataDir . $entry) && substr($entry, -4) == $dataExt && $entry != 'root' . $dataExt) {
                 $culture = substr($entry, 0, -4);
                 if (2 == strlen($culture)) {
                     $neutral[] = $culture;
@@ -630,7 +630,7 @@ class sfCultureInfo
         // TimeZones contains the Timezone name => metaTimezone identifier
         $timeZones = $this->findInfo('TimeZones', true);
         foreach ($timeZones as $key => $value) {
-            $timeZones[$key] = $metadata['meta:'.$value];
+            $timeZones[$key] = $metadata['meta:' . $value];
             $timeZones[$key]['identifier'] = $key;
             $timeZones[$key]['city'] = str_replace('_', ' ', substr($key, strpos($key, '/') + 1));
         }
@@ -659,7 +659,7 @@ class sfCultureInfo
      */
     protected static function dataDir()
     {
-        return __DIR__.'/data/';
+        return __DIR__ . '/data/';
     }
 
     /**
@@ -702,12 +702,12 @@ class sfCultureInfo
         $files = array($current_part);
 
         for ($i = 1, $max = count($file_parts); $i < $max; ++$i) {
-            $current_part .= '_'.$file_parts[$i];
+            $current_part .= '_' . $file_parts[$i];
             $files[] = $current_part;
         }
 
         foreach ($files as $file) {
-            $filename = $this->dataDir.$file.$this->dataFileExt;
+            $filename = $this->dataDir . $file . $this->dataFileExt;
 
             if (false == is_file($filename)) {
                 throw new sfException(sprintf('Data file for "%s" was not found.', $file));

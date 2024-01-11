@@ -35,7 +35,7 @@ class sfWebDebugPanelMailer extends sfWebDebugPanel
     public function getTitle()
     {
         if ($this->mailer && ($logger = $this->mailer->getLogger()) && $logger->countMessages()) {
-            return '<img src="'.$this->webDebug->getOption('image_root_path').'/email.png" alt="Emailer" /> '.$logger->countMessages();
+            return '<img src="' . $this->webDebug->getOption('image_root_path') . '/email.png" alt="Emailer" /> ' . $logger->countMessages();
         }
     }
 
@@ -57,10 +57,10 @@ class sfWebDebugPanelMailer extends sfWebDebugPanel
         // configuration information
         $strategy = $this->mailer->getDeliveryStrategy();
         $html[] = '<h2>Configuration</h2>';
-        $html[] = '<em>Delivery strategy</em>: '.$strategy;
+        $html[] = '<em>Delivery strategy</em>: ' . $strategy;
 
         if (sfMailer::SINGLE_ADDRESS == $strategy) {
-            $html[] = ' - <em>all emails are delivered to</em>: '.$this->mailer->getDeliveryAddress();
+            $html[] = ' - <em>all emails are delivered to</em>: ' . $this->mailer->getDeliveryAddress();
         }
 
         // email sent
@@ -89,9 +89,9 @@ class sfWebDebugPanelMailer extends sfWebDebugPanel
         $to = null === $message->getTo() ? '' : implode(', ', array_keys($message->getTo()));
 
         $html = array();
-        $html[] = sprintf('<h3>%s (to: %s) %s</h3>', $message->getSubject(), $to, $this->getToggler('sfWebDebugMailTemplate'.$i));
-        $html[] = '<div id="sfWebDebugMailTemplate'.$i.'" style="display:'.(1 == $i ? 'block' : 'none').'">';
-        $html[] = '<pre>'.htmlentities($message->toString(), ENT_QUOTES, $message->getCharset()).'</pre>';
+        $html[] = sprintf('<h3>%s (to: %s) %s</h3>', $message->getSubject(), $to, $this->getToggler('sfWebDebugMailTemplate' . $i));
+        $html[] = '<div id="sfWebDebugMailTemplate' . $i . '" style="display:' . (1 == $i ? 'block' : 'none') . '">';
+        $html[] = '<pre>' . htmlentities($message->toString(), ENT_QUOTES, $message->getCharset()) . '</pre>';
         $html[] = '</div>';
 
         return implode("\n", $html);

@@ -54,24 +54,24 @@ EOF;
      */
     protected function execute($arguments = array(), $options = array())
     {
-        require_once sfConfig::get('sf_symfony_lib_dir').'/vendor/lime/lime.php';
+        require_once sfConfig::get('sf_symfony_lib_dir') . '/vendor/lime/lime.php';
 
         $coverage = $this->getCoverage($this->getTestHarness(array('force_colors' => isset($options['color']) && $options['color'])), $options['detailed']);
 
-        $testFiles = $this->getFiles(sfConfig::get('sf_root_dir').'/'.$arguments['test_name']);
+        $testFiles = $this->getFiles(sfConfig::get('sf_root_dir') . '/' . $arguments['test_name']);
         $max = count($testFiles);
         foreach ($testFiles as $i => $file) {
             $this->logSection('coverage', sprintf('running %s (%d/%d)', $file, $i + 1, $max));
             $coverage->process($file);
         }
 
-        $coveredFiles = $this->getFiles(sfConfig::get('sf_root_dir').'/'.$arguments['lib_name']);
+        $coveredFiles = $this->getFiles(sfConfig::get('sf_root_dir') . '/' . $arguments['lib_name']);
         $coverage->output($coveredFiles);
     }
 
     protected function getTestHarness($harnessOptions = array())
     {
-        require_once __DIR__.'/sfLimeHarness.class.php';
+        require_once __DIR__ . '/sfLimeHarness.class.php';
 
         $harness = new sfLimeHarness($harnessOptions);
         $harness->addPlugins(array_map(array($this->configuration, 'getPluginConfiguration'), $this->configuration->getPlugins()));

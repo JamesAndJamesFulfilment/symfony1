@@ -77,7 +77,7 @@ class sfDeprecatedMethodsValidation extends sfValidation
 
             $matches = array();
             foreach ($methods as $method) {
-                if (preg_match('#\b'.preg_quote($method, '#').'\b#', $content)) {
+                if (preg_match('#\b' . preg_quote($method, '#') . '\b#', $content)) {
                     $matches[] = $method;
                 }
             }

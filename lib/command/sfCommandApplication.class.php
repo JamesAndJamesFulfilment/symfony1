@@ -292,7 +292,7 @@ abstract class sfCommandApplication
      */
     public function getLongVersion()
     {
-        return sprintf('%s version %s', $this->getName(), $this->formatter->format($this->getVersion(), 'INFO'))."\n";
+        return sprintf('%s version %s', $this->getName(), $this->formatter->format($this->getVersion(), 'INFO')) . "\n";
     }
 
     /**
@@ -339,8 +339,8 @@ abstract class sfCommandApplication
         foreach ($this->commandManager->getOptionSet()->getOptions() as $option) {
             $messages[] = sprintf(
                 '  %-24s %s  %s',
-                $this->formatter->format('--'.$option->getName(), 'INFO'),
-                $option->getShortcut() ? $this->formatter->format('-'.$option->getShortcut(), 'INFO') : '  ',
+                $this->formatter->format('--' . $option->getName(), 'INFO'),
+                $option->getShortcut() ? $this->formatter->format('-' . $option->getShortcut(), 'INFO') : '  ',
                 $option->getHelp()
             );
         }
@@ -366,23 +366,23 @@ abstract class sfCommandApplication
         $messages = array(str_repeat(' ', $len));
 
         if ($this->trace) {
-            $messages[] = $title.str_repeat(' ', $len - $this->strlen($title));
+            $messages[] = $title . str_repeat(' ', $len - $this->strlen($title));
         }
 
         foreach ($lines as $line) {
-            $messages[] = $line.str_repeat(' ', $len - $this->strlen($line));
+            $messages[] = $line . str_repeat(' ', $len - $this->strlen($line));
         }
 
         $messages[] = str_repeat(' ', $len);
 
         fwrite(STDERR, "\n");
         foreach ($messages as $message) {
-            fwrite(STDERR, $this->formatter->format($message, 'ERROR', STDERR)."\n");
+            fwrite(STDERR, $this->formatter->format($message, 'ERROR', STDERR) . "\n");
         }
         fwrite(STDERR, "\n");
 
         if (null !== $this->currentTask && $e instanceof sfCommandArgumentsException) {
-            fwrite(STDERR, $this->formatter->format(sprintf($this->currentTask->getSynopsis(), $this->getName()), 'INFO', STDERR)."\n");
+            fwrite(STDERR, $this->formatter->format(sprintf($this->currentTask->getSynopsis(), $this->getName()), 'INFO', STDERR) . "\n");
             fwrite(STDERR, "\n");
         }
 
@@ -460,7 +460,7 @@ abstract class sfCommandApplication
 
         $abbrev = $this->getAbbreviations($tasks);
         if (isset($abbrev[$name]) && 1 == count($abbrev[$name])) {
-            return $this->getTask($namespace ? $namespace.':'.$abbrev[$name][0] : $abbrev[$name][0]);
+            return $this->getTask($namespace ? $namespace . ':' . $abbrev[$name][0] : $abbrev[$name][0]);
         }
 
         // aliases
@@ -474,7 +474,7 @@ abstract class sfCommandApplication
         }
 
         $abbrev = $this->getAbbreviations($aliases);
-        $fullName = $namespace ? $namespace.':'.$name : $name;
+        $fullName = $namespace ? $namespace . ':' . $name : $name;
         if (!isset($abbrev[$fullName])) {
             throw new sfCommandException(sprintf('Task "%s" is not defined.', $fullName));
         }

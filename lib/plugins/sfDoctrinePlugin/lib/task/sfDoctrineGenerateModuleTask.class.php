@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/sfDoctrineBaseTask.class.php';
+require_once __DIR__ . '/sfDoctrineBaseTask.class.php';
 
 /**
  * Generates a Doctrine module.
@@ -81,7 +81,7 @@ EOF;
     {
         $databaseManager = new sfDatabaseManager($this->configuration);
 
-        $properties = parse_ini_file(sfConfig::get('sf_config_dir').'/properties.ini', true);
+        $properties = parse_ini_file(sfConfig::get('sf_config_dir') . '/properties.ini', true);
 
         $this->constants = array(
             'PROJECT_NAME' => isset($properties['symfony']['name']) ? $properties['symfony']['name'] : 'symfony',
@@ -100,7 +100,7 @@ EOF;
     protected function executeGenerate($arguments = array(), $options = array())
     {
         // generate module
-        $tmpDir = sfConfig::get('sf_cache_dir').DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.md5(uniqid(rand(), true));
+        $tmpDir = sfConfig::get('sf_cache_dir') . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . md5(uniqid(rand(), true));
         $generatorManager = new sfGeneratorManager($this->configuration, $tmpDir);
         $generatorManager->generate('sfDoctrineGenerator', array(
             'model_class' => $arguments['model'],
@@ -109,34 +109,34 @@ EOF;
             'non_verbose_templates' => $options['non-verbose-templates'],
             'with_show' => $options['with-show'],
             'singular' => $options['singular'] ? $options['singular'] : sfInflector::underscore($arguments['model']),
-            'plural' => $options['plural'] ? $options['plural'] : sfInflector::underscore($arguments['model'].'s'),
+            'plural' => $options['plural'] ? $options['plural'] : sfInflector::underscore($arguments['model'] . 's'),
             'route_prefix' => $options['route-prefix'],
             'with_doctrine_route' => $options['with-doctrine-route'],
             'actions_base_class' => $options['actions-base-class'],
         ));
 
-        $moduleDir = sfConfig::get('sf_app_module_dir').'/'.$arguments['module'];
+        $moduleDir = sfConfig::get('sf_app_module_dir') . '/' . $arguments['module'];
 
         // copy our generated module
-        $this->getFilesystem()->mirror($tmpDir.DIRECTORY_SEPARATOR.'auto'.ucfirst($arguments['module']), $moduleDir, sfFinder::type('any'));
+        $this->getFilesystem()->mirror($tmpDir . DIRECTORY_SEPARATOR . 'auto' . ucfirst($arguments['module']), $moduleDir, sfFinder::type('any'));
 
         if (!$options['with-show']) {
-            $this->getFilesystem()->remove($moduleDir.'/templates/showSuccess.php');
+            $this->getFilesystem()->remove($moduleDir . '/templates/showSuccess.php');
         }
 
         // change module name
         $finder = sfFinder::type('file')->name('*.php');
-        $this->getFilesystem()->replaceTokens($finder->in($moduleDir), '', '', array('auto'.ucfirst($arguments['module']) => $arguments['module']));
+        $this->getFilesystem()->replaceTokens($finder->in($moduleDir), '', '', array('auto' . ucfirst($arguments['module']) => $arguments['module']));
 
         // customize php and yml files
         $finder = sfFinder::type('file')->name('*.php', '*.yml');
         $this->getFilesystem()->replaceTokens($finder->in($moduleDir), '##', '##', $this->constants);
 
         // create basic test
-        $this->getFilesystem()->copy(sfConfig::get('sf_symfony_lib_dir').DIRECTORY_SEPARATOR.'task'.DIRECTORY_SEPARATOR.'generator'.DIRECTORY_SEPARATOR.'skeleton'.DIRECTORY_SEPARATOR.'module'.DIRECTORY_SEPARATOR.'test'.DIRECTORY_SEPARATOR.'actionsTest.php', sfConfig::get('sf_test_dir').DIRECTORY_SEPARATOR.'functional'.DIRECTORY_SEPARATOR.$arguments['application'].DIRECTORY_SEPARATOR.$arguments['module'].'ActionsTest.php');
+        $this->getFilesystem()->copy(sfConfig::get('sf_symfony_lib_dir') . DIRECTORY_SEPARATOR . 'task' . DIRECTORY_SEPARATOR . 'generator' . DIRECTORY_SEPARATOR . 'skeleton' . DIRECTORY_SEPARATOR . 'module' . DIRECTORY_SEPARATOR . 'test' . DIRECTORY_SEPARATOR . 'actionsTest.php', sfConfig::get('sf_test_dir') . DIRECTORY_SEPARATOR . 'functional' . DIRECTORY_SEPARATOR . $arguments['application'] . DIRECTORY_SEPARATOR . $arguments['module'] . 'ActionsTest.php');
 
         // customize test file
-        $this->getFilesystem()->replaceTokens(sfConfig::get('sf_test_dir').DIRECTORY_SEPARATOR.'functional'.DIRECTORY_SEPARATOR.$arguments['application'].DIRECTORY_SEPARATOR.$arguments['module'].'ActionsTest.php', '##', '##', $this->constants);
+        $this->getFilesystem()->replaceTokens(sfConfig::get('sf_test_dir') . DIRECTORY_SEPARATOR . 'functional' . DIRECTORY_SEPARATOR . $arguments['application'] . DIRECTORY_SEPARATOR . $arguments['module'] . 'ActionsTest.php', '##', '##', $this->constants);
 
         // delete temp files
         $this->getFilesystem()->remove(sfFinder::type('any')->in($tmpDir));
@@ -144,7 +144,7 @@ EOF;
 
     protected function executeInit($arguments = array(), $options = array())
     {
-        $moduleDir = sfConfig::get('sf_app_module_dir').'/'.$arguments['module'];
+        $moduleDir = sfConfig::get('sf_app_module_dir') . '/' . $arguments['module'];
 
         // create basic application structure
         $finder = sfFinder::type('any')->discard('.sf');
@@ -159,8 +159,8 @@ EOF;
         }
 
         // move configuration file
-        if (file_exists($config = $moduleDir.'/lib/configuration.php')) {
-            if (file_exists($target = $moduleDir.'/lib/'.$arguments['module'].'GeneratorConfiguration.class.php')) {
+        if (file_exists($config = $moduleDir . '/lib/configuration.php')) {
+            if (file_exists($target = $moduleDir . '/lib/' . $arguments['module'] . 'GeneratorConfiguration.class.php')) {
                 $this->getFilesystem()->remove($config);
             } else {
                 $this->getFilesystem()->rename($config, $target);
@@ -168,8 +168,8 @@ EOF;
         }
 
         // move helper file
-        if (file_exists($config = $moduleDir.'/lib/helper.php')) {
-            if (file_exists($target = $moduleDir.'/lib/'.$arguments['module'].'GeneratorHelper.class.php')) {
+        if (file_exists($config = $moduleDir . '/lib/helper.php')) {
+            if (file_exists($target = $moduleDir . '/lib/' . $arguments['module'] . 'GeneratorHelper.class.php')) {
                 $this->getFilesystem()->remove($config);
             } else {
                 $this->getFilesystem()->rename($config, $target);
@@ -177,10 +177,10 @@ EOF;
         }
 
         // create basic test
-        $this->getFilesystem()->copy(sfConfig::get('sf_symfony_lib_dir').DIRECTORY_SEPARATOR.'task'.DIRECTORY_SEPARATOR.'generator'.DIRECTORY_SEPARATOR.'skeleton'.DIRECTORY_SEPARATOR.'module'.DIRECTORY_SEPARATOR.'test'.DIRECTORY_SEPARATOR.'actionsTest.php', sfConfig::get('sf_test_dir').DIRECTORY_SEPARATOR.'functional'.DIRECTORY_SEPARATOR.$arguments['application'].DIRECTORY_SEPARATOR.$arguments['module'].'ActionsTest.php');
+        $this->getFilesystem()->copy(sfConfig::get('sf_symfony_lib_dir') . DIRECTORY_SEPARATOR . 'task' . DIRECTORY_SEPARATOR . 'generator' . DIRECTORY_SEPARATOR . 'skeleton' . DIRECTORY_SEPARATOR . 'module' . DIRECTORY_SEPARATOR . 'test' . DIRECTORY_SEPARATOR . 'actionsTest.php', sfConfig::get('sf_test_dir') . DIRECTORY_SEPARATOR . 'functional' . DIRECTORY_SEPARATOR . $arguments['application'] . DIRECTORY_SEPARATOR . $arguments['module'] . 'ActionsTest.php');
 
         // customize test file
-        $this->getFilesystem()->replaceTokens(sfConfig::get('sf_test_dir').DIRECTORY_SEPARATOR.'functional'.DIRECTORY_SEPARATOR.$arguments['application'].DIRECTORY_SEPARATOR.$arguments['module'].'ActionsTest.php', '##', '##', $this->constants);
+        $this->getFilesystem()->replaceTokens(sfConfig::get('sf_test_dir') . DIRECTORY_SEPARATOR . 'functional' . DIRECTORY_SEPARATOR . $arguments['application'] . DIRECTORY_SEPARATOR . $arguments['module'] . 'ActionsTest.php', '##', '##', $this->constants);
 
         // customize php and yml files
         $finder = sfFinder::type('file')->name('*.php', '*.yml');

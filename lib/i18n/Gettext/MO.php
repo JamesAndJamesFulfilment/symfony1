@@ -20,7 +20,7 @@
  * @author      Michael Wallner <mike@php.net>
  * @license     PHP License
  */
-require_once __DIR__.'/TGettext.class.php';
+require_once __DIR__ . '/TGettext.class.php';
 
 /**
  * File_Gettext_MO.
@@ -123,7 +123,7 @@ class TGettext_MO extends TGettext
      */
     public function _writeStr($string)
     {
-        return $this->_write($string."\0");
+        return $this->_write($string . "\0");
     }
 
     /**
@@ -297,7 +297,7 @@ class TGettext_MO extends TGettext
         if ($meta) {
             $meta = '';
             foreach ($this->meta as $key => $val) {
-                $meta .= $key.': '.$val."\n";
+                $meta .= $key . ': ' . $val . "\n";
             }
             $strings = array('' => $meta) + $this->strings;
         } else {

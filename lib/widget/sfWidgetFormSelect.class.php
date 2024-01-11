@@ -41,7 +41,7 @@ class sfWidgetFormSelect extends sfWidgetFormChoiceBase
 
         $choices = $this->getChoices();
 
-        return $this->renderContentTag('select', "\n".implode("\n", $this->getOptionsForSelect($value, $choices))."\n", array_merge(array('name' => $name), $attributes));
+        return $this->renderContentTag('select', "\n" . implode("\n", $this->getOptionsForSelect($value, $choices)) . "\n", array_merge(array('name' => $name), $attributes));
     }
 
     /**

@@ -69,10 +69,10 @@ EOF;
                 $maxMethod = strlen($method);
             }
         }
-        $format = '%-'.$maxName.'s %-'.$maxMethod.'s %s';
+        $format = '%-' . $maxName . 's %-' . $maxMethod . 's %s';
 
         // displays the generated routes
-        $format1 = '%-'.($maxName + 9).'s %-'.($maxMethod + 9).'s %s';
+        $format1 = '%-' . ($maxName + 9) . 's %-' . ($maxMethod + 9) . 's %s';
         $this->log(sprintf($format1, $this->formatter->format('Name', 'COMMENT'), $this->formatter->format('Method', 'COMMENT'), $this->formatter->format('Pattern', 'COMMENT')));
         foreach ($this->routes as $name => $route) {
             $requirements = $route->getRequirements();
@@ -98,7 +98,7 @@ EOF;
         $d = $route->getDefaults();
         ksort($d);
         foreach ($d as $name => $value) {
-            $defaults .= ($defaults ? "\n".str_repeat(' ', 13) : '').$name.': '.$this->formatValue($value);
+            $defaults .= ($defaults ? "\n" . str_repeat(' ', 13) : '') . $name . ': ' . $this->formatValue($value);
         }
         $this->log(sprintf('%s     %s', $this->formatter->format('Defaults', 'COMMENT'), $defaults));
 
@@ -106,7 +106,7 @@ EOF;
         $r = $route->getRequirements();
         ksort($r);
         foreach ($r as $name => $value) {
-            $requirements .= ($requirements ? "\n".str_repeat(' ', 13) : '').$name.': '.$this->formatValue($value);
+            $requirements .= ($requirements ? "\n" . str_repeat(' ', 13) : '') . $name . ': ' . $this->formatValue($value);
         }
         $this->log(sprintf('%s %s', $this->formatter->format('Requirements', 'COMMENT'), $requirements));
 
@@ -114,7 +114,7 @@ EOF;
         $o = $route->getOptions();
         ksort($o);
         foreach ($o as $name => $value) {
-            $options .= ($options ? "\n".str_repeat(' ', 13) : '').$name.': '.$this->formatValue($value);
+            $options .= ($options ? "\n" . str_repeat(' ', 13) : '') . $name . ': ' . $this->formatValue($value);
         }
         $this->log(sprintf('%s      %s', $this->formatter->format('Options', 'COMMENT'), $options));
         $this->log(sprintf('%s        %s', $this->formatter->format('Regex', 'COMMENT'), preg_replace('/^             /', '', preg_replace('/^/m', '             ', $route->getRegex()))));
@@ -124,7 +124,7 @@ EOF;
             if (!$tokens) {
                 $tokens = $this->displayToken($token);
             } else {
-                $tokens .= "\n".str_repeat(' ', 13).$this->displayToken($token);
+                $tokens .= "\n" . str_repeat(' ', 13) . $this->displayToken($token);
             }
         }
         $this->log(sprintf('%s       %s', $this->formatter->format('Tokens', 'COMMENT'), $tokens));

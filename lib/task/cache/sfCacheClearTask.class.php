@@ -121,14 +121,14 @@ EOF;
         foreach ($apps as $app) {
             $this->checkAppExists($app);
 
-            if (!is_dir(sfConfig::get('sf_cache_dir').'/'.$app)) {
+            if (!is_dir(sfConfig::get('sf_cache_dir') . '/' . $app)) {
                 continue;
             }
 
             // iterate through environments
-            $envs = null === $options['env'] ? $dirFinder->in(sfConfig::get('sf_cache_dir').'/'.$app) : array($options['env']);
+            $envs = null === $options['env'] ? $dirFinder->in(sfConfig::get('sf_cache_dir') . '/' . $app) : array($options['env']);
             foreach ($envs as $env) {
-                if (!is_dir(sfConfig::get('sf_cache_dir').'/'.$app.'/'.$env)) {
+                if (!is_dir(sfConfig::get('sf_cache_dir') . '/' . $app . '/' . $env)) {
                     continue;
                 }
 
@@ -174,7 +174,7 @@ EOF;
 
     protected function clearConfigCache(sfApplicationConfiguration $appConfiguration)
     {
-        $subDir = sfConfig::get('sf_cache_dir').'/'.$appConfiguration->getApplication().'/'.$appConfiguration->getEnvironment().'/config';
+        $subDir = sfConfig::get('sf_cache_dir') . '/' . $appConfiguration->getApplication() . '/' . $appConfiguration->getEnvironment() . '/config';
 
         if (is_dir($subDir)) {
             // remove cache files
@@ -211,7 +211,7 @@ EOF;
 
     protected function clearModuleCache(sfApplicationConfiguration $appConfiguration)
     {
-        $subDir = sfConfig::get('sf_cache_dir').'/'.$appConfiguration->getApplication().'/'.$appConfiguration->getEnvironment().'/modules';
+        $subDir = sfConfig::get('sf_cache_dir') . '/' . $appConfiguration->getApplication() . '/' . $appConfiguration->getEnvironment() . '/modules';
 
         if (is_dir($subDir)) {
             // remove cache files
@@ -236,6 +236,6 @@ EOF;
 
     protected function getLockFile($app, $env)
     {
-        return sfConfig::get('sf_data_dir').'/'.$app.'_'.$env.'-cli.lck';
+        return sfConfig::get('sf_data_dir') . '/' . $app . '_' . $env . '-cli.lck';
     }
 }

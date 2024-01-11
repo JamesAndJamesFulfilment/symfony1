@@ -20,7 +20,7 @@ class sfNoCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param mixed|null $default
+     * @param null|mixed $default
      */
     public function get($key, $default = null)
     {
@@ -38,7 +38,7 @@ class sfNoCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param mixed|null $lifetime
+     * @param null|mixed $lifetime
      */
     public function set($key, $data, $lifetime = null)
     {

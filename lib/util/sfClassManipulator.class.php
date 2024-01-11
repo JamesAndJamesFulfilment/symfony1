@@ -125,7 +125,7 @@ class sfClassManipulator
             } else {
                 if (1 == $insideSetup && '{' == $token) {
                     if (!$parens) {
-                        $code .= $topCode ? $token.PHP_EOL.'    '.$topCode : $token;
+                        $code .= $topCode ? $token . PHP_EOL . '    ' . $topCode : $token;
                     } else {
                         $code .= $token;
                     }
@@ -137,7 +137,7 @@ class sfClassManipulator
                     if (!$parens) {
                         $insideSetup = -1;
 
-                        $code .= $bottomCode ? '  '.$bottomCode.PHP_EOL.'  '.$token : $token;
+                        $code .= $bottomCode ? '  ' . $bottomCode . PHP_EOL . '  ' . $token : $token;
                     } else {
                         $code .= $token;
                     }
@@ -199,9 +199,9 @@ class sfClassManipulator
                     if (1 == $insideSetup) {
                         list($before, $setup) = $this->splitSetup($l);
                         $code .= $before;
-                        $code .= call_user_func($callable, $setup.$eol);
+                        $code .= call_user_func($callable, $setup . $eol);
                     } else {
-                        $code .= $l.$eol;
+                        $code .= $l . $eol;
                     }
                 }
             }
@@ -227,7 +227,7 @@ class sfClassManipulator
         if ($line) {
             if (false === stripos($line, '<?php')) {
                 // add a function so we can accurately slice
-                $tokens = token_get_all('<?php function'.$line);
+                $tokens = token_get_all('<?php function' . $line);
                 $tokens = array_slice($tokens, 2);
             } else {
                 $tokens = token_get_all($line);
@@ -242,13 +242,13 @@ class sfClassManipulator
                 } elseif ($inSignature && !preg_match('/\s+/', $value)) {
                     // clean up
                     preg_match('/^\s*/', $setup, $match);
-                    $before = implode('', array_map(array($this, 'getTokenValue'), $tokens)).$value.$match[0];
+                    $before = implode('', array_map(array($this, 'getTokenValue'), $tokens)) . $value . $match[0];
                     $setup = substr($setup, strlen($match[0]));
 
                     return array($before, $setup);
                 }
 
-                $setup = $value.$setup;
+                $setup = $value . $setup;
             }
         }
 

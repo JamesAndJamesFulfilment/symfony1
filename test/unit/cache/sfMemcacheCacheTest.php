@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 $plan = 73;
 $t = new lime_test($plan);
@@ -19,7 +19,7 @@ if (!class_exists('Memcache')) {
     return;
 }
 
-require_once __DIR__.'/sfCacheDriverTests.class.php';
+require_once __DIR__ . '/sfCacheDriverTests.class.php';
 
 // setup
 sfConfig::set('sf_logging_enabled', false);
@@ -53,11 +53,11 @@ $cache->clean();
 $cache->set('test_1', 'abc');
 $cache->set('test_2', 'abc');
 $cache->remove('test_1');
-$cacheInfo = $backend->get($prefix.'_metadata');
+$cacheInfo = $backend->get($prefix . '_metadata');
 $t->ok(is_array($cacheInfo), 'Cache info is an array');
 $t->is(count($cacheInfo), 1, 'Cache info contains 1 element');
-$t->ok(!in_array($prefix.'test_1', $cacheInfo), 'Cache info no longer contains the removed key');
-$t->ok(in_array($prefix.'test_2', $cacheInfo), 'Cache info still contains the key that was not removed');
+$t->ok(!in_array($prefix . 'test_1', $cacheInfo), 'Cache info no longer contains the removed key');
+$t->ok(in_array($prefix . 'test_2', $cacheInfo), 'Cache info still contains the key that was not removed');
 
 // ->removePattern() test for ticket #6220
 $t->diag('->removePattern() test for ticket #6220');
@@ -68,9 +68,9 @@ $cache->set('test_1', 'abc');
 $cache->set('test_2', 'abc');
 $cache->set('test3', 'abc');
 $cache->removePattern('test_*');
-$cacheInfo = $backend->get($prefix.'_metadata');
+$cacheInfo = $backend->get($prefix . '_metadata');
 $t->ok(is_array($cacheInfo), 'Cache info is an array');
 $t->is(count($cacheInfo), 1, 'Cache info contains 1 element');
-$t->ok(!in_array($prefix.'test_1', $cacheInfo), 'Cache info no longer contains the key that matches the pattern (first key)');
-$t->ok(!in_array($prefix.'test_2', $cacheInfo), 'Cache info no longer contains the key that matches the pattern (second key)');
-$t->ok(in_array($prefix.'test3', $cacheInfo), 'Cache info still contains the key that did not match the pattern (third key)');
+$t->ok(!in_array($prefix . 'test_1', $cacheInfo), 'Cache info no longer contains the key that matches the pattern (first key)');
+$t->ok(!in_array($prefix . 'test_2', $cacheInfo), 'Cache info no longer contains the key that matches the pattern (second key)');
+$t->ok(in_array($prefix . 'test3', $cacheInfo), 'Cache info still contains the key that did not match the pattern (third key)');

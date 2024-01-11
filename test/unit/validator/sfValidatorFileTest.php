@@ -8,13 +8,13 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 $t = new lime_test(70);
 
 $tmpDir = sys_get_temp_dir();
 $content = 'This is an ASCII file.';
-file_put_contents($tmpDir.'/test.txt', $content);
+file_put_contents($tmpDir . '/test.txt', $content);
 
 class testValidatorFile extends sfValidatorFile
 {
@@ -70,8 +70,8 @@ if (!function_exists('finfo_open')) {
     $t->skip('finfo_open is not available', 2);
 } else {
     $v = new testValidatorFile();
-    $t->is($v->guessFromFileinfo($tmpDir.'/test.txt'), 'text/plain', '->guessFromFileinfo() guesses the type of a given file');
-    $t->is($v->guessFromFileinfo($tmpDir.'/foo.txt'), null, '->guessFromFileinfo() returns null if the file type is not guessable');
+    $t->is($v->guessFromFileinfo($tmpDir . '/test.txt'), 'text/plain', '->guessFromFileinfo() guesses the type of a given file');
+    $t->is($v->guessFromFileinfo($tmpDir . '/foo.txt'), null, '->guessFromFileinfo() returns null if the file type is not guessable');
 }
 
 // ->guessFromMimeContentType()
@@ -80,31 +80,31 @@ if (!function_exists('mime_content_type')) {
     $t->skip('mime_content_type is not available', 2);
 } else {
     $v = new testValidatorFile();
-    $mimeType = $v->guessFromMimeContentType($tmpDir.'/test.txt');
+    $mimeType = $v->guessFromMimeContentType($tmpDir . '/test.txt');
     if (version_compare(PHP_VERSION, '5.3', '<') && false === $mimeType) {
         $t->skip('mime_content_type has some issue with php 5.2', 1);
     } else {
         $t->is($mimeType, 'text/plain', '->guessFromMimeContentType() guesses the type of a given file');
     }
-    $t->is($v->guessFromMimeContentType($tmpDir.'/foo.txt'), null, '->guessFromMimeContentType() returns null if the file type is not guessable');
+    $t->is($v->guessFromMimeContentType($tmpDir . '/foo.txt'), null, '->guessFromMimeContentType() returns null if the file type is not guessable');
 }
 
 // ->guessFromFileBinary()
 $t->diag('->guessFromFileBinary()');
 $v = new testValidatorFile();
-$t->is($v->guessFromFileBinary($tmpDir.'/test.txt'), 'text/plain', '->guessFromFileBinary() guesses the type of a given file');
-$t->is($v->guessFromFileBinary($tmpDir.'/foo.txt'), null, '->guessFromFileBinary() returns null if the file type is not guessable');
+$t->is($v->guessFromFileBinary($tmpDir . '/test.txt'), 'text/plain', '->guessFromFileBinary() guesses the type of a given file');
+$t->is($v->guessFromFileBinary($tmpDir . '/foo.txt'), null, '->guessFromFileBinary() returns null if the file type is not guessable');
 $t->like($v->guessFromFileBinary('/bin/ls'), (PHP_OS != 'Darwin') ? '/^application\/x-(pie-executable|executable|sharedlib)$/' : '/^application/octet-stream$/', '->guessFromFileBinary() returns correct type if file is guessable');
 $t->is($v->guessFromFileBinary('-test'), null, '->guessFromFileBinary() returns null if file path has leading dash');
 
 // ->getMimeType()
 $t->diag('->getMimeType()');
 $v = new testValidatorFile();
-$t->is($v->getMimeType($tmpDir.'/test.txt', 'image/png'), 'text/plain', '->getMimeType() guesses the type of a given file');
-$t->is($v->getMimeType($tmpDir.'/foo.txt', 'text/plain'), 'text/plain', '->getMimeType() returns the default type if the file type is not guessable');
+$t->is($v->getMimeType($tmpDir . '/test.txt', 'image/png'), 'text/plain', '->getMimeType() guesses the type of a given file');
+$t->is($v->getMimeType($tmpDir . '/foo.txt', 'text/plain'), 'text/plain', '->getMimeType() returns the default type if the file type is not guessable');
 
 $v->setOption('mime_type_guessers', array_merge(array(array($v, 'guessFromNothing')), $v->getOption('mime_type_guessers')));
-$t->is($v->getMimeType($tmpDir.'/test.txt', 'image/png'), 'nothing/plain', '->getMimeType() takes all guessers from the mime_type_guessers option');
+$t->is($v->getMimeType($tmpDir . '/test.txt', 'image/png'), 'nothing/plain', '->getMimeType() takes all guessers from the mime_type_guessers option');
 
 // ->clean()
 $t->diag('->clean()');
@@ -118,7 +118,7 @@ try {
     $t->pass('->clean() throws an sfValidatorError if the given value is not well formatted');
     $t->is($e->getCode(), 'invalid', '->clean() throws a sfValidatorError');
 }
-$f = $v->clean(array('tmp_name' => $tmpDir.'/test.txt'));
+$f = $v->clean(array('tmp_name' => $tmpDir . '/test.txt'));
 $t->ok($f instanceof sfValidatedFile, '->clean() returns a sfValidatedFile instance');
 $t->is($f->getOriginalName(), '', '->clean() returns a sfValidatedFile with an empty original name if the name is not passed in the initial value');
 $t->is($f->getSize(), strlen($content), '->clean() returns a sfValidatedFile with a computed file size if the size is not passed in the initial value');
@@ -129,17 +129,17 @@ class myValidatedFile extends sfValidatedFile
 }
 
 $v->setOption('validated_file_class', 'myValidatedFile');
-$f = $v->clean(array('tmp_name' => $tmpDir.'/test.txt'));
+$f = $v->clean(array('tmp_name' => $tmpDir . '/test.txt'));
 $t->ok($f instanceof myValidatedFile, '->clean() can take a "validated_file_class" option');
 
 foreach (array(UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE, UPLOAD_ERR_PARTIAL, UPLOAD_ERR_NO_TMP_DIR, UPLOAD_ERR_CANT_WRITE, UPLOAD_ERR_EXTENSION) as $error) {
     try {
-        $v->clean(array('tmp_name' => $tmpDir.'/test.txt', 'error' => $error));
+        $v->clean(array('tmp_name' => $tmpDir . '/test.txt', 'error' => $error));
         $t->fail('->clean() throws an sfValidatorError if the error code is not UPLOAD_ERR_OK (0)');
         $t->skip('', 1);
     } catch (sfValidatorError $e) {
         $t->pass('->clean() throws an sfValidatorError if the error code is not UPLOAD_ERR_OK (0)');
-        $t->is($e->getCode(), $code = strtolower(str_replace('UPLOAD_ERR_', '', $e->getCode())), '->clean() throws an error code of '.$code);
+        $t->is($e->getCode(), $code = strtolower(str_replace('UPLOAD_ERR_', '', $e->getCode())), '->clean() throws an error code of ' . $code);
     }
 }
 
@@ -148,7 +148,7 @@ $t->diag('max file size');
 $v->setOption('max_size', 4);
 
 try {
-    $v->clean(array('tmp_name' => $tmpDir.'/test.txt'));
+    $v->clean(array('tmp_name' => $tmpDir . '/test.txt'));
     $t->skip();
 } catch (sfValidatorError $e) {
     $t->pass('->clean() throws an sfValidatorError if the file size is too large');
@@ -161,7 +161,7 @@ $t->diag('mime types');
 $v->setOption('mime_types', 'web_images');
 
 try {
-    $v->clean(array('tmp_name' => $tmpDir.'/test.txt'));
+    $v->clean(array('tmp_name' => $tmpDir . '/test.txt'));
     $t->skip();
 } catch (sfValidatorError $e) {
     $t->pass('->clean() throws an sfValidatorError if the file mime type is not in mime_types option');
@@ -196,44 +196,44 @@ $t->is($v->clean(array('tmp_name' => '', 'error' => UPLOAD_ERR_NO_FILE, 'name' =
 
 // ->getOriginalName() ->getTempName() ->getSize() ->getType()
 $t->diag('->getOriginalName() ->getTempName() ->getSize() ->getType()');
-sfToolkit::clearDirectory($tmpDir.'/foo');
-if (is_dir($tmpDir.'/foo')) {
-    rmdir($tmpDir.'/foo');
+sfToolkit::clearDirectory($tmpDir . '/foo');
+if (is_dir($tmpDir . '/foo')) {
+    rmdir($tmpDir . '/foo');
 }
-$f = new sfValidatedFile('test.txt', 'text/plain', $tmpDir.'/test.txt', strlen($content));
+$f = new sfValidatedFile('test.txt', 'text/plain', $tmpDir . '/test.txt', strlen($content));
 $t->is($f->getOriginalName(), 'test.txt', '->getOriginalName() returns the original name');
-$t->is($f->getTempName(), $tmpDir.'/test.txt', '->getTempName() returns the temp name');
+$t->is($f->getTempName(), $tmpDir . '/test.txt', '->getTempName() returns the temp name');
 $t->is($f->getType(), 'text/plain', '->getType() returns the content type');
 $t->is($f->getSize(), strlen($content), '->getSize() returns the size of the uploaded file');
 
 // ->save() ->isSaved() ->getSavedName()
 $t->diag('->save() ->isSaved() ->getSavedName()');
-$f = new sfValidatedFile('test.txt', 'text/plain', $tmpDir.'/test.txt', strlen($content));
+$f = new sfValidatedFile('test.txt', 'text/plain', $tmpDir . '/test.txt', strlen($content));
 $t->is($f->isSaved(), false, '->isSaved() returns false if the file has not been saved');
 $t->is($f->getSavedName(), null, '->getSavedName() returns null if the file has not been saved');
-$filename = $f->save($tmpDir.'/foo/test1.txt');
-$t->is($filename, $tmpDir.'/foo/test1.txt', '->save() returns the saved filename');
-$t->is(file_get_contents($tmpDir.'/foo/test1.txt'), file_get_contents($tmpDir.'/test.txt'), '->save() saves the file to the given path');
+$filename = $f->save($tmpDir . '/foo/test1.txt');
+$t->is($filename, $tmpDir . '/foo/test1.txt', '->save() returns the saved filename');
+$t->is(file_get_contents($tmpDir . '/foo/test1.txt'), file_get_contents($tmpDir . '/test.txt'), '->save() saves the file to the given path');
 $t->is($f->isSaved(), true, '->isSaved() returns true if the file has been saved');
-$t->is($f->getSavedName(), $tmpDir.'/foo/test1.txt', '->getSavedName() returns the saved file name');
+$t->is($f->getSavedName(), $tmpDir . '/foo/test1.txt', '->getSavedName() returns the saved file name');
 
-$f = new sfValidatedFile('test.txt', 'text/plain', $tmpDir.'/test.txt', strlen($content), $tmpDir);
-$filename = $f->save($tmpDir.'/foo/test1.txt');
+$f = new sfValidatedFile('test.txt', 'text/plain', $tmpDir . '/test.txt', strlen($content), $tmpDir);
+$filename = $f->save($tmpDir . '/foo/test1.txt');
 $t->is($filename, 'foo/test1.txt', '->save() returns the saved filename relative to the path given');
-$t->is(file_get_contents($tmpDir.'/foo/test1.txt'), file_get_contents($tmpDir.'/test.txt'), '->save() saves the file to the given path');
-$t->is($f->getSavedName(), $tmpDir.'/foo/test1.txt', '->getSavedName() returns the saved file name');
+$t->is(file_get_contents($tmpDir . '/foo/test1.txt'), file_get_contents($tmpDir . '/test.txt'), '->save() saves the file to the given path');
+$t->is($f->getSavedName(), $tmpDir . '/foo/test1.txt', '->getSavedName() returns the saved file name');
 
 $filename = $f->save('foo/test1.txt');
 $t->is($filename, 'foo/test1.txt', '->save() returns the saved filename relative to the path given');
-$t->is(file_get_contents($tmpDir.'/foo/test1.txt'), file_get_contents($tmpDir.'/test.txt'), '->save() saves the file to the given path and uses the path if the file is not absolute');
-$t->is($f->getSavedName(), $tmpDir.'/foo/test1.txt', '->getSavedName() returns the saved file name');
+$t->is(file_get_contents($tmpDir . '/foo/test1.txt'), file_get_contents($tmpDir . '/test.txt'), '->save() saves the file to the given path and uses the path if the file is not absolute');
+$t->is($f->getSavedName(), $tmpDir . '/foo/test1.txt', '->getSavedName() returns the saved file name');
 
 $filename = $f->save();
-$t->is(file_get_contents($tmpDir.'/'.$filename), file_get_contents($tmpDir.'/test.txt'), '->save() returns the generated file name is none was given');
-$t->is($f->getSavedName(), $tmpDir.'/'.$filename, '->getSavedName() returns the saved file name');
+$t->is(file_get_contents($tmpDir . '/' . $filename), file_get_contents($tmpDir . '/test.txt'), '->save() returns the generated file name is none was given');
+$t->is($f->getSavedName(), $tmpDir . '/' . $filename, '->getSavedName() returns the saved file name');
 
 try {
-    $f = new sfValidatedFile('test.txt', 'text/plain', $tmpDir.'/test.txt', strlen($content));
+    $f = new sfValidatedFile('test.txt', 'text/plain', $tmpDir . '/test.txt', strlen($content));
     $f->save();
     $t->fail('->save() throws an Exception if you don\'t give a filename and the path is empty');
 } catch (Exception $e) {
@@ -241,7 +241,7 @@ try {
 }
 
 try {
-    $f->save($tmpDir.'/test.txt/test1.txt');
+    $f->save($tmpDir . '/test.txt/test1.txt');
     $t->fail('->save() throws an Exception if the directory already exists and is not a directory');
 } catch (Exception $e) {
     $t->pass('->save() throws an Exception if the directory already exists and is not a directory');
@@ -249,24 +249,24 @@ try {
 
 // ->getExtension()
 $t->diag('->getExtension()');
-$f = new sfValidatedFile('test.txt', 'text/plain', $tmpDir.'/test.txt', strlen($content));
+$f = new sfValidatedFile('test.txt', 'text/plain', $tmpDir . '/test.txt', strlen($content));
 $t->is($f->getExtension(), '.txt', '->getExtension() returns file extension based on the content type');
-$f = new sfValidatedFile('test.txt', 'image/x-png', $tmpDir.'/test.txt', strlen($content));
+$f = new sfValidatedFile('test.txt', 'image/x-png', $tmpDir . '/test.txt', strlen($content));
 $t->is($f->getExtension(), '.png', '->getExtension() returns file extension based on the content type');
-$f = new sfValidatedFile('test.txt', 'very/specific', $tmpDir.'/test.txt', strlen($content));
+$f = new sfValidatedFile('test.txt', 'very/specific', $tmpDir . '/test.txt', strlen($content));
 $t->is($f->getExtension(), '', '->getExtension() returns an empty string if it does not know the content type');
-$f = new sfValidatedFile('test.txt', '', $tmpDir.'/test.txt', strlen($content));
+$f = new sfValidatedFile('test.txt', '', $tmpDir . '/test.txt', strlen($content));
 $t->is($f->getExtension(), '', '->getExtension() returns an empty string if the content type is empty');
 $t->is($f->getExtension('bin'), 'bin', '->getExtension() takes a default extension as its first argument');
 
 // ->getOriginalExtension()
 $t->diag('->getOriginalExtension()');
-$f = new sfValidatedFile('test.txt', 'text/plain', $tmpDir.'/test.txt', strlen($content));
+$f = new sfValidatedFile('test.txt', 'text/plain', $tmpDir . '/test.txt', strlen($content));
 $t->is($f->getOriginalExtension(), '.txt', '->getOriginalExtension() returns the extension based on the uploaded file name');
-$f = new sfValidatedFile('test', 'text/plain', $tmpDir.'/test.txt', strlen($content));
+$f = new sfValidatedFile('test', 'text/plain', $tmpDir . '/test.txt', strlen($content));
 $t->is($f->getOriginalExtension(), '', '->getOriginalExtension() returns an empty extension if the uploaded file name has no extension');
 $t->is($f->getOriginalExtension('bin'), 'bin', '->getOriginalExtension() takes a default extension as its first argument');
 
-unlink($tmpDir.'/test.txt');
-sfToolkit::clearDirectory($tmpDir.'/foo');
-rmdir($tmpDir.'/foo');
+unlink($tmpDir . '/test.txt');
+sfToolkit::clearDirectory($tmpDir . '/foo');
+rmdir($tmpDir . '/foo');

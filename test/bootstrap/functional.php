@@ -15,10 +15,10 @@ ini_set('arg_separator.output', '&amp;');
 ini_set('allow_url_fopen', 'on');
 
 if (!isset($root_dir)) {
-    $root_dir = realpath(__DIR__.sprintf('/../%s/fixtures', isset($type) ? $type : 'functional'));
+    $root_dir = realpath(__DIR__ . sprintf('/../%s/fixtures', isset($type) ? $type : 'functional'));
 }
 
-require_once $root_dir.'/config/ProjectConfiguration.class.php';
+require_once $root_dir . '/config/ProjectConfiguration.class.php';
 $configuration = ProjectConfiguration::getApplicationConfiguration($app, 'test', isset($debug) ? $debug : true);
 
 // remove all cache
@@ -32,14 +32,14 @@ function sf_functional_test_shutdown_cleanup()
     sfToolkit::clearDirectory(sfConfig::get('sf_cache_dir'));
     sfToolkit::clearDirectory(sfConfig::get('sf_log_dir'));
 
-    $sf_root_dir = sys_get_temp_dir().'/sf_test_project';
+    $sf_root_dir = sys_get_temp_dir() . '/sf_test_project';
     if (is_dir($sf_root_dir)) {
         sfToolkit::clearDirectory($sf_root_dir);
         @rmdir($sf_root_dir);
     }
 
-    $sessions = glob(sys_get_temp_dir().'/sessions*');
-    $tmp_files = glob(sys_get_temp_dir().'/sf*');
+    $sessions = glob(sys_get_temp_dir() . '/sessions*');
+    $tmp_files = glob(sys_get_temp_dir() . '/sf*');
     $files = array_merge(empty($sessions) ? array() : $sessions, empty($tmp_files) ? array() : $tmp_files);
     foreach ($files as $file) {
         if (is_dir($file)) {
@@ -57,7 +57,7 @@ function sf_functional_test_shutdown()
     try {
         sf_functional_test_shutdown_cleanup();
     } catch (Exception $e) {
-        echo $e.PHP_EOL;
+        echo $e . PHP_EOL;
     }
 }
 

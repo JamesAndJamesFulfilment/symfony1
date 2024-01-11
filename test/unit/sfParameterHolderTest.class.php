@@ -22,12 +22,12 @@ class sfParameterHolderProxyTest
     {
         $t = $this->t;
 
-        $hasMethod = 'has'.ucfirst($methodName);
-        $getMethod = 'get'.ucfirst($methodName);
-        $setMethod = 'set'.ucfirst($methodName);
-        $holderMethod = 'get'.ucfirst($methodName).'Holder';
+        $hasMethod = 'has' . ucfirst($methodName);
+        $getMethod = 'get' . ucfirst($methodName);
+        $setMethod = 'set' . ucfirst($methodName);
+        $holderMethod = 'get' . ucfirst($methodName) . 'Holder';
 
-        $t->diag(ucfirst($methodName).' holder proxy');
+        $t->diag(ucfirst($methodName) . ' holder proxy');
 
         $namespaced = $object->{$holderMethod}() instanceof sfNamespacedParameterHolder ? true : false;
 

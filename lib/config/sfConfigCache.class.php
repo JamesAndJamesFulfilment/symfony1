@@ -128,7 +128,7 @@ class sfConfigCache
         $config = str_replace(array('\\', '/', ' '), '_', $config);
         $config .= '.php';
 
-        return sfConfig::get('sf_config_cache_dir').'/'.$config;
+        return sfConfig::get('sf_config_cache_dir') . '/' . $config;
     }
 
     /**
@@ -210,7 +210,7 @@ class sfConfigCache
                 $matches = array();
 
                 // create pattern from config
-                if (preg_match('#'.$pattern.'$#', $handler, $matches)) {
+                if (preg_match('#' . $pattern . '$#', $handler, $matches)) {
                     $handlerInstance = $this->getHandler($key);
                     array_shift($matches);
                     $handlerInstance->getParameterHolder()->set('wildcardValues', $matches);
@@ -281,7 +281,7 @@ class sfConfigCache
                 continue;
             }
 
-            $configPath = $sf_app_module_dir.'/'.$directory.'/config/config_handlers.yml';
+            $configPath = $sf_app_module_dir . '/' . $directory . '/config/config_handlers.yml';
 
             if (is_readable($configPath)) {
                 // initialize the root configuration handler with this module name
@@ -291,7 +291,7 @@ class sfConfigCache
 
                 // replace module dir path with a special keyword that
                 // checkConfig knows how to use
-                $configPath = 'modules/'.$directory.'/config/config_handlers.yml';
+                $configPath = 'modules/' . $directory . '/config/config_handlers.yml';
 
                 require $this->checkConfig($configPath);
             }

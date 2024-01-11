@@ -114,7 +114,7 @@ abstract class sfFormDoctrine extends sfFormObject
 
         $relation = $this->getObject()->getTable()->getRelation($relationName);
 
-        $r = new ReflectionClass(null === $formClass ? $relation->getClass().'Form' : $formClass);
+        $r = new ReflectionClass(null === $formClass ? $relation->getClass() . 'Form' : $formClass);
 
         if (Doctrine_Relation::ONE == $relation->getType()) {
             $this->embedForm($fieldName, $r->newInstanceArgs(array_merge(array($this->getObject()->{$relationName}), $formArgs)), $decorator);
@@ -199,7 +199,7 @@ abstract class sfFormDoctrine extends sfFormObject
      */
     public function getI18nFormClass()
     {
-        return $this->getI18nModelName().'Form';
+        return $this->getI18nModelName() . 'Form';
     }
 
     /**
@@ -281,7 +281,7 @@ abstract class sfFormDoctrine extends sfFormObject
             $values = $this->values;
         }
 
-        if (isset($values[$field.'_delete']) && $values[$field.'_delete']) {
+        if (isset($values[$field . '_delete']) && $values[$field . '_delete']) {
             $this->removeFile($field);
 
             return '';
@@ -328,7 +328,7 @@ abstract class sfFormDoctrine extends sfFormObject
             }
         }
 
-        if ($directory && $filename && is_file($file = $directory.'/'.$filename)) {
+        if ($directory && $filename && is_file($file = $directory . '/' . $filename)) {
             unlink($file);
         }
     }

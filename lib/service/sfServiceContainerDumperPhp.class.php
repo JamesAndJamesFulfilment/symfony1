@@ -37,10 +37,10 @@ class sfServiceContainerDumperPhp extends sfServiceContainerDumper
         ), $options);
 
         return
-          $this->startClass($options['class'], $options['base_class']).
-          $this->addConstructor().
-          $this->addServices().
-          $this->addDefaultParametersMethod().
+          $this->startClass($options['class'], $options['base_class']) .
+          $this->addConstructor() .
+          $this->addServices() .
+          $this->addDefaultParametersMethod() .
           $this->endClass();
     }
 
@@ -120,10 +120,10 @@ EOF;
         }
 
         if (null !== $definition->getConstructor()) {
-            return sprintf("    \$instance = call_user_func(array(%s, '%s')%s);\n", $class, $definition->getConstructor(), $arguments ? ', '.implode(', ', $arguments) : '');
+            return sprintf("    \$instance = call_user_func(array(%s, '%s')%s);\n", $class, $definition->getConstructor(), $arguments ? ', ' . implode(', ', $arguments) : '');
         }
 
-        if ($class != "'".$definition->getClass()."'") {
+        if ($class != "'" . $definition->getClass() . "'") {
             return sprintf("    \$class = %s;\n    \$instance = new \$class(%s);\n", $class, implode(', ', $arguments));
         }
 
@@ -186,11 +186,11 @@ EOF;
 EOF;
 
         $code .=
-          $this->addServiceInclude($id, $definition).
-          $this->addServiceShared($id, $definition).
-          $this->addServiceInstance($id, $definition).
-          $this->addServiceMethodCalls($id, $definition).
-          $this->addServiceConfigurator($id, $definition).
+          $this->addServiceInclude($id, $definition) .
+          $this->addServiceShared($id, $definition) .
+          $this->addServiceInstance($id, $definition) .
+          $this->addServiceMethodCalls($id, $definition) .
+          $this->addServiceConfigurator($id, $definition) .
           $this->addServiceReturn($id, $definition);
 
         return $code;

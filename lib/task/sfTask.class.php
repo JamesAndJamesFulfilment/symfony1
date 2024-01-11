@@ -117,7 +117,7 @@ abstract class sfTask
                 if (false !== $pos = array_search($name, array_keys($indexArguments))) {
                     if ($indexArguments[$name]->isArray()) {
                         $value = implode(' ', (array) $value);
-                        $arguments[$pos] = isset($arguments[$pos]) ? $arguments[$pos].' '.$value : $value;
+                        $arguments[$pos] = isset($arguments[$pos]) ? $arguments[$pos] . ' ' . $value : $value;
                     } else {
                         $arguments[$pos] = $value;
                     }
@@ -144,12 +144,12 @@ abstract class sfTask
                 }
 
                 // convert associative array
-                $value = true === $value ? $name : sprintf('%s=%s', $name, isset($indexedOptions[$name]) && $indexedOptions[$name]->isArray() ? implode(' --'.$name.'=', (array) $value) : $value);
+                $value = true === $value ? $name : sprintf('%s=%s', $name, isset($indexedOptions[$name]) && $indexedOptions[$name]->isArray() ? implode(' --' . $name . '=', (array) $value) : $value);
             }
 
             // add -- before each option if needed
             if (0 !== strpos($value, '--')) {
-                $value = '--'.$value;
+                $value = '--' . $value;
             }
 
             $options[] = $value;
@@ -189,7 +189,7 @@ abstract class sfTask
      * @param string     $name
      * @param int        $mode
      * @param string     $help
-     * @param mixed|null $default
+     * @param null|mixed $default
      */
     public function addArgument($name, $mode = null, $help = '', $default = null)
     {
@@ -227,7 +227,7 @@ abstract class sfTask
      * @param string     $shortcut
      * @param int        $mode
      * @param string     $help
-     * @param mixed|null $default
+     * @param null|mixed $default
      */
     public function addOption($name, $shortcut = null, $mode = null, $help = '', $default = null)
     {
@@ -275,7 +275,7 @@ abstract class sfTask
      */
     final public function getFullName()
     {
-        return $this->getNamespace() ? $this->getNamespace().':'.$this->getName() : $this->getName();
+        return $this->getNamespace() ? $this->getNamespace() . ':' . $this->getName() : $this->getName();
     }
 
     /**
@@ -325,12 +325,12 @@ abstract class sfTask
         $options = array();
         foreach ($this->getOptions() as $option) {
             $shortcut = $option->getShortcut() ? sprintf('-%s|', $option->getShortcut()) : '';
-            $options[] = sprintf('['.($option->isParameterRequired() ? '%s--%s="..."' : ($option->isParameterOptional() ? '%s--%s[="..."]' : '%s--%s')).']', $shortcut, $option->getName());
+            $options[] = sprintf('[' . ($option->isParameterRequired() ? '%s--%s="..."' : ($option->isParameterOptional() ? '%s--%s[="..."]' : '%s--%s')) . ']', $shortcut, $option->getName());
         }
 
         $arguments = array();
         foreach ($this->getArguments() as $argument) {
-            $arguments[] = sprintf($argument->isRequired() ? '%s' : '[%s]', $argument->getName().($argument->isArray() ? '1' : ''));
+            $arguments[] = sprintf($argument->isRequired() ? '%s' : '[%s]', $argument->getName() . ($argument->isArray() ? '1' : ''));
 
             if ($argument->isArray()) {
                 $arguments[] = sprintf('... [%sN]', $argument->getName());
@@ -404,7 +404,7 @@ abstract class sfTask
 
         $messages = $large ? array(str_repeat(' ', $len)) : array();
         foreach ($lines as $line) {
-            $messages[] = $line.str_repeat(' ', $len - $this->strlen($line));
+            $messages[] = $line . str_repeat(' ', $len - $this->strlen($line));
         }
         if ($large) {
             $messages[] = str_repeat(' ', $len);
@@ -566,8 +566,8 @@ abstract class sfTask
         $taskXML->appendChild($optionsXML = $dom->createElement('options'));
         foreach ($this->getOptions() as $option) {
             $optionsXML->appendChild($optionXML = $dom->createElement('option'));
-            $optionXML->setAttribute('name', '--'.$option->getName());
-            $optionXML->setAttribute('shortcut', $option->getShortcut() ? '-'.$option->getShortcut() : '');
+            $optionXML->setAttribute('name', '--' . $option->getName());
+            $optionXML->setAttribute('shortcut', $option->getShortcut() ? '-' . $option->getShortcut() : '');
             $optionXML->setAttribute('accept_parameter', $option->acceptParameter() ? 1 : 0);
             $optionXML->setAttribute('is_parameter_required', $option->isParameterRequired() ? 1 : 0);
             $optionXML->setAttribute('is_multiple', $option->isArray() ? 1 : 0);

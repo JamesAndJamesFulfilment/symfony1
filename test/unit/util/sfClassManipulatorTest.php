@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 $t = new lime_test(18);
 
@@ -133,7 +133,7 @@ $t->is($m->getFile(), 'foo', '->setFile() sets the name of the file associated w
 
 // ::fromFile()
 $t->diag('::fromFile()');
-$file = sys_get_temp_dir().'/sf_tmp.php';
+$file = sys_get_temp_dir() . '/sf_tmp.php';
 file_put_contents($file, $source);
 $m = sfClassManipulator::fromFile($file);
 $t->is($m->getFile(), $file, '::fromFile() sets the file internally');

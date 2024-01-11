@@ -297,7 +297,7 @@ abstract class sfModelGeneratorConfiguration
      * Gets a new form object.
      *
      * @param array      $options An array of options to merge with the options returned by getFormOptions()
-     * @param mixed|null $object
+     * @param null|mixed $object
      *
      * @return sfForm
      */
@@ -403,7 +403,7 @@ abstract class sfModelGeneratorConfiguration
         foreach ($this->getListBatchActions() as $action => $parameters) {
             $parameters = $this->fixActionParameters($action, $parameters);
 
-            $action = 'batch'.ucfirst(0 === strpos($action, '_') ? substr($action, 1) : $action);
+            $action = 'batch' . ucfirst(0 === strpos($action, '_') ? substr($action, 1) : $action);
 
             $this->configuration['list']['batch_actions'][$action] = $parameters;
         }
@@ -447,7 +447,7 @@ abstract class sfModelGeneratorConfiguration
             }
 
             $this->configuration['credentials'][$action] = isset($params['credentials']) ? $params['credentials'] : array();
-            $this->configuration['credentials']['batch'.ucfirst($action)] = isset($params['credentials']) ? $params['credentials'] : array();
+            $this->configuration['credentials']['batch' . ucfirst($action)] = isset($params['credentials']) ? $params['credentials'] : array();
         }
         $this->configuration['credentials']['create'] = $this->configuration['credentials']['new'];
         $this->configuration['credentials']['update'] = $this->configuration['credentials']['edit'];
@@ -469,7 +469,7 @@ abstract class sfModelGeneratorConfiguration
                 $this->configuration[$context]['fields'][$name]->setFlag($flag);
             }
 
-            $this->configuration[$context][$key] = str_replace('%%'.$flag.$name.'%%', '%%'.$name.'%%', $this->configuration[$context][$key]);
+            $this->configuration[$context][$key] = str_replace('%%' . $flag . $name . '%%', '%%' . $name . '%%', $this->configuration[$context][$key]);
         }
     }
 

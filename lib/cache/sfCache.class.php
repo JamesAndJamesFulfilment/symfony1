@@ -223,10 +223,10 @@ abstract class sfCache
     {
         $regexp = str_replace(
             array('\\*\\*', '\\*'),
-            array('.+?', '[^'.preg_quote(sfCache::SEPARATOR, '#').']+'),
+            array('.+?', '[^' . preg_quote(sfCache::SEPARATOR, '#') . ']+'),
             preg_quote($pattern, '#')
         );
 
-        return '#^'.$regexp.'$#';
+        return '#^' . $regexp . '$#';
     }
 }

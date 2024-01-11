@@ -156,7 +156,7 @@ class sfServiceContainer implements sfServiceContainerInterface
      */
     public function hasService($id)
     {
-        return isset($this->services[$id]) || method_exists($this, 'get'.self::camelize($id).'Service');
+        return isset($this->services[$id]) || method_exists($this, 'get' . self::camelize($id) . 'Service');
     }
 
     /**
@@ -177,7 +177,7 @@ class sfServiceContainer implements sfServiceContainerInterface
             return $this->services[$id];
         }
 
-        if (method_exists($this, $method = 'get'.self::camelize($id).'Service')) {
+        if (method_exists($this, $method = 'get' . self::camelize($id) . 'Service')) {
             return $this->{$method}();
         }
 

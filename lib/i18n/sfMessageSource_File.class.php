@@ -69,7 +69,7 @@ abstract class sfMessageSource_File extends sfMessageSource
      */
     public function getSource($variant)
     {
-        return $this->source.'/'.$variant;
+        return $this->source . '/' . $variant;
     }
 
     /**
@@ -94,7 +94,7 @@ abstract class sfMessageSource_File extends sfMessageSource
     public function getCatalogueList($catalogue)
     {
         $variants = explode('_', $this->culture);
-        $source = $catalogue.$this->dataExt;
+        $source = $catalogue . $this->dataExt;
 
         $catalogues = array($source);
 
@@ -102,8 +102,8 @@ abstract class sfMessageSource_File extends sfMessageSource
 
         for ($i = 0, $max = count($variants); $i < $max; ++$i) {
             if (strlen($variants[$i]) > 0) {
-                $variant .= $variant ? '_'.$variants[$i] : $variants[$i];
-                $catalogues[] = $catalogue.$this->dataSeparator.$variant.$this->dataExt;
+                $variant .= $variant ? '_' . $variants[$i] : $variants[$i];
+                $catalogues[] = $catalogue . $this->dataSeparator . $variant . $this->dataExt;
             }
         }
 
@@ -149,8 +149,8 @@ abstract class sfMessageSource_File extends sfMessageSource
 
         for ($i = 0, $max = count($variants); $i < $max; ++$i) {
             if (strlen($variants[$i]) > 0) {
-                $variant .= $variant ? '_'.$variants[$i] : $variants[$i];
-                $catalogues[] = $variant.'/'.$catalogue.$this->dataExt;
+                $variant .= $variant ? '_' . $variants[$i] : $variants[$i];
+                $catalogues[] = $variant . '/' . $catalogue . $this->dataExt;
             }
         }
 
@@ -175,8 +175,8 @@ abstract class sfMessageSource_File extends sfMessageSource
         $catalogue = array();
 
         foreach ($files as $file) {
-            if (is_dir($dir.'/'.$file) && preg_match('/^[a-z]{2}(_[A-Z]{2,3})?$/', $file)) {
-                $catalogue = array_merge($catalogue, $this->getCatalogues($dir.'/'.$file, $file));
+            if (is_dir($dir . '/' . $file) && preg_match('/^[a-z]{2}(_[A-Z]{2,3})?$/', $file)) {
+                $catalogue = array_merge($catalogue, $this->getCatalogues($dir . '/' . $file, $file));
             }
 
             $pos = strpos($file, $this->dataExt);

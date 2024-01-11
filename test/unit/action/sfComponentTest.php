@@ -8,11 +8,11 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
-require_once $_test_dir.'/unit/sfContextMock.class.php';
+require_once $_test_dir . '/unit/sfContextMock.class.php';
 
-require_once $_test_dir.'/unit/sfNoRouting.class.php';
+require_once $_test_dir . '/unit/sfNoRouting.class.php';
 
 $t = new lime_test(8);
 
@@ -57,6 +57,6 @@ $component->foo[] = 'bar';
 $t->is($component->foo, array('bar'), '__set() populates component variables');
 
 // new methods via sfEventDispatcher
-require_once $_test_dir.'/unit/sfEventDispatcherTest.class.php';
+require_once $_test_dir . '/unit/sfEventDispatcherTest.class.php';
 $dispatcherTest = new sfEventDispatcherTest($t);
 $dispatcherTest->launchTests($context->getEventDispatcher(), $component, 'component');

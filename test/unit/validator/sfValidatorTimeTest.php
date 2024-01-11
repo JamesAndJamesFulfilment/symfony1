@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 $t = new lime_test(27);
 
@@ -84,7 +84,7 @@ try {
     $t->skip('', 2);
 } catch (sfValidatorError $e) {
     $t->pass('->clean() throws a sfValidatorError if the time does not match the regex');
-    $t->like($e->getMessage(), '/'.preg_quote(htmlspecialchars($v->getOption('time_format'), ENT_QUOTES, 'UTF-8'), '/').'/', '->clean() returns the expected time format in the error message');
+    $t->like($e->getMessage(), '/' . preg_quote(htmlspecialchars($v->getOption('time_format'), ENT_QUOTES, 'UTF-8'), '/') . '/', '->clean() returns the expected time format in the error message');
     $t->is($e->getCode(), 'bad_format', '->clean() throws a sfValidatorError');
 }
 
@@ -94,7 +94,7 @@ try {
     $v->clean('20.10-18');
     $t->skip('', 1);
 } catch (sfValidatorError $e) {
-    $t->like($e->getMessage(), '/'.preg_quote('hh/mm/ss', '/').'/', '->clean() returns the expected time format error if provided');
+    $t->like($e->getMessage(), '/' . preg_quote('hh/mm/ss', '/') . '/', '->clean() returns the expected time format error if provided');
 }
 
 $v->setOption('time_format', null);

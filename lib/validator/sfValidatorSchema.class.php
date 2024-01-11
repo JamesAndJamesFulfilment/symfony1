@@ -320,7 +320,7 @@ class sfValidatorSchema extends sfValidatorBase implements ArrayAccess
             } catch (Exception $e) {
                 $class = get_class($e);
 
-                throw new $class($e->getMessage().' of "'.$name.'" field');
+                throw new $class($e->getMessage() . ' of "' . $name . '" field');
             }
         }
 

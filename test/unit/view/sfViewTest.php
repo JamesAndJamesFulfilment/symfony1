@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
-require_once $_test_dir.'/unit/sfContextMock.class.php';
+require_once $_test_dir . '/unit/sfContextMock.class.php';
 
 $t = new lime_test(19);
 
@@ -75,12 +75,12 @@ $t->is($view->isDecorator(), true, '->initialize() uses the format to configure 
 $t->is($context->getResponse()->getContentType(), 'application/javascript', '->initialize() uses the format to configure the view');
 
 // parameter holder proxy
-require_once $_test_dir.'/unit/sfParameterHolderTest.class.php';
+require_once $_test_dir . '/unit/sfParameterHolderTest.class.php';
 $pht = new sfParameterHolderProxyTest($t);
 $pht->launchTests($view, 'parameter');
 
 // new methods via sfEventDispatcher
-require_once $_test_dir.'/unit/sfEventDispatcherTest.class.php';
+require_once $_test_dir . '/unit/sfEventDispatcherTest.class.php';
 $dispatcherTest = new sfEventDispatcherTest($t);
 $dispatcherTest->launchTests($context->getEventDispatcher(), $view, 'view');
 

@@ -55,7 +55,7 @@ abstract class sfCommandApplicationTask extends sfTask
     /**
      * @see sfTask
      *
-     * @param mixed|null $size
+     * @param null|mixed $size
      */
     public function logSection($section, $message, $size = null, $style = 'INFO')
     {
@@ -143,9 +143,9 @@ abstract class sfCommandApplicationTask extends sfTask
     protected function initializeMailer()
     {
         if (!class_exists('Swift')) {
-            $swift_dir = sfConfig::get('sf_symfony_lib_dir').'/vendor/swiftmailer/lib';
+            $swift_dir = sfConfig::get('sf_symfony_lib_dir') . '/vendor/swiftmailer/lib';
 
-            require_once $swift_dir.'/swift_required.php';
+            require_once $swift_dir . '/swift_required.php';
         }
 
         $config = $this->getFactoryConfiguration();

@@ -29,13 +29,13 @@ class sfDoctrinePluginConfiguration extends sfPluginConfiguration
         }
 
         if (sfConfig::get('sf_web_debug')) {
-            require_once __DIR__.'/../lib/debug/sfWebDebugPanelDoctrine.class.php';
+            require_once __DIR__ . '/../lib/debug/sfWebDebugPanelDoctrine.class.php';
 
             $this->dispatcher->connect('debug.web.load_panels', array('sfWebDebugPanelDoctrine', 'listenToAddPanelEvent'));
         }
 
         if (!class_exists('Doctrine_Core')) {
-            require_once sfConfig::get('sf_doctrine_dir', realpath(__DIR__.'/../lib/vendor/doctrine/lib')).'/Doctrine/Core.php';
+            require_once sfConfig::get('sf_doctrine_dir', realpath(__DIR__ . '/../lib/vendor/doctrine/lib')) . '/Doctrine/Core.php';
             spl_autoload_register(array('Doctrine_Core', 'autoload'));
         }
 
@@ -87,11 +87,11 @@ class sfDoctrinePluginConfiguration extends sfPluginConfiguration
     public function getCliConfig()
     {
         $config = array(
-            'data_fixtures_path' => array_merge(array(sfConfig::get('sf_data_dir').'/fixtures'), $this->configuration->getPluginSubPaths('/data/fixtures')),
-            'models_path' => sfConfig::get('sf_lib_dir').'/model/doctrine',
-            'migrations_path' => sfConfig::get('sf_lib_dir').'/migration/doctrine',
-            'sql_path' => sfConfig::get('sf_data_dir').'/sql',
-            'yaml_schema_path' => sfConfig::get('sf_config_dir').'/doctrine',
+            'data_fixtures_path' => array_merge(array(sfConfig::get('sf_data_dir') . '/fixtures'), $this->configuration->getPluginSubPaths('/data/fixtures')),
+            'models_path' => sfConfig::get('sf_lib_dir') . '/model/doctrine',
+            'migrations_path' => sfConfig::get('sf_lib_dir') . '/migration/doctrine',
+            'sql_path' => sfConfig::get('sf_data_dir') . '/sql',
+            'yaml_schema_path' => sfConfig::get('sf_config_dir') . '/doctrine',
         );
 
         // filter config through the dispatcher

@@ -17,7 +17,7 @@
  *
  * @version    SVN: $Id$
  */
-require_once __DIR__.'/../../lib/task/sfFilesystem.class.php';
+require_once __DIR__ . '/../../lib/task/sfFilesystem.class.php';
 
 if (!isset($argv[1])) {
     echo "You must provide a revision range (-r123:456)\n";
@@ -38,7 +38,7 @@ $info = new SimpleXMLElement($out);
 
 list($out, $err) = $filesystem->execute(vsprintf('svn log %s --xml %s', array_map('escapeshellarg', array(
     $argv[1],
-    (string) $info->entry->repository->root.$argv[2],
+    (string) $info->entry->repository->root . $argv[2],
 ))));
 $log = new SimpleXMLElement($out);
 

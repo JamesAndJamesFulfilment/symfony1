@@ -34,9 +34,9 @@ class sfWidgetFormFilterInput extends sfWidgetForm
         $values = array_merge(array('text' => '', 'is_empty' => false), is_array($value) ? $value : array());
 
         return strtr($this->getOption('template'), array(
-            '%input%' => $this->renderTag('input', array_merge(array('type' => 'text', 'id' => $this->generateId($name), 'name' => $name.'[text]', 'value' => $values['text']), $attributes)),
-            '%empty_checkbox%' => $this->getOption('with_empty') ? $this->renderTag('input', array('type' => 'checkbox', 'name' => $name.'[is_empty]', 'checked' => $values['is_empty'] ? 'checked' : '')) : '',
-            '%empty_label%' => $this->getOption('with_empty') ? $this->renderContentTag('label', $this->translate($this->getOption('empty_label')), array('for' => $this->generateId($name.'[is_empty]'))) : '',
+            '%input%' => $this->renderTag('input', array_merge(array('type' => 'text', 'id' => $this->generateId($name), 'name' => $name . '[text]', 'value' => $values['text']), $attributes)),
+            '%empty_checkbox%' => $this->getOption('with_empty') ? $this->renderTag('input', array('type' => 'checkbox', 'name' => $name . '[is_empty]', 'checked' => $values['is_empty'] ? 'checked' : '')) : '',
+            '%empty_label%' => $this->getOption('with_empty') ? $this->renderContentTag('label', $this->translate($this->getOption('empty_label')), array('for' => $this->generateId($name . '[is_empty]'))) : '',
         ));
     }
 

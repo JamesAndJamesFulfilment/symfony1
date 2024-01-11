@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 $t = new lime_test(1);
 
@@ -27,7 +27,7 @@ class ObjectRoute extends sfObjectRoute
     {
         $parameters = array();
         foreach ($this->getRealVariables() as $variable) {
-            if (method_exists($object, $method = 'get'.$variable)) {
+            if (method_exists($object, $method = 'get' . $variable)) {
                 $parameters[$variable] = $object->{$method}();
             }
         }

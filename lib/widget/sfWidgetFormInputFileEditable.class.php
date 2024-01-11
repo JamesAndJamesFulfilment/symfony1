@@ -39,7 +39,7 @@ class sfWidgetFormInputFileEditable extends sfWidgetFormInputFile
         }
 
         if ($this->getOption('with_delete')) {
-            $deleteName = ']' == substr($name, -1) ? substr($name, 0, -1).'_delete]' : $name.'_delete';
+            $deleteName = ']' == substr($name, -1) ? substr($name, 0, -1) . '_delete]' : $name . '_delete';
 
             $delete = $this->renderTag('input', array_merge(array('type' => 'checkbox', 'name' => $deleteName), $attributes));
             $deleteLabel = $this->translate($this->getOption('delete_label'));

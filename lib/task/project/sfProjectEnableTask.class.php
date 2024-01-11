@@ -48,7 +48,7 @@ EOF;
      */
     protected function execute($arguments = array(), $options = array())
     {
-        if (1 == count($arguments['app']) && !file_exists(sfConfig::get('sf_apps_dir').'/'.$arguments['app'][0])) {
+        if (1 == count($arguments['app']) && !file_exists(sfConfig::get('sf_apps_dir') . '/' . $arguments['app'][0])) {
             // support previous task signature
             $applications = array($arguments['env']);
             $env = $arguments['app'][0];
@@ -58,7 +58,7 @@ EOF;
         }
 
         foreach ($applications as $app) {
-            $lockFile = sfConfig::get('sf_data_dir').'/'.$app.'_'.$env.'.lck';
+            $lockFile = sfConfig::get('sf_data_dir') . '/' . $app . '_' . $env . '.lck';
             if (!file_exists($lockFile)) {
                 $this->logSection('enable', sprintf('%s [%s] is currently ENABLED', $app, $env));
             } else {
@@ -67,7 +67,7 @@ EOF;
                 $clearCache = new sfCacheClearTask($this->dispatcher, $this->formatter);
                 $clearCache->setCommandApplication($this->commandApplication);
                 $clearCache->setConfiguration($this->configuration);
-                $clearCache->run(array(), array('--app='.$app, '--env='.$env));
+                $clearCache->run(array(), array('--app=' . $app, '--env=' . $env));
 
                 $this->logSection('enable', sprintf('%s [%s] has been ENABLED', $app, $env));
             }

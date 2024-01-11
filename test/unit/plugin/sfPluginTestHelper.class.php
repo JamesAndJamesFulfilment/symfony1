@@ -9,17 +9,17 @@ class sfPluginTestHelper
         $dir = dirname($file);
         $file = basename($file);
 
-        $dest = SF_PLUGIN_TEST_DIR.'/'.$dir.'/'.$file;
+        $dest = SF_PLUGIN_TEST_DIR . '/' . $dir . '/' . $file;
 
         if (!is_dir(dirname($dest))) {
             mkdir(dirname($dest), 0777, true);
         }
 
-        if (!file_exists(__DIR__.'/fixtures/'.$dir.'/'.$file)) {
+        if (!file_exists(__DIR__ . '/fixtures/' . $dir . '/' . $file)) {
             throw new sfException(sprintf('Unable to find fixture for %s (%s)', $url, $file));
         }
 
-        copy(__DIR__.'/fixtures/'.$dir.'/'.$file, $dest);
+        copy(__DIR__ . '/fixtures/' . $dir . '/' . $file, $dest);
 
         return $dest;
     }

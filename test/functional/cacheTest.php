@@ -9,7 +9,7 @@
  */
 
 $app = 'cache';
-if (!include __DIR__.'/../bootstrap/functional.php') {
+if (!include __DIR__ . '/../bootstrap/functional.php') {
     return;
 }
 
@@ -25,7 +25,7 @@ class myTestBrowser extends sfTestBrowser
     public function getMultiAction($parameter = null)
     {
         return $this->
-          get('/cache/multi'.(null !== $parameter ? '/param/'.$parameter : ''))->
+          get('/cache/multi' . (null !== $parameter ? '/param/' . $parameter : ''))->
           with('request')->begin()->
             isParameter('module', 'cache')->
             isParameter('action', 'multi')->
@@ -39,58 +39,58 @@ class myTestBrowser extends sfTestBrowser
 
             // contextual partials
             checkElement('#contextualPartial .contextualPartial')->
-            checkElement('#contextualCacheablePartial .contextualCacheablePartial__'.$parameter, 'Param: '.$parameter)->
-            checkElement('#contextualCacheablePartialVarParam .contextualCacheablePartial_varParam_'.$parameter, 'Param: '.$parameter)->
+            checkElement('#contextualCacheablePartial .contextualCacheablePartial__' . $parameter, 'Param: ' . $parameter)->
+            checkElement('#contextualCacheablePartialVarParam .contextualCacheablePartial_varParam_' . $parameter, 'Param: ' . $parameter)->
 
             // components
-            checkElement('#component .component__componentParam_'.$parameter)->
-            checkElement('#componentVarParam .component_varParam_componentParam_'.$parameter)->
+            checkElement('#component .component__componentParam_' . $parameter)->
+            checkElement('#componentVarParam .component_varParam_componentParam_' . $parameter)->
 
             // contextual components
-            checkElement('#contextualComponent .contextualComponent__componentParam_'.$parameter)->
-            checkElement('#contextualComponentVarParam .contextualComponent_varParam_componentParam_'.$parameter)->
-            checkElement('#contextualCacheableComponent .contextualCacheableComponent__componentParam_'.$parameter, 'Param: '.$parameter)->
-            checkElement('#contextualCacheableComponentVarParam .contextualCacheableComponent_varParam_componentParam_'.$parameter, 'Param: '.$parameter)->
+            checkElement('#contextualComponent .contextualComponent__componentParam_' . $parameter)->
+            checkElement('#contextualComponentVarParam .contextualComponent_varParam_componentParam_' . $parameter)->
+            checkElement('#contextualCacheableComponent .contextualCacheableComponent__componentParam_' . $parameter, 'Param: ' . $parameter)->
+            checkElement('#contextualCacheableComponentVarParam .contextualCacheableComponent_varParam_componentParam_' . $parameter, 'Param: ' . $parameter)->
           end()->
 
           with('view_cache')->begin()->
             isCached(false)->
 
             // partial cache
-            isUriCached('@sf_cache_partial?module=cache&action=_partial&sf_cache_key='.md5(serialize(array())), false)->
-            isUriCached('@sf_cache_partial?module=cache&action=_partial&sf_cache_key='.md5(serialize(array('varParam' => 'varParam'))), false)->
+            isUriCached('@sf_cache_partial?module=cache&action=_partial&sf_cache_key=' . md5(serialize(array())), false)->
+            isUriCached('@sf_cache_partial?module=cache&action=_partial&sf_cache_key=' . md5(serialize(array('varParam' => 'varParam'))), false)->
 
-            isUriCached('@sf_cache_partial?module=cache&action=_cacheablePartial&sf_cache_key='.md5(serialize(array())), true)->
-            isUriCached('@sf_cache_partial?module=cache&action=_cacheablePartial&sf_cache_key='.md5(serialize(array('varParam' => 'varParam'))), true)->
+            isUriCached('@sf_cache_partial?module=cache&action=_cacheablePartial&sf_cache_key=' . md5(serialize(array())), true)->
+            isUriCached('@sf_cache_partial?module=cache&action=_cacheablePartial&sf_cache_key=' . md5(serialize(array('varParam' => 'varParam'))), true)->
 
-            isUriCached('@sf_cache_partial?module=cache&action=_cacheablePartial&sf_cache_key='.md5(serialize(array('varParam' => 'another'))), false)->
+            isUriCached('@sf_cache_partial?module=cache&action=_cacheablePartial&sf_cache_key=' . md5(serialize(array('varParam' => 'another'))), false)->
 
             // contextual partial cache
-            isUriCached('@sf_cache_partial?module=cache&action=_contextualPartial&sf_cache_key='.md5(serialize(array())), false)->
-            isUriCached('@sf_cache_partial?module=cache&action=_contextualPartial&sf_cache_key='.md5(serialize(array('varParam' => 'varParam'))), false)->
+            isUriCached('@sf_cache_partial?module=cache&action=_contextualPartial&sf_cache_key=' . md5(serialize(array())), false)->
+            isUriCached('@sf_cache_partial?module=cache&action=_contextualPartial&sf_cache_key=' . md5(serialize(array('varParam' => 'varParam'))), false)->
 
-            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheablePartial&sf_cache_key='.md5(serialize(array())), true)->
-            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheablePartial&sf_cache_key='.md5(serialize(array('varParam' => 'varParam'))), true)->
+            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheablePartial&sf_cache_key=' . md5(serialize(array())), true)->
+            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheablePartial&sf_cache_key=' . md5(serialize(array('varParam' => 'varParam'))), true)->
 
-            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheablePartial&sf_cache_key='.md5(serialize(array('varParam' => 'another'))), false)->
+            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheablePartial&sf_cache_key=' . md5(serialize(array('varParam' => 'another'))), false)->
 
             // component cache
-            isUriCached('@sf_cache_partial?module=cache&action=_component&sf_cache_key='.md5(serialize(array())), false)->
-            isUriCached('@sf_cache_partial?module=cache&action=_component&sf_cache_key='.md5(serialize(array('varParam' => 'varParam'))), false)->
+            isUriCached('@sf_cache_partial?module=cache&action=_component&sf_cache_key=' . md5(serialize(array())), false)->
+            isUriCached('@sf_cache_partial?module=cache&action=_component&sf_cache_key=' . md5(serialize(array('varParam' => 'varParam'))), false)->
 
-            isUriCached('@sf_cache_partial?module=cache&action=_cacheableComponent&sf_cache_key='.md5(serialize(array())), true)->
-            isUriCached('@sf_cache_partial?module=cache&action=_cacheableComponent&sf_cache_key='.md5(serialize(array('varParam' => 'varParam'))), true)->
+            isUriCached('@sf_cache_partial?module=cache&action=_cacheableComponent&sf_cache_key=' . md5(serialize(array())), true)->
+            isUriCached('@sf_cache_partial?module=cache&action=_cacheableComponent&sf_cache_key=' . md5(serialize(array('varParam' => 'varParam'))), true)->
 
-            isUriCached('@sf_cache_partial?module=cache&action=_cacheableComponent&sf_cache_key='.md5(serialize(array('varParam' => 'another'))), false)->
+            isUriCached('@sf_cache_partial?module=cache&action=_cacheableComponent&sf_cache_key=' . md5(serialize(array('varParam' => 'another'))), false)->
 
             // contextual component cache
-            isUriCached('@sf_cache_partial?module=cache&action=_contextualComponent&sf_cache_key='.md5(serialize(array())), false)->
-            isUriCached('@sf_cache_partial?module=cache&action=_contextualComponent&sf_cache_key='.md5(serialize(array('varParam' => 'varParam'))), false)->
+            isUriCached('@sf_cache_partial?module=cache&action=_contextualComponent&sf_cache_key=' . md5(serialize(array())), false)->
+            isUriCached('@sf_cache_partial?module=cache&action=_contextualComponent&sf_cache_key=' . md5(serialize(array('varParam' => 'varParam'))), false)->
 
-            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheableComponent&sf_cache_key='.md5(serialize(array())), true)->
-            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheableComponent&sf_cache_key='.md5(serialize(array('varParam' => 'varParam'))), true)->
+            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheableComponent&sf_cache_key=' . md5(serialize(array())), true)->
+            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheableComponent&sf_cache_key=' . md5(serialize(array('varParam' => 'varParam'))), true)->
 
-            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheableComponent&sf_cache_key='.md5(serialize(array('varParam' => 'another'))), false)->
+            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheableComponent&sf_cache_key=' . md5(serialize(array('varParam' => 'another'))), false)->
           end();
     }
 
@@ -223,16 +223,16 @@ class myTestBrowser extends sfTestBrowser
           with('view_cache')->begin()->
             isCached(false)->
             // partial cache
-            isUriCached('@sf_cache_partial?module=cache&action=_cacheablePartial&sf_cache_key='.md5(serialize(array())), true)->
+            isUriCached('@sf_cache_partial?module=cache&action=_cacheablePartial&sf_cache_key=' . md5(serialize(array())), true)->
 
             // contextual partial cache
-            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheableComponent&sf_cache_key='.md5(serialize(array())), true)->
+            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheableComponent&sf_cache_key=' . md5(serialize(array())), true)->
 
             // component cache
-            isUriCached('@sf_cache_partial?module=cache&action=_cacheableComponent&sf_cache_key='.md5(serialize(array())), true)->
+            isUriCached('@sf_cache_partial?module=cache&action=_cacheableComponent&sf_cache_key=' . md5(serialize(array())), true)->
 
             // contextual component cache
-            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheableComponent&sf_cache_key='.md5(serialize(array())), true)->
+            isUriCached('@sf_cache_partial?module=cache&action=_contextualCacheableComponent&sf_cache_key=' . md5(serialize(array())), true)->
           end();
 
         // remove all cache
@@ -310,7 +310,7 @@ class myTestBrowser extends sfTestBrowser
 $b = new myTestBrowser();
 
 // non HTML cache
-$image = file_get_contents(__DIR__.'/fixtures/apps/cache/modules/cache/data/ok48.png');
+$image = file_get_contents(__DIR__ . '/fixtures/apps/cache/modules/cache/data/ok48.png');
 sfConfig::set('sf_web_debug', true);
 $b->
   get('/cache/imageWithLayoutCacheWithLayout')->
@@ -492,6 +492,6 @@ $b->launch();
 // test with sfSQLiteCache class
 if (extension_loaded('SQLite') || extension_loaded('pdo_SQLite')) {
     sfConfig::set('sf_factory_view_cache', 'sfSQLiteCache');
-    sfConfig::set('sf_factory_view_cache_parameters', array('database' => sfConfig::get('sf_template_cache_dir').DIRECTORY_SEPARATOR.'cache.db'));
+    sfConfig::set('sf_factory_view_cache_parameters', array('database' => sfConfig::get('sf_template_cache_dir') . DIRECTORY_SEPARATOR . 'cache.db'));
     $b->launch();
 }

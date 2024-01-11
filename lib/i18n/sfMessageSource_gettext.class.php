@@ -127,7 +127,7 @@ class sfMessageSource_gettext extends sfMessageSource_File
             $mo = $po->toMO();
             if ($po->save() && $mo->save($MOFile)) {
                 if ($this->cache) {
-                    $this->cache->remove($variant.':'.$this->culture);
+                    $this->cache->remove($variant . ':' . $this->culture);
                 }
 
                 return true;
@@ -177,7 +177,7 @@ class sfMessageSource_gettext extends sfMessageSource_File
                 $mo = $po->toMO();
                 if ($po->save() && $mo->save($MOFile)) {
                     if ($this->cache) {
-                        $this->cache->remove($variant.':'.$this->culture);
+                        $this->cache->remove($variant . ':' . $this->culture);
                     }
 
                     return true;
@@ -231,7 +231,7 @@ class sfMessageSource_gettext extends sfMessageSource_File
 
                 if ($po->save() && $mo->save($MOFile)) {
                     if ($this->cache) {
-                        $this->cache->remove($variant.':'.$this->culture);
+                        $this->cache->remove($variant . ':' . $this->culture);
                     }
 
                     return true;
@@ -274,7 +274,7 @@ class sfMessageSource_gettext extends sfMessageSource_File
 
     protected function getPOFile($MOFile)
     {
-        return substr($MOFile, 0, strlen($MOFile) - strlen($this->dataExt)).$this->poExt;
+        return substr($MOFile, 0, strlen($MOFile) - strlen($this->dataExt)) . $this->poExt;
     }
 
     protected function createMessageTemplate($catalogue)

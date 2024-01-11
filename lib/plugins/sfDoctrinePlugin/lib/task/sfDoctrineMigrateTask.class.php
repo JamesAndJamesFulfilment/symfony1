@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/sfDoctrineBaseTask.class.php';
+require_once __DIR__ . '/sfDoctrineBaseTask.class.php';
 
 /**
  * Inserts SQL for current model.
@@ -95,12 +95,12 @@ EOF;
             $migration_classes = $migration->getMigrationClasses();
             if ($version < $from) {
                 for ($i = (int) $from - 1; $i >= (int) $version; --$i) {
-                    $this->logSection('doctrine', 'executing migration : '.$i.', class: '.$migration_classes[$i]);
+                    $this->logSection('doctrine', 'executing migration : ' . $i . ', class: ' . $migration_classes[$i]);
                     $migration->migrate($i, $options['dry-run']);
                 }
             } else {
                 for ($i = (int) $from + 1; $i <= (int) $version; ++$i) {
-                    $this->logSection('doctrine', 'executing migration : '.$i.', class: '.$migration_classes[$i]);
+                    $this->logSection('doctrine', 'executing migration : ' . $i . ', class: ' . $migration_classes[$i]);
                     $migration->migrate($i, $options['dry-run']);
                 }
             }
@@ -117,7 +117,7 @@ EOF;
             } else {
                 $this->logBlock(array_merge(
                     array('The following errors occurred:', ''),
-                    array_map(function ($e) { return ' - '.$e->getMessage(); }, $migration->getErrors())
+                    array_map(function ($e) { return ' - ' . $e->getMessage(); }, $migration->getErrors())
                 ), 'ERROR_LARGE');
             }
 

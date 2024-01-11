@@ -160,22 +160,22 @@ class sfViewCacheManager
 
         // add vary headers
         if ($varyPart = $this->getCacheKeyVaryHeaderPart($internalUri, $vary)) {
-            $cacheKey = '/'.$varyPart.'/'.ltrim($cacheKey, '/');
+            $cacheKey = '/' . $varyPart . '/' . ltrim($cacheKey, '/');
         }
 
         // add hostname
         if ($hostNamePart = $this->getCacheKeyHostNamePart($hostName)) {
-            $cacheKey = '/'.$hostNamePart.'/'.ltrim($cacheKey, '/');
+            $cacheKey = '/' . $hostNamePart . '/' . ltrim($cacheKey, '/');
         }
 
         // normalize to a leading slash
         if (0 !== strpos($cacheKey, '/')) {
-            $cacheKey = '/'.$cacheKey;
+            $cacheKey = '/' . $cacheKey;
         }
 
         // distinguish multiple slashes
         while (false !== strpos($cacheKey, '//')) {
-            $cacheKey = str_replace('//', '/'.substr(sha1($cacheKey), 0, 7).'/', $cacheKey);
+            $cacheKey = str_replace('//', '/' . substr(sha1($cacheKey), 0, 7) . '/', $cacheKey);
         }
 
         // prevent directory traversal
@@ -224,7 +224,7 @@ class sfViewCacheManager
     public function registerConfiguration($moduleName)
     {
         if (!isset($this->loaded[$moduleName])) {
-            require $this->context->getConfigCache()->checkConfig('modules/'.$moduleName.'/config/cache.yml');
+            require $this->context->getConfigCache()->checkConfig('modules/' . $moduleName . '/config/cache.yml');
             $this->loaded[$moduleName] = true;
         }
     }
@@ -501,7 +501,7 @@ class sfViewCacheManager
         $this->addCache($params['module'], $params['action'], array('withLayout' => false, 'lifeTime' => $lifeTime, 'clientLifeTime' => $clientLifeTime, 'vary' => $vary));
 
         // get data from cache if available
-        $data = $this->get($internalUri.(strpos($internalUri, '?') ? '&' : '?').'_sf_cache_key='.$name);
+        $data = $this->get($internalUri . (strpos($internalUri, '?') ? '&' : '?') . '_sf_cache_key=' . $name);
         if (null !== $data) {
             return $data;
         }
@@ -527,7 +527,7 @@ class sfViewCacheManager
         $internalUri = $this->routing->getCurrentInternalUri();
 
         try {
-            $this->set($data, $internalUri.(strpos($internalUri, '?') ? '&' : '?').'_sf_cache_key='.$name);
+            $this->set($data, $internalUri . (strpos($internalUri, '?') ? '&' : '?') . '_sf_cache_key=' . $name);
         } catch (Exception $e) {
         }
 
@@ -822,22 +822,22 @@ class sfViewCacheManager
         $sf_cache_key = $this->generateCacheKey($event['uri']);
         $bgColor = $event['new'] ? '#9ff' : '#ff9';
         $lastModified = $this->cache->getLastModified($sf_cache_key);
-        $cacheKey = $this->cache->getOption('prefix').$sf_cache_key;
+        $cacheKey = $this->cache->getOption('prefix') . $sf_cache_key;
         $id = md5($event['uri']);
 
         return '
-      <div id="main_'.$id.'" class="sfWebDebugActionCache" style="border: 1px solid #f00">
-      <div id="sub_main_'.$id.'" class="sfWebDebugCache" style="background-color: '.$bgColor.'; border-right: 1px solid #f00; border-bottom: 1px solid #f00;">
-      <div style="height: 16px; padding: 2px"><a href="#" onclick="sfWebDebugToggle(\'sub_main_info_'.$id.'\'); return false;"><strong>cache information</strong></a>&nbsp;<a href="#" onclick="sfWebDebugToggle(\'sub_main_'.$id.'\'); document.getElementById(\'main_'.$id.'\').style.border = \'none\'; return false;">'.image_tag(sfConfig::get('sf_web_debug_web_dir').'/images/close.png', array('alt' => 'close')).'</a>&nbsp;</div>
-        <div style="padding: 2px; display: none" id="sub_main_info_'.$id.'">
-        [uri]&nbsp;'.htmlspecialchars($event['uri'], ENT_QUOTES, sfConfig::get('sf_charset')).'<br />
-        [key&nbsp;for&nbsp;cache]&nbsp;'.htmlspecialchars($cacheKey, ENT_QUOTES, sfConfig::get('sf_charset')).'<br />
-        [life&nbsp;time]&nbsp;'.$this->getLifeTime($event['uri']).'&nbsp;seconds<br />
-        [last&nbsp;modified]&nbsp;'.(time() - $lastModified).'&nbsp;seconds<br />
+      <div id="main_' . $id . '" class="sfWebDebugActionCache" style="border: 1px solid #f00">
+      <div id="sub_main_' . $id . '" class="sfWebDebugCache" style="background-color: ' . $bgColor . '; border-right: 1px solid #f00; border-bottom: 1px solid #f00;">
+      <div style="height: 16px; padding: 2px"><a href="#" onclick="sfWebDebugToggle(\'sub_main_info_' . $id . '\'); return false;"><strong>cache information</strong></a>&nbsp;<a href="#" onclick="sfWebDebugToggle(\'sub_main_' . $id . '\'); document.getElementById(\'main_' . $id . '\').style.border = \'none\'; return false;">' . image_tag(sfConfig::get('sf_web_debug_web_dir') . '/images/close.png', array('alt' => 'close')) . '</a>&nbsp;</div>
+        <div style="padding: 2px; display: none" id="sub_main_info_' . $id . '">
+        [uri]&nbsp;' . htmlspecialchars($event['uri'], ENT_QUOTES, sfConfig::get('sf_charset')) . '<br />
+        [key&nbsp;for&nbsp;cache]&nbsp;' . htmlspecialchars($cacheKey, ENT_QUOTES, sfConfig::get('sf_charset')) . '<br />
+        [life&nbsp;time]&nbsp;' . $this->getLifeTime($event['uri']) . '&nbsp;seconds<br />
+        [last&nbsp;modified]&nbsp;' . (time() - $lastModified) . '&nbsp;seconds<br />
         &nbsp;<br />&nbsp;
         </div>
       </div><div>
-      '.$content.'
+      ' . $content . '
       </div></div>
     ';
     }
@@ -868,7 +868,7 @@ class sfViewCacheManager
             $varys = array();
 
             foreach ($varyHeaders as $header) {
-                $varys[] = $header.'-'.preg_replace('/\W+/', '_', $request->getHttpHeader($header));
+                $varys[] = $header . '-' . preg_replace('/\W+/', '_', $request->getHttpHeader($header));
             }
             $vary = implode('-', $varys);
         }

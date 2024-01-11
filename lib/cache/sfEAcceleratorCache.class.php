@@ -43,13 +43,13 @@ class sfEAcceleratorCache extends sfCache
      * @see sfCache
      *
      * @param string     $key
-     * @param mixed|null $default
+     * @param null|mixed $default
      *
      * @return null|string
      */
     public function get($key, $default = null)
     {
-        $value = eaccelerator_get($this->getOption('prefix').$key);
+        $value = eaccelerator_get($this->getOption('prefix') . $key);
 
         return null === $value ? $default : $value;
     }
@@ -63,7 +63,7 @@ class sfEAcceleratorCache extends sfCache
      */
     public function has($key)
     {
-        return null !== eaccelerator_get($this->getOption('prefix'.$key));
+        return null !== eaccelerator_get($this->getOption('prefix' . $key));
     }
 
     /**
@@ -77,7 +77,7 @@ class sfEAcceleratorCache extends sfCache
      */
     public function set($key, $data, $lifetime = null)
     {
-        return eaccelerator_put($this->getOption('prefix').$key, $data, $this->getLifetime($lifetime));
+        return eaccelerator_put($this->getOption('prefix') . $key, $data, $this->getLifetime($lifetime));
     }
 
     /**
@@ -85,7 +85,7 @@ class sfEAcceleratorCache extends sfCache
      */
     public function remove($key)
     {
-        return eaccelerator_rm($this->getOption('prefix').$key);
+        return eaccelerator_rm($this->getOption('prefix') . $key);
     }
 
     /**
@@ -96,11 +96,11 @@ class sfEAcceleratorCache extends sfCache
         $infos = eaccelerator_list_keys();
 
         if (is_array($infos)) {
-            $regexp = self::patternToRegexp($this->getOption('prefix').$pattern);
+            $regexp = self::patternToRegexp($this->getOption('prefix') . $pattern);
 
             foreach ($infos as $info) {
                 if (preg_match($regexp, $info['name'])) {
-                    eaccelerator_rm($this->getOption('prefix').$key);
+                    eaccelerator_rm($this->getOption('prefix') . $key);
                 }
             }
         }
@@ -161,7 +161,7 @@ class sfEAcceleratorCache extends sfCache
 
         if (is_array($infos)) {
             foreach ($infos as $info) {
-                if ($this->getOption('prefix').$key == $info['name']) {
+                if ($this->getOption('prefix') . $key == $info['name']) {
                     return $info;
                 }
             }

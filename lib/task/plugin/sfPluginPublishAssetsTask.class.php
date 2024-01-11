@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/sfPluginBaseTask.class.php';
+require_once __DIR__ . '/sfPluginBaseTask.class.php';
 
 /**
  * Publishes Web Assets for Core and third party plugins.
@@ -63,11 +63,11 @@ EOF;
         $enabledPlugins = $this->configuration->getPlugins();
 
         if ($diff = array_diff($arguments['plugins'], $enabledPlugins)) {
-            throw new InvalidArgumentException('Plugin(s) not found: '.implode(', ', $diff));
+            throw new InvalidArgumentException('Plugin(s) not found: ' . implode(', ', $diff));
         }
 
         if ($options['core-only']) {
-            $corePlugins = sfFinder::type('dir')->relative()->maxdepth(0)->in($this->configuration->getSymfonyLibDir().'/plugins');
+            $corePlugins = sfFinder::type('dir')->relative()->maxdepth(0)->in($this->configuration->getSymfonyLibDir() . '/plugins');
             $arguments['plugins'] = array_unique(array_merge($arguments['plugins'], array_intersect($enabledPlugins, $corePlugins)));
         } elseif (!count($arguments['plugins'])) {
             $arguments['plugins'] = $enabledPlugins;
@@ -76,7 +76,7 @@ EOF;
         foreach ($arguments['plugins'] as $plugin) {
             $pluginConfiguration = $this->configuration->getPluginConfiguration($plugin);
 
-            $this->logSection('plugin', 'Configuring plugin - '.$plugin);
+            $this->logSection('plugin', 'Configuring plugin - ' . $plugin);
             $this->installPluginAssets($plugin, $pluginConfiguration->getRootDir(), $options['relative']);
         }
     }
@@ -89,13 +89,13 @@ EOF;
      */
     protected function installPluginAssets($plugin, $dir, $relative)
     {
-        $webDir = $dir.DIRECTORY_SEPARATOR.'web';
+        $webDir = $dir . DIRECTORY_SEPARATOR . 'web';
 
         if (is_dir($webDir)) {
             if ($relative) {
-                $this->getFilesystem()->relativeSymlink($webDir, sfConfig::get('sf_web_dir').DIRECTORY_SEPARATOR.$plugin, true);
+                $this->getFilesystem()->relativeSymlink($webDir, sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $plugin, true);
             } else {
-                $this->getFilesystem()->symlink($webDir, sfConfig::get('sf_web_dir').DIRECTORY_SEPARATOR.$plugin, true);
+                $this->getFilesystem()->symlink($webDir, sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $plugin, true);
             }
         }
     }

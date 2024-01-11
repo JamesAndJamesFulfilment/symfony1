@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/sfDoctrineBaseTask.class.php';
+require_once __DIR__ . '/sfDoctrineBaseTask.class.php';
 
 /**
  * Generate migration classes by producing a diff between your old and new schema.

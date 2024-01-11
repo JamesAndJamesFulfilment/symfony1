@@ -64,12 +64,12 @@ class sfSymfonyPluginManager extends sfPluginManager
      */
     public function installWebContent($plugin, $sourceDirectory)
     {
-        $webDir = $sourceDirectory.DIRECTORY_SEPARATOR.$plugin.DIRECTORY_SEPARATOR.'web';
+        $webDir = $sourceDirectory . DIRECTORY_SEPARATOR . $plugin . DIRECTORY_SEPARATOR . 'web';
         if (is_dir($webDir)) {
             $this->dispatcher->notify(new sfEvent($this, 'application.log', array('Installing web data for plugin')));
 
             $filesystem = new sfFilesystem();
-            $filesystem->relativeSymlink($webDir, $this->environment->getOption('web_dir').DIRECTORY_SEPARATOR.$plugin, true);
+            $filesystem->relativeSymlink($webDir, $this->environment->getOption('web_dir') . DIRECTORY_SEPARATOR . $plugin, true);
         }
     }
 
@@ -80,7 +80,7 @@ class sfSymfonyPluginManager extends sfPluginManager
      */
     public function uninstallWebContent($plugin)
     {
-        $targetDir = $this->environment->getOption('web_dir').DIRECTORY_SEPARATOR.$plugin;
+        $targetDir = $this->environment->getOption('web_dir') . DIRECTORY_SEPARATOR . $plugin;
         if (is_dir($targetDir)) {
             $this->dispatcher->notify(new sfEvent($this, 'application.log', array('Uninstalling web data for plugin')));
 
@@ -110,7 +110,7 @@ class sfSymfonyPluginManager extends sfPluginManager
             throw new sfPluginException('You must provide a "config_dir" option.');
         }
 
-        $manipulator = sfClassManipulator::fromFile($configDir.'/ProjectConfiguration.class.php');
+        $manipulator = sfClassManipulator::fromFile($configDir . '/ProjectConfiguration.class.php');
         $manipulator->wrapMethod('setup', '', sprintf('$this->enablePlugins(\'%s\');', $plugin));
         $manipulator->save();
     }
@@ -130,7 +130,7 @@ class sfSymfonyPluginManager extends sfPluginManager
             throw new sfPluginException('You must provide a "config_dir" option.');
         }
 
-        $file = $configDir.'/ProjectConfiguration.class.php';
+        $file = $configDir . '/ProjectConfiguration.class.php';
         $source = file_get_contents($file);
 
         $source = preg_replace(sprintf('# *\$this\->enablePlugins\(array\(([^\)]+), *\'%s\'([^\)]*)\)\)#', $plugin), '$this->enablePlugins(array($1$2))', $source);

@@ -66,12 +66,12 @@ class sfServiceContainerDumperGraphviz extends sfServiceContainerDumper
             foreach ($definition->getMethodCalls() as $call) {
                 $this->edges[$id] = array_merge(
                     $this->edges[$id],
-                    $this->findEdges($id, $call[1], false, $call[0].'()')
+                    $this->findEdges($id, $call[1], false, $call[0] . '()')
                 );
             }
         }
 
-        return $this->startDot().$this->addNodes().$this->addEdges().$this->endDot();
+        return $this->startDot() . $this->addNodes() . $this->addEdges() . $this->endDot();
     }
 
     protected function addNodes()
@@ -80,7 +80,7 @@ class sfServiceContainerDumperGraphviz extends sfServiceContainerDumper
         foreach ($this->nodes as $id => $node) {
             $aliases = $this->getAliases($id);
 
-            $code .= sprintf("  node_%s [label=\"%s\\n%s\\n\", shape=%s%s];\n", $this->dotize($id), $id.($aliases ? ' ('.implode(', ', $aliases).')' : ''), $node['class'], $this->options['node']['shape'], $this->addAttributes($node['attributes']));
+            $code .= sprintf("  node_%s [label=\"%s\\n%s\\n\", shape=%s%s];\n", $this->dotize($id), $id . ($aliases ? ' (' . implode(', ', $aliases) . ')' : ''), $node['class'], $this->options['node']['shape'], $this->addAttributes($node['attributes']));
         }
 
         return $code;
@@ -176,7 +176,7 @@ class sfServiceContainerDumperGraphviz extends sfServiceContainerDumper
             $code[] = sprintf('%s="%s"', $k, $v);
         }
 
-        return $code ? ', '.implode(', ', $code) : '';
+        return $code ? ', ' . implode(', ', $code) : '';
     }
 
     protected function addOptions($options)

@@ -105,14 +105,14 @@ abstract class sfPluginConfiguration
      */
     public function initializeAutoload()
     {
-        $autoload = sfSimpleAutoload::getInstance(sfConfig::get('sf_cache_dir').'/project_autoload.cache');
+        $autoload = sfSimpleAutoload::getInstance(sfConfig::get('sf_cache_dir') . '/project_autoload.cache');
 
-        if (is_readable($file = $this->rootDir.'/config/autoload.yml')) {
+        if (is_readable($file = $this->rootDir . '/config/autoload.yml')) {
             $this->configuration->getEventDispatcher()->connect('autoload.filter_config', array($this, 'filterAutoloadConfig'));
             $autoload->loadConfiguration(array($file));
             $this->configuration->getEventDispatcher()->disconnect('autoload.filter_config', array($this, 'filterAutoloadConfig'));
         } else {
-            $autoload->addDirectory($this->rootDir.'/lib');
+            $autoload->addDirectory($this->rootDir . '/lib');
         }
 
         $autoload->register();
@@ -126,19 +126,19 @@ abstract class sfPluginConfiguration
     public function filterAutoloadConfig(sfEvent $event, array $config)
     {
         // use array_merge so config is added to the front of the autoload array
-        if (!isset($config['autoload'][$this->name.'_lib'])) {
+        if (!isset($config['autoload'][$this->name . '_lib'])) {
             $config['autoload'] = array_merge(array(
-                $this->name.'_lib' => array(
-                    'path' => $this->rootDir.'/lib',
+                $this->name . '_lib' => array(
+                    'path' => $this->rootDir . '/lib',
                     'recursive' => true,
                 ),
             ), $config['autoload']);
         }
 
-        if (!isset($config['autoload'][$this->name.'_module_libs'])) {
+        if (!isset($config['autoload'][$this->name . '_module_libs'])) {
             $config['autoload'] = array_merge(array(
-                $this->name.'_module_libs' => array(
-                    'path' => $this->rootDir.'/modules/*/lib',
+                $this->name . '_module_libs' => array(
+                    'path' => $this->rootDir . '/modules/*/lib',
                     'recursive' => true,
                     'prefix' => 1,
                 ),
@@ -168,13 +168,13 @@ abstract class sfPluginConfiguration
         $task = $event->getSubject();
 
         if ($task instanceof sfTestAllTask) {
-            $directory = $this->rootDir.'/test';
+            $directory = $this->rootDir . '/test';
             $names = array();
         } elseif ($task instanceof sfTestFunctionalTask) {
-            $directory = $this->rootDir.'/test/functional';
+            $directory = $this->rootDir . '/test/functional';
             $names = $event['arguments']['controller'];
         } elseif ($task instanceof sfTestUnitTask) {
-            $directory = $this->rootDir.'/test/unit';
+            $directory = $this->rootDir . '/test/unit';
             $names = $event['arguments']['name'];
         }
 
@@ -183,8 +183,8 @@ abstract class sfPluginConfiguration
         }
 
         foreach ($names as $name) {
-            $finder = sfFinder::type('file')->follow_link()->name(basename($name).'Test.php');
-            $files = array_merge($files, $finder->in($directory.'/'.dirname($name)));
+            $finder = sfFinder::type('file')->follow_link()->name(basename($name) . 'Test.php');
+            $files = array_merge($files, $finder->in($directory . '/' . dirname($name)));
         }
 
         return array_unique($files);
@@ -199,7 +199,7 @@ abstract class sfPluginConfiguration
     {
         $r = new ReflectionClass(get_class($this));
 
-        return realpath(dirname($r->getFileName()).'/..');
+        return realpath(dirname($r->getFileName()) . '/..');
     }
 
     /**

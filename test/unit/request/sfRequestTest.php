@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 class myRequest extends sfRequest
 {
@@ -85,7 +85,7 @@ $t->ok($request->getAttributeHolder() !== $requestClone->getAttributeHolder(), '
 $request = new myRequest($dispatcher);
 
 // parameter holder proxy
-require_once $_test_dir.'/unit/sfParameterHolderTest.class.php';
+require_once $_test_dir . '/unit/sfParameterHolderTest.class.php';
 $pht = new sfParameterHolderProxyTest($t);
 $pht->launchTests($request, 'parameter');
 
@@ -94,6 +94,6 @@ $pht = new sfParameterHolderProxyTest($t);
 $pht->launchTests($request, 'attribute');
 
 // new methods via sfEventDispatcher
-require_once $_test_dir.'/unit/sfEventDispatcherTest.class.php';
+require_once $_test_dir . '/unit/sfEventDispatcherTest.class.php';
 $dispatcherTest = new sfEventDispatcherTest($t);
 $dispatcherTest->launchTests($dispatcher, $request, 'request');

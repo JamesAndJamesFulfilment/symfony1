@@ -76,10 +76,10 @@ class sfValidatorAnd extends sfValidatorBase
     {
         $validators = '';
         for ($i = 0, $max = count($this->validators); $i < $max; ++$i) {
-            $validators .= "\n".$this->validators[$i]->asString($indent + 2)."\n";
+            $validators .= "\n" . $this->validators[$i]->asString($indent + 2) . "\n";
 
             if ($i < $max - 1) {
-                $validators .= str_repeat(' ', $indent + 2).'and';
+                $validators .= str_repeat(' ', $indent + 2) . 'and';
             }
 
             if ($i == $max - 2) {
@@ -90,7 +90,7 @@ class sfValidatorAnd extends sfValidatorBase
                     $validators .= sprintf(
                         '(%s%s)',
                         $options ? sfYamlInline::dump($options) : ($messages ? '{}' : ''),
-                        $messages ? ', '.sfYamlInline::dump($messages) : ''
+                        $messages ? ', ' . sfYamlInline::dump($messages) : ''
                     );
                 }
             }

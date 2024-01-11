@@ -88,7 +88,7 @@ class sfYamlParser
                 } else {
                     if (isset($values['leadspaces'])
                       && ' ' == $values['leadspaces']
-                      && preg_match('#^(?P<key>'.sfYamlInline::REGEX_QUOTED_STRING.'|[^ \'"\{].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $values['value'], $matches)) {
+                      && preg_match('#^(?P<key>' . sfYamlInline::REGEX_QUOTED_STRING . '|[^ \'"\{].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $values['value'], $matches)) {
                         // this is a compact notation element, add to next block and parse
                         $c = $this->getRealCurrentLineNb();
                         $parser = new sfYamlParser($c);
@@ -96,7 +96,7 @@ class sfYamlParser
 
                         $block = $values['value'];
                         if (!$this->isNextLineIndented()) {
-                            $block .= "\n".$this->getNextEmbedBlock($this->getCurrentLineIndentation() + 2);
+                            $block .= "\n" . $this->getNextEmbedBlock($this->getCurrentLineIndentation() + 2);
                         }
 
                         $data[] = $parser->parse($block);
@@ -104,7 +104,7 @@ class sfYamlParser
                         $data[] = $this->parseValue($values['value']);
                     }
                 }
-            } elseif (preg_match('#^(?P<key>'.sfYamlInline::REGEX_QUOTED_STRING.'|[^ \'"].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $this->currentLine, $values)) {
+            } elseif (preg_match('#^(?P<key>' . sfYamlInline::REGEX_QUOTED_STRING . '|[^ \'"].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $this->currentLine, $values)) {
                 $key = sfYamlInline::parseScalar($values['key']);
 
                 if ('<<' === $key) {
@@ -388,7 +388,7 @@ class sfYamlParser
             return '';
         }
 
-        if (!preg_match('#^(?P<indent>'.($indentation ? str_repeat(' ', $indentation) : ' +').')(?P<text>.*)$#u', $this->currentLine, $matches)) {
+        if (!preg_match('#^(?P<indent>' . ($indentation ? str_repeat(' ', $indentation) : ' +') . ')(?P<text>.*)$#u', $this->currentLine, $matches)) {
             $this->moveToPreviousLine();
 
             return '';
@@ -397,19 +397,19 @@ class sfYamlParser
         $textIndent = $matches['indent'];
         $previousIndent = 0;
 
-        $text .= $matches['text'].$separator;
+        $text .= $matches['text'] . $separator;
         while ($this->currentLineNb + 1 < count($this->lines)) {
             $this->moveToNextLine();
 
-            if (preg_match('#^(?P<indent> {'.strlen($textIndent).',})(?P<text>.+)$#u', $this->currentLine, $matches)) {
+            if (preg_match('#^(?P<indent> {' . strlen($textIndent) . ',})(?P<text>.+)$#u', $this->currentLine, $matches)) {
                 if (' ' == $separator && ($previousIndent && $previousIndent != $matches['indent'])) {
-                    $text = substr($text, 0, -1)."\n";
+                    $text = substr($text, 0, -1) . "\n";
                 }
                 $previousIndent = $matches['indent'];
 
-                $text .= str_repeat(' ', $diff = strlen($matches['indent']) - strlen($textIndent)).$matches['text'].($diff ? "\n" : $separator);
+                $text .= str_repeat(' ', $diff = strlen($matches['indent']) - strlen($textIndent)) . $matches['text'] . ($diff ? "\n" : $separator);
             } elseif (preg_match('#^(?P<text> *)$#', $this->currentLine, $matches)) {
-                $text .= preg_replace('#^ {1,'.strlen($textIndent).'}#', '', $matches['text'])."\n";
+                $text .= preg_replace('#^ {1,' . strlen($textIndent) . '}#', '', $matches['text']) . "\n";
             } else {
                 $this->moveToPreviousLine();
 

@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
-require_once $_test_dir.'/unit/sfContextMock.class.php';
+require_once $_test_dir . '/unit/sfContextMock.class.php';
 
 $t = new lime_test(41);
 
@@ -98,7 +98,7 @@ class myCache extends sfCache
 
     public function removePattern($pattern, $delimiter = ':')
     {
-        $pattern = '#^'.str_replace('*', '.*', $pattern).'$#';
+        $pattern = '#^' . str_replace('*', '.*', $pattern) . '$#';
         foreach (self::$cache as $key => $value) {
             if (preg_match($pattern, $key)) {
                 unset(self::$cache[$key]);

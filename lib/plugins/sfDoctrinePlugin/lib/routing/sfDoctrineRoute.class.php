@@ -71,7 +71,7 @@ class sfDoctrineRoute extends sfObjectRoute
                 $q = $tableModel->createQuery('a');
                 foreach ($values as $variable => $value) {
                     $fieldName = $tableModel->getFieldName($variable);
-                    $q->andWhere('a.'.$fieldName.' = ?', $parameters[$variable]);
+                    $q->andWhere('a.' . $fieldName . ' = ?', $parameters[$variable]);
                 }
             } else {
                 $q = $this->query;
@@ -111,7 +111,7 @@ class sfDoctrineRoute extends sfObjectRoute
                 $parameters[$variable] = $object->{$variable};
             } catch (Exception $e) {
                 try {
-                    $method = 'get'.sfInflector::camelize($variable);
+                    $method = 'get' . sfInflector::camelize($variable);
                     $parameters[$variable] = $object->{$method}();
                 } catch (Exception $e) {
                 }

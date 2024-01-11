@@ -11,7 +11,7 @@
 $app = 'frontend';
 $fixtures = 'fixtures/fixtures.yml';
 
-require_once __DIR__.'/../bootstrap/functional.php';
+require_once __DIR__ . '/../bootstrap/functional.php';
 
 $t = new lime_test(12);
 
@@ -41,9 +41,9 @@ $conn3 = $manager->getConnection('doctrine3');
 
 // Make sure all connections are created properly from databases.yml
 $t->is(count($manager), 3);
-$t->is($conn1->getOption('dsn'), 'sqlite:'.str_replace(DIRECTORY_SEPARATOR, '/', sfConfig::get('sf_data_dir')).'/database1.sqlite');
-$t->is($conn2->getOption('dsn'), 'sqlite:'.str_replace(DIRECTORY_SEPARATOR, '/', sfConfig::get('sf_data_dir')).'/database2.sqlite');
-$t->is($conn3->getOption('dsn'), 'sqlite:'.str_replace(DIRECTORY_SEPARATOR, '/', sfConfig::get('sf_data_dir')).'/database3.sqlite');
+$t->is($conn1->getOption('dsn'), 'sqlite:' . str_replace(DIRECTORY_SEPARATOR, '/', sfConfig::get('sf_data_dir')) . '/database1.sqlite');
+$t->is($conn2->getOption('dsn'), 'sqlite:' . str_replace(DIRECTORY_SEPARATOR, '/', sfConfig::get('sf_data_dir')) . '/database2.sqlite');
+$t->is($conn3->getOption('dsn'), 'sqlite:' . str_replace(DIRECTORY_SEPARATOR, '/', sfConfig::get('sf_data_dir')) . '/database3.sqlite');
 
 // Set globally by ProjectConfiguration::configureDoctrine()
 $t->is($manager->getAttribute(Doctrine_Core::ATTR_VALIDATE), true);

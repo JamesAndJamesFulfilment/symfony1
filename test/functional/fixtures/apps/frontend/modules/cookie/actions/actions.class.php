@@ -11,7 +11,7 @@ class cookieActions extends sfActions
 {
     public function executeIndex($request)
     {
-        return $this->renderText('<p>'.$request->getCookie('foo').'.'.$request->getCookie('bar').'-'.$request->getCookie('foobar').'</p>');
+        return $this->renderText('<p>' . $request->getCookie('foo') . '.' . $request->getCookie('bar') . '-' . $request->getCookie('foobar') . '</p>');
     }
 
     public function executeSetCookie($request)

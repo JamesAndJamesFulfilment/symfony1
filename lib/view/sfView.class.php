@@ -135,14 +135,14 @@ abstract class sfView
         $this->attributeHolder = $this->initializeAttributeHolder();
 
         $this->parameterHolder = new sfParameterHolder();
-        $this->parameterHolder->add(sfConfig::get('mod_'.strtolower($moduleName).'_view_param', array()));
+        $this->parameterHolder->add(sfConfig::get('mod_' . strtolower($moduleName) . '_view_param', array()));
 
         $request = $context->getRequest();
 
         $format = $request->getRequestFormat();
         if (null !== $format) {
             if ('html' != $format) {
-                $this->setExtension('.'.$format.$this->getExtension());
+                $this->setExtension('.' . $format . $this->getExtension());
             }
 
             if ($mimeType = $request->getMimeType($format)) {
@@ -530,7 +530,7 @@ abstract class sfView
             throw new sfRenderException('A template has not been set.');
         }
 
-        if (!is_readable($this->directory.'/'.$this->template)) {
+        if (!is_readable($this->directory . '/' . $this->template)) {
             // 404?
             if ('404' == $this->context->getResponse()->getStatusCode()) {
                 // use default exception templates

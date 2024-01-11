@@ -35,8 +35,8 @@ class sfWidgetFormDateRange extends sfWidgetForm
         $attributes = array_merge(array('from' => array(), 'to' => array()), is_array($attributes) ? $attributes : array());
 
         return strtr($this->translate($this->getOption('template')), array(
-            '%from_date%' => $this->getOption('from_date')->render($name.'[from]', $value['from'], $attributes['from'], $errors),
-            '%to_date%' => $this->getOption('to_date')->render($name.'[to]', $value['to'], $attributes['to'], $errors),
+            '%from_date%' => $this->getOption('from_date')->render($name . '[from]', $value['from'], $attributes['from'], $errors),
+            '%to_date%' => $this->getOption('to_date')->render($name . '[to]', $value['to'], $attributes['to'], $errors),
         ));
     }
 

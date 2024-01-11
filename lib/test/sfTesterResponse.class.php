@@ -153,7 +153,7 @@ class sfTesterResponse extends sfTester
             $content = $this->response->getContent();
 
             if (true === $checkDTD) {
-                $cache = sfConfig::get('sf_cache_dir').'/sf_tester_response/w3';
+                $cache = sfConfig::get('sf_cache_dir') . '/sf_tester_response/w3';
                 if (':' == $cache[1]) {
                     // On Windows systems the path will be like c:\symfony\cache\xml.dtd
                     // I did not manage to get DOMDocument loading a file protocol url including the drive letter
@@ -162,22 +162,22 @@ class sfTesterResponse extends sfTester
                     // However the following works. Unfortunatly this means we can only access the current disk
                     // file:///symfony/cache/xml.dtd
                     // Note that all work for file_get_contents so the bug is most likely in DOMDocument.
-                    $local = 'file://'.substr(str_replace(DIRECTORY_SEPARATOR, '/', $cache), 2);
+                    $local = 'file://' . substr(str_replace(DIRECTORY_SEPARATOR, '/', $cache), 2);
                 } else {
-                    $local = 'file://'.$cache;
+                    $local = 'file://' . $cache;
                 }
 
-                if (!file_exists($cache.'/TR/xhtml11/DTD/xhtml11.dtd')) {
+                if (!file_exists($cache . '/TR/xhtml11/DTD/xhtml11.dtd')) {
                     $filesystem = new sfFilesystem();
 
                     $finder = sfFinder::type('any')->discard('.sf');
-                    $filesystem->mirror(__DIR__.'/w3', $cache, $finder);
+                    $filesystem->mirror(__DIR__ . '/w3', $cache, $finder);
 
                     $finder = sfFinder::type('file');
                     $filesystem->replaceTokens($finder->in($cache), '##', '##', array('LOCAL_W3' => $local));
                 }
 
-                $content = preg_replace('#(<!DOCTYPE[^>]+")http://www.w3.org(.*")#i', '\\1'.$local.'\\2', $content);
+                $content = preg_replace('#(<!DOCTYPE[^>]+")http://www.w3.org(.*")#i', '\\1' . $local . '\\2', $content);
                 $dom->validateOnParse = $checkDTD;
             }
 
@@ -206,11 +206,11 @@ class sfTesterResponse extends sfTester
 
                 $this->tester->fail($message);
                 foreach ($errors as $error) {
-                    $this->tester->diag('    '.trim($error->message));
+                    $this->tester->diag('    ' . trim($error->message));
                     if (preg_match('/line (\d+)/', $error->message, $match) && $error->line != $match[1]) {
-                        $this->tester->diag('      '.str_pad($match[1].':', 6).trim($lines[$match[1] - 1]));
+                        $this->tester->diag('      ' . str_pad($match[1] . ':', 6) . trim($lines[$match[1] - 1]));
                     }
-                    $this->tester->diag('      '.str_pad($error->line.':', 6).trim($lines[$error->line - 1]));
+                    $this->tester->diag('      ' . str_pad($error->line . ':', 6) . trim($lines[$error->line - 1]));
                 }
             } else {
                 $this->tester->pass($message);

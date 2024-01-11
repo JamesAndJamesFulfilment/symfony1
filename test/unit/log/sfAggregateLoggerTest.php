@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 $t = new lime_test(6);
 
 $dispatcher = new sfEventDispatcher();
 
-require_once __DIR__.'/../../../lib/util/sfToolkit.class.php';
-$file = sys_get_temp_dir().DIRECTORY_SEPARATOR.'sf_log_file.txt';
+require_once __DIR__ . '/../../../lib/util/sfToolkit.class.php';
+$file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'sf_log_file.txt';
 if (file_exists($file)) {
     unlink($file);
 }
@@ -38,7 +38,7 @@ rewind($buffer);
 $content = stream_get_contents($buffer);
 $lines = explode("\n", file_get_contents($file));
 $t->like($lines[0], '/foo/', '->log() logs a message to all loggers');
-$t->is($content, 'foo'.PHP_EOL, '->log() logs a message to all loggers');
+$t->is($content, 'foo' . PHP_EOL, '->log() logs a message to all loggers');
 
 // ->getLoggers() ->addLoggers() ->addLogger()
 $logger = new sfAggregateLogger($dispatcher);

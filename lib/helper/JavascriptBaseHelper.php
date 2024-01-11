@@ -40,7 +40,7 @@ function link_to_function($name, $function, $html_options = array())
         unset($html_options['confirm']);
         $function = "if(window.confirm('{$confirm}')){ {$function};}";
     }
-    $html_options['onclick'] = $function.'; return false;';
+    $html_options['onclick'] = $function . '; return false;';
 
     return content_tag('a', $name, $html_options);
 }
@@ -56,7 +56,7 @@ function button_to_function($name, $function, $html_options = array())
 {
     $html_options = _parse_attributes($html_options);
 
-    $html_options['onclick'] = $function.'; return false;';
+    $html_options['onclick'] = $function . '; return false;';
     $html_options['type'] = 'button';
     $html_options['value'] = $name;
 
@@ -89,7 +89,7 @@ function end_javascript_tag()
 
 function javascript_cdata_section($content)
 {
-    return "\n//".cdata_section("\n{$content}\n//")."\n";
+    return "\n//" . cdata_section("\n{$content}\n//") . "\n";
 }
 
 /**
@@ -111,7 +111,7 @@ function end_if_javascript()
 {
     if (!sfContext::getInstance()->getRequest()->isXmlHttpRequest()) {
         $content = ob_get_clean();
-        echo javascript_tag("document.write('".esc_js_no_entities($content)."');");
+        echo javascript_tag("document.write('" . esc_js_no_entities($content) . "');");
     }
 }
 
@@ -126,7 +126,7 @@ function end_if_javascript()
 function array_or_string_for_javascript($option)
 {
     if (is_array($option)) {
-        return "['".implode('\',\'', $option)."']";
+        return "['" . implode('\',\'', $option) . "']";
     }
     if (is_string($option) && "'" != $option[0]) {
         return "'{$option}'";
@@ -149,11 +149,11 @@ function options_for_javascript($options)
         if (is_array($value)) {
             $value = options_for_javascript($value);
         }
-        $opts[] = $key.':'.boolean_for_javascript($value);
+        $opts[] = $key . ':' . boolean_for_javascript($value);
     }
     sort($opts);
 
-    return '{'.implode(', ', $opts).'}';
+    return '{' . implode(', ', $opts) . '}';
 }
 
 /**

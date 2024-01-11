@@ -13,10 +13,10 @@ class myFilter extends sfFilter
 
         $response = $this->getContext()->getResponse();
 
-        $response->setContent($response->getContent().'<div class="before" />');
+        $response->setContent($response->getContent() . '<div class="before" />');
 
         $filterChain->execute();
 
-        $response->setContent($response->getContent().'<div class="after" />');
+        $response->setContent($response->getContent() . '<div class="after" />');
     }
 }

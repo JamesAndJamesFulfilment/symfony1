@@ -75,8 +75,8 @@ EOF;
             $files = array();
 
             foreach ($arguments['controller'] as $controller) {
-                $finder = sfFinder::type('file')->follow_link()->name(basename($controller).'Test.php');
-                $files = array_merge($files, $finder->in(sfConfig::get('sf_test_dir').'/functional/'.$app.'/'.dirname($controller)));
+                $finder = sfFinder::type('file')->follow_link()->name(basename($controller) . 'Test.php');
+                $files = array_merge($files, $finder->in(sfConfig::get('sf_test_dir') . '/functional/' . $app . '/' . dirname($controller)));
             }
 
             if ($allFiles = $this->filterTestFiles($files, $arguments, $options)) {
@@ -87,14 +87,14 @@ EOF;
                 $this->logSection('functional', 'no controller found', null, 'ERROR');
             }
         } else {
-            require_once __DIR__.'/sfLimeHarness.class.php';
+            require_once __DIR__ . '/sfLimeHarness.class.php';
 
             $h = new sfLimeHarness(array(
                 'force_colors' => isset($options['color']) && $options['color'],
                 'verbose' => isset($options['trace']) && $options['trace'],
             ));
             $h->addPlugins(array_map(array($this->configuration, 'getPluginConfiguration'), $this->configuration->getPlugins()));
-            $h->base_dir = sfConfig::get('sf_test_dir').'/functional/'.$app;
+            $h->base_dir = sfConfig::get('sf_test_dir') . '/functional/' . $app;
 
             // filter and register functional tests
             $finder = sfFinder::type('file')->follow_link()->name('*Test.php');

@@ -2,9 +2,9 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->ignoreVCSIgnored(true)
-    ->in(__DIR__.'/lib')
-    ->in(__DIR__.'/data/bin')
-    ->in(__DIR__.'/test')
+    ->in(__DIR__ . '/lib')
+    ->in(__DIR__ . '/data/bin')
+    ->in(__DIR__ . '/test')
     ->append(array(__FILE__))
     // Exclude PHP classes templates/generators, which are not valid PHP files
     ->exclude('task/generator/skeleton/')
@@ -46,6 +46,9 @@ $config->setRules(array(
     ),
     'combine_consecutive_issets' => true,
     'combine_consecutive_unsets' => true,
+    'concat_space' => array(
+        'spacing' => 'one',
+    ),
     'empty_loop_body' => true,
     'escape_implicit_backslashes' => true,
     'explicit_indirect_variable' => true,
@@ -100,7 +103,7 @@ $config->setRules(array(
     'ordered_class_elements' => true,
     'php_unit_internal_class' => true,
     'php_unit_test_class_requires_covers' => true,
-    'phpdoc_add_missing_param_annotation' => true,
+    'phpdoc_add_missing_param_annotation' => false,
     'phpdoc_no_empty_return' => true,
     'phpdoc_order_by_value' => true,
     'phpdoc_types_order' => true,

@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
-require_once $_test_dir.'/unit/sfContextMock.class.php';
+require_once $_test_dir . '/unit/sfContextMock.class.php';
 
 class myController
 {
@@ -18,7 +18,7 @@ class myController
     {
         $url = is_array($parameters) && isset($parameters['sf_route']) ? $parameters['sf_route'] : 'module/action';
 
-        return ($absolute ? '/' : '').$url;
+        return ($absolute ? '/' : '') . $url;
     }
 }
 
@@ -54,11 +54,11 @@ $t = new lime_test(44);
 
 $context = sfContext::getInstance(array('controller' => 'myController', 'request' => 'myRequest'));
 
-require_once __DIR__.'/../../../lib/helper/AssetHelper.php';
+require_once __DIR__ . '/../../../lib/helper/AssetHelper.php';
 
-require_once __DIR__.'/../../../lib/helper/UrlHelper.php';
+require_once __DIR__ . '/../../../lib/helper/UrlHelper.php';
 
-require_once __DIR__.'/../../../lib/helper/TagHelper.php';
+require_once __DIR__ . '/../../../lib/helper/TagHelper.php';
 
 // url_for()
 $t->diag('url_for()');

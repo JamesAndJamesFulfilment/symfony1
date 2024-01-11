@@ -64,12 +64,12 @@ class sfDebug
     {
         $values = array();
         foreach (array('cookie', 'server', 'get', 'post', 'files', 'env', 'session') as $name) {
-            if (!isset($GLOBALS['_'.strtoupper($name)])) {
+            if (!isset($GLOBALS['_' . strtoupper($name)])) {
                 continue;
             }
 
             $values[$name] = array();
-            foreach ($GLOBALS['_'.strtoupper($name)] as $key => $value) {
+            foreach ($GLOBALS['_' . strtoupper($name)] as $key => $value) {
                 $values[$name][$key] = $value;
             }
             ksort($values[$name]);

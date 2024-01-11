@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 class my_lime_test extends lime_test
 {
@@ -22,9 +22,9 @@ class my_lime_test extends lime_test
 }
 $t = new my_lime_test(39);
 
-require_once $_test_dir.'/../lib/util/sfFinder.class.php';
+require_once $_test_dir . '/../lib/util/sfFinder.class.php';
 
-$fixtureDir = __DIR__.'/fixtures/finder';
+$fixtureDir = __DIR__ . '/fixtures/finder';
 $phpFiles = array(
     'dir1/dir2/file21.php',
     'dir1/file12.php',
@@ -223,7 +223,7 @@ $t->arrays_are_equal($finder->in($fixtureDir), $anyWithoutDir2, '->prune() ignor
 
 // ->in() permissions
 $t->diag('->in() permissions');
-chmod($fixtureDir.'_permissions/secret', 0000);
+chmod($fixtureDir . '_permissions/secret', 0000);
 $finder = sfFinder::type('file')->relative();
-$t->arrays_are_equal($finder->in($fixtureDir.'_permissions'), array(), '->in() ignores directories it cannot read');
-chmod($fixtureDir.'_permissions/secret', 0755);
+$t->arrays_are_equal($finder->in($fixtureDir . '_permissions'), array(), '->in() ignores directories it cannot read');
+chmod($fixtureDir . '_permissions/secret', 0755);

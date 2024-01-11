@@ -35,8 +35,8 @@ class sfWidgetFormFilterDate extends sfWidgetFormDateRange
 
         return strtr($this->getOption('filter_template'), array(
             '%date_range%' => parent::render($name, $value, $attributes, $errors),
-            '%empty_checkbox%' => $this->getOption('with_empty') ? $this->renderTag('input', array('type' => 'checkbox', 'name' => $name.'[is_empty]', 'checked' => $values['is_empty'] ? 'checked' : '')) : '',
-            '%empty_label%' => $this->getOption('with_empty') ? $this->renderContentTag('label', $this->translate($this->getOption('empty_label')), array('for' => $this->generateId($name.'[is_empty]'))) : '',
+            '%empty_checkbox%' => $this->getOption('with_empty') ? $this->renderTag('input', array('type' => 'checkbox', 'name' => $name . '[is_empty]', 'checked' => $values['is_empty'] ? 'checked' : '')) : '',
+            '%empty_label%' => $this->getOption('with_empty') ? $this->renderContentTag('label', $this->translate($this->getOption('empty_label')), array('for' => $this->generateId($name . '[is_empty]'))) : '',
         ));
     }
 

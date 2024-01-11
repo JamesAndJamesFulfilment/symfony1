@@ -84,7 +84,7 @@ class sfYamlInline
 
                 // throw new InvalidArgumentException('Unable to dump PHP resources in a YAML file.');
             case is_object($value):
-                return '!!php/object:'.serialize($value);
+                return '!!php/object:' . serialize($value);
 
             case is_array($value):
                 return self::dumpArray($value);
@@ -155,7 +155,7 @@ class sfYamlInline
                 if (false !== $strpos = strpos($output, ' #')) {
                     $output = rtrim(substr($output, 0, $strpos));
                 }
-            } elseif (preg_match('/^(.+?)('.implode('|', $delimiters).')/', substr($scalar, $i), $match)) {
+            } elseif (preg_match('/^(.+?)(' . implode('|', $delimiters) . ')/', substr($scalar, $i), $match)) {
                 $output = $match[1];
                 $i += strlen($output);
             } else {
@@ -209,7 +209,7 @@ class sfYamlInline
      */
     protected static function parseQuotedScalar($scalar, &$i)
     {
-        if (!preg_match('/'.self::REGEX_QUOTED_STRING.'/Au', substr($scalar, $i), $match)) {
+        if (!preg_match('/' . self::REGEX_QUOTED_STRING . '/Au', substr($scalar, $i), $match)) {
             throw new InvalidArgumentException(sprintf('Malformed inline YAML string (%s).', substr($scalar, $i)));
         }
 
@@ -271,7 +271,7 @@ class sfYamlInline
                     if (!$isQuoted && false !== strpos((string) $value, ': ')) {
                         // embedded mapping?
                         try {
-                            $value = self::parseMapping('{'.$value.'}');
+                            $value = self::parseMapping('{' . $value . '}');
                         } catch (InvalidArgumentException $e) {
                             // no, it's not
                         }

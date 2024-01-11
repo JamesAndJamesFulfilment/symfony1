@@ -65,11 +65,11 @@ class AdminGenBrowser extends sfTestBrowser
         $this->info('Test valid sort_type parameter');
 
         foreach (array('asc', 'desc', 'ASC', 'DESC') as $sortType) {
-            $this->get('/users?sort=username&sort_type='.$sortType);
+            $this->get('/users?sort=username&sort_type=' . $sortType);
 
             $matches = 0;
             foreach ($this->_getQueryExecutionEvents() as $event) {
-                if (false !== strpos($event->getQuery(), 'ORDER BY u.username '.$sortType)) {
+                if (false !== strpos($event->getQuery(), 'ORDER BY u.username ' . $sortType)) {
                     ++$matches;
                 }
             }
@@ -208,16 +208,16 @@ class AdminGenBrowser extends sfTestBrowser
 
     protected function _runAdminGenModuleSanityCheck($model, $module)
     {
-        $this->info('Running admin gen sanity check for module "'.$module.'"');
+        $this->info('Running admin gen sanity check for module "' . $module . '"');
         $record = Doctrine_Core::getTable($model)
             ->createQuery('a')
             ->fetchOne()
         ;
 
         $this->
-          info('Sanity check on "'.$module.'" module')->
-          getAndCheck($module, 'index', '/'.$module)->
-          get('/'.$module.'/'.$record->getId().'/edit');
+          info('Sanity check on "' . $module . '" module')->
+          getAndCheck($module, 'index', '/' . $module)->
+          get('/' . $module . '/' . $record->getId() . '/edit');
 
         $this
             ->click('Save')->
@@ -230,7 +230,7 @@ class AdminGenBrowser extends sfTestBrowser
 
     protected function _generateAdminGenModule($model, $module)
     {
-        $this->info('Generating admin gen module "'.$module.'"');
+        $this->info('Generating admin gen module "' . $module . '"');
         $task = new sfDoctrineGenerateAdminTask($this->getContext()->getEventDispatcher(), new sfFormatter());
         $task->run(array('application' => 'backend', 'route_or_model' => $model));
     }
@@ -250,11 +250,11 @@ class AdminGenBrowser extends sfTestBrowser
     {
         $fs = new sfFilesystem($this->getContext()->getEventDispatcher(), new sfFormatter());
         foreach ($this->_modules as $module) {
-            $this->info('Removing admin gen module "'.$module.'"');
-            $fs->execute('rm -rf '.sfConfig::get('sf_app_module_dir').'/'.$module);
+            $this->info('Removing admin gen module "' . $module . '"');
+            $fs->execute('rm -rf ' . sfConfig::get('sf_app_module_dir') . '/' . $module);
         }
-        $fs->execute('rm -rf '.sfConfig::get('sf_test_dir').'/functional/backend');
-        $fs->execute('rm -rf '.sfConfig::get('sf_data_dir').'/*.sqlite');
+        $fs->execute('rm -rf ' . sfConfig::get('sf_test_dir') . '/functional/backend');
+        $fs->execute('rm -rf ' . sfConfig::get('sf_data_dir') . '/*.sqlite');
     }
 
     protected function _getQueryExecutionEvents()

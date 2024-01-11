@@ -185,7 +185,7 @@ class sfRoute implements Serializable
                 continue;
             }
 
-            if (!preg_match('#'.$this->requirements[$variable].'#', $tparams[$variable])) {
+            if (!preg_match('#' . $this->requirements[$variable] . '#', $tparams[$variable])) {
                 return false;
             }
         }
@@ -259,7 +259,7 @@ class sfRoute implements Serializable
         if ($this->options['extra_parameters_as_query_string'] && !$this->hasStarParameter()) {
             // add a query string if needed
             if ($extra = array_diff_key($params, $this->variables, $defaults)) {
-                $url .= '?'.http_build_query($extra);
+                $url .= '?' . http_build_query($extra);
             }
         }
 
@@ -402,7 +402,7 @@ class sfRoute implements Serializable
 
         // parse
         foreach ($this->tokens as $token) {
-            call_user_func_array(array($this, 'compileFor'.ucfirst(array_shift($token))), $token);
+            call_user_func_array(array($this, 'compileFor' . ucfirst(array_shift($token))), $token);
         }
 
         $this->postCompile();
@@ -413,7 +413,7 @@ class sfRoute implements Serializable
             $separator = 'separator' == $lastToken[0] ? $lastToken[2] : '';
         }
 
-        $this->regex = '#^'.implode('', $this->segments).''.preg_quote($separator, '#').'$#x';
+        $this->regex = '#^' . implode('', $this->segments) . '' . preg_quote($separator, '#') . '$#x';
     }
 
     public function getDefaultParameters()
@@ -490,7 +490,7 @@ class sfRoute implements Serializable
                     $segment = call_user_func_array(
                         array(
                             $this,
-                            'generateFor'.ucfirst(array_shift($token)),
+                            'generateFor' . ucfirst(array_shift($token)),
                         ),
                         array_merge(array($optional, $parameters), $token)
                     );
@@ -520,7 +520,7 @@ class sfRoute implements Serializable
     {
         // a route must start with a slash
         if (empty($this->pattern) || '/' != $this->pattern[0]) {
-            $this->pattern = '/'.$this->pattern;
+            $this->pattern = '/' . $this->pattern;
         }
     }
 
@@ -532,8 +532,8 @@ class sfRoute implements Serializable
         // all segments after the last static segment are optional
         // be careful, the n-1 is optional only if n is empty
         for ($i = $this->firstOptional, $max = count($this->segments); $i < $max; ++$i) {
-            $this->segments[$i] = (0 == $i ? '/?' : '').str_repeat(' ', $i - $this->firstOptional).'(?:'.$this->segments[$i];
-            $this->segments[] = str_repeat(' ', $max - $i - 1).')?';
+            $this->segments[$i] = (0 == $i ? '/?' : '') . str_repeat(' ', $i - $this->firstOptional) . '(?:' . $this->segments[$i];
+            $this->segments[] = str_repeat(' ', $max - $i - 1) . ')?';
         }
 
         $this->staticPrefix = '';
@@ -545,7 +545,7 @@ class sfRoute implements Serializable
                 case 'text':
                     if ('*' !== $token[2]) {
                         // non-star text is static
-                        $this->staticPrefix .= $token[1].$token[2];
+                        $this->staticPrefix .= $token[1] . $token[2];
 
                         break;
                     }
@@ -573,21 +573,21 @@ class sfRoute implements Serializable
             if (false !== $this->tokenizeBufferBefore($buffer, $this->tokens, $afterASeparator, $currentSeparator)) {
                 // a custom token
                 $this->customToken = true;
-            } elseif ($afterASeparator && preg_match('#^'.$this->options['variable_prefix_regex'].'('.$this->options['variable_regex'].')#', $buffer, $match)) {
+            } elseif ($afterASeparator && preg_match('#^' . $this->options['variable_prefix_regex'] . '(' . $this->options['variable_regex'] . ')#', $buffer, $match)) {
                 // a variable
                 $this->tokens[] = array('variable', $currentSeparator, $match[0], $match[1]);
 
                 $currentSeparator = '';
                 $buffer = substr($buffer, strlen($match[0]));
                 $afterASeparator = false;
-            } elseif ($afterASeparator && preg_match('#^('.$this->options['text_regex'].')(?:'.$this->options['segment_separators_regex'].'|$)#', $buffer, $match)) {
+            } elseif ($afterASeparator && preg_match('#^(' . $this->options['text_regex'] . ')(?:' . $this->options['segment_separators_regex'] . '|$)#', $buffer, $match)) {
                 // a text
                 $this->tokens[] = array('text', $currentSeparator, $match[1], null);
 
                 $currentSeparator = '';
                 $buffer = substr($buffer, strlen($match[1]));
                 $afterASeparator = false;
-            } elseif (!$afterASeparator && preg_match('#^/|^'.$this->options['segment_separators_regex'].'#', $buffer, $match)) {
+            } elseif (!$afterASeparator && preg_match('#^/|^' . $this->options['segment_separators_regex'] . '#', $buffer, $match)) {
                 // beginning of URL (^/) or a separator
                 $this->tokens[] = array('separator', $currentSeparator, $match[0], null);
 
@@ -647,11 +647,11 @@ class sfRoute implements Serializable
     protected function compileForText($separator, $text)
     {
         if ('*' == $text) {
-            $this->segments[] = '(?:'.preg_quote($separator, '#').'(?P<_star>.*))?';
+            $this->segments[] = '(?:' . preg_quote($separator, '#') . '(?P<_star>.*))?';
         } else {
             $this->firstOptional = count($this->segments) + 1;
 
-            $this->segments[] = preg_quote($separator, '#').preg_quote($text, '#');
+            $this->segments[] = preg_quote($separator, '#') . preg_quote($text, '#');
         }
     }
 
@@ -661,7 +661,7 @@ class sfRoute implements Serializable
             $this->requirements[$variable] = $this->options['variable_content_regex'];
         }
 
-        $this->segments[] = preg_quote($separator, '#').'(?P<'.$variable.'>'.$this->requirements[$variable].')';
+        $this->segments[] = preg_quote($separator, '#') . '(?P<' . $variable . '>' . $this->requirements[$variable] . ')';
         $this->variables[$variable] = $name;
 
         if (!isset($this->defaults[$variable])) {
@@ -688,17 +688,17 @@ class sfRoute implements Serializable
         $preg_quote_hash = function ($a) { return preg_quote($a, '#'); };
 
         // compute some regexes
-        $this->options['variable_prefix_regex'] = '(?:'.implode('|', array_map($preg_quote_hash, $this->options['variable_prefixes'])).')';
+        $this->options['variable_prefix_regex'] = '(?:' . implode('|', array_map($preg_quote_hash, $this->options['variable_prefixes'])) . ')';
 
         if (count($this->options['segment_separators'])) {
-            $this->options['segment_separators_regex'] = '(?:'.implode('|', array_map($preg_quote_hash, $this->options['segment_separators'])).')';
+            $this->options['segment_separators_regex'] = '(?:' . implode('|', array_map($preg_quote_hash, $this->options['segment_separators'])) . ')';
 
             // as of PHP 5.3.0, preg_quote automatically quotes dashes "-" (see http://bugs.php.net/bug.php?id=47229)
             $preg_quote_hash_53 = function ($a) { return str_replace('-', '\-', preg_quote($a, '#')); };
-            $this->options['variable_content_regex'] = '[^'.implode(
+            $this->options['variable_content_regex'] = '[^' . implode(
                 '',
                 array_map(version_compare(PHP_VERSION, '5.3.0RC4', '>=') ? $preg_quote_hash : $preg_quote_hash_53, $this->options['segment_separators'])
-            ).']+';
+            ) . ']+';
         } else {
             // use simplified regexes for case where no separators are used
             $this->options['segment_separators_regex'] = '()';
@@ -736,11 +736,11 @@ class sfRoute implements Serializable
             if (is_array($value)) {
                 foreach ($value as $v) {
                     $v = is_null($v) ? '' : $v;
-                    $tmp[] = "{$key}=".urlencode($v);
+                    $tmp[] = "{$key}=" . urlencode($v);
                 }
             } else {
                 $value = is_null($value) ? '' : $value;
-                $tmp[] = urlencode($key).'/'.urlencode($value);
+                $tmp[] = urlencode($key) . '/' . urlencode($value);
             }
         }
         $tmp = implode('/', $tmp);
@@ -751,7 +751,7 @@ class sfRoute implements Serializable
         $separator = $this->options['segment_separators_regex'];
 
         return preg_replace(
-            '#'.$separator.'\*('.$separator.'|$)#',
+            '#' . $separator . '\*(' . $separator . '|$)#',
             "{$tmp}$1",
             $url
         );
@@ -806,7 +806,7 @@ class sfRoute implements Serializable
             // route ends by . (no suffix)
             $this->suffix = '';
             $this->pattern = substr($this->pattern, 0, $length - 1);
-        } elseif (preg_match('#\.(?:'.$this->options['variable_prefix_regex'].$this->options['variable_regex'].'|'.$this->options['variable_content_regex'].')$#i', $this->pattern)) {
+        } elseif (preg_match('#\.(?:' . $this->options['variable_prefix_regex'] . $this->options['variable_regex'] . '|' . $this->options['variable_content_regex'] . ')$#i', $this->pattern)) {
             // specific suffix for this route
             // a . with a variable after or some chars without any separators
             $this->suffix = '';

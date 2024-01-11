@@ -62,7 +62,7 @@ class sfSQLiteCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param mixed|null $default
+     * @param null|mixed $default
      */
     public function get($key, $default = null)
     {
@@ -90,7 +90,7 @@ class sfSQLiteCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param mixed|null $lifetime
+     * @param null|mixed $lifetime
      */
     public function set($key, $data, $lifetime = null)
     {
@@ -135,7 +135,7 @@ class sfSQLiteCache extends sfCache
     public function clean($mode = sfCache::ALL)
     {
         if ($this->isSqLite3()) {
-            $res = $this->dbh->exec('DELETE FROM cache'.(sfCache::OLD == $mode ? sprintf(" WHERE timeout < '%s'", time()) : ''));
+            $res = $this->dbh->exec('DELETE FROM cache' . (sfCache::OLD == $mode ? sprintf(" WHERE timeout < '%s'", time()) : ''));
 
             if ($res) {
                 return (bool) $this->dbh->changes();
@@ -144,7 +144,7 @@ class sfSQLiteCache extends sfCache
             return false;
         }
 
-        return (bool) $this->dbh->query('DELETE FROM cache'.(sfCache::OLD == $mode ? sprintf(" WHERE timeout < '%s'", time()) : ''))->numRows();
+        return (bool) $this->dbh->query('DELETE FROM cache' . (sfCache::OLD == $mode ? sprintf(" WHERE timeout < '%s'", time()) : ''))->numRows();
     }
 
     /**

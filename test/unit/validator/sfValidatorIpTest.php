@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 $validV4Ips = array(
     '0.0.0.0',
@@ -115,7 +115,7 @@ foreach (array_merge($validV4Ips, $validV6Ips) as $ip) {
 }
 
 foreach (array(sfValidatorIp::IP_V4 => $validV4Ips, sfValidatorIp::IP_V6 => $validV6Ips) as $version => $ips) {
-    $t->diag('testing against valid IP V'.$version);
+    $t->diag('testing against valid IP V' . $version);
     $v->setOption('version', $version);
     foreach ($ips as $ip) {
         try {
@@ -138,7 +138,7 @@ foreach (array_merge($invalidV4Ips, $invalidV6Ips) as $ip) {
 }
 
 foreach (array(sfValidatorIp::IP_V4 => $invalidV4Ips, sfValidatorIp::IP_V6 => $invalidV6Ips) as $version => $ips) {
-    $t->diag('testing against invalid IP V'.$version);
+    $t->diag('testing against invalid IP V' . $version);
     $v->setOption('version', $version);
     foreach ($ips as $ip) {
         try {
@@ -151,7 +151,7 @@ foreach (array(sfValidatorIp::IP_V4 => $invalidV4Ips, sfValidatorIp::IP_V6 => $i
 }
 
 foreach (array(sfValidatorIp::IP_V4_NO_PRIV => $invalidPrivateV4Ips, sfValidatorIp::IP_V6_NO_PRIV => $invalidPrivateV6Ips) as $version => $ips) {
-    $t->diag('testing against invalid IP V'.$version);
+    $t->diag('testing against invalid IP V' . $version);
     $v->setOption('version', $version);
     foreach ($ips as $ip) {
         try {
@@ -164,7 +164,7 @@ foreach (array(sfValidatorIp::IP_V4_NO_PRIV => $invalidPrivateV4Ips, sfValidator
 }
 
 foreach (array(sfValidatorIp::IP_V4_NO_RES => $invalidReservedV4Ips, sfValidatorIp::IP_V6_NO_RES => $invalidV6Ips) as $version => $ips) {
-    $t->diag('testing against invalid IP V'.$version);
+    $t->diag('testing against invalid IP V' . $version);
     $v->setOption('version', $version);
     foreach ($ips as $ip) {
         try {
@@ -177,7 +177,7 @@ foreach (array(sfValidatorIp::IP_V4_NO_RES => $invalidReservedV4Ips, sfValidator
 }
 
 foreach (array(sfValidatorIp::IP_V4_ONLY_PUBLIC => array_merge($invalidReservedV4Ips, $invalidPrivateV4Ips), sfValidatorIp::IP_V6_ONLY_PUBLIC => array_merge($invalidPrivateV6Ips, $invalidV6Ips)) as $version => $ips) {
-    $t->diag('testing against invalid IP V'.$version);
+    $t->diag('testing against invalid IP V' . $version);
     $v->setOption('version', $version);
     foreach ($ips as $ip) {
         try {

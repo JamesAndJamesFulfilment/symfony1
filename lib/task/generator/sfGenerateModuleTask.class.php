@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/sfGeneratorBaseTask.class.php';
+require_once __DIR__ . '/sfGeneratorBaseTask.class.php';
 
 /**
  * Generates a new module.
@@ -72,13 +72,13 @@ EOF;
             throw new sfCommandException(sprintf('The module name "%s" is invalid.', $module));
         }
 
-        $moduleDir = sfConfig::get('sf_app_module_dir').'/'.$module;
+        $moduleDir = sfConfig::get('sf_app_module_dir') . '/' . $module;
 
         if (is_dir($moduleDir)) {
             throw new sfCommandException(sprintf('The module "%s" already exists in the "%s" application.', $moduleDir, $app));
         }
 
-        $properties = parse_ini_file(sfConfig::get('sf_config_dir').'/properties.ini', true);
+        $properties = parse_ini_file(sfConfig::get('sf_config_dir') . '/properties.ini', true);
 
         $constants = array(
             'PROJECT_NAME' => isset($properties['symfony']['name']) ? $properties['symfony']['name'] : 'symfony',
@@ -87,21 +87,21 @@ EOF;
             'AUTHOR_NAME' => isset($properties['symfony']['author']) ? $properties['symfony']['author'] : 'Your name here',
         );
 
-        if (is_readable(sfConfig::get('sf_data_dir').'/skeleton/module')) {
-            $skeletonDir = sfConfig::get('sf_data_dir').'/skeleton/module';
+        if (is_readable(sfConfig::get('sf_data_dir') . '/skeleton/module')) {
+            $skeletonDir = sfConfig::get('sf_data_dir') . '/skeleton/module';
         } else {
-            $skeletonDir = __DIR__.'/skeleton/module';
+            $skeletonDir = __DIR__ . '/skeleton/module';
         }
 
         // create basic application structure
         $finder = sfFinder::type('any')->discard('.sf');
-        $this->getFilesystem()->mirror($skeletonDir.'/module', $moduleDir, $finder);
+        $this->getFilesystem()->mirror($skeletonDir . '/module', $moduleDir, $finder);
 
         // create basic test
-        $this->getFilesystem()->copy($skeletonDir.'/test/actionsTest.php', sfConfig::get('sf_test_dir').'/functional/'.$app.'/'.$module.'ActionsTest.php');
+        $this->getFilesystem()->copy($skeletonDir . '/test/actionsTest.php', sfConfig::get('sf_test_dir') . '/functional/' . $app . '/' . $module . 'ActionsTest.php');
 
         // customize test file
-        $this->getFilesystem()->replaceTokens(sfConfig::get('sf_test_dir').'/functional/'.$app.DIRECTORY_SEPARATOR.$module.'ActionsTest.php', '##', '##', $constants);
+        $this->getFilesystem()->replaceTokens(sfConfig::get('sf_test_dir') . '/functional/' . $app . DIRECTORY_SEPARATOR . $module . 'ActionsTest.php', '##', '##', $constants);
 
         // customize php and yml files
         $finder = sfFinder::type('file')->name('*.php', '*.yml');

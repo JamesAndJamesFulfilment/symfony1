@@ -109,7 +109,7 @@ class sfDateTimeFormatInfo
      */
     public function __get($name)
     {
-        $getProperty = 'get'.$name;
+        $getProperty = 'get' . $name;
         if (in_array($getProperty, $this->properties)) {
             return $this->{$getProperty}();
         }
@@ -123,7 +123,7 @@ class sfDateTimeFormatInfo
      */
     public function __set($name, $value)
     {
-        $setProperty = 'set'.$name;
+        $setProperty = 'set' . $name;
         if (in_array($setProperty, $this->properties)) {
             $this->{$setProperty}($value);
         } else {

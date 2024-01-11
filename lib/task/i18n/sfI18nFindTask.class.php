@@ -28,9 +28,9 @@ class sfI18nFindTask extends sfBaseTask
         $dirs = array();
         $moduleNames = sfFinder::type('dir')->maxdepth(0)->relative()->in(sfConfig::get('sf_app_module_dir'));
         foreach ($moduleNames as $moduleName) {
-            $dirs[] = sfConfig::get('sf_app_module_dir').'/'.$moduleName.'/templates';
+            $dirs[] = sfConfig::get('sf_app_module_dir') . '/' . $moduleName . '/templates';
         }
-        $dirs[] = sfConfig::get('sf_app_dir').'/templates';
+        $dirs[] = sfConfig::get('sf_app_dir') . '/templates';
 
         $strings = array();
         foreach ($dirs as $dir) {
@@ -46,7 +46,7 @@ class sfI18nFindTask extends sfBaseTask
                 // remove doctype
                 $content = preg_replace('/<!DOCTYPE.*?>/', '', $content);
 
-                @$dom->loadXML('<doc>'.$content.'</doc>');
+                @$dom->loadXML('<doc>' . $content . '</doc>');
 
                 $nodes = array($dom);
                 while ($nodes) {
@@ -62,7 +62,7 @@ class sfI18nFindTask extends sfBaseTask
                         }
                     } elseif ('DOMProcessingInstruction' == get_class($node) && 'php' == $node->target) {
                         // processing instruction node
-                        $tokens = token_get_all('<?php '.$node->nodeValue);
+                        $tokens = token_get_all('<?php ' . $node->nodeValue);
                         foreach ($tokens as $token) {
                             if (is_array($token)) {
                                 list($id, $text) = $token;

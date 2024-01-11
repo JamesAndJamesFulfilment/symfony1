@@ -46,7 +46,7 @@ function auto_discovery_link_tag($type = 'rss', $url = '', $tag_options = array(
 {
     return tag('link', array(
         'rel' => isset($tag_options['rel']) ? $tag_options['rel'] : 'alternate',
-        'type' => isset($tag_options['type']) ? $tag_options['type'] : 'application/'.$type.'+xml',
+        'type' => isset($tag_options['type']) ? $tag_options['type'] : 'application/' . $type . '+xml',
         'title' => isset($tag_options['title']) ? $tag_options['title'] : ucfirst($type),
         'href' => url_for($url, true),
     ));
@@ -129,7 +129,7 @@ function javascript_include_tag()
             $tag = comment_as_conditional($condition, $tag);
         }
 
-        $html .= $tag."\n";
+        $html .= $tag . "\n";
     }
 
     return $html;
@@ -222,7 +222,7 @@ function stylesheet_tag()
             $tag = comment_as_conditional($condition, $tag);
         }
 
-        $html .= $tag."\n";
+        $html .= $tag . "\n";
     }
 
     return $html;
@@ -362,7 +362,7 @@ function _compute_public_path($source, $dir, $ext, $absolute = false)
     $request = sfContext::getInstance()->getRequest();
     $sf_relative_url_root = $request->getRelativeUrlRoot();
     if (0 !== strpos($source, '/')) {
-        $source = $sf_relative_url_root.'/'.$dir.'/'.$source;
+        $source = $sf_relative_url_root . '/' . $dir . '/' . $source;
     }
 
     $query_string = '';
@@ -372,18 +372,18 @@ function _compute_public_path($source, $dir, $ext, $absolute = false)
     }
 
     if (false === strpos(basename($source), '.')) {
-        $source .= '.'.$ext;
+        $source .= '.' . $ext;
     }
 
     if ($sf_relative_url_root && 0 !== strpos($source, $sf_relative_url_root)) {
-        $source = $sf_relative_url_root.$source;
+        $source = $sf_relative_url_root . $source;
     }
 
     if ($absolute) {
-        $source = 'http'.($request->isSecure() ? 's' : '').'://'.$request->getHost().$source;
+        $source = 'http' . ($request->isSecure() ? 's' : '') . '://' . $request->getHost() . $source;
     }
 
-    return $source.$query_string;
+    return $source . $query_string;
 }
 
 /**
@@ -412,7 +412,7 @@ function include_metas()
     $context = sfContext::getInstance();
     $i18n = sfConfig::get('sf_i18n') ? $context->getI18N() : null;
     foreach ($context->getResponse()->getMetas() as $name => $content) {
-        echo tag('meta', array('name' => $name, 'content' => null === $i18n ? $content : $i18n->__($content)))."\n";
+        echo tag('meta', array('name' => $name, 'content' => null === $i18n ? $content : $i18n->__($content))) . "\n";
     }
 }
 
@@ -436,7 +436,7 @@ function include_metas()
 function include_http_metas()
 {
     foreach (sfContext::getInstance()->getResponse()->getHttpMetas() as $httpequiv => $value) {
-        echo tag('meta', array('http-equiv' => $httpequiv, 'content' => $value))."\n";
+        echo tag('meta', array('http-equiv' => $httpequiv, 'content' => $value)) . "\n";
     }
 }
 
@@ -452,7 +452,7 @@ function include_title()
 {
     $title = sfContext::getInstance()->getResponse()->getTitle();
 
-    echo content_tag('title', $title)."\n";
+    echo content_tag('title', $title) . "\n";
 }
 
 /**
@@ -590,7 +590,7 @@ function use_dynamic_stylesheet($css, $position = '', $options = array())
 
 function _dynamic_path($uri, $format, $absolute = false)
 {
-    return url_for($uri.(false === strpos($uri, '?') ? '?' : '&').'sf_format='.$format, $absolute);
+    return url_for($uri . (false === strpos($uri, '?') ? '?' : '&') . 'sf_format=' . $format, $absolute);
 }
 
 /**

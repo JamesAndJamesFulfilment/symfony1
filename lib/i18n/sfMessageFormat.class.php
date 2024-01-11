@@ -231,7 +231,7 @@ class sfMessageFormat
 
                 // found, but untranslated
                 if (empty($target)) {
-                    return $this->postscript[0].$this->replaceArgs($string, $args).$this->postscript[1];
+                    return $this->postscript[0] . $this->replaceArgs($string, $args) . $this->postscript[1];
                 }
 
                 return $this->replaceArgs($target, $args);
@@ -241,7 +241,7 @@ class sfMessageFormat
         // well we did not find the translation string.
         $this->source->append($string);
 
-        return $this->postscript[0].$this->replaceArgs($string, $args).$this->postscript[1];
+        return $this->postscript[0] . $this->replaceArgs($string, $args) . $this->postscript[1];
     }
 
     protected function replaceArgs($string, $args)

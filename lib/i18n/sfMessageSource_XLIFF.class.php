@@ -145,7 +145,7 @@ class sfMessageSource_XLIFF extends sfMessageSource_File
         // save it and clear the cache for this variant
         $dom->save($filename);
         if ($this->cache) {
-            $this->cache->remove($variant.':'.$this->culture);
+            $this->cache->remove($variant . ':' . $this->culture);
         }
 
         return true;
@@ -237,7 +237,7 @@ class sfMessageSource_XLIFF extends sfMessageSource_File
 
         if ($dom->save($filename) > 0) {
             if ($this->cache) {
-                $this->cache->remove($variant.':'.$this->culture);
+                $this->cache->remove($variant . ':' . $this->culture);
             }
 
             return true;
@@ -290,7 +290,7 @@ class sfMessageSource_XLIFF extends sfMessageSource_File
 
                     if ($dom->save($filename) > 0) {
                         if (!empty($this->cache)) {
-                            $this->cache->remove($variant.':'.$this->culture);
+                            $this->cache->remove($variant . ':' . $this->culture);
                         }
 
                         return true;
@@ -322,7 +322,7 @@ class sfMessageSource_XLIFF extends sfMessageSource_File
         if (null !== $xml && is_string($xml)) {
             // Add header for XML with UTF-8
             if (!preg_match('/<\?xml/', $xml)) {
-                $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n".$xml;
+                $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . $xml;
             }
 
             $dom->loadXML($xml);

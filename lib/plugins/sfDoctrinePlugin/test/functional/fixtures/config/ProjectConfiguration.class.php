@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../../../../../autoload/sfCoreAutoload.class.php';
+require_once __DIR__ . '/../../../../../../autoload/sfCoreAutoload.class.php';
 sfCoreAutoload::register();
 
 class ProjectConfiguration extends sfProjectConfiguration
@@ -31,7 +31,7 @@ class ProjectConfiguration extends sfProjectConfiguration
 
     public function loadFixtures($fixtures)
     {
-        $path = sfConfig::get('sf_data_dir').'/'.$fixtures;
+        $path = sfConfig::get('sf_data_dir') . '/' . $fixtures;
         if (!file_exists($path)) {
             throw new sfException('Invalid data fixtures file');
         }

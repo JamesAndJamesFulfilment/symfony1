@@ -17,8 +17,8 @@
  *
  * @version    SVN: $Id$
  *
- * @param mixed|null $truncate_pattern
- * @param mixed|null $length_max
+ * @param null|mixed $truncate_pattern
+ * @param null|mixed $length_max
  */
 
 /**
@@ -56,11 +56,11 @@ function truncate_text($text, $length = 30, $truncate_string = '...', $truncate_
 
             if ($matches) {
                 if ($length_min) {
-                    $truncate_string = $matches[0][0].$truncate_string;
+                    $truncate_string = $matches[0][0] . $truncate_string;
                     $length = $matches[0][1] + $strlen($truncate_string);
                 } else {
                     $match = end($matches);
-                    $truncate_string = $match[0].$truncate_string;
+                    $truncate_string = $match[0] . $truncate_string;
                     $length = $match[1] + $strlen($truncate_string);
                 }
             }
@@ -70,7 +70,7 @@ function truncate_text($text, $length = 30, $truncate_string = '...', $truncate_
         if ($truncate_lastspace) {
             $truncate_text = preg_replace('/\s+?(\S+)?$/', '', $truncate_text);
         }
-        $text = $truncate_text.$truncate_string;
+        $text = $truncate_text . $truncate_string;
     }
 
     if ($mbstring) {
@@ -104,11 +104,11 @@ function highlight_text($text, $phrase, $highlighter = '<strong class="highlight
 
     if (is_array($phrase) or ($phrase instanceof sfOutputEscaperArrayDecorator)) {
         foreach ($phrase as $word) {
-            $pattern[] = '/('.preg_quote($word, '/').')/i';
+            $pattern[] = '/(' . preg_quote($word, '/') . ')/i';
             $replacement[] = $highlighter;
         }
     } else {
-        $pattern = '/('.preg_quote($phrase, '/').')/i';
+        $pattern = '/(' . preg_quote($phrase, '/') . ')/i';
         $replacement = $highlighter;
     }
 
@@ -158,7 +158,7 @@ function excerpt_text($text, $phrase, $radius = 100, $excerpt_string = '...', $e
             }
         }
 
-        $return_string = $prefix.$excerpt.$postfix;
+        $return_string = $prefix . $excerpt . $postfix;
     }
 
     if ($mbstring) {
@@ -173,7 +173,7 @@ function excerpt_text($text, $phrase, $radius = 100, $excerpt_string = '...', $e
  */
 function wrap_text($text, $line_width = 80)
 {
-    return preg_replace('/(.{1,'.$line_width.'})(\s+|$)/s', "\\1\n", preg_replace("/\n/", "\n\n", $text));
+    return preg_replace('/(.{1,' . $line_width . '})(\s+|$)/s', "\\1\n", preg_replace("/\n/", "\n\n", $text));
 }
 
 /**
@@ -184,15 +184,15 @@ function wrap_text($text, $line_width = 80)
  */
 function simple_format_text($text, $options = array())
 {
-    $css = (isset($options['class'])) ? ' class="'.$options['class'].'"' : '';
+    $css = (isset($options['class'])) ? ' class="' . $options['class'] . '"' : '';
 
     $text = preg_replace('/(\r\n|\r)/', "\n", $text);               // lets make them newlines crossplatform
-    $text = preg_replace('/\n{2,}/', '</p><p'.$css.'>', $text); // turn two and more newlines into paragraph
+    $text = preg_replace('/\n{2,}/', '</p><p' . $css . '>', $text); // turn two and more newlines into paragraph
 
     // turn single newline into <br/>
     $text = str_replace("\n", "\n<br />", $text);
 
-    return '<p'.$css.'>'.$text.'</p>'; // wrap the first and last line in paragraphs before we're done
+    return '<p' . $css . '>' . $text . '</p>'; // wrap the first and last line in paragraphs before we're done
 }
 
 /**
@@ -260,11 +260,11 @@ function _auto_link_urls($text, $href_options = array(), $truncate = false, $tru
             return $matches[0];
         }
 
-        $text = $matches[2].$matches[3];
-        $href = ('www.' == $matches[2] ? 'http://www.' : $matches[2]).$matches[3];
+        $text = $matches[2] . $matches[3];
+        $href = ('www.' == $matches[2] ? 'http://www.' : $matches[2]) . $matches[3];
 
         if ($truncate && strlen($text) > $truncate_len) {
-            $text = substr($text, 0, $truncate_len).$pad;
+            $text = substr($text, 0, $truncate_len) . $pad;
         }
 
         return sprintf('%s<a href="%s"%s>%s</a>%s', $matches[1], $href, $href_options, $text, $matches[4]);

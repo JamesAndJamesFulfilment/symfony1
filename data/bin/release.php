@@ -17,13 +17,13 @@
  *
  * @version    SVN: $Id$
  */
-require_once __DIR__.'/../../lib/exception/sfException.class.php';
+require_once __DIR__ . '/../../lib/exception/sfException.class.php';
 
-require_once __DIR__.'/../../lib/task/sfFilesystem.class.php';
+require_once __DIR__ . '/../../lib/task/sfFilesystem.class.php';
 
-require_once __DIR__.'/../../lib/util/sfFinder.class.php';
+require_once __DIR__ . '/../../lib/util/sfFinder.class.php';
 
-require_once __DIR__.'/../../lib/vendor/lime/lime.php';
+require_once __DIR__ . '/../../lib/vendor/lime/lime.php';
 
 if (!isset($argv[1])) {
     throw new Exception('You must provide version prefix.');
@@ -40,7 +40,7 @@ $filesystem = new sfFilesystem();
 if (('beta' == $stability || 'alpha' == $stability) && count(explode('.', $argv[1])) < 2) {
     $version_prefix = $argv[1];
 
-    list($result) = $filesystem->execute('svn status -u '.getcwd());
+    list($result) = $filesystem->execute('svn status -u ' . getcwd());
     if (preg_match('/Status against revision\:\s+(\d+)\s*$/im', $result, $match)) {
         $version = $match[1];
     }
@@ -50,7 +50,7 @@ if (('beta' == $stability || 'alpha' == $stability) && count(explode('.', $argv[
     }
 
     // make a PEAR compatible version
-    $version = $version_prefix.'.'.$version;
+    $version = $version_prefix . '.' . $version;
 } else {
     $version = $argv[1];
 }
@@ -65,10 +65,10 @@ if (0 != $result) {
 }
 
 if (is_file('package.xml')) {
-    $filesystem->remove(getcwd().DIRECTORY_SEPARATOR.'package.xml');
+    $filesystem->remove(getcwd() . DIRECTORY_SEPARATOR . 'package.xml');
 }
 
-$filesystem->copy(getcwd().'/package.xml.tmpl', getcwd().'/package.xml');
+$filesystem->copy(getcwd() . '/package.xml.tmpl', getcwd() . '/package.xml');
 
 // add class files
 $finder = sfFinder::type('file')->relative();
@@ -77,12 +77,12 @@ $dirs = array('lib' => 'php', 'data' => 'data');
 foreach ($dirs as $dir => $role) {
     $class_files = $finder->in($dir);
     foreach ($class_files as $file) {
-        $xml_classes .= '<file role="'.$role.'" baseinstalldir="symfony" install-as="'.$file.'" name="'.$dir.'/'.$file.'" />'."\n";
+        $xml_classes .= '<file role="' . $role . '" baseinstalldir="symfony" install-as="' . $file . '" name="' . $dir . '/' . $file . '" />' . "\n";
     }
 }
 
 // replace tokens
-$filesystem->replaceTokens(getcwd().DIRECTORY_SEPARATOR.'package.xml', '##', '##', array(
+$filesystem->replaceTokens(getcwd() . DIRECTORY_SEPARATOR . 'package.xml', '##', '##', array(
     'SYMFONY_VERSION' => $version,
     'CURRENT_DATE' => date('Y-m-d'),
     'CLASS_FILES' => $xml_classes,
@@ -92,6 +92,6 @@ $filesystem->replaceTokens(getcwd().DIRECTORY_SEPARATOR.'package.xml', '##', '##
 list($results) = $filesystem->execute('pear package');
 echo $results;
 
-$filesystem->remove(getcwd().DIRECTORY_SEPARATOR.'package.xml');
+$filesystem->remove(getcwd() . DIRECTORY_SEPARATOR . 'package.xml');
 
 exit(0);

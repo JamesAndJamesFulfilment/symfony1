@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 $t = new lime_test(157);
 
@@ -127,8 +127,8 @@ class NumericFieldsForm extends sfForm
             '5' => new sfValidatorString(),
         ));
 
-        $this->widgetSchema->setLabels(array('5' => 'label'.$this->getOption('salt')));
-        $this->widgetSchema->setHelps(array('5' => 'help'.$this->getOption('salt')));
+        $this->widgetSchema->setLabels(array('5' => 'label' . $this->getOption('salt')));
+        $this->widgetSchema->setHelps(array('5' => 'help' . $this->getOption('salt')));
     }
 }
 
@@ -955,12 +955,12 @@ class MyWidget extends sfWidgetForm
 
     public function getJavaScripts()
     {
-        return array('/path/to/a/'.$this->getOption('name').'.js');
+        return array('/path/to/a/' . $this->getOption('name') . '.js');
     }
 
     public function getStylesheets()
     {
-        return array('/path/to/a/'.$this->getOption('name').'.css' => 'all');
+        return array('/path/to/a/' . $this->getOption('name') . '.css' => 'all');
     }
 
     protected function configure($options = array(), $attributes = array())

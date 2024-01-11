@@ -123,7 +123,7 @@ class sfNumberFormat
         $decimal = $this->formatDecimal($string);
         $integer = $this->formatInteger($this->fixFloat(abs($number)));
 
-        $result = (strlen($decimal) > 0) ? $integer.$decimal : $integer;
+        $result = (strlen($decimal) > 0) ? $integer . $decimal : $integer;
 
         // get the suffix
         if ($number >= 0) {
@@ -133,7 +133,7 @@ class sfNumberFormat
         }
 
         // append and prepend suffix
-        $result = $suffix[0].$result.$suffix[1];
+        $result = $suffix[0] . $result . $suffix[1];
 
         // replace currency sign
         $symbol = @$this->formatInfo->getCurrencySymbol($currency);
@@ -184,22 +184,22 @@ class sfNumberFormat
 
                 if ($multiGroup && 0 == $count) {
                     if (0 != $i && 0 == $i % $groupSize[0]) {
-                        $integer = $groupSeparator.$integer;
+                        $integer = $groupSeparator . $integer;
                         ++$count;
                     }
                 } elseif ($multiGroup && $count >= 1) {
                     if (0 != $i && ($i - $groupSize[0]) % $groupSize[1] == 0) {
-                        $integer = $groupSeparator.$integer;
+                        $integer = $groupSeparator . $integer;
                         ++$count;
                     }
                 } else {
                     if (0 != $i && 0 == $i % $groupSize[0]) {
-                        $integer = $groupSeparator.$integer;
+                        $integer = $groupSeparator . $integer;
                         ++$count;
                     }
                 }
 
-                $integer = $char.$integer;
+                $integer = $char . $integer;
             }
         } else {
             $integer = $string;
@@ -241,10 +241,10 @@ class sfNumberFormat
                 return $decimal;
             }
 
-            return $decimalSeparator.$decimal;
+            return $decimalSeparator . $decimal;
         }
         if ($decimalDigits > 0) {
-            return $decimalSeparator.str_pad($decimal, $decimalDigits, '0');
+            return $decimalSeparator . str_pad($decimal, $decimalDigits, '0');
         }
 
         return $decimal;
@@ -305,10 +305,10 @@ class sfNumberFormat
         if ('-' === $exp[0]) {
             $exp = str_replace('-', '', $exp);
 
-            return '0.'.str_repeat('0', $exp).str_replace('.', '', $significand);
+            return '0.' . str_repeat('0', $exp) . str_replace('.', '', $significand);
         }
         $exp = str_replace('+', '', $exp) - strlen($decimal);
 
-        return str_replace('.', '', $significand).str_repeat('0', $exp);
+        return str_replace('.', '', $significand) . str_repeat('0', $exp);
     }
 }

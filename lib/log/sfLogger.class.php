@@ -124,7 +124,7 @@ abstract class sfLogger implements sfLoggerInterface
     public function setLogLevel($level)
     {
         if (!is_int($level)) {
-            $level = constant('sfLogger::'.strtoupper($level));
+            $level = constant('sfLogger::' . strtoupper($level));
         }
 
         $this->level = $level;

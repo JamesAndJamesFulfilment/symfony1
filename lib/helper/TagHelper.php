@@ -33,7 +33,7 @@ function tag($name, $options = array(), $open = false)
         return '';
     }
 
-    return '<'.$name._tag_options($options).($open ? '>' : ' />');
+    return '<' . $name . _tag_options($options) . ($open ? '>' : ' />');
 }
 
 function content_tag($name, $content = '', $options = array())
@@ -42,7 +42,7 @@ function content_tag($name, $content = '', $options = array())
         return '';
     }
 
-    return '<'.$name._tag_options($options).'>'.$content.'</'.$name.'>';
+    return '<' . $name . _tag_options($options) . '>' . $content . '</' . $name . '>';
 }
 
 function cdata_section($content)
@@ -105,7 +105,7 @@ function _tag_options($options = array())
 
     $html = '';
     foreach ($options as $key => $value) {
-        $html .= ' '.$key.'="'.escape_once($value).'"';
+        $html .= ' ' . $key . '="' . escape_once($value) . '"';
     }
 
     return $html;
@@ -154,7 +154,7 @@ function get_id_from_name($name, $value = null)
 {
     // check to see if we have an array variable for a field name
     if (false !== strpos($name, '[')) {
-        $name = str_replace(array('[]', '][', '[', ']'), array((null != $value) ? '_'.$value : '', '_', '_', ''), $name);
+        $name = str_replace(array('[]', '][', '[', ']'), array((null != $value) ? '_' . $value : '', '_', '_', ''), $name);
     }
 
     return $name;

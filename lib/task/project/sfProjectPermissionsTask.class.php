@@ -25,7 +25,7 @@ class sfProjectPermissionsTask extends sfBaseTask
      *
      * @see http://www.php.net/set_error_handler
      *
-     * @param mixed|null $context
+     * @param null|mixed $context
      */
     public function handleError($no, $string, $file, $line, $context = null)
     {
@@ -59,7 +59,7 @@ EOF;
 
         $this->chmod(sfConfig::get('sf_cache_dir'), 0777);
         $this->chmod(sfConfig::get('sf_log_dir'), 0777);
-        $this->chmod(sfConfig::get('sf_root_dir').'/symfony', 0777);
+        $this->chmod(sfConfig::get('sf_root_dir') . '/symfony', 0777);
 
         $dirs = array(
             sfConfig::get('sf_cache_dir'),
@@ -79,7 +79,7 @@ EOF;
         if (count($this->failed)) {
             $this->logBlock(array_merge(
                 array('Permissions on the following file(s) could not be fixed:', ''),
-                array_map(function ($f) { return ' - '.sfDebug::shortenFilePath($f); }, $this->failed)
+                array_map(function ($f) { return ' - ' . sfDebug::shortenFilePath($f); }, $this->failed)
             ), 'ERROR_LARGE');
         }
     }

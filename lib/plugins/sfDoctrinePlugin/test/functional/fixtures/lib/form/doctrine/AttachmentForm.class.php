@@ -14,7 +14,7 @@ class AttachmentForm extends BaseAttachmentForm
     public function configure()
     {
         $this->widgetSchema['file_path'] = new sfWidgetFormInputFileEditable(array(
-            'file_src' => sfConfig::get('sf_cache_dir').'/'.$this->getObject()->file_path,
+            'file_src' => sfConfig::get('sf_cache_dir') . '/' . $this->getObject()->file_path,
             'edit_mode' => !$this->isNew(),
         ));
         $this->validatorSchema['file_path'] = new sfValidatorFile(array(

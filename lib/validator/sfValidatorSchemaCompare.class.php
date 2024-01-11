@@ -77,7 +77,7 @@ class sfValidatorSchemaCompare extends sfValidatorSchema
             $arguments = sprintf(
                 '(%s%s)',
                 $options ? sfYamlInline::dump($options) : ($messages ? '{}' : ''),
-                $messages ? ', '.sfYamlInline::dump($messages) : ''
+                $messages ? ', ' . sfYamlInline::dump($messages) : ''
             );
         }
 

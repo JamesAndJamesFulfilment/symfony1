@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../../bootstrap/task.php';
+require_once __DIR__ . '/../../../bootstrap/task.php';
 
 $t = new lime_test(2);
 
@@ -20,11 +20,11 @@ $task->run(array('test'));
 $task = new sfGenerateAppTask($dispatcher, $formatter);
 $task->run(array('frontend'));
 
-require_once sfConfig::get('sf_root_dir').'/config/ProjectConfiguration.class.php';
+require_once sfConfig::get('sf_root_dir') . '/config/ProjectConfiguration.class.php';
 $configuration = ProjectConfiguration::getApplicationConfiguration('frontend', 'test', true);
 
 // Put something in the cache
-$file = sfConfig::get('sf_config_cache_dir').DIRECTORY_SEPARATOR.'test';
+$file = sfConfig::get('sf_config_cache_dir') . DIRECTORY_SEPARATOR . 'test';
 touch($file);
 
 $t->ok(file_exists($file), 'The test file is in the cache');

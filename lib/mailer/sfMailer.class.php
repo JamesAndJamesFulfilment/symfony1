@@ -132,7 +132,7 @@ class sfMailer extends sfMailerBase
             ),
         ), $options);
 
-        $constantName = 'sfMailer::'.strtoupper($options['delivery_strategy']);
+        $constantName = 'sfMailer::' . strtoupper($options['delivery_strategy']);
         $this->strategy = defined($constantName) ? constant($constantName) : false;
         if (!$this->strategy) {
             throw new InvalidArgumentException(sprintf('Unknown mail delivery strategy "%s" (should be one of realtime, spool, single_address, or none)', $options['delivery_strategy']));
@@ -147,7 +147,7 @@ class sfMailer extends sfMailerBase
         $transport = new $class();
         if (isset($options['transport']['param'])) {
             foreach ($options['transport']['param'] as $key => $value) {
-                $method = 'set'.ucfirst($key);
+                $method = 'set' . ucfirst($key);
                 if (method_exists($transport, $method)) {
                     $transport->{$method}($value);
                 } elseif (method_exists($transport, 'getExtensionHandlers')) {

@@ -42,7 +42,7 @@ class sfXCacheCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param mixed|null $default
+     * @param null|mixed $default
      */
     public function get($key, $default = null)
     {
@@ -60,13 +60,13 @@ class sfXCacheCache extends sfCache
      */
     public function has($key)
     {
-        return xcache_isset($this->getOption('prefix').$key);
+        return xcache_isset($this->getOption('prefix') . $key);
     }
 
     /**
      * @see sfCache
      *
-     * @param mixed|null $lifetime
+     * @param null|mixed $lifetime
      */
     public function set($key, $data, $lifetime = null)
     {
@@ -78,7 +78,7 @@ class sfXCacheCache extends sfCache
             'ctime' => time(),
         );
 
-        return xcache_set($this->getOption('prefix').$key, $set, $lifetime);
+        return xcache_set($this->getOption('prefix') . $key, $set, $lifetime);
     }
 
     /**
@@ -86,7 +86,7 @@ class sfXCacheCache extends sfCache
      */
     public function remove($key)
     {
-        return xcache_unset($this->getOption('prefix').$key);
+        return xcache_unset($this->getOption('prefix') . $key);
     }
 
     /**
@@ -144,7 +144,7 @@ class sfXCacheCache extends sfCache
      */
     public function getBaseValue($key)
     {
-        return xcache_isset($this->getOption('prefix').$key) ? xcache_get($this->getOption('prefix').$key) : null;
+        return xcache_isset($this->getOption('prefix') . $key) ? xcache_get($this->getOption('prefix') . $key) : null;
     }
 
     /**
@@ -154,7 +154,7 @@ class sfXCacheCache extends sfCache
     {
         $this->checkAuth();
 
-        $regexp = self::patternToRegexp($this->getOption('prefix').$pattern);
+        $regexp = self::patternToRegexp($this->getOption('prefix') . $pattern);
 
         for ($i = 0, $max = xcache_count(XC_TYPE_VAR); $i < $max; ++$i) {
             $infos = xcache_list(XC_TYPE_VAR, $i);
@@ -184,7 +184,7 @@ class sfXCacheCache extends sfCache
 
             if (is_array($infos['cache_list'])) {
                 foreach ($infos['cache_list'] as $info) {
-                    if ($this->getOption('prefix').$key == $info['name']) {
+                    if ($this->getOption('prefix') . $key == $info['name']) {
                         return $info;
                     }
                 }

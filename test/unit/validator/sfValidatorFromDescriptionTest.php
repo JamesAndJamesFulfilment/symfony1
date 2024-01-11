@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 $t = new lime_test(98);
 
@@ -111,7 +111,7 @@ foreach ($tests as $test) {
     $v = new sfValidatorFromDescription($test);
     $embedValidator = $v->getValidator();
 
-    eval('$evaledValidator = '.$v->asPhp().';');
+    eval('$evaledValidator = ' . $v->asPhp() . ';');
 
     $t->is($evaledValidator->asString(), $v->asString(), sprintf('sfValidatorFromDescription is able to parse "%s"', str_replace("\n", '\n', $test)));
 

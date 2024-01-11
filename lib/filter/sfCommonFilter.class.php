@@ -43,7 +43,7 @@ class sfCommonFilter extends sfFilter
             }
 
             if ($html) {
-                $response->setContent(substr($content, 0, $pos).$html.substr($content, $pos));
+                $response->setContent(substr($content, 0, $pos) . $html . substr($content, $pos));
             }
         }
 

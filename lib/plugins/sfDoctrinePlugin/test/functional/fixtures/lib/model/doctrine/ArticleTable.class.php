@@ -42,7 +42,7 @@ class ArticleTable extends Doctrine_Table
 
     public function routeTest10(Doctrine_Query $q)
     {
-        $q->orWhere($q->getRootAlias().'.is_on_homepage = ?', 0);
+        $q->orWhere($q->getRootAlias() . '.is_on_homepage = ?', 0);
 
         return $q->fetchOne();
     }
@@ -64,7 +64,7 @@ class ArticleTable extends Doctrine_Table
         }
         $alias = $q->getRootAlias();
 
-        return $q->addWhere($alias.'.is_on_homepage = 1');
+        return $q->addWhere($alias . '.is_on_homepage = 1');
     }
 
     public function filterSuppliedQuery($query)

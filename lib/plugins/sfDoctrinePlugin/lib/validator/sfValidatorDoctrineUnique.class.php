@@ -88,7 +88,7 @@ class sfValidatorDoctrineUnique extends sfValidatorSchema
                 return $originalValues;
             }
 
-            $q->addWhere('a.'.$colName.' = ?', $values[$column]);
+            $q->addWhere('a.' . $colName . ' = ?', $values[$column]);
         }
 
         $object = $q->fetchOne();

@@ -96,7 +96,7 @@ class sfForm implements ArrayAccess, Iterator, Countable
             self::setToStringException($e);
 
             // we return a simple Exception message in case the form framework is used out of symfony.
-            return 'Exception: '.$e->getMessage();
+            return 'Exception: ' . $e->getMessage();
         }
     }
 
@@ -860,7 +860,7 @@ class sfForm implements ArrayAccess, Iterator, Countable
 
         if (null === $secret) {
             if (null === self::$CSRFSecret) {
-                self::$CSRFSecret = md5(__FILE__.php_uname());
+                self::$CSRFSecret = md5(__FILE__ . php_uname());
             }
 
             $secret = self::$CSRFSecret;
@@ -891,7 +891,7 @@ class sfForm implements ArrayAccess, Iterator, Countable
             $secret = $this->localCSRFSecret ?: self::$CSRFSecret;
         }
 
-        return md5($secret.session_id().get_class($this));
+        return md5($secret . session_id() . get_class($this));
     }
 
     /**
@@ -1001,7 +1001,7 @@ class sfForm implements ArrayAccess, Iterator, Countable
             $attributes['method'] = 'post';
         }
 
-        return sprintf('<form%s>', $this->getWidgetSchema()->attributesToHtml($attributes)).$html;
+        return sprintf('<form%s>', $this->getWidgetSchema()->attributesToHtml($attributes)) . $html;
     }
 
     public function resetFormFields()

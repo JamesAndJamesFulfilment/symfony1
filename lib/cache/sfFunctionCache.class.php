@@ -103,6 +103,6 @@ class sfFunctionCache
      */
     public function computeCacheKey($callable, $arguments = array())
     {
-        return md5(serialize($callable).serialize($arguments));
+        return md5(serialize($callable) . serialize($arguments));
     }
 }

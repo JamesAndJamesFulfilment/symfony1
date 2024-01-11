@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/../../bootstrap/unit.php';
+require_once __DIR__ . '/../../bootstrap/unit.php';
 
 $t = new lime_test(75);
 
@@ -94,7 +94,7 @@ foreach ($tests as $culture => $fixtures) {
     $n = sfNumberFormatInfo::getInstance($culture);
 
     foreach ($fixtures as $method => $result) {
-        $getter = 'get'.$method;
+        $getter = 'get' . $method;
         $t->is($n->{$getter}(), $result, sprintf('->%s() returns "%s" for culture "%s"', $getter, $result, $culture));
     }
 }
@@ -107,8 +107,8 @@ foreach (array(
 ) as $method) {
     $t->diag(sprintf('->get%s() ->set%s()', $method, $method));
     $n = sfNumberFormatInfo::getInstance();
-    $setter = 'set'.$method;
-    $getter = 'get'.$method;
+    $setter = 'set' . $method;
+    $getter = 'get' . $method;
     $n->{$setter}('foo');
     $t->is($n->{$getter}(), 'foo', sprintf('->%s() sets the current decimal digits', $setter));
     $t->is($n->{$method}, $n->{$getter}(), sprintf('->%s() is equivalent to ->%s', $getter, $method));
@@ -119,8 +119,8 @@ foreach (array(
 foreach (array('GroupSizes', 'NegativePattern', 'PositivePattern') as $method) {
     $t->diag(sprintf('->get%s() ->set%s()', $method, $method));
     $n = sfNumberFormatInfo::getInstance();
-    $setter = 'set'.$method;
-    $getter = 'get'.$method;
+    $setter = 'set' . $method;
+    $getter = 'get' . $method;
     $n->{$setter}(array('foo', 'foo'));
     $t->is($n->{$getter}(), array('foo', 'foo'), sprintf('->%s() sets the current decimal digits', $setter));
     $t->is($n->{$method}, $n->{$getter}(), sprintf('->%s() is equivalent to ->%s', $getter, $method));

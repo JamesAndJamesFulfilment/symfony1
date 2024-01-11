@@ -38,11 +38,11 @@ class sfWidgetFormInputRead extends sfWidgetFormInput
 
         $style = 'border: 0;';
         if (isset($attributes['style'])) {
-            $style .= ' '.$attributes['style'];
+            $style .= ' ' . $attributes['style'];
             unset($attributes['style']);
         }
 
-        return $tag.$this->renderTag('input', array_merge(array(
+        return $tag . $this->renderTag('input', array_merge(array(
             'type' => 'text',
             'value' => $this->getOption('text', $value),
             'readonly' => 'readonly',

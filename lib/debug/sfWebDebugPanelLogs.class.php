@@ -19,7 +19,7 @@ class sfWebDebugPanelLogs extends sfWebDebugPanel
 {
     public function getTitle()
     {
-        return '<img src="'.$this->webDebug->getOption('image_root_path').'/log.png" alt="Log" /> logs';
+        return '<img src="' . $this->webDebug->getOption('image_root_path') . '/log.png" alt="Log" /> logs';
     }
 
     public function getPanelTitle()
@@ -38,7 +38,7 @@ class sfWebDebugPanelLogs extends sfWebDebugPanel
         <th>time (s)</th>
         <th>type</th>
         <th>message</th>
-      </tr>'."\n";
+      </tr>' . "\n";
         $line_nb = 0;
         $numlogs = count($logs);
         for ($i = 0; $i < $numlogs; ++$i) {
@@ -75,7 +75,7 @@ class sfWebDebugPanelLogs extends sfWebDebugPanel
                 $line_nb,
                 $colour,
                 $time,
-                '<img src="'.$this->webDebug->getOption('image_root_path').'/'.$priority.'.png" alt="'.ucfirst($priority).'"/>',
+                '<img src="' . $this->webDebug->getOption('image_root_path') . '/' . $priority . '.png" alt="' . ucfirst($priority) . '"/>',
                 class_exists($log['type'], false) ? $this->formatFileLink($log['type']) : $log['type'],
                 $this->formatLogLine($log['message']),
                 $this->getToggleableDebugStack($log['debug_backtrace'])
@@ -85,19 +85,19 @@ class sfWebDebugPanelLogs extends sfWebDebugPanel
 
         $types = array();
         foreach ($this->webDebug->getLogger()->getTypes() as $type) {
-            $types[] = '<a href="#" onclick="sfWebDebugToggleMessages(\''.$type.'\'); return false;">'.$type.'</a>';
+            $types[] = '<a href="#" onclick="sfWebDebugToggleMessages(\'' . $type . '\'); return false;">' . $type . '</a>';
         }
 
         return '
       <ul id="sfWebDebugLogMenu">
         <li><a href="#" onclick="sfWebDebugToggleAllLogLines(true, \'sfWebDebugLogLine\'); return false;">[all]</a></li>
         <li><a href="#" onclick="sfWebDebugToggleAllLogLines(false, \'sfWebDebugLogLine\'); return false;">[none]</a></li>
-        <li><a href="#" onclick="sfWebDebugShowOnlyLogLines(\'info\'); return false;"><img src="'.$this->webDebug->getOption('image_root_path').'/info.png" alt="Show only infos" /></a></li>
-        <li><a href="#" onclick="sfWebDebugShowOnlyLogLines(\'warning\'); return false;"><img src="'.$this->webDebug->getOption('image_root_path').'/warning.png" alt="Show only warnings" /></a></li>
-        <li><a href="#" onclick="sfWebDebugShowOnlyLogLines(\'error\'); return false;"><img src="'.$this->webDebug->getOption('image_root_path').'/error.png" alt="Show only errors" /></a></li>
-        <li>'.implode("</li>\n<li>", $types).'</li>
+        <li><a href="#" onclick="sfWebDebugShowOnlyLogLines(\'info\'); return false;"><img src="' . $this->webDebug->getOption('image_root_path') . '/info.png" alt="Show only infos" /></a></li>
+        <li><a href="#" onclick="sfWebDebugShowOnlyLogLines(\'warning\'); return false;"><img src="' . $this->webDebug->getOption('image_root_path') . '/warning.png" alt="Show only warnings" /></a></li>
+        <li><a href="#" onclick="sfWebDebugShowOnlyLogLines(\'error\'); return false;"><img src="' . $this->webDebug->getOption('image_root_path') . '/error.png" alt="Show only errors" /></a></li>
+        <li>' . implode("</li>\n<li>", $types) . '</li>
       </ul>
-      <div id="sfWebDebugLogLines">'.$html.'</div>
+      <div id="sfWebDebugLogLines">' . $html . '</div>
     ';
     }
 
@@ -114,7 +114,7 @@ class sfWebDebugPanelLogs extends sfWebDebugPanel
 
         if (!$constants) {
             foreach (array('sf_app_dir', 'sf_root_dir', 'sf_symfony_lib_dir') as $constant) {
-                $constants[realpath(sfConfig::get($constant)).DIRECTORY_SEPARATOR] = $constant.DIRECTORY_SEPARATOR;
+                $constants[realpath(sfConfig::get($constant)) . DIRECTORY_SEPARATOR] = $constant . DIRECTORY_SEPARATOR;
             }
         }
 
