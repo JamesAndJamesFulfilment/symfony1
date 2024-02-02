@@ -13,8 +13,6 @@
  * as headers, cookies and content.
  *
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- *
- * @version    SVN: $Id$
  */
 abstract class sfResponse implements Serializable
 {
@@ -47,7 +45,7 @@ abstract class sfResponse implements Serializable
      *
      * @return mixed The returned value of the called method
      *
-     * @throws <b>sfException</b> If the calls fails
+     * @throws sfException If the calls fails
      */
     public function __call($method, $arguments)
     {
@@ -89,7 +87,7 @@ abstract class sfResponse implements Serializable
      * @param sfEventDispatcher $dispatcher An sfEventDispatcher instance
      * @param array             $options    An array of options
      *
-     * @throws <b>sfInitializationException</b> If an error occurs while initializing this sfResponse
+     * @throws sfInitializationException If an error occurs while initializing this sfResponse
      */
     public function initialize(sfEventDispatcher $dispatcher, $options = array())
     {

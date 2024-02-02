@@ -16,8 +16,6 @@
  *
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author     Jonathan H. Wage <jonwage@gmail.com>
- *
- * @version    SVN: $Id$
  */
 class sfDoctrineFormGenerator extends sfGenerator
 {
@@ -34,6 +32,13 @@ class sfDoctrineFormGenerator extends sfGenerator
      * @var array
      */
     public $pluginModels = array();
+
+    /**
+     * Array of all configuration params.
+     *
+     * @var array
+     */
+    public $params = array();
 
     /**
      * Initializes the current sfGenerator instance.

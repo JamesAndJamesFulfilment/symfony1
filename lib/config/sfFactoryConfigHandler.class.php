@@ -15,8 +15,6 @@
  *
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author     Sean Kerr <sean@code-box.org>
- *
- * @version    SVN: $Id$
  */
 class sfFactoryConfigHandler extends sfYamlConfigHandler
 {
@@ -27,8 +25,8 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
      *
      * @return string Data to be written to a cache file
      *
-     * @throws <b>sfConfigurationException</b> If a requested configuration file does not exist or is not readable
-     * @throws <b>sfParseException</b> If a requested configuration file is improperly formatted
+     * @throws sfConfigurationException If a requested configuration file does not exist or is not readable
+     * @throws sfParseException         If a requested configuration file is improperly formatted
      */
     public function execute($configFiles)
     {

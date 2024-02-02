@@ -13,10 +13,8 @@
  *
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  *
- * @version    SVN: $Id$
- *
- * @param null|mixed $culture
- * @param null|mixed $charset
+ * @param mixed|null $culture
+ * @param mixed|null $charset
  */
 function format_daterange($start_date, $end_date, $format = 'd', $full_text = '', $start_text = '', $end_text = '', $culture = null, $charset = null)
 {

@@ -83,8 +83,6 @@ if (class_exists('Swift') && version_compare(Swift::VERSION, '6.0.0') >= 0) {
  * This class is instanciated by sfContext on demand.
  *
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- *
- * @version    SVN: $Id$
  */
 class sfMailer extends sfMailerBase
 {

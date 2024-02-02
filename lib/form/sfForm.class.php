@@ -21,8 +21,6 @@
  * is generated on the fly.
  *
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- *
- * @version    SVN: $Id$
  */
 class sfForm implements ArrayAccess, Iterator, Countable
 {
@@ -47,7 +45,7 @@ class sfForm implements ArrayAccess, Iterator, Countable
     protected $isBound = false;
     protected $taintedValues = array();
     protected $taintedFiles = array();
-    protected $values;
+    protected $values = array();
     protected $defaults = array();
     protected $fieldNames = array();
     protected $options = array();
@@ -1060,7 +1058,7 @@ class sfForm implements ArrayAccess, Iterator, Countable
      * @param string $offset (ignored)
      * @param string $value  (ignored)
      *
-     * @throws <b>LogicException</b>
+     * @throws LogicException
      */
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)

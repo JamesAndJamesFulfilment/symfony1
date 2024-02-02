@@ -12,8 +12,6 @@
  * sfCache is an abstract class for all cache classes in symfony.
  *
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- *
- * @version    SVN: $Id$
  */
 abstract class sfCache
 {
@@ -50,7 +48,7 @@ abstract class sfCache
      *
      * * lifetime (optional): The default life time (default value: 86400)
      *
-     * @throws <b>sfInitializationException</b> If an error occurs while initializing this sfCache instance
+     * @throws sfInitializationException If an error occurs while initializing this sfCache instance
      */
     public function initialize($options = array())
     {

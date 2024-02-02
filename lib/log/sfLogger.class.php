@@ -22,8 +22,6 @@
  * - DEBUG:   Debug-level messages
  *
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- *
- * @version    SVN: $Id$
  */
 abstract class sfLogger implements sfLoggerInterface
 {
@@ -72,7 +70,7 @@ abstract class sfLogger implements sfLoggerInterface
      * @param sfEventDispatcher $dispatcher A sfEventDispatcher instance
      * @param array             $options    an array of options
      *
-     * @throws <b>sfInitializationException</b> If an error occurs while initializing this sfLogger
+     * @throws sfInitializationException If an error occurs while initializing this sfLogger
      */
     public function initialize(sfEventDispatcher $dispatcher, $options = array())
     {

@@ -12,8 +12,6 @@
  * sfCacheConfigHandler allows you to configure cache.
  *
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- *
- * @version    SVN: $Id$
  */
 class sfCacheConfigHandler extends sfYamlConfigHandler
 {
@@ -26,9 +24,9 @@ class sfCacheConfigHandler extends sfYamlConfigHandler
      *
      * @return string Data to be written to a cache file
      *
-     * @throws <b>sfConfigurationException</b> If a requested configuration file does not exist or is not readable
-     * @throws <b>sfParseException</b> If a requested configuration file is improperly formatted
-     * @throws <b>sfInitializationException</b> If a cache.yml key check fails
+     * @throws sfConfigurationException  If a requested configuration file does not exist or is not readable
+     * @throws sfParseException          If a requested configuration file is improperly formatted
+     * @throws sfInitializationException If a cache.yml key check fails
      */
     public function execute($configFiles)
     {
@@ -92,7 +90,7 @@ class sfCacheConfigHandler extends sfYamlConfigHandler
         $lifeTime = !$enabled ? '0' : $this->getConfigValue('lifetime', $actionName, '0');
 
         // client_lifetime
-        $clientLifetime = !$enabled ? '0' : $this->getConfigValue('client_lifetime', $actionName, $lifeTime, '0');
+        $clientLifetime = !$enabled ? '0' : $this->getConfigValue('client_lifetime', $actionName, $lifeTime);
 
         // contextual
         $contextual = $this->getConfigValue('contextual', $actionName) ? 'true' : 'false';

@@ -12,8 +12,6 @@
  * sfValidatorIp validate an IP address.
  *
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- *
- * @version    SVN: $Id$
  */
 class sfValidatorIp extends sfValidatorString
 {
@@ -106,7 +104,7 @@ class sfValidatorIp extends sfValidatorString
                 break;
 
             default:
-                $flag = null;
+                $flag = 0;
 
                 break;
         }

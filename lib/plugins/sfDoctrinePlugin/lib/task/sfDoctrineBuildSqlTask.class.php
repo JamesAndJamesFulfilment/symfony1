@@ -16,8 +16,6 @@ require_once __DIR__ . '/sfDoctrineBaseTask.class.php';
  *
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author     Jonathan H. Wage <jonwage@gmail.com>
- *
- * @version    SVN: $Id$
  */
 class sfDoctrineBuildSqlTask extends sfDoctrineBaseTask
 {

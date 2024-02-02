@@ -16,8 +16,6 @@
  *
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author     Sean Kerr <sean@code-box.org>
- *
- * @version    SVN: $Id$
  */
 class sfDatabaseManager
 {
@@ -46,7 +44,7 @@ class sfDatabaseManager
      *
      * @param sfProjectConfiguration $configuration A sfProjectConfiguration instance
      *
-     * @throws <b>sfInitializationException</b> If an error occurs while initializing this sfDatabaseManager object
+     * @throws sfInitializationException If an error occurs while initializing this sfDatabaseManager object
      */
     public function initialize(sfProjectConfiguration $configuration)
     {
@@ -90,7 +88,7 @@ class sfDatabaseManager
      *
      * @return mixed A Database instance
      *
-     * @throws <b>sfDatabaseException</b> If the requested database name does not exist
+     * @throws sfDatabaseException If the requested database name does not exist
      */
     public function getDatabase($name = 'default')
     {
@@ -115,7 +113,7 @@ class sfDatabaseManager
     /**
      * Executes the shutdown procedure.
      *
-     * @throws <b>sfDatabaseException</b> If an error occurs while shutting down this DatabaseManager
+     * @throws sfDatabaseException If an error occurs while shutting down this DatabaseManager
      */
     public function shutdown()
     {
