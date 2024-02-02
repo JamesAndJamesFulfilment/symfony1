@@ -15,8 +15,8 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author     David Heinemeier Hansson
  *
- * @param mixed|null $truncate_pattern
- * @param mixed|null $length_max
+ * @param null|mixed $truncate_pattern
+ * @param null|mixed $length_max
  */
 
 /**

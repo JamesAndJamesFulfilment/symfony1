@@ -13,7 +13,7 @@
  *
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  *
- * @param mixed|null $culture
+ * @param null|mixed $culture
  */
 function format_number($number, $culture = null)
 {
