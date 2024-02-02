@@ -17,6 +17,9 @@
  */
 class sfDoctrineFormFilterGenerator extends sfDoctrineFormGenerator
 {
+    public $table;
+    public $modelName;
+
     /**
      * Initializes the current sfGenerator instance.
      *
