@@ -19,9 +19,6 @@
  */
 class sfDoctrineFormGenerator extends sfGenerator
 {
-    public $table;
-    public $modelName;
-
     /**
      * @var Doctrine_Table
      */
