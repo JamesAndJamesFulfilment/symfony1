@@ -201,7 +201,7 @@ class sfDomCssSelector implements Countable, Iterator
                     $founds = $this->getElementsByTagName($nodes, $tagName, $combinator);
                     $nodes = [];
                     foreach ($founds as $found) {
-                        if (preg_match('/(^|\s+)' . $className . '($|\s+)/', $found->getAttribute('class'))) {
+                        if (preg_match('/(^|\s+)'.$className.'($|\s+)/', $found->getAttribute('class'))) {
                             $nodes[] = $found;
                         }
                     }
@@ -244,12 +244,12 @@ class sfDomCssSelector implements Countable, Iterator
                                     break;
 
                                 case '~': // Match one of space seperated words
-                                    $ok = preg_match('/\b' . preg_quote($attrValue, '/') . '\b/', $found->getAttribute($attrName));
+                                    $ok = preg_match('/\b'.preg_quote($attrValue, '/').'\b/', $found->getAttribute($attrName));
 
                                     break;
 
                                 case '|': // Match start with value followed by optional hyphen
-                                    $ok = preg_match('/^' . preg_quote($attrValue, '/') . '-?/', $found->getAttribute($attrName));
+                                    $ok = preg_match('/^'.preg_quote($attrValue, '/').'-?/', $found->getAttribute($attrName));
 
                                     break;
 

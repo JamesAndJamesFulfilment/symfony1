@@ -247,7 +247,7 @@ abstract class sfComponent
     public function logMessage($message, $priority = 'info')
     {
         if (sfConfig::get('sf_logging_enabled')) {
-            $this->dispatcher->notify(new sfEvent($this, 'application.log', [$message, 'priority' => constant('sfLogger::' . strtoupper($priority))]));
+            $this->dispatcher->notify(new sfEvent($this, 'application.log', [$message, 'priority' => constant('sfLogger::'.strtoupper($priority))]));
         }
     }
 

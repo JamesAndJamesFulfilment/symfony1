@@ -37,7 +37,7 @@ class sfAPCuCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param null|mixed $default
+     * @param mixed|null $default
      */
     public function get($key, $default = null)
     {
@@ -45,7 +45,7 @@ class sfAPCuCache extends sfCache
             return $default;
         }
 
-        $value = $this->fetch($this->getOption('prefix') . $key, $has);
+        $value = $this->fetch($this->getOption('prefix').$key, $has);
 
         return $has ? $value : $default;
     }
@@ -59,7 +59,7 @@ class sfAPCuCache extends sfCache
             return false;
         }
 
-        $this->fetch($this->getOption('prefix') . $key, $has);
+        $this->fetch($this->getOption('prefix').$key, $has);
 
         return $has;
     }
@@ -67,7 +67,7 @@ class sfAPCuCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param null|mixed $lifetime
+     * @param mixed|null $lifetime
      */
     public function set($key, $data, $lifetime = null)
     {
@@ -75,7 +75,7 @@ class sfAPCuCache extends sfCache
             return true;
         }
 
-        return apcu_store($this->getOption('prefix') . $key, $data, $this->getLifetime($lifetime));
+        return apcu_store($this->getOption('prefix').$key, $data, $this->getLifetime($lifetime));
     }
 
     /**
@@ -87,7 +87,7 @@ class sfAPCuCache extends sfCache
             return true;
         }
 
-        return apcu_delete($this->getOption('prefix') . $key);
+        return apcu_delete($this->getOption('prefix').$key);
     }
 
     /**
@@ -144,7 +144,7 @@ class sfAPCuCache extends sfCache
             return true;
         }
 
-        $regexp = $this->patternToRegexp($this->getOption('prefix') . $pattern);
+        $regexp = $this->patternToRegexp($this->getOption('prefix').$pattern);
 
         foreach ($infos['cache_list'] as $info) {
             if (preg_match($regexp, $info['info'])) {
@@ -160,7 +160,7 @@ class sfAPCuCache extends sfCache
      *
      * @param string $key The cache key
      *
-     * @return string|false|array
+     * @return array|false|string
      */
     protected function getCacheInfo($key)
     {
@@ -172,7 +172,7 @@ class sfAPCuCache extends sfCache
 
         if (is_array($infos['cache_list'])) {
             foreach ($infos['cache_list'] as $info) {
-                if ($this->getOption('prefix') . $key == $info['info']) {
+                if ($this->getOption('prefix').$key == $info['info']) {
                     return $info;
                 }
             }

@@ -48,14 +48,14 @@ class sfProjectConfiguration
      * @param string            $rootDir    The project root directory
      * @param sfEventDispatcher $dispatcher The event dispatcher
      */
-    public function __construct($rootDir = null, ?sfEventDispatcher $dispatcher = null)
+    public function __construct($rootDir = null, sfEventDispatcher $dispatcher = null)
     {
         if (null === self::$active || $this instanceof sfApplicationConfiguration) {
             self::$active = $this;
         }
 
         $this->rootDir = null === $rootDir ? static::guessRootDir() : realpath($rootDir);
-        $this->symfonyLibDir = realpath(__DIR__ . '/..');
+        $this->symfonyLibDir = realpath(__DIR__.'/..');
         $this->dispatcher = null === $dispatcher ? new sfEventDispatcher() : $dispatcher;
 
         ini_set('magic_quotes_runtime', 'off');
@@ -111,7 +111,7 @@ class sfProjectConfiguration
             if (false === $plugin = array_search($path, $this->overriddenPluginPaths)) {
                 $plugin = basename($path);
             }
-            $class = $plugin . 'Configuration';
+            $class = $plugin.'Configuration';
 
             if (is_readable($file = sprintf('%s/config/%s.class.php', $path, $class))) {
                 require_once $file;
@@ -148,17 +148,17 @@ class sfProjectConfiguration
             'sf_root_dir' => $rootDir,
 
             // global directory structure
-            'sf_apps_dir'    => $rootDir . DIRECTORY_SEPARATOR . 'apps',
-            'sf_lib_dir'     => $rootDir . DIRECTORY_SEPARATOR . 'lib',
-            'sf_log_dir'     => $rootDir . DIRECTORY_SEPARATOR . 'log',
-            'sf_data_dir'    => $rootDir . DIRECTORY_SEPARATOR . 'data',
-            'sf_config_dir'  => $rootDir . DIRECTORY_SEPARATOR . 'config',
-            'sf_test_dir'    => $rootDir . DIRECTORY_SEPARATOR . 'test',
-            'sf_plugins_dir' => $rootDir . DIRECTORY_SEPARATOR . 'plugins',
+            'sf_apps_dir' => $rootDir.DIRECTORY_SEPARATOR.'apps',
+            'sf_lib_dir' => $rootDir.DIRECTORY_SEPARATOR.'lib',
+            'sf_log_dir' => $rootDir.DIRECTORY_SEPARATOR.'log',
+            'sf_data_dir' => $rootDir.DIRECTORY_SEPARATOR.'data',
+            'sf_config_dir' => $rootDir.DIRECTORY_SEPARATOR.'config',
+            'sf_test_dir' => $rootDir.DIRECTORY_SEPARATOR.'test',
+            'sf_plugins_dir' => $rootDir.DIRECTORY_SEPARATOR.'plugins',
         ]);
 
-        $this->setWebDir($rootDir . DIRECTORY_SEPARATOR . 'web');
-        $this->setCacheDir($rootDir . DIRECTORY_SEPARATOR . 'cache');
+        $this->setWebDir($rootDir.DIRECTORY_SEPARATOR.'web');
+        $this->setCacheDir($rootDir.DIRECTORY_SEPARATOR.'cache');
     }
 
     /**
@@ -199,9 +199,9 @@ class sfProjectConfiguration
     public function setWebDir($webDir)
     {
         sfConfig::add([
-            'sf_web_dir'         => $webDir,
+            'sf_web_dir' => $webDir,
             'sf_upload_dir_name' => $uploadDirName = 'uploads',
-            'sf_upload_dir'      => $webDir . DIRECTORY_SEPARATOR . $uploadDirName,
+            'sf_upload_dir' => $webDir.DIRECTORY_SEPARATOR.$uploadDirName,
         ]);
     }
 
@@ -215,7 +215,7 @@ class sfProjectConfiguration
     {
         return array_merge(
             $this->getPluginSubPaths('/lib/model'),     // plugins
-            [sfConfig::get('sf_lib_dir') . '/model'] // project
+            [sfConfig::get('sf_lib_dir').'/model'] // project
         );
     }
 
@@ -230,10 +230,10 @@ class sfProjectConfiguration
     public function getGeneratorTemplateDirs($class, $theme)
     {
         return array_merge(
-            [sfConfig::get('sf_data_dir') . '/generator/' . $class . '/' . $theme . '/template'], // project
-            $this->getPluginSubPaths('/data/generator/' . $class . '/' . $theme . '/template'),   // plugins
-            [sfConfig::get('sf_data_dir') . '/generator/' . $class . '/default/template'],        // project (default theme)
-            $this->getPluginSubPaths('/data/generator/' . $class . '/default/template')           // plugins (default theme)
+            [sfConfig::get('sf_data_dir').'/generator/'.$class.'/'.$theme.'/template'], // project
+            $this->getPluginSubPaths('/data/generator/'.$class.'/'.$theme.'/template'),   // plugins
+            [sfConfig::get('sf_data_dir').'/generator/'.$class.'/default/template'],        // project (default theme)
+            $this->getPluginSubPaths('/data/generator/'.$class.'/default/template')           // plugins (default theme)
         );
     }
 
@@ -248,10 +248,10 @@ class sfProjectConfiguration
     public function getGeneratorSkeletonDirs($class, $theme)
     {
         return array_merge(
-            [sfConfig::get('sf_data_dir') . '/generator/' . $class . '/' . $theme . '/skeleton'], // project
-            $this->getPluginSubPaths('/data/generator/' . $class . '/' . $theme . '/skeleton'),   // plugins
-            [sfConfig::get('sf_data_dir') . '/generator/' . $class . '/default/skeleton'],        // project (default theme)
-            $this->getPluginSubPaths('/data/generator/' . $class . '/default/skeleton')           // plugins (default theme)
+            [sfConfig::get('sf_data_dir').'/generator/'.$class.'/'.$theme.'/skeleton'], // project
+            $this->getPluginSubPaths('/data/generator/'.$class.'/'.$theme.'/skeleton'),   // plugins
+            [sfConfig::get('sf_data_dir').'/generator/'.$class.'/default/skeleton'],        // project (default theme)
+            $this->getPluginSubPaths('/data/generator/'.$class.'/default/skeleton')           // plugins (default theme)
         );
     }
 
@@ -270,8 +270,8 @@ class sfProjectConfiguration
     {
         $dirs = $this->getGeneratorTemplateDirs($class, $theme);
         foreach ($dirs as $dir) {
-            if (is_readable($dir . '/' . $path)) {
-                return $dir . '/' . $path;
+            if (is_readable($dir.'/'.$path)) {
+                return $dir.'/'.$path;
             }
         }
 
@@ -287,25 +287,25 @@ class sfProjectConfiguration
      */
     public function getConfigPaths($configPath)
     {
-        $globalConfigPath = basename(dirname($configPath)) . '/' . basename($configPath);
+        $globalConfigPath = basename(dirname($configPath)).'/'.basename($configPath);
 
         $files = [
-            $this->getSymfonyLibDir() . '/config/' . $globalConfigPath, // symfony
+            $this->getSymfonyLibDir().'/config/'.$globalConfigPath, // symfony
         ];
 
         foreach ($this->getPluginPaths() as $path) {
-            if (is_file($file = $path . '/' . $globalConfigPath)) {
+            if (is_file($file = $path.'/'.$globalConfigPath)) {
                 $files[] = $file;                                       // plugins
             }
         }
 
         $files = array_merge($files, [
-            $this->getRootDir() . '/' . $globalConfigPath,              // project
-            $this->getRootDir() . '/' . $configPath,                    // project
+            $this->getRootDir().'/'.$globalConfigPath,              // project
+            $this->getRootDir().'/'.$configPath,                    // project
         ]);
 
         foreach ($this->getPluginPaths() as $path) {
-            if (is_file($file = $path . '/' . $configPath)) {
+            if (is_file($file = $path.'/'.$configPath)) {
                 $files[] = $file;                                      // plugins
             }
         }
@@ -430,8 +430,8 @@ class sfProjectConfiguration
         $this->pluginPaths[$subPath] = [];
         $pluginPaths = $this->getPluginPaths();
         foreach ($pluginPaths as $pluginPath) {
-            if (is_dir($pluginPath . $subPath)) {
-                $this->pluginPaths[$subPath][] = $pluginPath . $subPath;
+            if (is_dir($pluginPath.$subPath)) {
+                $this->pluginPaths[$subPath][] = $pluginPath.$subPath;
             }
         }
 
@@ -476,7 +476,7 @@ class sfProjectConfiguration
         // follow links and do not recurse. No need to exclude VC because they do not end with *Plugin
         $finder = sfFinder::type('dir')->maxdepth(0)->ignore_version_control(false)->follow_link()->name('*Plugin');
         $dirs = [
-            $this->getSymfonyLibDir() . '/plugins',
+            $this->getSymfonyLibDir().'/plugins',
             sfConfig::get('sf_plugins_dir'),
         ];
 
@@ -575,7 +575,7 @@ class sfProjectConfiguration
     {
         $r = new ReflectionClass('ProjectConfiguration');
 
-        return realpath(dirname($r->getFileName()) . '/..');
+        return realpath(dirname($r->getFileName()).'/..');
     }
 
     /**
@@ -589,15 +589,15 @@ class sfProjectConfiguration
      *
      * @return sfApplicationConfiguration A sfApplicationConfiguration instance
      */
-    public static function getApplicationConfiguration($application, $environment, $debug, $rootDir = null, ?sfEventDispatcher $dispatcher = null)
+    public static function getApplicationConfiguration($application, $environment, $debug, $rootDir = null, sfEventDispatcher $dispatcher = null)
     {
-        $class = $application . 'Configuration';
+        $class = $application.'Configuration';
 
         if (null === $rootDir) {
             $rootDir = static::guessRootDir();
         }
 
-        if (!is_file($file = $rootDir . '/apps/' . $application . '/config/' . $class . '.class.php')) {
+        if (!is_file($file = $rootDir.'/apps/'.$application.'/config/'.$class.'.class.php')) {
             throw new InvalidArgumentException(sprintf('The application "%s" does not exist.', $application));
         }
 

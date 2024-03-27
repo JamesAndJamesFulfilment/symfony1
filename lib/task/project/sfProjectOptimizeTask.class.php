@@ -46,7 +46,7 @@ EOF;
     {
         $data = [];
         $modules = $this->findModules();
-        $target = sfConfig::get('sf_cache_dir') . '/' . $arguments['application'] . '/' . $arguments['env'] . '/config/configuration.php';
+        $target = sfConfig::get('sf_cache_dir').'/'.$arguments['application'].'/'.$arguments['env'].'/config/configuration.php';
 
         $current_umask = umask();
         umask(0000);
@@ -67,7 +67,7 @@ EOF;
             $this->logSection('module', $module);
 
             try {
-                $this->configuration->getConfigCache()->checkConfig('modules/' . $module . '/config/generator.yml', true);
+                $this->configuration->getConfigCache()->checkConfig('modules/'.$module.'/config/generator.yml', true);
             } catch (Exception $e) {
                 $this->dispatcher->notifyUntil(new sfEvent($e, 'application.throw_exception'));
 
@@ -87,7 +87,7 @@ EOF;
         }
 
         $this->logSection('file+', $target);
-        file_put_contents($target, '<?php return ' . var_export($data, true) . ';');
+        file_put_contents($target, '<?php return '.var_export($data, true).';');
 
         umask($current_umask);
 
@@ -169,7 +169,7 @@ EOF;
         $dirs = [sfConfig::get('sf_app_module_dir')];
 
         // plugins
-        $pluginSubPaths = $this->configuration->getPluginSubPaths(DIRECTORY_SEPARATOR . 'modules');
+        $pluginSubPaths = $this->configuration->getPluginSubPaths(DIRECTORY_SEPARATOR.'modules');
         $modules = [];
         foreach (sfFinder::type('dir')->maxdepth(0)->follow_link()->relative()->in($pluginSubPaths) as $module) {
             if (in_array($module, sfConfig::get('sf_enabled_modules'))) {
@@ -178,7 +178,7 @@ EOF;
         }
 
         // core modules
-        $dirs[] = sfConfig::get('sf_symfony_lib_dir') . '/controller';
+        $dirs[] = sfConfig::get('sf_symfony_lib_dir').'/controller';
 
         return array_unique(array_merge(sfFinder::type('dir')->maxdepth(0)->follow_link()->relative()->in($dirs), $modules));
     }

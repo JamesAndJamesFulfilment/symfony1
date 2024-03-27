@@ -84,7 +84,7 @@ class sfAutoload
      *
      * @param string $class A PHP class name
      *
-     * @return null|string An absolute path
+     * @return string|null An absolute path
      */
     public function getClassPath($class)
     {
@@ -187,10 +187,10 @@ class sfAutoload
         if (
             sfContext::hasInstance()
             && ($module = sfContext::getInstance()->getModuleName())
-            && isset($this->classes[$module . '/' . $class])
+            && isset($this->classes[$module.'/'.$class])
         ) {
             try {
-                require $this->classes[$module . '/' . $class];
+                require $this->classes[$module.'/'.$class];
             } catch (sfException $e) {
                 $e->printStackTrace();
             } catch (Exception $e) {

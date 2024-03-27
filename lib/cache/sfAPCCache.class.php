@@ -26,7 +26,7 @@ class sfAPCCache extends sfCache
      *
      * @see sfCache
      */
-    public function initialize($options = array())
+    public function initialize($options = [])
     {
         parent::initialize($options);
 
@@ -36,7 +36,7 @@ class sfAPCCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param null|mixed $default
+     * @param mixed|null $default
      */
     public function get($key, $default = null)
     {
@@ -44,7 +44,7 @@ class sfAPCCache extends sfCache
             return $default;
         }
 
-        $value = $this->fetch($this->getOption('prefix') . $key, $has);
+        $value = $this->fetch($this->getOption('prefix').$key, $has);
 
         return $has ? $value : $default;
     }
@@ -58,7 +58,7 @@ class sfAPCCache extends sfCache
             return false;
         }
 
-        $this->fetch($this->getOption('prefix') . $key, $has);
+        $this->fetch($this->getOption('prefix').$key, $has);
 
         return $has;
     }
@@ -66,7 +66,7 @@ class sfAPCCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param null|mixed $lifetime
+     * @param mixed|null $lifetime
      */
     public function set($key, $data, $lifetime = null)
     {
@@ -74,7 +74,7 @@ class sfAPCCache extends sfCache
             return true;
         }
 
-        return apc_store($this->getOption('prefix') . $key, $data, $this->getLifetime($lifetime));
+        return apc_store($this->getOption('prefix').$key, $data, $this->getLifetime($lifetime));
     }
 
     /**
@@ -86,7 +86,7 @@ class sfAPCCache extends sfCache
             return true;
         }
 
-        return apc_delete($this->getOption('prefix') . $key);
+        return apc_delete($this->getOption('prefix').$key);
     }
 
     /**
@@ -141,7 +141,7 @@ class sfAPCCache extends sfCache
             return;
         }
 
-        $regexp = self::patternToRegexp($this->getOption('prefix') . $pattern);
+        $regexp = self::patternToRegexp($this->getOption('prefix').$pattern);
 
         foreach ($infos['cache_list'] as $info) {
             if (preg_match($regexp, $info['info'])) {
@@ -167,7 +167,7 @@ class sfAPCCache extends sfCache
 
         if (is_array($infos['cache_list'])) {
             foreach ($infos['cache_list'] as $info) {
-                if ($this->getOption('prefix') . $key == $info['info']) {
+                if ($this->getOption('prefix').$key == $info['info']) {
                     return $info;
                 }
             }

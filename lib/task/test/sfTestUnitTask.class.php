@@ -68,8 +68,8 @@ EOF;
             $files = [];
 
             foreach ($arguments['name'] as $name) {
-                $finder = sfFinder::type('file')->follow_link()->name(basename($name) . 'Test.php');
-                $files = array_merge($files, $finder->in(sfConfig::get('sf_test_dir') . '/unit/' . dirname($name)));
+                $finder = sfFinder::type('file')->follow_link()->name(basename($name).'Test.php');
+                $files = array_merge($files, $finder->in(sfConfig::get('sf_test_dir').'/unit/'.dirname($name)));
             }
 
             if ($allFiles = $this->filterTestFiles($files, $arguments, $options)) {
@@ -80,15 +80,15 @@ EOF;
                 $this->logSection('test', 'no tests found', null, 'ERROR');
             }
         } else {
-            require_once __DIR__ . '/sfLimeHarness.class.php';
+            require_once __DIR__.'/sfLimeHarness.class.php';
 
             $h = new sfLimeHarness([
                 'force_colors' => isset($options['color']) && $options['color'],
                 'verbose' => isset($options['trace']) && $options['trace'],
-                'test_path' => sfConfig::get('sf_cache_dir') . '/lime',
+                'test_path' => sfConfig::get('sf_cache_dir').'/lime',
             ]);
             $h->addPlugins(array_map([$this->configuration, 'getPluginConfiguration'], $this->configuration->getPlugins()));
-            $h->base_dir = sfConfig::get('sf_test_dir') . '/unit';
+            $h->base_dir = sfConfig::get('sf_test_dir').'/unit';
 
             // filter and register unit tests
             $finder = sfFinder::type('file')->follow_link()->name('*Test.php');

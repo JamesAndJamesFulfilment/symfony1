@@ -96,7 +96,7 @@ class sfPearRestPlugin extends sfPearRest11
      */
     public function getPluginVersions($plugin, $stability = null)
     {
-        $allreleases = $this->_rest->retrieveData($this->restBase . 'r/' . strtolower($plugin) . '/allreleases.xml');
+        $allreleases = $this->_rest->retrieveData($this->restBase.'r/'.strtolower($plugin).'/allreleases.xml');
         if (PEAR::isError($allreleases)) {
             throw new sfPluginRestException(sprintf('Unable to get information for plugin "%s": %s', $plugin, $allreleases->getMessage()));
         }
@@ -136,7 +136,7 @@ class sfPearRestPlugin extends sfPearRest11
      */
     public function getPluginDependencies($plugin, $version)
     {
-        $dependencies = $this->_rest->retrieveData($this->restBase . 'r/' . strtolower($plugin) . '/deps.' . $version . '.txt');
+        $dependencies = $this->_rest->retrieveData($this->restBase.'r/'.strtolower($plugin).'/deps.'.$version.'.txt');
         if (PEAR::isError($dependencies)) {
             throw new sfPluginRestException(sprintf('Unable to get dependencies information for plugin "%s": %s', $plugin, $dependencies->getMessage()));
         }
@@ -169,7 +169,7 @@ class sfPearRestPlugin extends sfPearRest11
             throw new sfPluginRestException(sprintf('Plugin "%s" cannot be installed (No URL found)', $plugin));
         }
 
-        return $info['url'] . (extension_loaded('zlib') ? '.tgz' : '.tar');
+        return $info['url'].(extension_loaded('zlib') ? '.tgz' : '.tar');
     }
 
     /**

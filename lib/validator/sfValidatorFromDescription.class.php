@@ -99,7 +99,7 @@ class sfValidatorFromDescription extends sfValidatorDecorator
                 // single validator (optionally filtered)
                 $i += strlen($match[0]);
 
-                $class = 'sfValidator' . $match[2];
+                $class = 'sfValidator'.$match[2];
                 $arguments = $this->parseArguments($string, $i);
                 $token = new sfValidatorFDToken($class, [$arguments[0], isset($arguments[1]) ? $arguments[1] : []]);
                 if ($match[1]) {
@@ -159,7 +159,7 @@ class sfValidatorFromDescription extends sfValidatorDecorator
 
         ++$i;
 
-        return sfYamlInline::load('[' . (!$args ? '{}' : $args) . ']');
+        return sfYamlInline::load('['.(!$args ? '{}' : $args).']');
     }
 
     /**

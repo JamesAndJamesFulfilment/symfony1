@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
 $t = new lime_test(136);
 
@@ -65,10 +65,10 @@ $t->is($logger->log, 'message', '->log() logs a message');
 // log level
 $t->diag('log levels');
 foreach (['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug'] as $level) {
-    $levelConstant = 'sfLogger::' . strtoupper($level);
+    $levelConstant = 'sfLogger::'.strtoupper($level);
 
     foreach (['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug'] as $logLevel) {
-        $logLevelConstant = 'sfLogger::' . strtoupper($logLevel);
+        $logLevelConstant = 'sfLogger::'.strtoupper($logLevel);
         $logger->setLogLevel(constant($logLevelConstant));
 
         $logger->log = '';
@@ -81,10 +81,10 @@ foreach (['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug']
 // shortcuts
 $t->diag('log shortcuts');
 foreach (['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug'] as $level) {
-    $levelConstant = 'sfLogger::' . strtoupper($level);
+    $levelConstant = 'sfLogger::'.strtoupper($level);
 
     foreach (['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug'] as $logLevel) {
-        $logger->setLogLevel(constant('sfLogger::' . strtoupper($logLevel)));
+        $logger->setLogLevel(constant('sfLogger::'.strtoupper($logLevel)));
 
         $logger->log = '';
         $logger->log('foo', constant($levelConstant));

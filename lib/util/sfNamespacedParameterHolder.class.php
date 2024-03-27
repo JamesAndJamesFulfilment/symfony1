@@ -252,7 +252,7 @@ class sfNamespacedParameterHolder extends sfParameterHolder
      *
      * @param string $ns a parameter namespace
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     public function &removeNamespace($ns = null)
     {

@@ -27,7 +27,7 @@ class sfFilterChain
      */
     public function loadConfiguration($actionInstance)
     {
-        require sfContext::getInstance()->getConfigCache()->checkConfig('modules/' . $actionInstance->getModuleName() . '/config/filters.yml');
+        require sfContext::getInstance()->getConfigCache()->checkConfig('modules/'.$actionInstance->getModuleName().'/config/filters.yml');
     }
 
     /**

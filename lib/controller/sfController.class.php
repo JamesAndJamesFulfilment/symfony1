@@ -124,7 +124,7 @@ abstract class sfController
         }
 
         // check for a module generator config file
-        $this->context->getConfigCache()->import('modules/' . $moduleName . '/config/generator.yml', false, true);
+        $this->context->getConfigCache()->import('modules/'.$moduleName.'/config/generator.yml', false, true);
 
         if (!$this->actionExists($moduleName, $actionName)) {
             // the requested action doesn't exist
@@ -142,17 +142,17 @@ abstract class sfController
         $this->getActionStack()->addEntry($moduleName, $actionName, $actionInstance);
 
         // include module configuration
-        $viewClass = sfConfig::get('mod_' . strtolower($moduleName) . '_view_class', false);
+        $viewClass = sfConfig::get('mod_'.strtolower($moduleName).'_view_class', false);
 
-        require $this->context->getConfigCache()->checkConfig('modules/' . $moduleName . '/config/module.yml');
+        require $this->context->getConfigCache()->checkConfig('modules/'.$moduleName.'/config/module.yml');
         if (false !== $viewClass) {
-            sfConfig::set('mod_' . strtolower($moduleName) . '_view_class', $viewClass);
+            sfConfig::set('mod_'.strtolower($moduleName).'_view_class', $viewClass);
         }
 
         // module enabled?
-        if (sfConfig::get('mod_' . strtolower($moduleName) . '_enabled')) {
+        if (sfConfig::get('mod_'.strtolower($moduleName).'_enabled')) {
             // check for a module config.php
-            $moduleConfig = sfConfig::get('sf_app_module_dir') . '/' . $moduleName . '/config/config.php';
+            $moduleConfig = sfConfig::get('sf_app_module_dir').'/'.$moduleName.'/config/config.php';
             if (is_readable($moduleConfig)) {
                 require_once $moduleConfig;
             }
@@ -245,22 +245,22 @@ abstract class sfController
     public function getView($moduleName, $actionName, $viewName)
     {
         // user view exists?
-        $file = sfConfig::get('sf_app_module_dir') . '/' . $moduleName . '/view/' . $actionName . $viewName . 'View.class.php';
+        $file = sfConfig::get('sf_app_module_dir').'/'.$moduleName.'/view/'.$actionName.$viewName.'View.class.php';
 
         if (is_readable($file)) {
             require_once $file;
 
-            $class = $actionName . $viewName . 'View';
+            $class = $actionName.$viewName.'View';
 
             // fix for same name classes
-            $moduleClass = $moduleName . '_' . $class;
+            $moduleClass = $moduleName.'_'.$class;
 
             if (class_exists($moduleClass, false)) {
                 $class = $moduleClass;
             }
         } else {
             // view class (as configured in module.yml or defined in action)
-            $class = sfConfig::get('mod_' . strtolower($moduleName) . '_view_class', 'sfPHP') . 'View';
+            $class = sfConfig::get('mod_'.strtolower($moduleName).'_view_class', 'sfPHP').'View';
         }
 
         return new $class($this->context, $moduleName, $actionName, $viewName);
@@ -298,8 +298,8 @@ abstract class sfController
 
         // set viewName if needed
         if ($viewName) {
-            $currentViewName = sfConfig::get('mod_' . strtolower($module) . '_view_class');
-            sfConfig::set('mod_' . strtolower($module) . '_view_class', $viewName);
+            $currentViewName = sfConfig::get('mod_'.strtolower($module).'_view_class');
+            sfConfig::set('mod_'.strtolower($module).'_view_class', $viewName);
         }
 
         try {
@@ -311,7 +311,7 @@ abstract class sfController
 
             // remove viewName
             if ($viewName) {
-                sfConfig::set('mod_' . strtolower($module) . '_view_class', $currentViewName);
+                sfConfig::set('mod_'.strtolower($module).'_view_class', $currentViewName);
             }
 
             throw $e;
@@ -341,7 +341,7 @@ abstract class sfController
 
         // remove viewName
         if ($viewName) {
-            sfConfig::set('mod_' . strtolower($module) . '_view_class', $currentViewName);
+            sfConfig::set('mod_'.strtolower($module).'_view_class', $currentViewName);
         }
 
         return $presentation;
@@ -403,44 +403,44 @@ abstract class sfController
             }
 
             // check for a module generator config file
-            $this->context->getConfigCache()->import('modules/' . $moduleName . '/config/generator.yml', false, true);
+            $this->context->getConfigCache()->import('modules/'.$moduleName.'/config/generator.yml', false, true);
 
             // one action per file or one file for all actions
             $classFile = strtolower($extension);
             $classSuffix = ucfirst(strtolower($extension));
-            $file = $dir . '/' . $controllerName . $classSuffix . '.class.php';
+            $file = $dir.'/'.$controllerName.$classSuffix.'.class.php';
             if (is_readable($file)) {
                 // action class exists
                 require_once $file;
 
-                $this->controllerClasses[$moduleName . '_' . $controllerName . '_' . $classSuffix] = $controllerName . $classSuffix;
+                $this->controllerClasses[$moduleName.'_'.$controllerName.'_'.$classSuffix] = $controllerName.$classSuffix;
 
                 return true;
             }
 
-            $module_file = $dir . '/' . $classFile . 's.class.php';
+            $module_file = $dir.'/'.$classFile.'s.class.php';
             if (is_readable($module_file)) {
                 // module class exists
                 require_once $module_file;
 
-                if (!class_exists($moduleName . $classSuffix . 's', false)) {
+                if (!class_exists($moduleName.$classSuffix.'s', false)) {
                     if ($throwExceptions) {
-                        throw new sfControllerException(sprintf('There is no "%s" class in your action file "%s".', $moduleName . $classSuffix . 's', $module_file));
+                        throw new sfControllerException(sprintf('There is no "%s" class in your action file "%s".', $moduleName.$classSuffix.'s', $module_file));
                     }
 
                     return false;
                 }
 
                 // action is defined in this class?
-                if (!in_array('execute' . ucfirst($controllerName), get_class_methods($moduleName . $classSuffix . 's'))) {
+                if (!in_array('execute'.ucfirst($controllerName), get_class_methods($moduleName.$classSuffix.'s'))) {
                     if ($throwExceptions) {
-                        throw new sfControllerException(sprintf('There is no "%s" method in your action class "%s".', 'execute' . ucfirst($controllerName), $moduleName . $classSuffix . 's'));
+                        throw new sfControllerException(sprintf('There is no "%s" method in your action class "%s".', 'execute'.ucfirst($controllerName), $moduleName.$classSuffix.'s'));
                     }
 
                     return false;
                 }
 
-                $this->controllerClasses[$moduleName . '_' . $controllerName . '_' . $classSuffix] = $moduleName . $classSuffix . 's';
+                $this->controllerClasses[$moduleName.'_'.$controllerName.'_'.$classSuffix] = $moduleName.$classSuffix.'s';
 
                 return true;
             }
@@ -470,16 +470,16 @@ abstract class sfController
     protected function getController($moduleName, $controllerName, $extension)
     {
         $classSuffix = ucfirst(strtolower($extension));
-        if (!isset($this->controllerClasses[$moduleName . '_' . $controllerName . '_' . $classSuffix])) {
+        if (!isset($this->controllerClasses[$moduleName.'_'.$controllerName.'_'.$classSuffix])) {
             if (!$this->controllerExists($moduleName, $controllerName, $extension, true)) {
                 return null;
             }
         }
 
-        $class = $this->controllerClasses[$moduleName . '_' . $controllerName . '_' . $classSuffix];
+        $class = $this->controllerClasses[$moduleName.'_'.$controllerName.'_'.$classSuffix];
 
         // fix for same name classes
-        $moduleClass = $moduleName . '_' . $class;
+        $moduleClass = $moduleName.'_'.$class;
 
         if (class_exists($moduleClass, false)) {
             $class = $moduleClass;

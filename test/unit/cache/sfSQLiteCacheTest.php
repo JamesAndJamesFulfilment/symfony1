@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
-require_once __DIR__ . '/sfCacheDriverTests.class.php';
+require_once __DIR__.'/sfCacheDriverTests.class.php';
 
 $plan = 129;
 $t = new lime_test($plan);

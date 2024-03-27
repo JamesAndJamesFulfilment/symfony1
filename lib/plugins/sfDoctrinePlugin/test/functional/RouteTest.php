@@ -11,7 +11,7 @@
 $app = 'backend';
 $fixtures = 'fixtures';
 
-require_once __DIR__ . '/../bootstrap/functional.php';
+require_once __DIR__.'/../bootstrap/functional.php';
 
 $tests = [
     '/doctrine/route/test1' => '/Article/',
@@ -63,5 +63,5 @@ $routes = [
 
 foreach ($routes as $route => $check) {
     $url = url_for2($route, $check['params']);
-    $b->test()->is($url, $check['url'], 'Check "' . $route . '" generates correct url');
+    $b->test()->is($url, $check['url'], 'Check "'.$route.'" generates correct url');
 }

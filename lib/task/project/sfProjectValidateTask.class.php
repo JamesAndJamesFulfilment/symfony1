@@ -42,25 +42,25 @@ EOF;
         foreach ($this->getUpgradeClasses() as $i => $class) {
             $v = new $class($this->dispatcher, $this->formatter);
 
-            $this->logBlock(($i + 1) . '. ' . $v->getHeader(), 'QUESTION_LARGE');
+            $this->logBlock(($i + 1).'. '.$v->getHeader(), 'QUESTION_LARGE');
 
             $v->setCommandApplication($this->commandApplication);
             $v->setConfiguration($this->configuration);
             $files = $v->validate();
 
             if (!$files) {
-                $this->log('  ' . $this->formatter->format(' OK ', 'INFO'));
+                $this->log('  '.$this->formatter->format(' OK ', 'INFO'));
 
                 continue;
             }
 
-            $this->log('  ' . $this->formatter->format(' ' . count($files) . ' file(s) need to be changed. ', 'ERROR'));
+            $this->log('  '.$this->formatter->format(' '.count($files).' file(s) need to be changed. ', 'ERROR'));
 
             foreach ($files as $file => $value) {
-                $this->log('  ' . $this->formatter->format($this->formatFile($file), 'INFO'));
+                $this->log('  '.$this->formatter->format($this->formatFile($file), 'INFO'));
 
                 if (true !== $value) {
-                    $this->log('    ' . $value);
+                    $this->log('    '.$value);
                 }
             }
 
@@ -77,16 +77,16 @@ EOF;
 
     protected function getUpgradeClasses()
     {
-        $baseDir = __DIR__ . '/validation/';
+        $baseDir = __DIR__.'/validation/';
         $classes = [];
 
-        foreach (glob($baseDir . '*.class.php') as $file) {
+        foreach (glob($baseDir.'*.class.php') as $file) {
             $class = str_replace([$baseDir, '.class.php'], '', $file);
 
             if ('sfValidation' != $class) {
                 $classes[] = $class;
 
-                require_once $baseDir . $class . '.class.php';
+                require_once $baseDir.$class.'.class.php';
             }
         }
 

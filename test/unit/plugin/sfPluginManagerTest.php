@@ -10,7 +10,7 @@
 
 error_reporting(error_reporting() & ~E_STRICT);
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
 $t = new lime_test(40);
 
@@ -21,11 +21,11 @@ if (!class_exists('PEAR')) {
     return;
 }
 
-require_once __DIR__ . '/sfPearDownloaderTest.class.php';
+require_once __DIR__.'/sfPearDownloaderTest.class.php';
 
-require_once __DIR__ . '/sfPearRestTest.class.php';
+require_once __DIR__.'/sfPearRestTest.class.php';
 
-require_once __DIR__ . '/sfPluginTestHelper.class.php';
+require_once __DIR__.'/sfPluginTestHelper.class.php';
 
 // setup
 $temp = tempnam('/tmp/sf_plugin_test', 'tmp');
@@ -35,10 +35,10 @@ mkdir($temp, 0777, true);
 define('SF_PLUGIN_TEST_DIR', $temp);
 
 $options = [
-    'plugin_dir'            => $temp . '/plugins',
-    'cache_dir'             => $temp . '/cache',
-    'preferred_state'       => 'stable',
-    'rest_base_class'       => 'sfPearRestTest',
+    'plugin_dir' => $temp.'/plugins',
+    'cache_dir' => $temp.'/cache',
+    'preferred_state' => 'stable',
+    'rest_base_class' => 'sfPearRestTest',
     'downloader_base_class' => 'sfPearDownloaderTest',
 ];
 
@@ -103,22 +103,22 @@ $t->is($pluginManager->getEnvironment(), $environment, '->initialize() takes a s
 // ->installPlugin() ->uninstallPlugin()
 $t->diag('->installPlugin() ->uninstallPlugin');
 $pluginManager->installPlugin('sfTestPlugin');
-$t->is(file_get_contents($temp . '/plugins/sfTestPlugin/VERSION'), '1.0.3', '->installPlugin() installs the latest stable version');
+$t->is(file_get_contents($temp.'/plugins/sfTestPlugin/VERSION'), '1.0.3', '->installPlugin() installs the latest stable version');
 
 $t->ok($pluginManager->uninstallPlugin('sfTestPlugin'), '->uninstallPlugin() returns true if the plugin is properly uninstalled');
-$t->ok(!is_file($temp . '/plugins/sfTestPlugin/VERSION'), '->uninstallPlugin() uninstalls a plugin');
+$t->ok(!is_file($temp.'/plugins/sfTestPlugin/VERSION'), '->uninstallPlugin() uninstalls a plugin');
 
 $pluginManager->installPlugin('sfTestPlugin', ['stability' => 'beta']);
-$t->is(file_get_contents($temp . '/plugins/sfTestPlugin/VERSION'), '1.0.4', '->installPlugin() can take a stability option');
+$t->is(file_get_contents($temp.'/plugins/sfTestPlugin/VERSION'), '1.0.4', '->installPlugin() can take a stability option');
 
 $t->ok($pluginManager->uninstallPlugin('sfTestPlugin'), '->uninstallPlugin() returns true if the plugin is properly uninstalled');
-$t->ok(!is_file($temp . '/plugins/sfTestPlugin/VERSION'), '->uninstallPlugin() uninstalls a plugin');
+$t->ok(!is_file($temp.'/plugins/sfTestPlugin/VERSION'), '->uninstallPlugin() uninstalls a plugin');
 
 $pluginManager->installPlugin('sfTestPlugin', ['version' => '1.0.0']);
-$t->is(file_get_contents($temp . '/plugins/sfTestPlugin/VERSION'), '1.0.0', '->installPlugin() can take a version option');
+$t->is(file_get_contents($temp.'/plugins/sfTestPlugin/VERSION'), '1.0.0', '->installPlugin() can take a version option');
 
 $t->ok($pluginManager->uninstallPlugin('sfTestPlugin'), '->uninstallPlugin() returns true if the plugin is properly uninstalled');
-$t->ok(!is_file($temp . '/plugins/sfTestPlugin/VERSION'), '->uninstallPlugin() uninstalls a plugin');
+$t->ok(!is_file($temp.'/plugins/sfTestPlugin/VERSION'), '->uninstallPlugin() uninstalls a plugin');
 
 $t->diag('Try to install a version that won\'t work with our main package');
 
@@ -134,16 +134,16 @@ $t->diag('Upgrade our main package to 1.1.0');
 $pluginManager->setMainPackageVersion('1.1.0');
 
 $pluginManager->installPlugin('sfTestPlugin');
-$t->is(file_get_contents($temp . '/plugins/sfTestPlugin/VERSION'), '1.1.3', '->installPlugin() installs the latest stable version');
+$t->is(file_get_contents($temp.'/plugins/sfTestPlugin/VERSION'), '1.1.3', '->installPlugin() installs the latest stable version');
 
 $t->ok($pluginManager->uninstallPlugin('sfTestPlugin'), '->uninstallPlugin() returns true if the plugin is properly uninstalled');
-$t->ok(!is_file($temp . '/plugins/sfTestPlugin/VERSION'), '->uninstallPlugin() uninstalls a plugin');
+$t->ok(!is_file($temp.'/plugins/sfTestPlugin/VERSION'), '->uninstallPlugin() uninstalls a plugin');
 
 $pluginManager->installPlugin('sfTestPlugin', ['stability' => 'beta']);
-$t->is(file_get_contents($temp . '/plugins/sfTestPlugin/VERSION'), '1.1.4', '->installPlugin() takes a stability as its 4th argument');
+$t->is(file_get_contents($temp.'/plugins/sfTestPlugin/VERSION'), '1.1.4', '->installPlugin() takes a stability as its 4th argument');
 
 $t->ok($pluginManager->uninstallPlugin('sfTestPlugin'), '->uninstallPlugin() returns true if the plugin is properly uninstalled');
-$t->ok(!is_file($temp . '/plugins/sfTestPlugin/VERSION'), '->uninstallPlugin() uninstalls a plugin');
+$t->ok(!is_file($temp.'/plugins/sfTestPlugin/VERSION'), '->uninstallPlugin() uninstalls a plugin');
 
 $t->diag('try to uninstall a non installed plugin');
 $t->ok(!$pluginManager->uninstallPlugin('sfFooPlugin'), '->uninstallPlugin() returns false if the plugin is not installed');
@@ -159,16 +159,16 @@ try {
 }
 
 $pluginManager->installPlugin('http://pear.example.com/get/sfTestPlugin/sfTestPlugin-1.1.4.tgz');
-$t->is(file_get_contents($temp . '/plugins/sfTestPlugin/VERSION'), '1.1.4', '->installPlugin() can install a PEAR package hosted on a website');
+$t->is(file_get_contents($temp.'/plugins/sfTestPlugin/VERSION'), '1.1.4', '->installPlugin() can install a PEAR package hosted on a website');
 
 $t->ok($pluginManager->uninstallPlugin('sfTestPlugin'), '->uninstallPlugin() returns true if the plugin is properly uninstalled');
-$t->ok(!is_file($temp . '/plugins/sfTestPlugin/VERSION'), '->uninstallPlugin() uninstalls a plugin');
+$t->ok(!is_file($temp.'/plugins/sfTestPlugin/VERSION'), '->uninstallPlugin() uninstalls a plugin');
 
-$pluginManager->installPlugin(__DIR__ . '/fixtures/http/pear.example.com/get/sfTestPlugin/sfTestPlugin-1.1.4.tgz');
-$t->is(file_get_contents($temp . '/plugins/sfTestPlugin/VERSION'), '1.1.4', '->installPlugin() can install a local PEAR package');
+$pluginManager->installPlugin(__DIR__.'/fixtures/http/pear.example.com/get/sfTestPlugin/sfTestPlugin-1.1.4.tgz');
+$t->is(file_get_contents($temp.'/plugins/sfTestPlugin/VERSION'), '1.1.4', '->installPlugin() can install a local PEAR package');
 
 $t->ok($pluginManager->uninstallPlugin('sfTestPlugin'), '->uninstallPlugin() returns true if the plugin is properly uninstalled');
-$t->ok(!is_file($temp . '/plugins/sfTestPlugin/VERSION'), '->uninstallPlugin() uninstalls a plugin');
+$t->ok(!is_file($temp.'/plugins/sfTestPlugin/VERSION'), '->uninstallPlugin() uninstalls a plugin');
 
 // ->getPluginVersion()
 $t->diag('->getPluginVersion()');
@@ -203,15 +203,15 @@ try {
 
 $t->diag('install a plugin with a dependency and force installation of all dependencies');
 $pluginManager->installPlugin('sfFooPlugin', ['install_deps' => true]);
-$t->is(file_get_contents($temp . '/plugins/sfFooPlugin/VERSION'), '1.0.0', '->installPlugin() can take a install_deps option');
-$t->is(file_get_contents($temp . '/plugins/sfTestPlugin/VERSION'), '1.1.3', '->installPlugin() can take a install_deps option');
+$t->is(file_get_contents($temp.'/plugins/sfFooPlugin/VERSION'), '1.0.0', '->installPlugin() can take a install_deps option');
+$t->is(file_get_contents($temp.'/plugins/sfTestPlugin/VERSION'), '1.1.3', '->installPlugin() can take a install_deps option');
 $pluginManager->uninstallPlugin('sfFooPlugin');
 $pluginManager->uninstallPlugin('sfTestPlugin');
 
 $pluginManager->installPlugin('sfTestPlugin', ['version' => '1.1.4']);
 $pluginManager->installPlugin('sfFooPlugin');
-$t->is(file_get_contents($temp . '/plugins/sfFooPlugin/VERSION'), '1.0.0', '->installPlugin() installs a plugin if all dependencies are installed');
-$t->is(file_get_contents($temp . '/plugins/sfTestPlugin/VERSION'), '1.1.4', '->installPlugin() installs a plugin if all dependencies are installed');
+$t->is(file_get_contents($temp.'/plugins/sfFooPlugin/VERSION'), '1.0.0', '->installPlugin() installs a plugin if all dependencies are installed');
+$t->is(file_get_contents($temp.'/plugins/sfTestPlugin/VERSION'), '1.1.4', '->installPlugin() installs a plugin if all dependencies are installed');
 $pluginManager->uninstallPlugin('sfFooPlugin');
 $pluginManager->uninstallPlugin('sfTestPlugin');
 
@@ -246,7 +246,7 @@ $pluginManager->setMainPackageVersion('1.0.0');
 $pluginManager->installPlugin('sfTestPlugin', ['version' => '1.0.4']);
 $pluginManager->setMainPackageVersion('1.1.0');
 $pluginManager->installPlugin('sfFooPlugin', ['install_deps' => true]);
-$t->is(file_get_contents($temp . '/plugins/sfFooPlugin/VERSION'), '1.0.0', '->installPlugin() installs a plugin if all dependencies are installed');
+$t->is(file_get_contents($temp.'/plugins/sfFooPlugin/VERSION'), '1.0.0', '->installPlugin() installs a plugin if all dependencies are installed');
 $pluginManager->uninstallPlugin('sfFooPlugin');
 $pluginManager->uninstallPlugin('sfTestPlugin');
 

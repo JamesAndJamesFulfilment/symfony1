@@ -30,7 +30,7 @@ abstract class sfRequest implements ArrayAccess
     /** @var sfEventDispatcher */
     protected $dispatcher;
 
-    /** @var null|string */
+    /** @var string|null */
     protected $content;
 
     /** @var string */

@@ -63,7 +63,7 @@ class sfStreamLogger extends sfLogger
      */
     protected function doLog($message, $priority)
     {
-        fwrite($this->stream, $message . PHP_EOL);
+        fwrite($this->stream, $message.PHP_EOL);
         flush();
     }
 }

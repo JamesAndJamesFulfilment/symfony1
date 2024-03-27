@@ -172,7 +172,7 @@ abstract class sfPager implements Iterator, Countable
     /**
      * Returns the next object.
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     public function getNext()
     {
@@ -186,7 +186,7 @@ abstract class sfPager implements Iterator, Countable
     /**
      * Returns the previous object.
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     public function getPrevious()
     {
@@ -391,7 +391,7 @@ abstract class sfPager implements Iterator, Countable
      * Returns a parameter.
      *
      * @param string     $name
-     * @param null|mixed $default
+     * @param mixed|null $default
      */
     public function getParameter($name, $default = null)
     {

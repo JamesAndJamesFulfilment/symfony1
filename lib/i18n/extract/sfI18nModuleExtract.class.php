@@ -39,22 +39,22 @@ class sfI18nModuleExtract extends sfI18nExtract
     public function extract()
     {
         // Extract from PHP files to find __() calls in actions/ lib/ and templates/ directories
-        $moduleDir = sfConfig::get('sf_app_module_dir') . '/' . $this->module;
+        $moduleDir = sfConfig::get('sf_app_module_dir').'/'.$this->module;
         $this->extractFromPhpFiles([
-            $moduleDir . '/actions',
-            $moduleDir . '/lib',
-            $moduleDir . '/templates',
+            $moduleDir.'/actions',
+            $moduleDir.'/lib',
+            $moduleDir.'/templates',
         ]);
 
         // Extract from generator.yml files
-        $generator = $moduleDir . '/config/generator.yml';
+        $generator = $moduleDir.'/config/generator.yml';
         if (file_exists($generator)) {
             $yamlExtractor = new sfI18nYamlGeneratorExtractor();
             $this->updateMessages($yamlExtractor->extract(file_get_contents($generator)));
         }
 
         // Extract from validate/*.yml files
-        $validateFiles = glob($moduleDir . '/validate/*.yml');
+        $validateFiles = glob($moduleDir.'/validate/*.yml');
         if (is_array($validateFiles)) {
             foreach ($validateFiles as $validateFile) {
                 $yamlExtractor = new sfI18nYamlValidateExtractor();

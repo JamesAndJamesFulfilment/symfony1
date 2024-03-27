@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
 $t = new lime_test(47);
 
@@ -23,7 +23,7 @@ class MySessionStorage extends sfSessionTestStorage
 }
 
 $dispatcher = new sfEventDispatcher();
-$sessionPath = sys_get_temp_dir() . '/sessions_' . rand(11111, 99999);
+$sessionPath = sys_get_temp_dir().'/sessions_'.rand(11111, 99999);
 $storage = new MySessionStorage(['session_path' => $sessionPath]);
 
 $user = new sfBasicSecurityUser($dispatcher, $storage);

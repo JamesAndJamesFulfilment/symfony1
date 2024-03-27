@@ -254,7 +254,7 @@ class sfWebResponse extends sfResponse
 
         if (!$replace) {
             $current = isset($this->headers[$name]) ? $this->headers[$name] : '';
-            $value = ($current ? $current . ', ' : '') . $value;
+            $value = ($current ? $current.', ' : '').$value;
         }
 
         $this->headers[$name] = $value;
@@ -329,7 +329,7 @@ class sfWebResponse extends sfResponse
         }
 
         // status
-        $status = $this->options['http_protocol'] . ' ' . $this->statusCode . ' ' . $this->statusText;
+        $status = $this->options['http_protocol'].' '.$this->statusCode.' '.$this->statusText;
         header($status);
 
         if ('cgi' == substr(php_sapi_name(), 0, 3)) {
@@ -347,7 +347,7 @@ class sfWebResponse extends sfResponse
             $this->setContentType($this->options['content_type']);
         }
         foreach ($this->headers as $name => $value) {
-            header($name . ': ' . $value);
+            header($name.': '.$value);
 
             if ('' != $value && $this->options['logging']) {
                 $this->dispatcher->notify(new sfEvent($this, 'application.log', [sprintf('Send header "%s: %s"', $name, $value)]));
@@ -405,10 +405,10 @@ class sfWebResponse extends sfResponse
         $type = strtolower($type);
 
         if ('rfc1123' == $type) {
-            return substr(gmdate('r', $timestamp), 0, -5) . 'GMT';
+            return substr(gmdate('r', $timestamp), 0, -5).'GMT';
         }
         if ('rfc1036' == $type) {
-            return gmdate('l, d-M-y H:i:s ', $timestamp) . 'GMT';
+            return gmdate('l, d-M-y H:i:s ', $timestamp).'GMT';
         }
         if ('asctime' == $type) {
             return gmdate('D M j H:i:s', $timestamp);
@@ -457,7 +457,7 @@ class sfWebResponse extends sfResponse
 
         $headers = [];
         foreach ($currentHeaders as $key => $value) {
-            $headers[] = $key . (null !== $value ? '=' . $value : '');
+            $headers[] = $key.(null !== $value ? '='.$value : '');
         }
 
         $this->setHttpHeader('Cache-Control', implode(', ', $headers));
@@ -497,7 +497,7 @@ class sfWebResponse extends sfResponse
             $value = $this->getContentType();
         } elseif (!$replace) {
             $current = isset($this->httpMetas[$key]) ? $this->httpMetas[$key] : '';
-            $value = ($current ? $current . ', ' : '') . $value;
+            $value = ($current ? $current.', ' : '').$value;
         }
 
         $this->httpMetas[$key] = $value;
@@ -574,7 +574,7 @@ class sfWebResponse extends sfResponse
             $title = htmlspecialchars($title, ENT_QUOTES, $this->options['charset']);
         }
 
-        $this->metas['title'] = $title . $separator . $this->metas['title'];
+        $this->metas['title'] = $title.$separator.$this->metas['title'];
     }
 
     /**
@@ -869,7 +869,7 @@ class sfWebResponse extends sfResponse
     {
         // add charset if needed (only on text content)
         if (false === stripos($contentType, 'charset') && (0 === stripos($contentType, 'text/') || strlen($contentType) - 3 === strripos($contentType, 'xml'))) {
-            $contentType .= '; charset=' . $this->options['charset'];
+            $contentType .= '; charset='.$this->options['charset'];
         }
 
         // change the charset for the response

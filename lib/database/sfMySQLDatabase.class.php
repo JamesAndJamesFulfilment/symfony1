@@ -64,7 +64,7 @@ class sfMySQLDatabase extends sfDatabase
 
         // set encoding if specified
         if ($encoding) {
-            @mysql_query("SET NAMES '" . $encoding . "'", $this->connection);
+            @mysql_query("SET NAMES '".$encoding."'", $this->connection);
         }
 
         // since we're not an abstraction layer, we copy the connection

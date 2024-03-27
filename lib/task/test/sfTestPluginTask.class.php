@@ -59,10 +59,10 @@ EOF;
             throw new sfCommandException(sprintf('The --only option must be either "unit" or "functional" ("%s" given)', $options['only']));
         }
 
-        require_once sfConfig::get('sf_symfony_lib_dir') . '/vendor/lime/lime.php';
+        require_once sfConfig::get('sf_symfony_lib_dir').'/vendor/lime/lime.php';
 
         $h = new lime_harness(new lime_output_color());
-        $h->base_dir = sfConfig::get('sf_plugins_dir') . '/' . $arguments['plugin'] . '/test/' . $options['only'];
+        $h->base_dir = sfConfig::get('sf_plugins_dir').'/'.$arguments['plugin'].'/test/'.$options['only'];
 
         $finder = sfFinder::type('file')->follow_link()->name('*Test.php');
         $h->register($finder->in($h->base_dir));

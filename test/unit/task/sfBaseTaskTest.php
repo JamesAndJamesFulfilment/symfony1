@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-include __DIR__ . '/../../bootstrap/unit.php';
+include __DIR__.'/../../bootstrap/unit.php';
 
-require_once sfConfig::get('sf_symfony_lib_dir') . '/vendor/lime/lime.php';
+require_once sfConfig::get('sf_symfony_lib_dir').'/vendor/lime/lime.php';
 
 class TestTask extends sfBaseTask
 {
@@ -29,12 +29,12 @@ class TestTask extends sfBaseTask
     }
 }
 
-$rootDir = __DIR__ . '/../../functional/fixtures';
-sfToolkit::clearDirectory($rootDir . '/cache');
+$rootDir = __DIR__.'/../../functional/fixtures';
+sfToolkit::clearDirectory($rootDir.'/cache');
 
 $dispatcher = new sfEventDispatcher();
 
-require_once $rootDir . '/config/ProjectConfiguration.class.php';
+require_once $rootDir.'/config/ProjectConfiguration.class.php';
 $configuration = new ProjectConfiguration($rootDir, $dispatcher);
 $autoload = sfSimpleAutoload::getInstance();
 
@@ -50,10 +50,10 @@ $task->initializeAutoload($configuration);
 
 $t->ok(null !== $autoload->getClassPath('myLibClass'), '->initializeAutoload() loads project classes');
 $t->ok(null !== $autoload->getClassPath('BaseExtendMe'), '->initializeAutoload() includes plugin classes');
-$t->is($autoload->getClassPath('ExtendMe'), sfConfig::get('sf_lib_dir') . '/ExtendMe.class.php', '->initializeAutoload() prefers project to plugin classes');
+$t->is($autoload->getClassPath('ExtendMe'), sfConfig::get('sf_lib_dir').'/ExtendMe.class.php', '->initializeAutoload() prefers project to plugin classes');
 
 $task->initializeAutoload($configuration, true);
-$t->is($autoload->getClassPath('ExtendMe'), sfConfig::get('sf_lib_dir') . '/ExtendMe.class.php', '->initializeAutoload() prefers project to plugin classes after reload');
+$t->is($autoload->getClassPath('ExtendMe'), sfConfig::get('sf_lib_dir').'/ExtendMe.class.php', '->initializeAutoload() prefers project to plugin classes after reload');
 
 // ->run()
 $t->diag('->run()');

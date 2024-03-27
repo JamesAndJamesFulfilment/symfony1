@@ -24,7 +24,7 @@ abstract class sfBaseTask extends sfCommandApplicationTask
     /**
      * Sets the current task's configuration.
      */
-    public function setConfiguration(?sfProjectConfiguration $configuration = null)
+    public function setConfiguration(sfProjectConfiguration $configuration = null)
     {
         $this->configuration = $configuration;
     }
@@ -74,7 +74,7 @@ abstract class sfBaseTask extends sfCommandApplicationTask
      */
     public function checkAppExists($app)
     {
-        if (!is_dir(sfConfig::get('sf_apps_dir') . '/' . $app)) {
+        if (!is_dir(sfConfig::get('sf_apps_dir').'/'.$app)) {
             throw new sfException(sprintf('Application "%s" does not exist', $app));
         }
 
@@ -93,7 +93,7 @@ abstract class sfBaseTask extends sfCommandApplicationTask
      */
     public function checkModuleExists($app, $module)
     {
-        if (!is_dir(sfConfig::get('sf_apps_dir') . '/' . $app . '/modules/' . $module)) {
+        if (!is_dir(sfConfig::get('sf_apps_dir').'/'.$app.'/modules/'.$module)) {
             throw new sfException(sprintf('Module "%s/%s" does not exist.', $app, $module));
         }
 
@@ -200,12 +200,12 @@ abstract class sfBaseTask extends sfCommandApplicationTask
         if (null !== $application) {
             $this->checkAppExists($application);
 
-            require_once sfConfig::get('sf_config_dir') . '/ProjectConfiguration.class.php';
+            require_once sfConfig::get('sf_config_dir').'/ProjectConfiguration.class.php';
 
             $configuration = ProjectConfiguration::getApplicationConfiguration($application, $env, $this->isDebug(), null, $this->dispatcher);
         } else {
-            if (file_exists(sfConfig::get('sf_config_dir') . '/ProjectConfiguration.class.php')) {
-                require_once sfConfig::get('sf_config_dir') . '/ProjectConfiguration.class.php';
+            if (file_exists(sfConfig::get('sf_config_dir').'/ProjectConfiguration.class.php')) {
+                require_once sfConfig::get('sf_config_dir').'/ProjectConfiguration.class.php';
                 $configuration = new ProjectConfiguration(null, $this->dispatcher);
             } else {
                 $configuration = new sfProjectConfiguration(getcwd(), $this->dispatcher);
@@ -276,9 +276,9 @@ abstract class sfBaseTask extends sfCommandApplicationTask
             }
 
             // project
-            $autoload = sfSimpleAutoload::getInstance(sfConfig::get('sf_cache_dir') . '/project_autoload.cache');
+            $autoload = sfSimpleAutoload::getInstance(sfConfig::get('sf_cache_dir').'/project_autoload.cache');
             $autoload->loadConfiguration(sfFinder::type('file')->name('autoload.yml')->in([
-                sfConfig::get('sf_symfony_lib_dir') . '/config/config',
+                sfConfig::get('sf_symfony_lib_dir').'/config/config',
                 sfConfig::get('sf_config_dir'),
             ]));
             $autoload->register();
@@ -384,7 +384,7 @@ abstract class sfBaseTask extends sfCommandApplicationTask
         if (null === $this->pluginManager) {
             $environment = new sfPearEnvironment($this->dispatcher, [
                 'plugin_dir' => sfConfig::get('sf_plugins_dir'),
-                'cache_dir' => sfConfig::get('sf_cache_dir') . '/.pear',
+                'cache_dir' => sfConfig::get('sf_cache_dir').'/.pear',
                 'web_dir' => sfConfig::get('sf_web_dir'),
                 'config_dir' => sfConfig::get('sf_config_dir'),
             ]);
@@ -466,7 +466,7 @@ abstract class sfBaseTask extends sfCommandApplicationTask
             $memory = sprintf('%.2fB', $memory);
         }
 
-        $statusBar .= ' [ remaining: ' . $eta . ' | elapsed: ' . $elapsed . ' ] (memory: ' . $memory . ')     ';
+        $statusBar .= ' [ remaining: '.$eta.' | elapsed: '.$elapsed.' ] (memory: '.$memory.')     ';
 
         echo $statusBar;
 
@@ -491,16 +491,16 @@ abstract class sfBaseTask extends sfCommandApplicationTask
         if ($time > 3600) {
             $h = (int) abs($time / 3600);
             $time -= ($h * 3600);
-            $string .= $h . ' h ';
+            $string .= $h.' h ';
         }
 
         if ($time > 60) {
             $m = (int) abs($time / 60);
             $time -= ($m * 60);
-            $string .= $m . ' min ';
+            $string .= $m.' min ';
         }
 
-        $string .= (int) $time . ' sec';
+        $string .= (int) $time.' sec';
 
         return $string;
     }

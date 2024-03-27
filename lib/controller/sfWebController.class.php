@@ -63,7 +63,7 @@ abstract class sfWebController extends sfController
         $url = $this->context->getRouting()->generate($route, $parameters, $absolute);
 
         if ($fragment) {
-            $url .= '#' . $fragment;
+            $url .= '#'.$fragment;
         }
 
         return $url;

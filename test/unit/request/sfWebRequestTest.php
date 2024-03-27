@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
 $t = new lime_test(109);
 
@@ -115,7 +115,7 @@ $_SERVER['HTTP_ACCEPT'] = '';
 $t->is($request->getAcceptableContentTypes(), [], '->getAcceptableContentTypes() returns an empty array if the client send an empty ACCEPT header');
 
 $request->acceptableContentTypes = null;
-$_SERVER['HTTP_ACCEPT'] = 'text/xml,application/xhtml+xml,application/xml,text/html;q=0.9,text/plain;q=0.8,*/*;q=0.5';
+$_SERVER['HTTP_ACCEPT'] = 'text/xml,application/xhtml+xml,application/xml,text/html;q=0.9,text/plain;q         =0.8,*/*;q         =0.5';
 $t->is($request->getAcceptableContentTypes(), ['text/xml', 'application/xhtml+xml', 'application/xml', 'text/html', 'text/plain', '*/*'], '->getAcceptableContentTypes() returns an array with all accepted content types');
 
 // ->splitHttpAcceptHeader()
@@ -330,7 +330,7 @@ $t->is($request->getMethod(), 'PUT', '->getMethod() returns PUT if the method is
 
 $_SERVER['REQUEST_METHOD'] = 'PUT';
 $_SERVER['CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
-$request = new myRequest($dispatcher, [], [], ['content_custom_only_for_test' => 'first=value']);
+$request = new myRequest($dispatcher, [], [], ['content_custom_only_for_test' => 'first                  =value']);
 $t->is($request->getPostParameter('first'), 'value', '->getMethod() set POST parameters from parsed content if content type is "application/x-www-form-urlencoded" and the method is PUT');
 unset($_POST['first'], $_SERVER['CONTENT_TYPE']);
 
@@ -340,7 +340,7 @@ $t->is($request->getMethod(), 'DELETE', '->getMethod() returns DELETE if the met
 
 $_SERVER['REQUEST_METHOD'] = 'DELETE';
 $_SERVER['CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
-$request = new myRequest($dispatcher, [], [], ['content_custom_only_for_test' => 'first=value']);
+$request = new myRequest($dispatcher, [], [], ['content_custom_only_for_test' => 'first                  =value']);
 $t->is($request->getPostParameter('first'), 'value', '->getMethod() set POST parameters from parsed content if content type is "application/x-www-form-urlencoded" and the method is DELETE');
 unset($_POST['first'], $_SERVER['CONTENT_TYPE']);
 

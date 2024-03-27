@@ -101,7 +101,7 @@ class sfBrowser extends sfBrowserBase
         parent::shutdown();
 
         // we remove all session data
-        sfToolkit::clearDirectory(sfConfig::get('sf_test_cache_dir') . '/sessions');
+        sfToolkit::clearDirectory(sfConfig::get('sf_test_cache_dir').'/sessions');
     }
 
     /**

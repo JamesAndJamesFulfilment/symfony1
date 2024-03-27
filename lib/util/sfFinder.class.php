@@ -337,13 +337,13 @@ class sfFinder
 
             // absolute path?
             if (!self::isPathAbsolute($dir)) {
-                $dir = $here_dir . '/' . $dir;
+                $dir = $here_dir.'/'.$dir;
             }
 
             $new_files = str_replace('\\', '/', $finder->search_in($dir));
 
             if ($this->relative) {
-                $new_files = preg_replace('#^' . preg_quote(rtrim($dir, '/'), '#') . '/#', '', $new_files);
+                $new_files = preg_replace('#^'.preg_quote(rtrim($dir, '/'), '#').'/#', '', $new_files);
             }
 
             $files = array_merge($files, $new_files);
@@ -420,7 +420,7 @@ class sfFinder
                     continue;
                 }
 
-                $current_entry = $dir . DIRECTORY_SEPARATOR . $entryname;
+                $current_entry = $dir.DIRECTORY_SEPARATOR.$entryname;
                 if ((!$this->follow_link) && is_link($current_entry)) {
                     continue;
                 }
@@ -512,11 +512,11 @@ class sfFinder
             return true;
         }
 
-        if (!is_file($dir . DIRECTORY_SEPARATOR . $entry)) {
+        if (!is_file($dir.DIRECTORY_SEPARATOR.$entry)) {
             return true;
         }
 
-        $filesize = filesize($dir . DIRECTORY_SEPARATOR . $entry);
+        $filesize = filesize($dir.DIRECTORY_SEPARATOR.$entry);
         foreach ($this->sizes as $number_compare) {
             if (!$number_compare->test($filesize)) {
                 return false;
@@ -672,7 +672,7 @@ class sfGlobToRegex
             $escaping = false;
         }
 
-        return '#^' . $regex . '$#';
+        return '#^'.$regex.'$#';
     }
 }
 

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/sfDoctrineBaseTask.class.php';
+require_once __DIR__.'/sfDoctrineBaseTask.class.php';
 
 /**
  * Inserts SQL for current model.

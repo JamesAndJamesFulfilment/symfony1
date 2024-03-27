@@ -79,7 +79,7 @@ abstract class sfDoctrineRecord extends Doctrine_Record
                         $entityName = strtolower($name);
                     } else {
                         $camelCase = $table->getFieldName(sfInflector::camelize($name));
-                        $camelCase = strtolower($camelCase[0]) . substr($camelCase, 1, strlen($camelCase));
+                        $camelCase = strtolower($camelCase[0]).substr($camelCase, 1, strlen($camelCase));
                         if ($table->hasField($camelCase) || $table->hasRelation($camelCase)) {
                             $entityName = $camelCase;
                         } else {
@@ -194,7 +194,7 @@ abstract class sfDoctrineRecord extends Doctrine_Record
      *
      * @param string $dateFieldName The field name to get the DateTime object for
      *
-     * @return null|DateTime $dateTime     The instance of PHPs DateTime
+     * @return DateTime|null $dateTime     The instance of PHPs DateTime
      *
      * @throws sfException if the field is not one of date, datetime, or timestamp types
      */
@@ -221,7 +221,7 @@ abstract class sfDoctrineRecord extends Doctrine_Record
      *
      * @throws sfException if the field is not one of date, datetime, or timestamp types
      */
-    public function setDateTimeObject($dateFieldName, ?DateTime $dateTimeObject = null)
+    public function setDateTimeObject($dateFieldName, DateTime $dateTimeObject = null)
     {
         $type = $this->getTable()->getTypeOf($dateFieldName);
         if ('date' == $type || 'timestamp' == $type || 'datetime' == $type) {

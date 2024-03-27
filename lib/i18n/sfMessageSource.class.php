@@ -134,7 +134,7 @@ abstract class sfMessageSource implements sfIMessageSource
             $type .= '3';
         }
 
-        $class = 'sfMessageSource_' . $type;
+        $class = 'sfMessageSource_'.$type;
         if (!class_exists($class)) {
             throw new sfException(sprintf('Unable to find type "%s".', $type));
         }
@@ -178,8 +178,8 @@ abstract class sfMessageSource implements sfIMessageSource
 
             if ($this->cache) {
                 $lastModified = $this->getLastModified($source);
-                if ($lastModified >= 0 && $lastModified < $this->cache->getLastModified($variant . ':' . $this->culture)) {
-                    $data = unserialize($this->cache->get($variant . ':' . $this->culture));
+                if ($lastModified >= 0 && $lastModified < $this->cache->getLastModified($variant.':'.$this->culture)) {
+                    $data = unserialize($this->cache->get($variant.':'.$this->culture));
 
                     if (is_array($data)) {
                         $this->messages[$variant] = $data;
@@ -195,7 +195,7 @@ abstract class sfMessageSource implements sfIMessageSource
                 if (is_array($data)) {
                     $this->messages[$variant] = $data;
                     if ($this->cache) {
-                        $this->cache->set($variant . ':' . $this->culture, serialize($data));
+                        $this->cache->set($variant.':'.$this->culture, serialize($data));
                     }
                 }
 

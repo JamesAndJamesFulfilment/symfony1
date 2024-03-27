@@ -122,19 +122,14 @@ class sfValidatorFile extends sfValidatorBase
                 }
 
                 throw new sfValidatorError($this, 'max_size', ['max_size' => round($max / 1024, 0), 'size' => (int) $value['size']]);
-
             case UPLOAD_ERR_FORM_SIZE:
                 throw new sfValidatorError($this, 'max_size', ['max_size' => 0, 'size' => (int) $value['size']]);
-
             case UPLOAD_ERR_PARTIAL:
                 throw new sfValidatorError($this, 'partial');
-
             case UPLOAD_ERR_NO_TMP_DIR:
                 throw new sfValidatorError($this, 'no_tmp_dir');
-
             case UPLOAD_ERR_CANT_WRITE:
                 throw new sfValidatorError($this, 'cant_write');
-
             case UPLOAD_ERR_EXTENSION:
                 throw new sfValidatorError($this, 'extension');
         }
@@ -241,7 +236,7 @@ class sfValidatorFile extends sfValidatorBase
         ob_start();
         // need to use --mime instead of -i. see #6641
         $cmd = 'file -b --mime -- %s 2>/dev/null';
-        $file = (0 === strpos($file, '-') ? './' : '') . $file;
+        $file = (0 === strpos($file, '-') ? './' : '').$file;
         passthru(sprintf($cmd, escapeshellarg($file)), $return);
         if ($return > 0) {
             ob_end_clean();

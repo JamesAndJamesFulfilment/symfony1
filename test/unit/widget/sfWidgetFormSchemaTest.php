@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
 $t = new lime_test(95);
 
@@ -441,12 +441,12 @@ class MyWidget extends sfWidgetForm
 
     public function getJavaScripts()
     {
-        return ['/path/to/a/' . $this->getOption('name') . '.js', '/path/to/foo.js'];
+        return ['/path/to/a/'.$this->getOption('name').'.js', '/path/to/foo.js'];
     }
 
     public function getStylesheets()
     {
-        return ['/path/to/a/' . $this->getOption('name') . '.css' => 'all', '/path/to/foo.css' => 'all'];
+        return ['/path/to/a/'.$this->getOption('name').'.css' => 'all', '/path/to/foo.css' => 'all'];
     }
 
     protected function configure($options = [], $attributes = [])

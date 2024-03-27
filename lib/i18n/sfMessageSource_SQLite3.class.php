@@ -346,7 +346,7 @@ class sfMessageSource_SQLite3 extends sfMessageSource_Database
             $catalogue = 'messages';
         }
 
-        $variant = $catalogue . '.' . $this->culture;
+        $variant = $catalogue.'.'.$this->culture;
 
         $db = new SQLite3($this->source, SQLITE3_OPEN_READWRITE);
 
@@ -392,7 +392,7 @@ class sfMessageSource_SQLite3 extends sfMessageSource_Database
         $db->close();
 
         if ($this->cache) {
-            $this->cache->remove($variant . ':' . $this->culture);
+            $this->cache->remove($variant.':'.$this->culture);
         }
 
         return $res;

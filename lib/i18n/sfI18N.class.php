@@ -28,7 +28,7 @@ class sfI18N
      *
      * @see initialize()
      */
-    public function __construct(sfApplicationConfiguration $configuration, ?sfCache $cache = null, $options = [])
+    public function __construct(sfApplicationConfiguration $configuration, sfCache $cache = null, $options = [])
     {
         $this->initialize($configuration, $cache, $options);
     }
@@ -63,7 +63,7 @@ class sfI18N
      * @param sfCache                    $cache         A sfCache instance
      * @param array                      $options       An array of options
      */
-    public function initialize(sfApplicationConfiguration $configuration, ?sfCache $cache = null, $options = [])
+    public function initialize(sfApplicationConfiguration $configuration, sfCache $cache = null, $options = [])
     {
         $this->configuration = $configuration;
         $this->dispatcher = $configuration->getEventDispatcher();
@@ -169,10 +169,10 @@ class sfI18N
 
         // change user locale for formatting, collation, and internal error messages
         setlocale(LC_ALL, 'en_US.utf8', 'en_US.UTF8', 'en_US.utf-8', 'en_US.UTF-8');
-        setlocale(LC_COLLATE, $culture . '.utf8', $culture . '.UTF8', $culture . '.utf-8', $culture . '.UTF-8');
-        setlocale(LC_CTYPE, $culture . '.utf8', $culture . '.UTF8', $culture . '.utf-8', $culture . '.UTF-8');
-        setlocale(LC_MONETARY, $culture . '.utf8', $culture . '.UTF8', $culture . '.utf-8', $culture . '.UTF-8');
-        setlocale(LC_TIME, $culture . '.utf8', $culture . '.UTF8', $culture . '.utf-8', $culture . '.UTF-8');
+        setlocale(LC_COLLATE, $culture.'.utf8', $culture.'.UTF8', $culture.'.utf-8', $culture.'.UTF-8');
+        setlocale(LC_CTYPE, $culture.'.utf8', $culture.'.UTF8', $culture.'.utf-8', $culture.'.UTF-8');
+        setlocale(LC_MONETARY, $culture.'.utf8', $culture.'.UTF8', $culture.'.utf-8', $culture.'.UTF-8');
+        setlocale(LC_TIME, $culture.'.utf8', $culture.'.UTF8', $culture.'.utf-8', $culture.'.UTF-8');
 
         if ($this->messageSource) {
             $this->messageSource->setCulture($culture);
@@ -377,7 +377,7 @@ class sfI18N
      */
     public static function isMessageSourceFileBased($source)
     {
-        $class = 'sfMessageSource_' . $source;
+        $class = 'sfMessageSource_'.$source;
 
         return class_exists($class) && is_subclass_of($class, 'sfMessageSource_File');
     }

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/sfDoctrineBaseTask.class.php';
+require_once __DIR__.'/sfDoctrineBaseTask.class.php';
 
 /**
  * Compile Doctrine.
@@ -51,10 +51,10 @@ EOF;
     {
         $databaseManager = new sfDatabaseManager($this->configuration);
 
-        $compiledFile = sfConfig::get('sf_cache_dir') . '/doctrine.compiled.php';
+        $compiledFile = sfConfig::get('sf_cache_dir').'/doctrine.compiled.php';
 
         if (file_exists($compiledFile)) {
-            $this->logSection('error', $compiledFile . ' already exists', null, 'ERROR');
+            $this->logSection('error', $compiledFile.' already exists', null, 'ERROR');
             $this->logBlock('Run symfony:cache-clear first', 'INFO');
 
             return;
@@ -66,7 +66,7 @@ EOF;
         }
         $drivers = array_unique($drivers);
 
-        $this->logSection('compile', 'Included drivers: ' . implode(', ', $drivers));
+        $this->logSection('compile', 'Included drivers: '.implode(', ', $drivers));
 
         Doctrine_Core::compile($compiledFile, $drivers);
 

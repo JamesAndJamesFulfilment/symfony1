@@ -349,7 +349,7 @@ class sfContext implements ArrayAccess
         // get the last action stack entry
         if (isset($this->factories['actionStack']) && $lastEntry = $this->factories['actionStack']->getLastEntry()) {
             // @var $lastEntry sfActionStackEntry
-            return sfConfig::get('sf_app_module_dir') . '/' . $lastEntry->getModuleName();
+            return sfConfig::get('sf_app_module_dir').'/'.$lastEntry->getModuleName();
         }
 
         return null;

@@ -8,11 +8,11 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
-require_once $_test_dir . '/unit/sfContextMock.class.php';
+require_once $_test_dir.'/unit/sfContextMock.class.php';
 
-require_once $_test_dir . '/unit/sfNoRouting.class.php';
+require_once $_test_dir.'/unit/sfNoRouting.class.php';
 
 $t = new lime_test(21);
 
@@ -180,7 +180,7 @@ try {
 } catch (InvalidArgumentException $iae) {
     $t->pass('->redirect() throw an InvalidArgumentException when the url argument is null');
 } catch (Exception $e) {
-    $t->fail('->redirect() throw an InvalidArgumentException when the url argument is null. ' . get_class($e) . ' was received');
+    $t->fail('->redirect() throw an InvalidArgumentException when the url argument is null. '.get_class($e).' was received');
 }
 
 // Test empty string url argument for ->redirect()
@@ -190,7 +190,7 @@ try {
 } catch (InvalidArgumentException $iae) {
     $t->pass('->redirect() throw an InvalidArgumentException when the url argument is an empty string');
 } catch (Exception $e) {
-    $t->fail('->redirect() throw an InvalidArgumentException when the url argument is an empty string. ' . get_class($e) . ' was received');
+    $t->fail('->redirect() throw an InvalidArgumentException when the url argument is an empty string. '.get_class($e).' was received');
 }
 
 // ->genUrl()

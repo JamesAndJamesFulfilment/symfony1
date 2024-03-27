@@ -24,7 +24,7 @@ class sfFilesystem
      * @param sfEventDispatcher $dispatcher An sfEventDispatcher instance
      * @param sfFormatter       $formatter  An sfFormatter instance
      */
-    public function __construct(?sfEventDispatcher $dispatcher = null, ?sfFormatter $formatter = null)
+    public function __construct(sfEventDispatcher $dispatcher = null, sfFormatter $formatter = null)
     {
         $this->dispatcher = $dispatcher;
         $this->formatter = $formatter;
@@ -175,7 +175,7 @@ class sfFilesystem
             throw new sfException(sprintf('Cannot rename because the target "%s" already exist.', $target));
         }
 
-        $this->logSection('rename', $origin . ' > ' . $target);
+        $this->logSection('rename', $origin.' > '.$target);
 
         return rename($origin, $target);
     }
@@ -240,12 +240,12 @@ class sfFilesystem
     public function mirror($originDir, $targetDir, $finder, $options = [])
     {
         foreach ($finder->relative()->in($originDir) as $file) {
-            if (is_dir($originDir . DIRECTORY_SEPARATOR . $file)) {
-                $this->mkdirs($targetDir . DIRECTORY_SEPARATOR . $file);
-            } elseif (is_file($originDir . DIRECTORY_SEPARATOR . $file)) {
-                $this->copy($originDir . DIRECTORY_SEPARATOR . $file, $targetDir . DIRECTORY_SEPARATOR . $file, $options);
-            } elseif (is_link($originDir . DIRECTORY_SEPARATOR . $file)) {
-                $this->symlink($originDir . DIRECTORY_SEPARATOR . $file, $targetDir . DIRECTORY_SEPARATOR . $file);
+            if (is_dir($originDir.DIRECTORY_SEPARATOR.$file)) {
+                $this->mkdirs($targetDir.DIRECTORY_SEPARATOR.$file);
+            } elseif (is_file($originDir.DIRECTORY_SEPARATOR.$file)) {
+                $this->copy($originDir.DIRECTORY_SEPARATOR.$file, $targetDir.DIRECTORY_SEPARATOR.$file, $options);
+            } elseif (is_link($originDir.DIRECTORY_SEPARATOR.$file)) {
+                $this->symlink($originDir.DIRECTORY_SEPARATOR.$file, $targetDir.DIRECTORY_SEPARATOR.$file);
             } else {
                 throw new sfException(sprintf('Unable to guess "%s" file type.', $file));
             }
@@ -331,7 +331,7 @@ class sfFilesystem
         foreach ($files as $file) {
             $content = file_get_contents($file);
             foreach ($tokens as $key => $value) {
-                $content = str_replace($beginToken . $key . $endToken, $value, $content, $count);
+                $content = str_replace($beginToken.$key.$endToken, $value, $content, $count);
             }
 
             $this->logSection('tokens', $file);
@@ -353,7 +353,7 @@ class sfFilesystem
             return;
         }
 
-        $message = $this->formatter ? $this->formatter->formatSection($section, $message, $size) : $section . ' ' . $message . "\n";
+        $message = $this->formatter ? $this->formatter->formatSection($section, $message, $size) : $section.' '.$message."\n";
 
         $this->dispatcher->notify(new sfEvent($this, 'command.log', [$message]));
     }
@@ -395,7 +395,7 @@ class sfFilesystem
             }
 
             // up that many level
-            $relativeDir = str_repeat('..' . DIRECTORY_SEPARATOR, $levelUp);
+            $relativeDir = str_repeat('..'.DIRECTORY_SEPARATOR, $levelUp);
 
             // down the remaining $to path
             $relativeDir .= substr($to, $commonLength);

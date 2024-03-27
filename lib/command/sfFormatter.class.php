@@ -71,7 +71,7 @@ class sfFormatter
 
         $section = sprintf('>> %-9s ', $section);
 
-        return $section . $this->excerpt($text, $size - strlen($section));
+        return $section.$this->excerpt($text, $size - strlen($section));
     }
 
     /**
@@ -94,7 +94,7 @@ class sfFormatter
 
         $subsize = floor(($size - 3) / 2);
 
-        return substr($text, 0, $subsize) . '...' . substr($text, -$subsize);
+        return substr($text, 0, $subsize).'...'.substr($text, -$subsize);
     }
 
     /**

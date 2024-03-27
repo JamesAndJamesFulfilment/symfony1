@@ -40,11 +40,11 @@ class sfPostgreSQLDatabase extends sfDatabase
         $username = $this->getParameter('username');
 
         // construct connection string
-        $string = (null != $database ? (' dbname=' . $database) : '') .
-                  (null != $host ? (' host=' . $host) : '') .
-                  (null != $password ? (' password=' . $password) : '') .
-                  (null != $port ? (' port=' . $port) : '') .
-                  (null != $username ? (' user=' . $username) : '');
+        $string = (null != $database ? (' dbname='.$database) : '').
+                  (null != $host ? (' host='.$host) : '').
+                  (null != $password ? (' password='.$password) : '').
+                  (null != $port ? (' port='.$port) : '').
+                  (null != $username ? (' user='.$username) : '');
 
         // let's see if we need a persistent connection
         $persistent = $this->getParameter('persistent', false);

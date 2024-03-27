@@ -61,13 +61,13 @@ abstract class sfDoctrineBaseTask extends sfBaseTask
     /**
      * Returns Doctrine databases from the supplied database manager.
      *
-     * @param null|array $names An array of names or NULL for all databases
+     * @param array|null $names An array of names or NULL for all databases
      *
      * @return array An associative array of {@link sfDoctrineDatabase} objects and their names
      *
      * @throws InvalidArgumentException If a requested database is not a Doctrine database
      */
-    protected function getDoctrineDatabases(sfDatabaseManager $databaseManager, ?array $names = null)
+    protected function getDoctrineDatabases(sfDatabaseManager $databaseManager, array $names = null)
     {
         $databases = [];
 
@@ -120,7 +120,8 @@ abstract class sfDoctrineBaseTask extends sfBaseTask
         $finder = sfFinder::type('file')
             ->name('*.yml')
             ->sort_by_name()
-            ->follow_link();
+            ->follow_link()
+        ;
 
         // plugin models
         foreach ($this->configuration->getPlugins() as $name) {
@@ -169,7 +170,7 @@ abstract class sfDoctrineBaseTask extends sfBaseTask
         }
 
         // create one consolidated schema file
-        $file = realpath(sys_get_temp_dir()) . '/doctrine_schema_' . rand(11111, 99999) . '.yml';
+        $file = realpath(sys_get_temp_dir()).'/doctrine_schema_'.rand(11111, 99999).'.yml';
         $this->logSection('file+', $file);
         file_put_contents($file, sfYaml::dump($models, 4));
 

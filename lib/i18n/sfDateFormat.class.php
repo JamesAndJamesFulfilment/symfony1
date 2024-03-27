@@ -145,7 +145,7 @@ class sfDateFormat
                     }
                 }
             }
-            preg_match('@' . $pregPattern . '@', $time, $matches);
+            preg_match('@'.$pregPattern.'@', $time, $matches);
 
             array_shift($matches);
 
@@ -213,7 +213,7 @@ class sfDateFormat
                 $function = $this->getFunctionName($pattern);
                 if (null != $function) {
                     $function = ucfirst($function);
-                    $fName = 'get' . $function;
+                    $fName = 'get'.$function;
                     if (in_array($fName, $this->methods)) {
                         $tokens[$i] = $this->{$fName}($date, $pattern);
                     } else {

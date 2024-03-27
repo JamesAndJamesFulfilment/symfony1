@@ -27,7 +27,7 @@ abstract class sfConfigHandler
      *
      * @see initialize()
      *
-     * @param null|array $parameters
+     * @param array|null $parameters
      */
     public function __construct($parameters = null)
     {
@@ -93,7 +93,7 @@ abstract class sfConfigHandler
         } else {
             if (!sfToolkit::isPathAbsolute($path)) {
                 // not an absolute path so we'll prepend to it
-                $path = sfConfig::get('sf_app_dir') . '/' . $path;
+                $path = sfConfig::get('sf_app_dir').'/'.$path;
             }
         }
 

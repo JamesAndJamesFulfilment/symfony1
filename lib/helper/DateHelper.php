@@ -13,8 +13,8 @@
  *
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  *
- * @param null|mixed $culture
- * @param null|mixed $charset
+ * @param mixed|null $culture
+ * @param mixed|null $charset
  */
 function format_daterange($start_date, $end_date, $format = 'd', $full_text = '', $start_text = '', $end_text = '', $culture = null, $charset = null)
 {
@@ -111,7 +111,7 @@ function distance_of_time_in_words($from_time, $to_time = null, $include_seconds
     }
 
     if (sfConfig::get('sf_i18n')) {
-        require_once __DIR__ . '/I18NHelper.php';
+        require_once __DIR__.'/I18NHelper.php';
 
         return __($string, $parameters);
     }

@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../vendor/lime/lime.php';
+require_once __DIR__.'/../vendor/lime/lime.php';
 
 /*
  * This file is part of the symfony package.
@@ -30,7 +30,7 @@ abstract class sfTestFunctionalBase
      * @param sfBrowserBase $browser A sfBrowserBase instance
      * @param lime_test     $lime    A lime instance
      */
-    public function __construct(sfBrowserBase $browser, ?lime_test $lime = null, $testers = [])
+    public function __construct(sfBrowserBase $browser, lime_test $lime = null, $testers = [])
     {
         $this->browser = $browser;
 
@@ -421,28 +421,24 @@ abstract class sfTestFunctionalBase
                 $msg = sprintf($msg, 'warning');
 
                 throw new RuntimeException($msg);
-
                 break;
 
             case E_NOTICE:
                 $msg = sprintf($msg, 'notice');
 
                 throw new RuntimeException($msg);
-
                 break;
 
             case E_STRICT:
                 $msg = sprintf($msg, 'strict');
 
                 throw new RuntimeException($msg);
-
                 break;
 
             case E_RECOVERABLE_ERROR:
                 $msg = sprintf($msg, 'catchable');
 
                 throw new RuntimeException($msg);
-
                 break;
         }
 

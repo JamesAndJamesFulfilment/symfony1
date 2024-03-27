@@ -36,7 +36,7 @@ class sfPDOSessionStorage extends sfDatabaseSessionStorage
         $db_id_col = $this->options['db_id_col'];
 
         // delete the record associated with this id
-        $sql = 'DELETE FROM ' . $db_table . ' WHERE ' . $db_id_col . '= ?';
+        $sql = 'DELETE FROM '.$db_table.' WHERE '.$db_id_col.'= ?';
 
         try {
             $stmt = $this->db->prepare($sql);
@@ -65,7 +65,7 @@ class sfPDOSessionStorage extends sfDatabaseSessionStorage
         $db_time_col = $this->options['db_time_col'];
 
         // delete the record associated with this id
-        $sql = 'DELETE FROM ' . $db_table . ' WHERE ' . $db_time_col . ' < ' . (time() - $lifetime);
+        $sql = 'DELETE FROM '.$db_table.' WHERE '.$db_time_col.' < '.(time() - $lifetime);
 
         try {
             $this->db->query($sql);
@@ -94,7 +94,7 @@ class sfPDOSessionStorage extends sfDatabaseSessionStorage
         $db_time_col = $this->options['db_time_col'];
 
         try {
-            $sql = 'SELECT ' . $db_data_col . ' FROM ' . $db_table . ' WHERE ' . $db_id_col . '=?';
+            $sql = 'SELECT '.$db_data_col.' FROM '.$db_table.' WHERE '.$db_id_col.'=?';
 
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(1, $id, PDO::PARAM_STR, 255);
@@ -108,7 +108,7 @@ class sfPDOSessionStorage extends sfDatabaseSessionStorage
             }
 
             // session does not exist, create it
-            $sql = 'INSERT INTO ' . $db_table . '(' . $db_id_col . ', ' . $db_data_col . ', ' . $db_time_col . ') VALUES (?, ?, ?)';
+            $sql = 'INSERT INTO '.$db_table.'('.$db_id_col.', '.$db_data_col.', '.$db_time_col.') VALUES (?, ?, ?)';
 
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(1, $id, PDO::PARAM_STR);
@@ -140,7 +140,7 @@ class sfPDOSessionStorage extends sfDatabaseSessionStorage
         $db_id_col = $this->options['db_id_col'];
         $db_time_col = $this->options['db_time_col'];
 
-        $sql = 'UPDATE ' . $db_table . ' SET ' . $db_data_col . ' = ?, ' . $db_time_col . ' = ' . time() . ' WHERE ' . $db_id_col . '= ?';
+        $sql = 'UPDATE '.$db_table.' SET '.$db_data_col.' = ?, '.$db_time_col.' = '.time().' WHERE '.$db_id_col.'= ?';
 
         try {
             $stmt = $this->db->prepare($sql);

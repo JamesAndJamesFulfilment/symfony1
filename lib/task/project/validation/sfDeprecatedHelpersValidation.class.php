@@ -66,7 +66,7 @@ class sfDeprecatedHelpersValidation extends sfValidation
 
             $matches = [];
             foreach ($helpers as $helper) {
-                if (preg_match('#\b' . preg_quote($helper, '#') . '\b#', $content)) {
+                if (preg_match('#\b'.preg_quote($helper, '#').'\b#', $content)) {
                     $matches[] = $helper;
                 }
             }

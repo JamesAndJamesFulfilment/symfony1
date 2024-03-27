@@ -115,7 +115,7 @@ abstract class sfTask
                 if (false !== $pos = array_search($name, array_keys($indexArguments))) {
                     if ($indexArguments[$name]->isArray()) {
                         $value = implode(' ', (array) $value);
-                        $arguments[$pos] = isset($arguments[$pos]) ? $arguments[$pos] . ' ' . $value : $value;
+                        $arguments[$pos] = isset($arguments[$pos]) ? $arguments[$pos].' '.$value : $value;
                     } else {
                         $arguments[$pos] = $value;
                     }
@@ -142,12 +142,12 @@ abstract class sfTask
                 }
 
                 // convert associative array
-                $value = true === $value ? $name : sprintf('%s=%s', $name, isset($indexedOptions[$name]) && $indexedOptions[$name]->isArray() ? implode(' --' . $name . '=', (array) $value) : $value);
+                $value = true === $value ? $name : sprintf('%s=%s', $name, isset($indexedOptions[$name]) && $indexedOptions[$name]->isArray() ? implode(' --'.$name.'=', (array) $value) : $value);
             }
 
             // add -- before each option if needed
             if (0 !== strpos($value, '--')) {
-                $value = '--' . $value;
+                $value = '--'.$value;
             }
 
             $options[] = $value;
@@ -187,7 +187,7 @@ abstract class sfTask
      * @param string     $name
      * @param int        $mode
      * @param string     $help
-     * @param null|mixed $default
+     * @param mixed|null $default
      */
     public function addArgument($name, $mode = null, $help = '', $default = null)
     {
@@ -225,7 +225,7 @@ abstract class sfTask
      * @param string     $shortcut
      * @param int        $mode
      * @param string     $help
-     * @param null|mixed $default
+     * @param mixed|null $default
      */
     public function addOption($name, $shortcut = null, $mode = null, $help = '', $default = null)
     {
@@ -273,7 +273,7 @@ abstract class sfTask
      */
     final public function getFullName()
     {
-        return $this->getNamespace() ? $this->getNamespace() . ':' . $this->getName() : $this->getName();
+        return $this->getNamespace() ? $this->getNamespace().':'.$this->getName() : $this->getName();
     }
 
     /**
@@ -323,12 +323,12 @@ abstract class sfTask
         $options = [];
         foreach ($this->getOptions() as $option) {
             $shortcut = $option->getShortcut() ? sprintf('-%s|', $option->getShortcut()) : '';
-            $options[] = sprintf('[' . ($option->isParameterRequired() ? '%s--%s="..."' : ($option->isParameterOptional() ? '%s--%s[="..."]' : '%s--%s')) . ']', $shortcut, $option->getName());
+            $options[] = sprintf('['.($option->isParameterRequired() ? '%s--%s="..."' : ($option->isParameterOptional() ? '%s--%s[="..."]' : '%s--%s')).']', $shortcut, $option->getName());
         }
 
         $arguments = [];
         foreach ($this->getArguments() as $argument) {
-            $arguments[] = sprintf($argument->isRequired() ? '%s' : '[%s]', $argument->getName() . ($argument->isArray() ? '1' : ''));
+            $arguments[] = sprintf($argument->isRequired() ? '%s' : '[%s]', $argument->getName().($argument->isArray() ? '1' : ''));
 
             if ($argument->isArray()) {
                 $arguments[] = sprintf('... [%sN]', $argument->getName());
@@ -402,7 +402,7 @@ abstract class sfTask
 
         $messages = $large ? [str_repeat(' ', $len)] : [];
         foreach ($lines as $line) {
-            $messages[] = $line . str_repeat(' ', $len - $this->strlen($line));
+            $messages[] = $line.str_repeat(' ', $len - $this->strlen($line));
         }
         if ($large) {
             $messages[] = str_repeat(' ', $len);
@@ -494,7 +494,7 @@ abstract class sfTask
         }
 
         // no, ask the user for a valid user
-        /** @var null|sfValidatorError $error */
+        /** @var sfValidatorError|null $error */
         $error = null;
         while (false === $options['attempts'] || $options['attempts']--) {
             if (null !== $error) {
@@ -564,8 +564,8 @@ abstract class sfTask
         $taskXML->appendChild($optionsXML = $dom->createElement('options'));
         foreach ($this->getOptions() as $option) {
             $optionsXML->appendChild($optionXML = $dom->createElement('option'));
-            $optionXML->setAttribute('name', '--' . $option->getName());
-            $optionXML->setAttribute('shortcut', $option->getShortcut() ? '-' . $option->getShortcut() : '');
+            $optionXML->setAttribute('name', '--'.$option->getName());
+            $optionXML->setAttribute('shortcut', $option->getShortcut() ? '-'.$option->getShortcut() : '');
             $optionXML->setAttribute('accept_parameter', $option->acceptParameter() ? 1 : 0);
             $optionXML->setAttribute('is_parameter_required', $option->isParameterRequired() ? 1 : 0);
             $optionXML->setAttribute('is_multiple', $option->isArray() ? 1 : 0);
@@ -634,10 +634,8 @@ abstract class sfTask
      * It receives an extra parameter, by default 100 Megabytes
      * Log changes COLOR when memory left is less than said parameter.
      *
-     * @param null|mixed $size
-     * @param null|mixed $style
-     * @param mixed      $message
-     * @param mixed      $warning_when_remaining
+     * @param mixed|null $size
+     * @param mixed|null $style
      */
     protected function logSectionMemory($message, $size = null, $style = null, $warning_when_remaining = '100M')
     {
@@ -660,10 +658,10 @@ abstract class sfTask
 
     protected function convertIntToUnit($size)
     {
-        $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
+        $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
         $i = floor(log($size, 1024));
 
-        return @round($size / pow(1024, $i), 2) . " {$unit[$i]}";
+        return @round($size / pow(1024, $i), 2)." {$unit[$i]}";
     }
 
     /**

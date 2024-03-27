@@ -46,7 +46,7 @@ class sfFileCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param null|mixed $default
+     * @param mixed|null $default
      */
     public function get($key, $default = null)
     {
@@ -77,7 +77,7 @@ class sfFileCache extends sfCache
     /**
      * @see sfCache
      *
-     * @param null|mixed $lifetime
+     * @param mixed|null $lifetime
      */
     public function set($key, $data, $lifetime = null)
     {
@@ -102,17 +102,17 @@ class sfFileCache extends sfCache
     public function removePattern($pattern)
     {
         if (false !== strpos($pattern, '**')) {
-            $pattern = str_replace(sfCache::SEPARATOR, DIRECTORY_SEPARATOR, $pattern) . self::EXTENSION;
+            $pattern = str_replace(sfCache::SEPARATOR, DIRECTORY_SEPARATOR, $pattern).self::EXTENSION;
 
             $regexp = self::patternToRegexp($pattern);
             $paths = [];
             foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->getOption('cache_dir'))) as $path) {
-                if (preg_match($regexp, str_replace($this->getOption('cache_dir') . DIRECTORY_SEPARATOR, '', $path))) {
+                if (preg_match($regexp, str_replace($this->getOption('cache_dir').DIRECTORY_SEPARATOR, '', $path))) {
                     $paths[] = $path;
                 }
             }
         } else {
-            $paths = glob($this->getOption('cache_dir') . DIRECTORY_SEPARATOR . str_replace(sfCache::SEPARATOR, DIRECTORY_SEPARATOR, $pattern) . self::EXTENSION);
+            $paths = glob($this->getOption('cache_dir').DIRECTORY_SEPARATOR.str_replace(sfCache::SEPARATOR, DIRECTORY_SEPARATOR, $pattern).self::EXTENSION);
         }
 
         foreach ($paths as $path) {
@@ -197,7 +197,7 @@ class sfFileCache extends sfCache
      */
     protected function getFilePath($key)
     {
-        return $this->getOption('cache_dir') . DIRECTORY_SEPARATOR . str_replace(sfCache::SEPARATOR, DIRECTORY_SEPARATOR, $key) . self::EXTENSION;
+        return $this->getOption('cache_dir').DIRECTORY_SEPARATOR.str_replace(sfCache::SEPARATOR, DIRECTORY_SEPARATOR, $key).self::EXTENSION;
     }
 
     /**

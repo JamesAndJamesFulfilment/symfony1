@@ -40,7 +40,7 @@ class sfCommandLogger extends sfConsoleLogger
             $subject = $event->getSubject();
             $subject = is_object($subject) ? get_class($subject) : (is_string($subject) ? $subject : 'main');
 
-            $prefix = '>> ' . $subject . ' ';
+            $prefix = '>> '.$subject.' ';
         }
 
         foreach ($event->getParameters() as $key => $message) {

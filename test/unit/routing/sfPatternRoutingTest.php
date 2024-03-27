@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
 $t = new lime_test(149);
 
@@ -19,7 +19,7 @@ $t = new lime_test(149);
  */
 class sfPatternRoutingTest extends sfPatternRouting
 {
-    public function initialize(sfEventDispatcher $dispatcher, ?sfCache $cache = null, $options = [])
+    public function initialize(sfEventDispatcher $dispatcher, sfCache $cache = null, $options = [])
     {
         parent::initialize($dispatcher, $cache, $options);
 
@@ -46,7 +46,7 @@ class sfPatternRoutingTest extends sfPatternRouting
 
     protected function getConfigFileName()
     {
-        return __DIR__ . '/fixtures/config_routing.yml.php';
+        return __DIR__.'/fixtures/config_routing.yml.php';
     }
 }
 
@@ -56,7 +56,7 @@ class sfAlwaysAbsoluteRoute extends sfRoute
     {
         $url = parent::generate($params, $context, $absolute);
 
-        return 'http://' . $context['host'] . $url;
+        return 'http://'.$context['host'].$url;
     }
 }
 
@@ -182,7 +182,7 @@ $t->diag('query string');
 $r->clearRoutes();
 $r->connect('test', new sfRoute('/index.php/:module/:action', ['module' => 'default', 'action' => 'index']));
 $params = ['module' => 'default', 'action' => 'index'];
-$url = '/index.php/default/index?test=1&toto=2';
+$url = '/index.php/default/index?test=1&toto   =2';
 $t->is($r->parse($url), $params, '->parse() does not take query string into account');
 
 // default values

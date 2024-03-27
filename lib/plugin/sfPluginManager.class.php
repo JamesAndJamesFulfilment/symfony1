@@ -177,7 +177,7 @@ class sfPluginManager
 
         foreach ($deps as $dependency) {
             if (!$this->checkDependency($dependency)) {
-                $version = (isset($dependency['min']) ? ' >= ' . $dependency['min'] : '') . (isset($dependency['max']) ? ' <= ' . $dependency['max'] : '') . (isset($dependency['exclude']) ? ' exclude ' . $dependency['exclude'] : '');
+                $version = (isset($dependency['min']) ? ' >= '.$dependency['min'] : '').(isset($dependency['max']) ? ' <= '.$dependency['max'] : '').(isset($dependency['exclude']) ? ' exclude '.$dependency['exclude'] : '');
 
                 if (isset($options['install_deps']) && $options['install_deps']) {
                     try {
@@ -333,7 +333,7 @@ class sfPluginManager
             }
 
             // skip if the plugin is already installing and we are here through a dependency)
-            if (isset($this->installing[$channel . '/' . $plugin])) {
+            if (isset($this->installing[$channel.'/'.$plugin])) {
                 return true;
             }
 
@@ -348,7 +348,7 @@ class sfPluginManager
         $class = $this->environment->getOption('downloader_base_class');
         $downloader = new $class($this, ['upgrade' => true], $this->environment->getConfig());
 
-        $this->installing[$channel . '/' . $plugin] = true;
+        $this->installing[$channel.'/'.$plugin] = true;
 
         if ($isPackage) {
             $this->checkPluginDependencies($plugin, $version, [
@@ -399,7 +399,7 @@ class sfPluginManager
 
             $this->dispatcher->notify(new sfEvent($this, 'plugin.post_install', ['channel' => $channel, 'plugin' => $pluginPackage->getPackage()]));
 
-            unset($this->installing[$channel . '/' . $plugin]);
+            unset($this->installing[$channel.'/'.$plugin]);
 
             return $pluginPackage->getPackage();
         }

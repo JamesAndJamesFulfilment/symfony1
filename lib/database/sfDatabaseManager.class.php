@@ -62,7 +62,7 @@ class sfDatabaseManager
             $databases = include $this->configuration->getConfigCache()->checkConfig('config/databases.yml');
         } else {
             $configHandler = new sfDatabaseConfigHandler();
-            $databases = $configHandler->evaluate([$this->configuration->getRootDir() . '/config/databases.yml']);
+            $databases = $configHandler->evaluate([$this->configuration->getRootDir().'/config/databases.yml']);
         }
 
         foreach ($databases as $name => $database) {

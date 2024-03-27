@@ -33,7 +33,7 @@ class sfObjectRouteCollection extends sfRouteCollection
         $this->options = array_merge([
             'actions' => false,
             'module' => $this->options['name'],
-            'prefix_path' => '/' . $this->options['name'],
+            'prefix_path' => '/'.$this->options['name'],
             'column' => isset($this->options['column']) ? $this->options['column'] : 'id',
             'with_show' => true,
             'segment_names' => ['edit' => 'edit', 'new' => 'new'],
@@ -65,7 +65,7 @@ class sfObjectRouteCollection extends sfRouteCollection
         // "standard" actions
         $actions = false === $this->options['actions'] ? $this->getDefaultActions() : $this->options['actions'];
         foreach ($actions as $action) {
-            $method = 'getRouteFor' . ucfirst($action);
+            $method = 'getRouteFor'.ucfirst($action);
             if (!method_exists($this, $method)) {
                 throw new InvalidArgumentException(sprintf('Unable to generate a route for the "%s" action.', $action));
             }
@@ -202,7 +202,7 @@ class sfObjectRouteCollection extends sfRouteCollection
 
     protected function getRoute($action)
     {
-        return 'list' == $action ? $this->options['name'] : $this->options['name'] . '_' . $action;
+        return 'list' == $action ? $this->options['name'] : $this->options['name'].'_'.$action;
     }
 
     protected function getActionMethod($action)

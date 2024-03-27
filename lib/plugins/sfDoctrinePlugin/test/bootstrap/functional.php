@@ -8,13 +8,13 @@
  * file that was distributed with this source code.
  */
 
-include __DIR__ . '/../../../../../test/bootstrap/unit.php';
+include __DIR__.'/../../../../../test/bootstrap/unit.php';
 
 if (!isset($root_dir)) {
-    $root_dir = realpath(__DIR__ . sprintf('/../%s/fixtures', isset($type) ? $type : 'functional'));
+    $root_dir = realpath(__DIR__.sprintf('/../%s/fixtures', isset($type) ? $type : 'functional'));
 }
 
-include $root_dir . '/config/ProjectConfiguration.class.php';
+include $root_dir.'/config/ProjectConfiguration.class.php';
 $configuration = ProjectConfiguration::getApplicationConfiguration($app, 'test', isset($debug) ? $debug : true);
 sfContext::createInstance($configuration);
 
@@ -31,7 +31,7 @@ function sf_functional_test_shutdown_cleanup()
 {
     sfToolkit::clearDirectory(sfConfig::get('sf_cache_dir'));
     sfToolkit::clearDirectory(sfConfig::get('sf_log_dir'));
-    $databases = glob(sfConfig::get('sf_data_dir') . '/*.sqlite');
+    $databases = glob(sfConfig::get('sf_data_dir').'/*.sqlite');
     foreach ($databases as $database) {
         unlink($database);
     }
@@ -43,7 +43,7 @@ function sf_functional_test_shutdown()
     try {
         sf_functional_test_shutdown_cleanup();
     } catch (Exception $e) {
-        echo $e . PHP_EOL;
+        echo $e.PHP_EOL;
     }
 }
 

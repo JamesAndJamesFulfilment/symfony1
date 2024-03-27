@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
 $plan = 64;
 $t = new lime_test($plan);
@@ -40,7 +40,7 @@ if (!ini_get('apc.enable_cli')) {
     return;
 }
 
-require_once __DIR__ . '/sfCacheDriverTests.class.php';
+require_once __DIR__.'/sfCacheDriverTests.class.php';
 
 // setup
 sfConfig::set('sf_logging_enabled', false);

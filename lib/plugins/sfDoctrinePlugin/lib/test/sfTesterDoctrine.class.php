@@ -55,7 +55,7 @@ class sfTesterDoctrine extends sfTester
                 $column = Doctrine_Core::getTable($model)->getFieldName($column);
 
                 if (null === $condition) {
-                    $query->andWhere('a.' . $column . ' IS NULL');
+                    $query->andWhere('a.'.$column.' IS NULL');
 
                     continue;
                 }
@@ -68,7 +68,7 @@ class sfTesterDoctrine extends sfTester
                     $operator = 'LIKE';
                 }
 
-                $query->andWhere('a.' . $column . ' ' . $operator . ' ?', $condition);
+                $query->andWhere('a.'.$column.' '.$operator.' ?', $condition);
             }
         }
 
@@ -135,10 +135,10 @@ class sfTesterDoctrine extends sfTester
             ) {
                 $conn = $event->getInvoker() instanceof Doctrine_Connection ? $event->getInvoker() : $event->getInvoker()->getConnection();
 
-                echo $event->getQuery() . "\n";
-                echo '  Parameters: ' . sfYaml::dump(sfDoctrineConnectionProfiler::fixParams($event->getParams()), 0) . "\n";
-                echo '  Connection: ' . $conn->getName() . "\n";
-                echo '  Time:       ' . number_format($event->getElapsedSecs(), 2) . "s\n\n";
+                echo $event->getQuery()."\n";
+                echo '  Parameters: '.sfYaml::dump(sfDoctrineConnectionProfiler::fixParams($event->getParams()), 0)."\n";
+                echo '  Connection: '.$conn->getName()."\n";
+                echo '  Time:       '.number_format($event->getElapsedSecs(), 2)."s\n\n";
             }
         }
 

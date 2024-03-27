@@ -240,7 +240,7 @@ abstract class sfBrowserBase
         $_SERVER['REMOTE_ADDR'] = $this->remote;
         $_SERVER['REQUEST_METHOD'] = strtoupper($method);
         $_SERVER['PATH_INFO'] = $path;
-        $_SERVER['REQUEST_URI'] = '/index.php' . $uri;
+        $_SERVER['REQUEST_URI'] = '/index.php'.$uri;
         $_SERVER['SCRIPT_NAME'] = '/index.php';
         $_SERVER['SCRIPT_FILENAME'] = '/index.php';
         $_SERVER['QUERY_STRING'] = $queryString;
@@ -254,7 +254,7 @@ abstract class sfBrowserBase
         }
 
         foreach ($this->headers as $header => $value) {
-            $_SERVER['HTTP_' . strtoupper(str_replace('-', '_', $header))] = $value;
+            $_SERVER['HTTP_'.strtoupper(str_replace('-', '_', $header))] = $value;
         }
         $this->headers = [];
 
@@ -814,7 +814,7 @@ abstract class sfBrowserBase
         $queryString = is_array($arguments) ? http_build_query($arguments, '', '&') : '';
         $sep = false === strpos($url, '?') ? '?' : '&';
 
-        return [$url . ($queryString ? $sep . $queryString : ''), 'get', []];
+        return [$url.($queryString ? $sep.$queryString : ''), 'get', []];
     }
 
     /**
@@ -867,7 +867,7 @@ abstract class sfBrowserBase
 
         // # as a uri
         if ($uri && '#' == $uri[0]) {
-            $uri = $this->stack[$this->stackPosition]['uri'] . $uri;
+            $uri = $this->stack[$this->stackPosition]['uri'].$uri;
         }
 
         return $uri;

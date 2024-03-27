@@ -57,7 +57,7 @@ class sfPartialView extends sfPHPView
     public function configure()
     {
         $this->setDecorator(false);
-        $this->setTemplate($this->actionName . $this->getExtension());
+        $this->setTemplate($this->actionName.$this->getExtension());
         if ('global' == $this->moduleName) {
             $this->setDirectory($this->context->getConfiguration()->getDecoratorDir($this->getTemplate()));
         } else {
@@ -103,7 +103,7 @@ class sfPartialView extends sfPHPView
             $this->getAttributeHolder()->set('sf_type', 'partial');
 
             // render template
-            $retval = $this->renderFile($this->getDirectory() . '/' . $this->getTemplate());
+            $retval = $this->renderFile($this->getDirectory().'/'.$this->getTemplate());
         } catch (Exception $e) {
             if ($this->checkCache) {
                 $this->context->setResponse($mainResponse);

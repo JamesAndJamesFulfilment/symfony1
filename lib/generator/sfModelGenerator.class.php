@@ -40,7 +40,7 @@ abstract class sfModelGenerator extends sfGenerator
 
         // generated module name
         $this->setModuleName($this->params['moduleName']);
-        $this->setGeneratedModuleName('auto' . ucfirst($this->params['moduleName']));
+        $this->setGeneratedModuleName('auto'.ucfirst($this->params['moduleName']));
 
         // theme exists?
         $theme = isset($this->params['theme']) ? $this->params['theme'] : 'default';
@@ -59,11 +59,11 @@ abstract class sfModelGenerator extends sfGenerator
         $this->generatePhpFiles($this->generatedModuleName, sfFinder::type('file')->relative()->in($themeDir));
 
         // move helper file
-        if (file_exists($file = $this->generatorManager->getBasePath() . '/' . $this->getGeneratedModuleName() . '/lib/helper.php')) {
-            @rename($file, $this->generatorManager->getBasePath() . '/' . $this->getGeneratedModuleName() . '/lib/Base' . ucfirst($this->moduleName) . 'GeneratorHelper.class.php');
+        if (file_exists($file = $this->generatorManager->getBasePath().'/'.$this->getGeneratedModuleName().'/lib/helper.php')) {
+            @rename($file, $this->generatorManager->getBasePath().'/'.$this->getGeneratedModuleName().'/lib/Base'.ucfirst($this->moduleName).'GeneratorHelper.class.php');
         }
 
-        return "require_once(sfConfig::get('sf_module_cache_dir').'/" . $this->generatedModuleName . "/actions/actions.class.php');";
+        return "require_once(sfConfig::get('sf_module_cache_dir').'/".$this->generatedModuleName."/actions/actions.class.php');";
     }
 
     /**
@@ -115,7 +115,7 @@ abstract class sfModelGenerator extends sfGenerator
      */
     public function getPluralName()
     {
-        return isset($this->params['plural']) ? $this->params['plural'] : $this->getSingularName() . '_list';
+        return isset($this->params['plural']) ? $this->params['plural'] : $this->getSingularName().'_list';
     }
 
     /**
@@ -142,7 +142,7 @@ abstract class sfModelGenerator extends sfGenerator
             $params[] = sprintf("\$request->getParameter('%s')", sfInflector::underscore($pk));
         }
 
-        return implode(",\n" . str_repeat(' ', max(0, $indent - strlen($this->getSingularName() . $this->modelClass))), $params);
+        return implode(",\n".str_repeat(' ', max(0, $indent - strlen($this->getSingularName().$this->modelClass))), $params);
     }
 
     /**
@@ -199,11 +199,11 @@ abstract class sfModelGenerator extends sfGenerator
      */
     public function getLinkToAction($actionName, $params, $pk_link = false)
     {
-        $action = isset($params['action']) ? $params['action'] : 'List' . sfInflector::camelize($actionName);
+        $action = isset($params['action']) ? $params['action'] : 'List'.sfInflector::camelize($actionName);
 
-        $url_params = $pk_link ? '?' . $this->getPrimaryKeyUrlParams() : '\'';
+        $url_params = $pk_link ? '?'.$this->getPrimaryKeyUrlParams() : '\'';
 
-        return '[?php echo link_to(__(\'' . $params['label'] . '\', array(), \'' . $this->getI18nCatalogue() . '\'), \'' . $this->getModuleName() . '/' . $action . $url_params . ', ' . $this->asPhp($params['params']) . ') ?]';
+        return '[?php echo link_to(__(\''.$params['label'].'\', array(), \''.$this->getI18nCatalogue().'\'), \''.$this->getModuleName().'/'.$action.$url_params.', '.$this->asPhp($params['params']).') ?]';
     }
 
     /**
@@ -283,7 +283,7 @@ EOF;
 
         $vars = [];
         foreach ($this->configuration->getContextConfiguration($context, $fields) as $field) {
-            $vars[] = '\'%%' . $field->getName() . '%%\' => ' . $this->renderField($field);
+            $vars[] = '\'%%'.$field->getName().'%%\' => '.$this->renderField($field);
         }
 
         return sprintf("__('%s', array(%s), '%s')", $value, implode(', ', $vars), $this->getI18nCatalogue());
@@ -297,7 +297,7 @@ EOF;
     public function getFormObject()
     {
         if (null === $this->formObject) {
-            $class = null === $this->configuration ? $this->getModelClass() . 'Form' : $this->configuration->getFormClass();
+            $class = null === $this->configuration ? $this->getModelClass().'Form' : $this->configuration->getFormClass();
 
             $this->formObject = new $class();
         }
@@ -329,10 +329,10 @@ EOF;
     public function getUrlForAction($action)
     {
         if (isset($this->params['route_prefix'])) {
-            return 'list' == $action ? $this->params['route_prefix'] : $this->params['route_prefix'] . '_' . $action;
+            return 'list' == $action ? $this->params['route_prefix'] : $this->params['route_prefix'].'_'.$action;
         }
 
-        return $this->getModuleName() . '/' . $action;
+        return $this->getModuleName().'/'.$action;
     }
 
     public function asPhp($variable)
@@ -392,19 +392,19 @@ EOF;
             throw new LogicException('The sfModelGenerator can only operates with an application configuration.');
         }
 
-        $basePath = $this->getGeneratedModuleName() . '/lib/Base' . ucfirst($this->getModuleName()) . 'GeneratorConfiguration.class.php';
+        $basePath = $this->getGeneratedModuleName().'/lib/Base'.ucfirst($this->getModuleName()).'GeneratorConfiguration.class.php';
         $this->getGeneratorManager()->save($basePath, $this->evalTemplate('../parts/configuration.php'));
 
-        require_once $this->getGeneratorManager()->getBasePath() . '/' . $basePath;
+        require_once $this->getGeneratorManager()->getBasePath().'/'.$basePath;
 
-        $class = 'Base' . ucfirst($this->getModuleName()) . 'GeneratorConfiguration';
+        $class = 'Base'.ucfirst($this->getModuleName()).'GeneratorConfiguration';
         foreach ($config->getLibDirs($this->getModuleName()) as $dir) {
-            if (!is_file($configuration = $dir . '/' . $this->getModuleName() . 'GeneratorConfiguration.class.php')) {
+            if (!is_file($configuration = $dir.'/'.$this->getModuleName().'GeneratorConfiguration.class.php')) {
                 continue;
             }
 
             require_once $configuration;
-            $class = $this->getModuleName() . 'GeneratorConfiguration';
+            $class = $this->getModuleName().'GeneratorConfiguration';
 
             break;
         }

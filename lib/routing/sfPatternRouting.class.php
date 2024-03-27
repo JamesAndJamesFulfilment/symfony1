@@ -17,7 +17,7 @@
  */
 class sfPatternRouting extends sfRouting
 {
-    /** @var null|string */
+    /** @var string|null */
     protected $currentRouteName;
     protected $currentInternalUri = [];
 
@@ -43,7 +43,7 @@ class sfPatternRouting extends sfRouting
      *
      * @see sfRouting
      */
-    public function initialize(sfEventDispatcher $dispatcher, ?sfCache $cache = null, $options = [])
+    public function initialize(sfEventDispatcher $dispatcher, sfCache $cache = null, $options = [])
     {
         $options = array_merge([
             'variable_prefixes' => [':'],
@@ -317,7 +317,7 @@ class sfPatternRouting extends sfRouting
         } else {
             // find a matching route
             if (false === $route = $this->getRouteThatMatchesParameters($params)) {
-                throw new sfConfigurationException(sprintf('Unable to find a matching route to generate url for params "%s".', is_object($params) ? 'Object(' . get_class($params) . ')' : str_replace("\n", '', var_export($params, true))));
+                throw new sfConfigurationException(sprintf('Unable to find a matching route to generate url for params "%s".', is_object($params) ? 'Object('.get_class($params).')' : str_replace("\n", '', var_export($params, true))));
             }
         }
 
@@ -440,7 +440,7 @@ class sfPatternRouting extends sfRouting
 
     protected function getGenerateCacheKey($name, $params)
     {
-        return 'generate_' . $name . '_' . md5(serialize(array_merge($this->defaultParameters, $params))) . '_' . md5(serialize($this->options['context']));
+        return 'generate_'.$name.'_'.md5(serialize(array_merge($this->defaultParameters, $params))).'_'.md5(serialize($this->options['context']));
     }
 
     protected function updateCurrentInternalUri($name, array $parameters)
@@ -448,25 +448,25 @@ class sfPatternRouting extends sfRouting
         // store the route name
         $this->currentRouteName = $name;
 
-        $internalUri = ['@' . $this->currentRouteName, $parameters['module'] . '/' . $parameters['action']];
+        $internalUri = ['@'.$this->currentRouteName, $parameters['module'].'/'.$parameters['action']];
         unset($parameters['module'], $parameters['action']);
 
         $params = [];
         foreach ($parameters as $key => $value) {
-            $params[] = $key . '=' . $value;
+            $params[] = $key.'='.$value;
         }
 
         // sort to guaranty unicity
         sort($params);
 
-        $params = $params ? '?' . implode('&', $params) : '';
+        $params = $params ? '?'.implode('&', $params) : '';
 
-        $this->currentInternalUri = [$internalUri[0] . $params, $internalUri[1] . $params];
+        $this->currentInternalUri = [$internalUri[0].$params, $internalUri[1].$params];
     }
 
     protected function getParseCacheKey($url)
     {
-        return 'parse_' . $url . '_' . md5(serialize($this->options['context']));
+        return 'parse_'.$url.'_'.md5(serialize($this->options['context']));
     }
 
     protected function getRouteThatMatchesUrl($url)
@@ -501,7 +501,7 @@ class sfPatternRouting extends sfRouting
     {
         // an URL should start with a '/', mod_rewrite doesn't respect that, but no-mod_rewrite version does.
         if ('/' != substr($url, 0, 1)) {
-            $url = '/' . $url;
+            $url = '/'.$url;
         }
 
         // we remove the query string

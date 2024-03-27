@@ -98,7 +98,7 @@ class sfNumberFormatInfo
      */
     public function __get($name)
     {
-        $getProperty = 'get' . $name;
+        $getProperty = 'get'.$name;
         if (in_array($getProperty, $this->properties)) {
             return $this->{$getProperty}();
         }
@@ -112,7 +112,7 @@ class sfNumberFormatInfo
      */
     public function __set($name, $value)
     {
-        $setProperty = 'set' . $name;
+        $setProperty = 'set'.$name;
         if (in_array($setProperty, $this->properties)) {
             $this->{$setProperty}($value);
         } else {
@@ -135,9 +135,9 @@ class sfNumberFormatInfo
             $this->pattern = $this->parsePattern($type);
         }
 
-        $this->pattern['negInfty'] = $this->data['NumberElements'][6] . $this->data['NumberElements'][9];
+        $this->pattern['negInfty'] = $this->data['NumberElements'][6].$this->data['NumberElements'][9];
 
-        $this->pattern['posInfty'] = $this->data['NumberElements'][11] . $this->data['NumberElements'][9];
+        $this->pattern['posInfty'] = $this->data['NumberElements'][11].$this->data['NumberElements'][9];
     }
 
     public function getPattern()
@@ -613,7 +613,7 @@ class sfNumberFormatInfo
             // use the positive prefix and postfix and add the NegativeSign
             // http://www.unicode.org/reports/tr35/tr35-15.html#Number_Format_Patterns
             // If there is no explicit negative subpattern, the negative subpattern is the localized minus sign prefixed to the positive subpattern.
-            $info['negPref'] = $this->getNegativeSign() . $info['posPref'];
+            $info['negPref'] = $this->getNegativeSign().$info['posPref'];
             $info['negPost'] = $info['posPost'];
         }
 

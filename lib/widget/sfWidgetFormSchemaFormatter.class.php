@@ -291,7 +291,7 @@ abstract class sfWidgetFormSchemaFormatter
 
         foreach ($errors as $name => $error) {
             if ($error instanceof ArrayAccess || is_array($error)) {
-                $newErrors = array_merge($newErrors, $this->unnestErrors($error, ($prefix ? $prefix . ' > ' : '') . $name));
+                $newErrors = array_merge($newErrors, $this->unnestErrors($error, ($prefix ? $prefix.' > ' : '').$name));
             } else {
                 if ($error instanceof sfValidatorError) {
                     $err = $this->translate($error->getMessageFormat(), $error->getArguments());
@@ -300,7 +300,7 @@ abstract class sfWidgetFormSchemaFormatter
                 }
 
                 if (!is_int($name)) {
-                    $newErrors[] = strtr($this->getNamedErrorRowFormatInARow(), ['%error%' => $err, '%name%' => ($prefix ? $prefix . ' > ' : '') . $name]);
+                    $newErrors[] = strtr($this->getNamedErrorRowFormatInARow(), ['%error%' => $err, '%name%' => ($prefix ? $prefix.' > ' : '').$name]);
                 } else {
                     $newErrors[] = strtr($this->getErrorRowFormatInARow(), ['%error%' => $err]);
                 }

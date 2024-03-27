@@ -9,7 +9,7 @@
  */
 
 $app = 'frontend';
-if (!include __DIR__ . '/../bootstrap/functional.php') {
+if (!include __DIR__.'/../bootstrap/functional.php') {
     return;
 }
 
@@ -41,5 +41,4 @@ $b->get('/escaping/off')
     ->isStatusCode(200)
     ->matches('#<h1>Lorem <strong>ipsum</strong> dolor sit amet.</h1>#')
     ->matches('#<h2>Lorem <strong>ipsum</strong> dolor sit amet.</h2>#')
-    ->end()
-;
+    ->end();

@@ -228,7 +228,7 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
         $name = $this->getFormFormatterName();
 
         if (!isset($this->formFormatters[$name])) {
-            $class = 'sfWidgetFormSchemaFormatter' . ucfirst($name);
+            $class = 'sfWidgetFormSchemaFormatter'.ucfirst($name);
 
             if (!class_exists($class)) {
                 throw new InvalidArgumentException(sprintf('The form formatter "%s" does not exist.', $name));
@@ -552,7 +552,7 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
             $rows[0] = implode("\n", $hiddenRows);
         }
 
-        return $formFormat->formatErrorRow($this->getGlobalErrors($errors)) . implode('', $rows);
+        return $formFormat->formatErrorRow($this->getGlobalErrors($errors)).implode('', $rows);
     }
 
     /**
@@ -630,7 +630,7 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
      *
      * @param string $name The field name
      *
-     * @return null|sfWidget The sfWidget instance associated with the given name, null if it does not exist
+     * @return sfWidget|null The sfWidget instance associated with the given name, null if it does not exist
      */
     #[ReturnTypeWillChange]
     public function offsetGet($name)
@@ -661,7 +661,7 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
         $this->fields[$name]->setParent($this);
 
         if ($widget instanceof sfWidgetFormSchema) {
-            $this->fields[$name]->setNameFormat($name . '[%s]');
+            $this->fields[$name]->setNameFormat($name.'[%s]');
         }
     }
 
@@ -720,11 +720,11 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
         $current = array_keys($this->fields);
 
         if ($diff = array_diff($positions, $current)) {
-            throw new InvalidArgumentException('Widget schema does not include the following field(s): ' . implode(', ', $diff));
+            throw new InvalidArgumentException('Widget schema does not include the following field(s): '.implode(', ', $diff));
         }
 
         if ($diff = array_diff($current, $positions)) {
-            throw new InvalidArgumentException('Positions array must include all fields. Missing: ' . implode(', ', $diff));
+            throw new InvalidArgumentException('Positions array must include all fields. Missing: '.implode(', ', $diff));
         }
 
         foreach ($positions as &$position) {

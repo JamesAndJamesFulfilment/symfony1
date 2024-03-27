@@ -61,14 +61,14 @@ if (is_cli()) {
 
 // mandatory
 echo "\n** Mandatory requirements **\n\n";
-check(PHP_VERSION_ID >= 70400, sprintf('PHP version is at least 7.4.0 (%s)', PHP_VERSION), 'Current version is ' . PHP_VERSION, true);
+check(PHP_VERSION_ID >= 70400, sprintf('PHP version is at least 7.4.0 (%s)', PHP_VERSION), 'Current version is '.PHP_VERSION, true);
 
 // warnings
 echo "\n** Optional checks **\n\n";
 check(class_exists('PDO'), 'PDO is installed', 'Install PDO (mandatory for Doctrine)', false);
 if (class_exists('PDO')) {
     $drivers = PDO::getAvailableDrivers();
-    check(count($drivers), 'PDO has some drivers installed: ' . implode(', ', $drivers), 'Install PDO drivers (mandatory for Doctrine)');
+    check(count($drivers), 'PDO has some drivers installed: '.implode(', ', $drivers), 'Install PDO drivers (mandatory for Doctrine)');
 }
 check(function_exists('token_get_all'), 'The token_get_all() function is available', 'Install and enable the Tokenizer extension (highly recommended)', false);
 check(function_exists('mb_strlen'), 'The mb_strlen() function is available', 'Install and enable the mbstring extension', false);

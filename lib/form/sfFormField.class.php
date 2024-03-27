@@ -20,7 +20,7 @@ class sfFormField
     /** @var sfWidgetForm */
     protected $widget;
 
-    /** @var null|sfFormField */
+    /** @var sfFormField|null */
     protected $parent;
 
     /** @var string */
@@ -29,7 +29,7 @@ class sfFormField
     /** @var string */
     protected $value;
 
-    /** @var null|sfValidatorError|sfValidatorErrorSchema */
+    /** @var sfValidatorError|sfValidatorErrorSchema|null */
     protected $error;
 
     /**
@@ -41,7 +41,7 @@ class sfFormField
      * @param string           $value  The field value
      * @param sfValidatorError $error  A sfValidatorError instance
      */
-    public function __construct(sfWidgetForm $widget, ?sfFormField $parent = null, $name, $value, ?sfValidatorError $error = null)
+    public function __construct(sfWidgetForm $widget, sfFormField $parent = null, $name, $value, sfValidatorError $error = null)
     {
         $this->widget = $widget;
         $this->parent = $parent;
@@ -63,7 +63,7 @@ class sfFormField
             self::setToStringException($e);
 
             // we return a simple Exception message in case the form framework is used out of symfony.
-            return 'Exception: ' . $e->getMessage();
+            return 'Exception: '.$e->getMessage();
         }
     }
 

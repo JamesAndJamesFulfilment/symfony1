@@ -187,7 +187,7 @@ class sfWebRequest extends sfRequest
             $uri = isset($pathArray['REQUEST_URI']) ? $pathArray['REQUEST_URI'] : '';
         }
 
-        return $this->isAbsUri() ? $uri : $this->getUriPrefix() . $uri;
+        return $this->isAbsUri() ? $uri : $this->getUriPrefix().$uri;
     }
 
     /**
@@ -219,7 +219,7 @@ class sfWebRequest extends sfRequest
         // extract port from host or environment variable
         if (false !== strpos($host, ':')) {
             list($host, $port) = explode(':', $host, 2);
-        } elseif ($protocolPort = $this->getOption($protocol . '_port')) {
+        } elseif ($protocolPort = $this->getOption($protocol.'_port')) {
             $port = $protocolPort;
         } elseif (isset($pathArray['SERVER_PORT'])) {
             $port = $pathArray['SERVER_PORT'];
@@ -233,7 +233,7 @@ class sfWebRequest extends sfRequest
             $port = null;
         }
 
-        return sprintf('%s://%s%s', $protocol, $host, $port ? ':' . $port : '');
+        return sprintf('%s://%s%s', $protocol, $host, $port ? ':'.$port : '');
     }
 
     /**
@@ -254,16 +254,16 @@ class sfWebRequest extends sfRequest
                 $qs = isset($pathArray['QUERY_STRING']) ? $pathArray['QUERY_STRING'] : '';
                 $script_name = $this->getScriptName();
                 $uri_prefix = $this->isAbsUri() ? $this->getUriPrefix() : '';
-                $pathInfo = preg_replace('/^' . preg_quote($uri_prefix, '/') . '/', '', $pathArray['REQUEST_URI']);
-                $pathInfo = preg_replace('/^' . preg_quote($script_name, '/') . '/', '', $pathInfo);
+                $pathInfo = preg_replace('/^'.preg_quote($uri_prefix, '/').'/', '', $pathArray['REQUEST_URI']);
+                $pathInfo = preg_replace('/^'.preg_quote($script_name, '/').'/', '', $pathInfo);
                 $prefix_name = preg_replace('#/[^/]+$#', '', $script_name);
-                $pathInfo = preg_replace('/^' . preg_quote($prefix_name, '/') . '/', '', $pathInfo);
-                $pathInfo = preg_replace('/\??' . preg_quote($qs, '/') . '$/', '', $pathInfo);
+                $pathInfo = preg_replace('/^'.preg_quote($prefix_name, '/').'/', '', $pathInfo);
+                $pathInfo = preg_replace('/\??'.preg_quote($qs, '/').'$/', '', $pathInfo);
             }
         } else {
             $pathInfo = $pathArray[$sf_path_info_key];
             if ($relativeUrlRoot = $this->getRelativeUrlRoot()) {
-                $pathInfo = preg_replace('/^' . str_replace('/', '\\/', $relativeUrlRoot) . '\//', '', $pathInfo);
+                $pathInfo = preg_replace('/^'.str_replace('/', '\\/', $relativeUrlRoot).'\//', '', $pathInfo);
             }
         }
 
@@ -290,7 +290,7 @@ class sfWebRequest extends sfRequest
 
         if (!$this->getOption('no_script_name')) {
             $scriptName = $this->getScriptName();
-            $prefix = null === $prefix ? $scriptName : $prefix . '/' . basename($scriptName);
+            $prefix = null === $prefix ? $scriptName : $prefix.'/'.basename($scriptName);
         }
 
         return $prefix;
@@ -399,7 +399,7 @@ class sfWebRequest extends sfRequest
      *
      * @return string The preferred culture
      */
-    public function getPreferredCulture(?array $cultures = null)
+    public function getPreferredCulture(array $cultures = null)
     {
         $preferredCultures = $this->getLanguages();
 
@@ -447,7 +447,7 @@ class sfWebRequest extends sfRequest
                         if (0 == $i) {
                             $lang = strtolower($codes[0]);
                         } else {
-                            $lang .= '_' . strtoupper($codes[$i]);
+                            $lang .= '_'.strtoupper($codes[$i]);
                         }
                     }
                 }
@@ -523,10 +523,10 @@ class sfWebRequest extends sfRequest
     public function getHttpHeader($name, $prefix = 'http')
     {
         if ($prefix) {
-            $prefix = strtoupper($prefix) . '_';
+            $prefix = strtoupper($prefix).'_';
         }
 
-        $name = $prefix . strtoupper(str_replace('-', '_', $name));
+        $name = $prefix.strtoupper(str_replace('-', '_', $name));
 
         $pathArray = $this->getPathInfoArray();
 
@@ -832,7 +832,7 @@ class sfWebRequest extends sfRequest
      * This method returns null if no proxy passed this request. Note that some proxies
      * do not use this header, and act as if they were the client.
      *
-     * @return null|string an array of IP from the client and the proxies that passed
+     * @return string|null an array of IP from the client and the proxies that passed
      *                     the request, or null if no proxy was used
      */
     public function getForwardedFor()

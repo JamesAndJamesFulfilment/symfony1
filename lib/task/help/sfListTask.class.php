@@ -62,7 +62,7 @@ EOF;
             }
 
             if (!$task->getNamespace()) {
-                $name = '_default:' . $name;
+                $name = '_default:'.$name;
             }
 
             $tasks[$name] = $task;
@@ -104,9 +104,9 @@ EOF;
                 $messages[] = $this->formatter->format($task->getNamespace(), 'COMMENT');
             }
 
-            $aliases = $task->getAliases() ? $this->formatter->format(' (' . implode(', ', $task->getAliases()) . ')', 'COMMENT') : '';
+            $aliases = $task->getAliases() ? $this->formatter->format(' ('.implode(', ', $task->getAliases()).')', 'COMMENT') : '';
 
-            $messages[] = sprintf("  %-{$width}s %s%s", $this->formatter->format(':' . $task->getName(), 'INFO'), $task->getBriefDescription(), $aliases);
+            $messages[] = sprintf("  %-{$width}s %s%s", $this->formatter->format(':'.$task->getName(), 'INFO'), $task->getBriefDescription(), $aliases);
         }
 
         $this->log($messages);

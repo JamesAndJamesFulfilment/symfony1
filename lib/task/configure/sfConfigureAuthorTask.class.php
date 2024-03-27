@@ -45,7 +45,7 @@ EOF;
      */
     protected function execute($arguments = [], $options = [])
     {
-        $file = sfConfig::get('sf_config_dir') . '/properties.ini';
+        $file = sfConfig::get('sf_config_dir').'/properties.ini';
         $content = parse_ini_file($file, true);
 
         if (!isset($content['symfony'])) {

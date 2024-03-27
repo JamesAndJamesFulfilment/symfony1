@@ -141,7 +141,7 @@ abstract class sfGenerator
     protected function generatePhpFiles($generatedModuleName, $files = [])
     {
         foreach ($files as $file) {
-            $this->getGeneratorManager()->save($generatedModuleName . '/' . $file, $this->evalTemplate($file));
+            $this->getGeneratorManager()->save($generatedModuleName.'/'.$file, $this->evalTemplate($file));
         }
     }
 

@@ -26,7 +26,7 @@ class sfSymfonyCommandApplication extends sfCommandApplication
             throw new sfInitializationException('You must pass a "symfony_lib_dir" option.');
         }
 
-        $configurationFile = getcwd() . '/config/ProjectConfiguration.class.php';
+        $configurationFile = getcwd().'/config/ProjectConfiguration.class.php';
         if (is_readable($configurationFile)) {
             require_once $configurationFile;
             $configuration = new ProjectConfiguration(getcwd(), $this->dispatcher);
@@ -81,17 +81,17 @@ class sfSymfonyCommandApplication extends sfCommandApplication
     public function loadTasks(sfProjectConfiguration $configuration)
     {
         // Symfony core tasks
-        $dirs = [sfConfig::get('sf_symfony_lib_dir') . '/task'];
+        $dirs = [sfConfig::get('sf_symfony_lib_dir').'/task'];
 
         // Plugin tasks
         foreach ($configuration->getPluginPaths() as $path) {
-            if (is_dir($taskPath = $path . '/lib/task')) {
+            if (is_dir($taskPath = $path.'/lib/task')) {
                 $dirs[] = $taskPath;
             }
         }
 
         // project tasks
-        $dirs[] = sfConfig::get('sf_lib_dir') . '/task';
+        $dirs[] = sfConfig::get('sf_lib_dir').'/task';
 
         $finder = sfFinder::type('file')->name('*Task.class.php');
         foreach ($finder->in($dirs) as $file) {
@@ -134,6 +134,6 @@ class sfSymfonyCommandApplication extends sfCommandApplication
      */
     public function getLongVersion()
     {
-        return sprintf('%s version %s (%s)', $this->getName(), $this->formatter->format($this->getVersion(), 'INFO'), sfConfig::get('sf_symfony_lib_dir')) . "\n";
+        return sprintf('%s version %s (%s)', $this->getName(), $this->formatter->format($this->getVersion(), 'INFO'), sfConfig::get('sf_symfony_lib_dir'))."\n";
     }
 }

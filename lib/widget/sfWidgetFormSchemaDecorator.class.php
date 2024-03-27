@@ -148,6 +148,8 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
 
     /**
      * @see sfWidgetFormSchema
+     *
+     * @param mixed|null $value
      */
     public function setLabel($name, $value = null)
     {
@@ -162,6 +164,8 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
 
     /**
      * @see sfWidgetFormSchema
+     *
+     * @param mixed|null $name
      */
     public function getLabel($name = null)
     {
@@ -234,6 +238,8 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
 
     /**
      * @see sfWidgetFormSchema
+     *
+     * @param mixed|null $value
      */
     public function renderField($name, $value = null, $attributes = [], $errors = [])
     {
@@ -275,7 +281,7 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
     /**
      * @see sfWidgetFormSchema
      */
-    public function setParent(?sfWidgetFormSchema $parent = null)
+    public function setParent(sfWidgetFormSchema $parent = null)
     {
         $this->widget->setParent($parent);
 
@@ -311,7 +317,7 @@ class sfWidgetFormSchemaDecorator extends sfWidgetFormSchema
     /**
      * @see sfWidgetFormSchema
      *
-     * @param null|mixed $pivot
+     * @param mixed|null $pivot
      */
     public function moveField($field, $action, $pivot = null)
     {

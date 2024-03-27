@@ -45,8 +45,8 @@ abstract class sfMessageSource_Database extends sfMessageSource
 
         for ($i = 0, $max = count($variants); $i < $max; ++$i) {
             if (strlen($variants[$i]) > 0) {
-                $variant .= $variant ? '_' . $variants[$i] : $variants[$i];
-                $catalogues[] = $catalogue . '.' . $variant;
+                $variant .= $variant ? '_'.$variants[$i] : $variants[$i];
+                $catalogues[] = $catalogue.'.'.$variant;
             }
         }
 

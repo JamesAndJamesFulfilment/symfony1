@@ -46,12 +46,12 @@ function link_to1($name, $internal_uri, $options = [])
     $html_options['href'] = url_for($internal_uri, $absolute);
 
     if (isset($html_options['query_string'])) {
-        $html_options['href'] .= '?' . $html_options['query_string'];
+        $html_options['href'] .= '?'.$html_options['query_string'];
         unset($html_options['query_string']);
     }
 
     if (isset($html_options['anchor'])) {
-        $html_options['href'] .= '#' . $html_options['anchor'];
+        $html_options['href'] .= '#'.$html_options['anchor'];
         unset($html_options['anchor']);
     }
 
@@ -289,16 +289,16 @@ function public_path($path, $absolute = false)
         if ($request->isSecure()) {
             $source .= 's';
         }
-        $source .= '://' . $request->getHost() . $root;
+        $source .= '://'.$request->getHost().$root;
     } else {
         $source = $root;
     }
 
     if ('/' != substr($path, 0, 1)) {
-        $path = '/' . $path;
+        $path = '/'.$path;
     }
 
-    return $source . $path;
+    return $source.$path;
 }
 
 /**
@@ -341,26 +341,26 @@ function button_to($name, $internal_uri, $options = [])
         unset($html_options['post']);
         $html_options = _convert_options_to_javascript($html_options);
 
-        return form_tag($internal_uri, ['method' => 'post', 'class' => 'button_to']) . content_tag('div', tag('input', $html_options)) . '</form>';
+        return form_tag($internal_uri, ['method' => 'post', 'class' => 'button_to']).content_tag('div', tag('input', $html_options)).'</form>';
     }
 
     $url = url_for($internal_uri);
     if (isset($html_options['query_string'])) {
-        $url = $url . '?' . $html_options['query_string'];
+        $url = $url.'?'.$html_options['query_string'];
         unset($html_options['query_string']);
     }
     if (isset($html_options['anchor'])) {
-        $url = $url . '#' . $html_options['anchor'];
+        $url = $url.'#'.$html_options['anchor'];
         unset($html_options['anchor']);
     }
-    $url = "'" . $url . "'";
+    $url = "'".$url."'";
     $html_options['type'] = 'button';
 
     if (isset($html_options['popup'])) {
         $html_options = _convert_options_to_javascript($html_options, $url);
         unset($html_options['popup']);
     } else {
-        $html_options['onclick'] = 'document.location.href=' . $url . ';';
+        $html_options['onclick'] = 'document.location.href='.$url.';';
         $html_options = _convert_options_to_javascript($html_options);
     }
 
@@ -406,7 +406,7 @@ function form_tag($url_for_options = '', $options = [])
         $html_options['method'] = 'post';
     }
 
-    return tag('form', $html_options, true) . $html;
+    return tag('form', $html_options, true).$html;
 }
 
 /**
@@ -449,18 +449,18 @@ function mail_to($email, $name = '', $options = [], $default_value = [])
     $default_tmp = _parse_attributes($default_value);
     $default = [];
     foreach ($default_tmp as $key => $value) {
-        $default[] = urlencode($key) . '=' . urlencode($value);
+        $default[] = urlencode($key).'='.urlencode($value);
     }
-    $options = count($default) ? '?' . implode('&', $default) : '';
+    $options = count($default) ? '?'.implode('&', $default) : '';
 
     if (isset($html_options['encode']) && $html_options['encode']) {
         unset($html_options['encode']);
-        $html_options['href'] = _encodeText('mailto:' . $email . $options);
+        $html_options['href'] = _encodeText('mailto:'.$email.$options);
         if (!$name) {
             $name = _encodeText($email);
         }
     } else {
-        $html_options['href'] = 'mailto:' . $email . $options;
+        $html_options['href'] = 'mailto:'.$email.$options;
         if (!$name) {
             $name = $email;
         }
@@ -489,19 +489,19 @@ function _convert_options_to_javascript($html_options, $url = 'this.href')
         throw new sfConfigurationException('You can\'t use "popup", "method" and "post" in the same link.');
     }
     if ($confirm && $popup) {
-        $html_options['onclick'] = $onclick . 'if (' . _confirm_javascript_function($confirm) . ') { ' . _popup_javascript_function($popup, $url) . ' };return false;';
+        $html_options['onclick'] = $onclick.'if ('._confirm_javascript_function($confirm).') { '._popup_javascript_function($popup, $url).' };return false;';
     } elseif ($confirm && $method) {
-        $html_options['onclick'] = $onclick . 'if (' . _confirm_javascript_function($confirm) . ') { ' . _method_javascript_function($method) . ' };return false;';
+        $html_options['onclick'] = $onclick.'if ('._confirm_javascript_function($confirm).') { '._method_javascript_function($method).' };return false;';
     } elseif ($confirm) {
         if ($onclick) {
-            $html_options['onclick'] = 'if (' . _confirm_javascript_function($confirm) . ') { return ' . $onclick . '} else return false;';
+            $html_options['onclick'] = 'if ('._confirm_javascript_function($confirm).') { return '.$onclick.'} else return false;';
         } else {
-            $html_options['onclick'] = 'return ' . _confirm_javascript_function($confirm) . ';';
+            $html_options['onclick'] = 'return '._confirm_javascript_function($confirm).';';
         }
     } elseif ($method) {
-        $html_options['onclick'] = $onclick . _method_javascript_function($method) . 'return false;';
+        $html_options['onclick'] = $onclick._method_javascript_function($method).'return false;';
     } elseif ($popup) {
-        $html_options['onclick'] = $onclick . _popup_javascript_function($popup, $url) . 'return false;';
+        $html_options['onclick'] = $onclick._popup_javascript_function($popup, $url).'return false;';
     }
 
     return $html_options;
@@ -509,20 +509,20 @@ function _convert_options_to_javascript($html_options, $url = 'this.href')
 
 function _confirm_javascript_function($confirm)
 {
-    return "confirm('" . escape_javascript($confirm) . "')";
+    return "confirm('".escape_javascript($confirm)."')";
 }
 
 function _popup_javascript_function($popup, $url = '')
 {
     if (is_array($popup)) {
         if (isset($popup[1])) {
-            return 'var w=window.open(' . $url . ",'" . $popup[0] . "','" . $popup[1] . "');w.focus();";
+            return 'var w=window.open('.$url.",'".$popup[0]."','".$popup[1]."');w.focus();";
         }
 
-        return 'var w=window.open(' . $url . ",'" . $popup[0] . "');w.focus();";
+        return 'var w=window.open('.$url.",'".$popup[0]."');w.focus();";
     }
 
-    return 'var w=window.open(' . $url . ');w.focus();';
+    return 'var w=window.open('.$url.');w.focus();';
 }
 
 function _post_javascript_function()
@@ -564,9 +564,9 @@ function _encodeText($text)
         if ($r > 90 && '@' != $char) {
             $encoded_text .= $char;
         } elseif ($r < 45) {
-            $encoded_text .= '&#x' . dechex(ord($char)) . ';';
+            $encoded_text .= '&#x'.dechex(ord($char)).';';
         } else {
-            $encoded_text .= '&#' . ord($char) . ';';
+            $encoded_text .= '&#'.ord($char).';';
         }
     }
 

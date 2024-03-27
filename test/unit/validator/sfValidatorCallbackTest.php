@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
 $t = new lime_test(7);
 
@@ -18,7 +18,7 @@ function clean_test($validator, $value, $arguments)
         throw new sfValidatorError($validator, 'must_be_foo');
     }
 
-    return "*{$value}*" . implode('-', $arguments);
+    return "*{$value}*".implode('-', $arguments);
 }
 
 // __construct()

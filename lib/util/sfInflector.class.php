@@ -66,7 +66,7 @@ class sfInflector
      */
     public static function foreign_key($class_name, $separate_with_underscore = true)
     {
-        return sfInflector::underscore(sfInflector::demodulize($class_name)) . ($separate_with_underscore ? '_id' : 'id');
+        return sfInflector::underscore(sfInflector::demodulize($class_name)).($separate_with_underscore ? '_id' : 'id');
     }
 
     /**

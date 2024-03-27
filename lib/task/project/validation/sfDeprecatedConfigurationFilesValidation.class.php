@@ -42,8 +42,8 @@ class sfDeprecatedConfigurationFilesValidation extends sfValidation
 
         // modules/*/validate/*.yml
         $files = sfFinder::type('file')->name('*.yml')->in(array_merge(
-            glob(sfConfig::get('sf_apps_dir') . '/*/modules/*/validate'),
-            glob(sfConfig::get('sf_plugins_dir') . '/*/modules/*/validate')
+            glob(sfConfig::get('sf_apps_dir').'/*/modules/*/validate'),
+            glob(sfConfig::get('sf_plugins_dir').'/*/modules/*/validate')
         ));
         foreach ($files as $file) {
             $found[$file] = true;

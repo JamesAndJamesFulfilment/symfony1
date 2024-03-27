@@ -20,7 +20,7 @@
  * @author      Michael Wallner <mike@php.net>
  * @license     PHP License
  */
-require_once __DIR__ . '/TGettext.class.php';
+require_once __DIR__.'/TGettext.class.php';
 
 /**
  * File_Gettext_PO.
@@ -66,7 +66,7 @@ class TGettext_PO extends TGettext
 
         // match all msgid/msgstr entries
         $matched = preg_match_all(
-            '/(msgid\s+("([^"]|\\\\")*?"\s*)+)\s+' .
+            '/(msgid\s+("([^"]|\\\\")*?"\s*)+)\s+'.
             '(msgstr\s+("([^"]|\\\\")*?"\s*)+)/',
             $contents,
             $matches
@@ -127,18 +127,18 @@ class TGettext_PO extends TGettext
         }
         // write meta info
         if (count($this->meta)) {
-            $meta = 'msgid ""' . "\nmsgstr " . '""' . "\n";
+            $meta = 'msgid ""'."\nmsgstr ".'""'."\n";
             foreach ($this->meta as $k => $v) {
-                $meta .= '"' . $k . ': ' . $v . '\n"' . "\n";
+                $meta .= '"'.$k.': '.$v.'\n"'."\n";
             }
-            fwrite($fh, $meta . "\n");
+            fwrite($fh, $meta."\n");
         }
         // write strings
         foreach ($this->strings as $o => $t) {
             fwrite(
                 $fh,
-                'msgid "' . parent::prepare($o, true) . '"' . "\n" .
-                'msgstr "' . parent::prepare($t, true) . '"' . "\n\n"
+                'msgid "'.parent::prepare($o, true).'"'."\n".
+                'msgstr "'.parent::prepare($t, true).'"'."\n\n"
             );
         }
 

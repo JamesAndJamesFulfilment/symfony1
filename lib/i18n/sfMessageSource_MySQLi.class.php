@@ -154,8 +154,7 @@ class sfMessageSource_MySQLi extends sfMessageSource_Database
     {
         $variant = mysqli_real_escape_string($this->db, $variant);
 
-        $statement =
-          "SELECT t.id, t.source, t.target, t.comments
+        $statement = "SELECT t.id, t.source, t.target, t.comments
         FROM trans_unit t, catalogue c
         WHERE c.cat_id =  t.cat_id
           AND c.name = '{$variant}'
@@ -163,7 +162,7 @@ class sfMessageSource_MySQLi extends sfMessageSource_Database
 
         $rs = mysqli_query($this->db, $statement);
 
-        $result = array();
+        $result = [];
 
         while ($row = mysqli_fetch_array($rs, MYSQLI_NUM)) {
             $source = $row[1];
@@ -318,7 +317,7 @@ class sfMessageSource_MySQLi extends sfMessageSource_Database
     {
         $statement = 'SELECT name FROM catalogue ORDER BY name';
         $rs = mysqli_query($this->db, $statement);
-        $result = array();
+        $result = [];
         while ($row = mysqli_fetch_array($rs, MYSQLI_NUM)) {
             $details = explode('.', $row[0]);
             if (!isset($details[1])) {
@@ -343,11 +342,11 @@ class sfMessageSource_MySQLi extends sfMessageSource_Database
         $dsninfo = $this->dsn;
 
         if (isset($dsninfo['protocol']) && 'unix' == $dsninfo['protocol']) {
-            $dbhost = ':' . $dsninfo['socket'];
+            $dbhost = ':'.$dsninfo['socket'];
         } else {
             $dbhost = $dsninfo['hostspec'] ?: 'localhost';
             if (!empty($dsninfo['port'])) {
-                $dbhost .= ':' . $dsninfo['port'];
+                $dbhost .= ':'.$dsninfo['port'];
             }
         }
         $user = $dsninfo['username'];
@@ -414,7 +413,7 @@ class sfMessageSource_MySQLi extends sfMessageSource_Database
             $catalogue = 'messages';
         }
 
-        $variant = $catalogue . '.' . $this->culture;
+        $variant = $catalogue.'.'.$this->culture;
 
         $name = mysqli_real_escape_string($this->db, $this->getSource($variant));
 
@@ -431,14 +430,11 @@ class sfMessageSource_MySQLi extends sfMessageSource_Database
 
         $count = (int) mysqli_fetch_row($rs)['count'];
 
-        return array($cat_id, $variant, $count);
+        return [$cat_id, $variant, $count];
     }
 
     /**
      * Updates the catalogue last modified time.
-     *
-     * @param mixed $cat_id
-     * @param mixed $variant
      *
      * @return bool true if updated, false otherwise
      */
@@ -449,7 +445,7 @@ class sfMessageSource_MySQLi extends sfMessageSource_Database
         $result = mysqli_query($this->db, "UPDATE catalogue SET date_modified = {$time} WHERE cat_id = {$cat_id}");
 
         if ($this->cache) {
-            $this->cache->remove($variant . ':' . $this->culture);
+            $this->cache->remove($variant.':'.$this->culture);
         }
 
         return $result;

@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
 class FormFormatterStub extends sfWidgetFormSchemaFormatter
 {
@@ -37,11 +37,11 @@ $output = '<ul class="checkbox_list">'.
 $t->is($w->render('foo', ['foobar']), $output, '->render() renders a checkbox tag with the value checked');
 
 // attributes
-$onChange = '<ul class="checkbox_list">' .
-'<li><input name="foo[]" type="checkbox" value="foo" id="foo_foo" onChange="alert(42)" />' .
-'&nbsp;<label for="foo_foo">bar</label></li>' .
-'<li><input name="foo[]" type="checkbox" value="foobar" id="foo_foobar" checked="checked" onChange="alert(42)" />' .
-'&nbsp;<label for="foo_foobar">foo</label></li>' .
+$onChange = '<ul class="checkbox_list">'.
+'<li><input name="foo[]" type="checkbox" value="foo" id="foo_foo" onChange="alert(42)" />'.
+'&nbsp;<label for="foo_foo">bar</label></li>'.
+'<li><input name="foo[]" type="checkbox" value="foobar" id="foo_foobar" checked="checked" onChange="alert(42)" />'.
+'&nbsp;<label for="foo_foobar">foo</label></li>'.
 '</ul>';
 $t->is($w->render('foo', ['foobar'], ['onChange' => 'alert(42)']), $onChange, '->render() renders a checkbox tag using extra attributes');
 
@@ -106,9 +106,9 @@ $ws->addFormFormatter('stub', new FormFormatterStub());
 $ws->setFormFormatterName('stub');
 $w = new sfWidgetFormSelectCheckbox(['choices' => ['foo' => 'bar', 'foobar' => 'foo'], 'separator' => '']);
 $w->setParent($ws);
-$output = '<ul class="checkbox_list">' .
-'<li><input name="foo[]" type="checkbox" value="foo" id="foo_foo" />&nbsp;<label for="foo_foo">translation[bar]</label></li>' .
-'<li><input name="foo[]" type="checkbox" value="foobar" id="foo_foobar" />&nbsp;<label for="foo_foobar">translation[foo]</label></li>' .
+$output = '<ul class="checkbox_list">'.
+'<li><input name="foo[]" type="checkbox" value="foo" id="foo_foo" />&nbsp;<label for="foo_foo">translation[bar]</label></li>'.
+'<li><input name="foo[]" type="checkbox" value="foobar" id="foo_foobar" />&nbsp;<label for="foo_foobar">translation[foo]</label></li>'.
 '</ul>';
 $t->is($w->render('foo'), $output, '->render() translates the options');
 

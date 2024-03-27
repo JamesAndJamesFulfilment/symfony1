@@ -187,7 +187,7 @@ class sfSimpleAutoload
      */
     public function addDirectory($dir, $ext = '.php')
     {
-        $finder = sfFinder::type('file')->follow_link()->name('*' . $ext);
+        $finder = sfFinder::type('file')->follow_link()->name('*'.$ext);
 
         if ($dirs = glob($dir)) {
             foreach ($dirs as $dir) {
@@ -273,7 +273,7 @@ class sfSimpleAutoload
      *
      * @param string $class A PHP class name
      *
-     * @return null|string An absolute path
+     * @return string|null An absolute path
      */
     public function getClassPath($class)
     {

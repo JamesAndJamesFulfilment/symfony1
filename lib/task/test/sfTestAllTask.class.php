@@ -73,7 +73,7 @@ EOF;
      */
     protected function execute($arguments = [], $options = [])
     {
-        require_once __DIR__ . '/sfLimeHarness.class.php';
+        require_once __DIR__.'/sfLimeHarness.class.php';
 
         $h = new sfLimeHarness([
             'force_colors' => isset($options['color']) && $options['color'],
@@ -84,7 +84,7 @@ EOF;
         $h->base_dir = sfConfig::get('sf_test_dir');
 
         $status = false;
-        $statusFile = sfConfig::get('sf_cache_dir') . '/.test_all_status';
+        $statusFile = sfConfig::get('sf_cache_dir').'/.test_all_status';
         if ($options['only-failed']) {
             if (file_exists($statusFile)) {
                 $status = unserialize(file_get_contents($statusFile));

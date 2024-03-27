@@ -68,7 +68,7 @@ class sfWebDebugPanelView extends sfWebDebugPanel
     public function getTitle()
     {
         if (count($this->actions) || count($this->partials)) {
-            return '<img src="' . $this->webDebug->getOption('image_root_path') . '/view.png" alt="View Layer" /> view';
+            return '<img src="'.$this->webDebug->getOption('image_root_path').'/view.png" alt="View Layer" /> view';
         }
     }
 
@@ -103,7 +103,7 @@ class sfWebDebugPanelView extends sfWebDebugPanel
      *
      * @param string $class Name of the rendering view class
      *
-     * @return null|string
+     * @return string|null
      */
     protected function getLastTemplate($class = 'sfPHPView')
     {
@@ -136,13 +136,13 @@ class sfWebDebugPanelView extends sfWebDebugPanel
         ++$i;
 
         $html = [];
-        $html[] = sprintf('<h2>%s: %s %s</h2>', $label, $this->formatFileLink($file, null, $this->shortenTemplatePath($file)), $this->getToggler('sfWebDebugViewTemplate' . $i));
-        $html[] = '<div id="sfWebDebugViewTemplate' . $i . '" style="display:' . (1 == $i ? 'block' : 'none') . '">';
+        $html[] = sprintf('<h2>%s: %s %s</h2>', $label, $this->formatFileLink($file, null, $this->shortenTemplatePath($file)), $this->getToggler('sfWebDebugViewTemplate'.$i));
+        $html[] = '<div id="sfWebDebugViewTemplate'.$i.'" style="display:'.(1 == $i ? 'block' : 'none').'">';
         if (count($parameters)) {
             $html[] = '<p>Parameters:</p>';
             $html[] = '<ul>';
             foreach ($parameters as $name => $parameter) {
-                $presentation = '<li>' . $this->formatParameterAsHtml($name, $parameter) . '</li>';
+                $presentation = '<li>'.$this->formatParameterAsHtml($name, $parameter).'</li>';
                 $html[] = $this->webDebug->getEventDispatcher()->filter(new sfEvent($this, 'debug.web.view.filter_parameter_html', ['parameter' => $parameter]), $presentation)->getReturnValue();
             }
             $html[] = '</ul>';
@@ -163,7 +163,7 @@ class sfWebDebugPanelView extends sfWebDebugPanel
      */
     protected function formatParameterAsHtml($name, $parameter)
     {
-        if (!method_exists($this, $method = 'format' . ucwords(gettype($parameter)) . 'AsHtml')) {
+        if (!method_exists($this, $method = 'format'.ucwords(gettype($parameter)).'AsHtml')) {
             $method = 'getParameterDescription';
         }
 
@@ -206,14 +206,14 @@ class sfWebDebugPanelView extends sfWebDebugPanel
 
         $html = [];
         $html[] = $this->getParameterDescription($name, $form, $form->hasErrors() ? '<code class="sfWebDebugWarning">$%s</code>' : null);
-        $html[] = $this->getToggler('sfWebDebugViewForm' . $i);
-        $html[] = '<div id="sfWebDebugViewForm' . $i . '" style="display:none">';
+        $html[] = $this->getToggler('sfWebDebugViewForm'.$i);
+        $html[] = '<div id="sfWebDebugViewForm'.$i.'" style="display:none">';
 
         foreach ($form->getGlobalErrors() as $error) {
             $html[] = sprintf('<p><span class="sfWebDebugWarning">%s</span></p>', $error);
         }
 
-        $html[] = '<ul>' . $this->formatFormFieldSchemaAsHtml($form->getFormFieldSchema(), $name . '[%s]') . '</ul>';
+        $html[] = '<ul>'.$this->formatFormFieldSchemaAsHtml($form->getFormFieldSchema(), $name.'[%s]').'</ul>';
         $html[] = '</div>';
 
         return implode("\n", $html);
@@ -233,7 +233,7 @@ class sfWebDebugPanelView extends sfWebDebugPanel
         foreach ($fieldSchema as $field) {
             $name = sprintf($nameFormat, $this->varExport($field->getName()));
             if ($field instanceof sfFormFieldSchema) {
-                $html[] = $this->formatFormFieldSchemaAsHtml($field, $name . '[%s]');
+                $html[] = $this->formatFormFieldSchemaAsHtml($field, $name.'[%s]');
             } else {
                 $html[] = '<li>';
                 $html[] = $this->getParameterDescription($name, $field->getWidget());
@@ -253,8 +253,8 @@ class sfWebDebugPanelView extends sfWebDebugPanel
      * Formats information about a parameter as HTML.
      *
      * @param string     $name
-     * @param null|mixed $nameFormat
-     * @param null|mixed $typeFormat
+     * @param mixed|null $nameFormat
+     * @param mixed|null $typeFormat
      *
      * @return string
      */
@@ -268,7 +268,7 @@ class sfWebDebugPanelView extends sfWebDebugPanel
             $typeFormat = '<span class="sfWebDebugDataType">(%s)</span>';
         }
 
-        return sprintf($nameFormat . ' ' . $typeFormat, $name, is_object($parameter) ? $this->formatFileLink(get_class($parameter)) : gettype($parameter));
+        return sprintf($nameFormat.' '.$typeFormat, $name, is_object($parameter) ? $this->formatFileLink(get_class($parameter)) : gettype($parameter));
     }
 
     /**
@@ -284,11 +284,11 @@ class sfWebDebugPanelView extends sfWebDebugPanel
 
         // application module
         $sep = preg_quote(DIRECTORY_SEPARATOR);
-        if (preg_match('#modules' . $sep . '(\w+)' . $sep . 'templates' . $sep . '(.*)$#', $path, $match)) {
-            return $match[1] . '&nbsp;&hellip;&nbsp;' . $match[2];
+        if (preg_match('#modules'.$sep.'(\w+)'.$sep.'templates'.$sep.'(.*)$#', $path, $match)) {
+            return $match[1].'&nbsp;&hellip;&nbsp;'.$match[2];
         }
 
-        return str_replace('SF_ROOT_DIR' . DIRECTORY_SEPARATOR, '', sfDebug::shortenFilePath($path));
+        return str_replace('SF_ROOT_DIR'.DIRECTORY_SEPARATOR, '', sfDebug::shortenFilePath($path));
     }
 
     /**

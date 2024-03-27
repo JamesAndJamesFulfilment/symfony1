@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
-require_once $_test_dir . '/unit/sfContextMock.class.php';
+require_once $_test_dir.'/unit/sfContextMock.class.php';
 
 $t = new lime_test(21);
 

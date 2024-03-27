@@ -17,7 +17,7 @@ class sfWebDebugPanelConfig extends sfWebDebugPanel
 {
     public function getTitle()
     {
-        return '<img src="' . $this->webDebug->getOption('image_root_path') . '/config.png" alt="Config" /> config';
+        return '<img src="'.$this->webDebug->getOption('image_root_path').'/config.png" alt="Config" /> config';
     }
 
     public function getPanelTitle()
@@ -39,7 +39,7 @@ class sfWebDebugPanelConfig extends sfWebDebugPanel
 
         $html = '<ul id="sfWebDebugConfigSummary">';
         foreach ($config as $key => $value) {
-            $html .= '<li class="is' . $value . '">' . $key . '</li>';
+            $html .= '<li class="is'.$value.'">'.$key.'</li>';
         }
         $html .= '</ul>';
 
@@ -68,8 +68,8 @@ class sfWebDebugPanelConfig extends sfWebDebugPanel
         $id = ucfirst(strtolower($id));
 
         return '
-    <h2>' . $id . ' ' . $this->getToggler('sfWebDebug' . $id) . '</h2>
-    <div id="sfWebDebug' . $id . '" style="display: none"><pre>' . htmlspecialchars(sfYaml::dump(sfDebug::removeObjects($values)), ENT_QUOTES, sfConfig::get('sf_charset')) . '</pre></div>
+    <h2>'.$id.' '.$this->getToggler('sfWebDebug'.$id).'</h2>
+    <div id="sfWebDebug'.$id.'" style="display: none"><pre>'.htmlspecialchars(sfYaml::dump(sfDebug::removeObjects($values)), ENT_QUOTES, sfConfig::get('sf_charset')).'</pre></div>
     ';
     }
 }

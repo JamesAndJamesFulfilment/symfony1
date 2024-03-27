@@ -76,7 +76,7 @@ class sfValidatedFile
                 throw new RuntimeException('You must give a "path" when you give a relative file name.');
             }
 
-            $file = $this->path . DIRECTORY_SEPARATOR . $file;
+            $file = $this->path.DIRECTORY_SEPARATOR.$file;
         }
 
         // get our directory path from the destination filename
@@ -110,7 +110,7 @@ class sfValidatedFile
 
         $this->savedName = $file;
 
-        return null === $this->path ? $file : str_replace($this->path . DIRECTORY_SEPARATOR, '', $file);
+        return null === $this->path ? $file : str_replace($this->path.DIRECTORY_SEPARATOR, '', $file);
     }
 
     /**
@@ -120,7 +120,7 @@ class sfValidatedFile
      */
     public function generateFilename()
     {
-        return sha1($this->getOriginalName() . mt_rand(11111, 99999)) . $this->getExtension($this->getOriginalExtension());
+        return sha1($this->getOriginalName().mt_rand(11111, 99999)).$this->getExtension($this->getOriginalExtension());
     }
 
     /**
@@ -655,6 +655,6 @@ class sfValidatedFile
             'x-world/x-vrml' => 'wrl',
         ];
 
-        return !$type ? $default : (isset($extensions[$type]) ? '.' . $extensions[$type] : $default);
+        return !$type ? $default : (isset($extensions[$type]) ? '.'.$extensions[$type] : $default);
     }
 }

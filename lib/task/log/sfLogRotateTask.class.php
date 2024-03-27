@@ -34,7 +34,7 @@ class sfLogRotateTask extends sfBaseTask
      */
     public function rotate($app, $env, $period = null, $history = null, $override = false)
     {
-        $logfile = $app . '_' . $env;
+        $logfile = $app.'_'.$env;
         $logdir = sfConfig::get('sf_log_dir');
 
         // set history and period values if not passed to default values
@@ -45,30 +45,30 @@ class sfLogRotateTask extends sfBaseTask
         $today = date('Ymd');
 
         // check history folder exists
-        if (!is_dir($logdir . '/history')) {
-            $this->getFilesystem()->mkdirs($logdir . '/history');
+        if (!is_dir($logdir.'/history')) {
+            $this->getFilesystem()->mkdirs($logdir.'/history');
         }
 
         // determine date of last rotation
-        $logs = sfFinder::type('file')->maxdepth(1)->name($logfile . '_*.log')->sort_by_name()->in($logdir . '/history');
+        $logs = sfFinder::type('file')->maxdepth(1)->name($logfile.'_*.log')->sort_by_name()->in($logdir.'/history');
         $recentlog = is_array($logs) ? array_pop($logs) : null;
 
         if ($recentlog) {
             // calculate date to rotate logs on
             $lastRotatedOn = filemtime($recentlog);
-            $rotateOn = date('Ymd', strtotime('+ ' . $period . ' days', $lastRotatedOn));
+            $rotateOn = date('Ymd', strtotime('+ '.$period.' days', $lastRotatedOn));
         } else {
             // no rotation has occured yet
             $rotateOn = null;
         }
 
-        $srcLog = $logdir . '/' . $logfile . '.log';
-        $destLog = $logdir . '/history/' . $logfile . '_' . $today . '.log';
+        $srcLog = $logdir.'/'.$logfile.'.log';
+        $destLog = $logdir.'/history/'.$logfile.'_'.$today.'.log';
 
         // if rotate log on date doesn't exist, or that date is today, then rotate the log
         if (!$rotateOn || ($rotateOn == $today) || $override) {
             // create a lock file
-            $lockFile = sfConfig::get('sf_data_dir') . '/' . $app . '_' . $env . '-cli.lck';
+            $lockFile = sfConfig::get('sf_data_dir').'/'.$app.'_'.$env.'-cli.lck';
             $this->getFilesystem()->touch($lockFile);
 
             // change mode so the web user can remove it if we die
@@ -93,7 +93,7 @@ class sfLogRotateTask extends sfBaseTask
                 $this->getFilesystem()->remove($srcLog);
 
                 // get all log history files for this application and environment
-                $newLogs = sfFinder::type('file')->maxdepth(1)->name($logfile . '_*.log')->sort_by_name()->in($logdir . '/history');
+                $newLogs = sfFinder::type('file')->maxdepth(1)->name($logfile.'_*.log')->sort_by_name()->in($logdir.'/history');
 
                 // if the number of logs in history exceeds history then remove the oldest log
                 if (count($newLogs) > $history) {

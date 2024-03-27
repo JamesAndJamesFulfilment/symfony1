@@ -66,7 +66,7 @@ EOF;
         $messages = [];
 
         $messages[] = $this->formatter->format('Usage:', 'COMMENT');
-        $messages[] = $this->formatter->format(sprintf(' ' . $task->getSynopsis(), null === $this->commandApplication ? '' : $this->commandApplication->getName())) . "\n";
+        $messages[] = $this->formatter->format(sprintf(' '.$task->getSynopsis(), null === $this->commandApplication ? '' : $this->commandApplication->getName()))."\n";
 
         // find the largest option or argument name
         $max = 0;
@@ -79,7 +79,7 @@ EOF;
         $max += strlen($this->formatter->format(' ', 'INFO'));
 
         if ($task->getAliases()) {
-            $messages[] = $this->formatter->format('Aliases:', 'COMMENT') . ' ' . $this->formatter->format(implode(', ', $task->getAliases()), 'INFO') . "\n";
+            $messages[] = $this->formatter->format('Aliases:', 'COMMENT').' '.$this->formatter->format(implode(', ', $task->getAliases()), 'INFO')."\n";
         }
 
         if ($task->getArguments()) {
@@ -98,7 +98,7 @@ EOF;
             foreach ($task->getOptions() as $option) {
                 $default = $option->acceptParameter() && null !== $option->getDefault() && (!is_array($option->getDefault()) || count($option->getDefault())) ? $this->formatter->format(sprintf(' (default: %s)', is_array($option->getDefault()) ? str_replace("\n", '', print_r($option->getDefault(), true)) : $option->getDefault()), 'COMMENT') : '';
                 $multiple = $option->isArray() ? $this->formatter->format(' (multiple values allowed)', 'COMMENT') : '';
-                $messages[] = sprintf(' %-' . $max . 's %s%s%s%s', $this->formatter->format('--' . $option->getName(), 'INFO'), $option->getShortcut() ? sprintf('(-%s) ', $option->getShortcut()) : '', $option->getHelp(), $default, $multiple);
+                $messages[] = sprintf(' %-'.$max.'s %s%s%s%s', $this->formatter->format('--'.$option->getName(), 'INFO'), $option->getShortcut() ? sprintf('(-%s) ', $option->getShortcut()) : '', $option->getHelp(), $default, $multiple);
             }
 
             $messages[] = '';
@@ -107,7 +107,7 @@ EOF;
         if ($detailedDescription = $task->getDetailedDescription()) {
             $messages[] = $this->formatter->format('Description:', 'COMMENT');
 
-            $messages[] = ' ' . implode("\n ", explode("\n", $detailedDescription)) . "\n";
+            $messages[] = ' '.implode("\n ", explode("\n", $detailedDescription))."\n";
         }
 
         $this->log($messages);

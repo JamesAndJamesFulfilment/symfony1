@@ -70,7 +70,7 @@ class sfDoctrineGenerator extends sfModelGenerator
      */
     public function getColumnGetter($column, $developed = false, $prefix = '')
     {
-        $getter = 'get' . sfInflector::camelize($column);
+        $getter = 'get'.sfInflector::camelize($column);
         if ($developed) {
             $getter = sprintf('$%s%s->%s()', $prefix, $this->getSingularName(), $getter);
         }
@@ -132,7 +132,7 @@ class sfDoctrineGenerator extends sfModelGenerator
         }
 
         foreach ($this->getManyToManyTables() as $tables) {
-            $name = sfInflector::underscore($tables['alias']) . '_list';
+            $name = sfInflector::underscore($tables['alias']).'_list';
             $names[] = $name;
             $fields[$name] = array_merge([
                 'is_link' => false,
@@ -182,7 +182,7 @@ class sfDoctrineGenerator extends sfModelGenerator
         }
 
         foreach ($this->getManyToManyTables() as $tables) {
-            $name = sfInflector::underscore($tables['alias']) . '_list';
+            $name = sfInflector::underscore($tables['alias']).'_list';
             $names[] = $name;
             $fields[$name] = isset($this->config[$context]['fields'][$name]) ? $this->config[$context]['fields'][$name] : [];
         }
@@ -218,7 +218,7 @@ class sfDoctrineGenerator extends sfModelGenerator
 
         if ($withM2M) {
             foreach ($this->getManyToManyTables() as $tables) {
-                $names[] = sfInflector::underscore($tables['alias']) . '_list';
+                $names[] = sfInflector::underscore($tables['alias']).'_list';
             }
         }
 

@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
 $t = new lime_test(96);
 
@@ -19,9 +19,9 @@ $tests = [
     'foo1=bar1 foo=bar   ' => ['foo1' => 'bar1', 'foo' => 'bar'],
     'foo1="bar1 foo1"' => ['foo1' => 'bar1 foo1'],
     'foo1="bar1 foo1" foo=bar' => ['foo1' => 'bar1 foo1', 'foo' => 'bar'],
-    'foo1 = "bar1=foo1" foo=bar' => ['foo1' => 'bar1=foo1', 'foo' => 'bar'],
+    'foo1 = "bar1=foo1" foo=bar' => ['foo1' => 'bar1           =foo1', 'foo' => 'bar'],
     'foo1= \'bar1 foo1\'    foo  =     bar' => ['foo1' => 'bar1 foo1', 'foo' => 'bar'],
-    'foo1=\'bar1=foo1\' foo = bar' => ['foo1' => 'bar1=foo1', 'foo' => 'bar'],
+    'foo1=\'bar1=foo1\' foo = bar' => ['foo1' => 'bar1         =foo1', 'foo' => 'bar'],
     'foo1=  bar1 foo1 foo=bar' => ['foo1' => 'bar1 foo1', 'foo' => 'bar'],
     'foo1="l\'autre" foo=bar' => ['foo1' => 'l\'autre', 'foo' => 'bar'],
     'foo1="l"autre" foo=bar' => ['foo1' => 'l"autre', 'foo' => 'bar'],
@@ -40,7 +40,7 @@ $t->is(sfToolkit::stringToArray(null), [], '->stringToArray() can accept a null 
 $t->diag('::isUTF8()');
 $t->is(sfToolkit::isUTF8('été'), true, '::isUTF8() returns true if the parameter is an UTF-8 encoded string');
 $t->is(sfToolkit::isUTF8('AZERTYazerty1234-_'), true, '::isUTF8() returns true if the parameter is an UTF-8 encoded string');
-$t->is(sfToolkit::isUTF8('AZERTYazerty1234-_' . chr(254)), false, '::isUTF8() returns false if the parameter is not an UTF-8 encoded string');
+$t->is(sfToolkit::isUTF8('AZERTYazerty1234-_'.chr(254)), false, '::isUTF8() returns false if the parameter is not an UTF-8 encoded string');
 // check a very long string
 $string = str_repeat('Here is an UTF8 string avec du français.', 1000);
 $t->is(sfToolkit::isUTF8($string), true, '::isUTF8() can operate on very large strings');
@@ -52,7 +52,7 @@ foreach (['true', 'on', '+', 'yes'] as $param) {
     if (strtoupper($param) != $param) {
         $t->is(sfToolkit::literalize(strtoupper($param)), true, sprintf('::literalize() returns true with "%s"', strtoupper($param)));
     }
-    $t->is(sfToolkit::literalize(' ' . $param . ' '), true, sprintf('::literalize() returns true with "%s"', ' ' . $param . ' '));
+    $t->is(sfToolkit::literalize(' '.$param.' '), true, sprintf('::literalize() returns true with "%s"', ' '.$param.' '));
 }
 
 foreach (['false', 'off', '-', 'no'] as $param) {
@@ -60,7 +60,7 @@ foreach (['false', 'off', '-', 'no'] as $param) {
     if (strtoupper($param) != $param) {
         $t->is(sfToolkit::literalize(strtoupper($param)), false, sprintf('::literalize() returns false with "%s"', strtoupper($param)));
     }
-    $t->is(sfToolkit::literalize(' ' . $param . ' '), false, sprintf('::literalize() returns false with "%s"', ' ' . $param . ' '));
+    $t->is(sfToolkit::literalize(' '.$param.' '), false, sprintf('::literalize() returns false with "%s"', ' '.$param.' '));
 }
 
 foreach (['null', '~', ''] as $param) {
@@ -68,7 +68,7 @@ foreach (['null', '~', ''] as $param) {
     if (strtoupper($param) != $param) {
         $t->is(sfToolkit::literalize(strtoupper($param)), null, sprintf('::literalize() returns null with "%s"', strtoupper($param)));
     }
-    $t->is(sfToolkit::literalize(' ' . $param . ' '), null, sprintf('::literalize() returns null with "%s"', ' ' . $param . ' '));
+    $t->is(sfToolkit::literalize(' '.$param.' '), null, sprintf('::literalize() returns null with "%s"', ' '.$param.' '));
 }
 
 // ::replaceConstants()
@@ -130,30 +130,30 @@ $t->is(sfToolkit::stripslashesDeep([['foo' => addslashes("foo's bar")], addslash
 
 // ::clearDirectory()
 $t->diag('::clearDirectory()');
-$tmp_dir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'symfony_tests_' . rand(1, 999);
+$tmp_dir = sys_get_temp_dir().DIRECTORY_SEPARATOR.'symfony_tests_'.rand(1, 999);
 mkdir($tmp_dir);
-file_put_contents($tmp_dir . DIRECTORY_SEPARATOR . 'test', 'ok');
-mkdir($tmp_dir . DIRECTORY_SEPARATOR . 'foo');
-file_put_contents($tmp_dir . DIRECTORY_SEPARATOR . 'foo' . DIRECTORY_SEPARATOR . 'bar', 'ok');
+file_put_contents($tmp_dir.DIRECTORY_SEPARATOR.'test', 'ok');
+mkdir($tmp_dir.DIRECTORY_SEPARATOR.'foo');
+file_put_contents($tmp_dir.DIRECTORY_SEPARATOR.'foo'.DIRECTORY_SEPARATOR.'bar', 'ok');
 sfToolkit::clearDirectory($tmp_dir);
-$t->ok(!is_dir($tmp_dir . DIRECTORY_SEPARATOR . 'foo'), '::clearDirectory() removes all directories from the directory parameter');
-$t->ok(!is_file($tmp_dir . DIRECTORY_SEPARATOR . 'foo' . DIRECTORY_SEPARATOR . 'bar'), '::clearDirectory() removes all directories from the directory parameter');
-$t->ok(!is_file($tmp_dir . DIRECTORY_SEPARATOR . 'test'), '::clearDirectory() removes all directories from the directory parameter');
+$t->ok(!is_dir($tmp_dir.DIRECTORY_SEPARATOR.'foo'), '::clearDirectory() removes all directories from the directory parameter');
+$t->ok(!is_file($tmp_dir.DIRECTORY_SEPARATOR.'foo'.DIRECTORY_SEPARATOR.'bar'), '::clearDirectory() removes all directories from the directory parameter');
+$t->ok(!is_file($tmp_dir.DIRECTORY_SEPARATOR.'test'), '::clearDirectory() removes all directories from the directory parameter');
 rmdir($tmp_dir);
 
 // ::clearGlob()
 $t->diag('::clearGlob()');
-$tmp_dir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'symfony_tests_' . rand(1, 999);
+$tmp_dir = sys_get_temp_dir().DIRECTORY_SEPARATOR.'symfony_tests_'.rand(1, 999);
 mkdir($tmp_dir);
-mkdir($tmp_dir . DIRECTORY_SEPARATOR . 'foo');
-mkdir($tmp_dir . DIRECTORY_SEPARATOR . 'bar');
-file_put_contents($tmp_dir . DIRECTORY_SEPARATOR . 'foo' . DIRECTORY_SEPARATOR . 'bar', 'ok');
-file_put_contents($tmp_dir . DIRECTORY_SEPARATOR . 'foo' . DIRECTORY_SEPARATOR . 'foo', 'ok');
-file_put_contents($tmp_dir . DIRECTORY_SEPARATOR . 'bar' . DIRECTORY_SEPARATOR . 'bar', 'ok');
-sfToolkit::clearGlob($tmp_dir . '/*/bar');
-$t->ok(!is_file($tmp_dir . DIRECTORY_SEPARATOR . 'foo' . DIRECTORY_SEPARATOR . 'bar'), '::clearGlob() removes all files and directories matching the pattern parameter');
-$t->ok(!is_file($tmp_dir . DIRECTORY_SEPARATOR . 'foo' . DIRECTORY_SEPARATOR . 'bar'), '::clearGlob() removes all files and directories matching the pattern parameter');
-$t->ok(is_file($tmp_dir . DIRECTORY_SEPARATOR . 'foo' . DIRECTORY_SEPARATOR . 'foo'), '::clearGlob() removes all files and directories matching the pattern parameter');
+mkdir($tmp_dir.DIRECTORY_SEPARATOR.'foo');
+mkdir($tmp_dir.DIRECTORY_SEPARATOR.'bar');
+file_put_contents($tmp_dir.DIRECTORY_SEPARATOR.'foo'.DIRECTORY_SEPARATOR.'bar', 'ok');
+file_put_contents($tmp_dir.DIRECTORY_SEPARATOR.'foo'.DIRECTORY_SEPARATOR.'foo', 'ok');
+file_put_contents($tmp_dir.DIRECTORY_SEPARATOR.'bar'.DIRECTORY_SEPARATOR.'bar', 'ok');
+sfToolkit::clearGlob($tmp_dir.'/*/bar');
+$t->ok(!is_file($tmp_dir.DIRECTORY_SEPARATOR.'foo'.DIRECTORY_SEPARATOR.'bar'), '::clearGlob() removes all files and directories matching the pattern parameter');
+$t->ok(!is_file($tmp_dir.DIRECTORY_SEPARATOR.'foo'.DIRECTORY_SEPARATOR.'bar'), '::clearGlob() removes all files and directories matching the pattern parameter');
+$t->ok(is_file($tmp_dir.DIRECTORY_SEPARATOR.'foo'.DIRECTORY_SEPARATOR.'foo'), '::clearGlob() removes all files and directories matching the pattern parameter');
 sfToolkit::clearDirectory($tmp_dir);
 rmdir($tmp_dir);
 
@@ -220,22 +220,22 @@ $t->is(sfToolkit::getArrayValueForPath($arr, 'foo[bar][baz][booze]'), null, '::g
 $t->diag('::addIncludePath()');
 $path = get_include_path();
 $t->is(sfToolkit::addIncludePath(__DIR__), $path, '::addIncludePath() returns the previous include_path');
-$t->is(get_include_path(), __DIR__ . PATH_SEPARATOR . $path, '::addIncludePath() adds a path to the front of include_path');
+$t->is(get_include_path(), __DIR__.PATH_SEPARATOR.$path, '::addIncludePath() adds a path to the front of include_path');
 
 sfToolkit::addIncludePath(__DIR__, 'back');
-$t->is(get_include_path(), $path . PATH_SEPARATOR . __DIR__, '::addIncludePath() moves a path to the end of include_path');
+$t->is(get_include_path(), $path.PATH_SEPARATOR.__DIR__, '::addIncludePath() moves a path to the end of include_path');
 
 sfToolkit::addIncludePath([
     __DIR__,
-    __DIR__ . '/..',
+    __DIR__.'/..',
 ]);
-$t->is(get_include_path(), __DIR__ . PATH_SEPARATOR . __DIR__ . '/..' . PATH_SEPARATOR . $path, '::addIncludePath() adds multiple paths the the front of include_path');
+$t->is(get_include_path(), __DIR__.PATH_SEPARATOR.__DIR__.'/..'.PATH_SEPARATOR.$path, '::addIncludePath() adds multiple paths the the front of include_path');
 
 sfToolkit::addIncludePath([
     __DIR__,
-    __DIR__ . '/..',
+    __DIR__.'/..',
 ], 'back');
-$t->is(get_include_path(), $path . PATH_SEPARATOR . __DIR__ . PATH_SEPARATOR . __DIR__ . '/..', '::addIncludePath() adds multiple paths the the back of include_path');
+$t->is(get_include_path(), $path.PATH_SEPARATOR.__DIR__.PATH_SEPARATOR.__DIR__.'/..', '::addIncludePath() adds multiple paths the the back of include_path');
 
 try {
     sfToolkit::addIncludePath(__DIR__, 'foobar');

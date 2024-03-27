@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
 class myResponse extends sfResponse
 {
@@ -62,6 +62,6 @@ $t->diag('->serialize() ->unserialize()');
 $t->ok(new myResponse($dispatcher) instanceof Serializable, 'sfResponse implements the Serializable interface');
 
 // new methods via sfEventDispatcher
-require_once $_test_dir . '/unit/sfEventDispatcherTest.class.php';
+require_once $_test_dir.'/unit/sfEventDispatcherTest.class.php';
 $dispatcherTest = new sfEventDispatcherTest($t);
 $dispatcherTest->launchTests($dispatcher, $response, 'response');

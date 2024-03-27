@@ -128,7 +128,7 @@ class sfWebDebug
      * Gets an option value by name.
      *
      * @param string     $name    The option name
-     * @param null|mixed $default
+     * @param mixed|null $default
      *
      * @return mixed The option value
      */
@@ -157,15 +157,15 @@ class sfWebDebug
         }
 
         if (false !== $pos = $posFunction($content, '</head>')) {
-            $styles = '<style type="text/css">' . str_replace(["\r", "\n"], ' ', $this->getStylesheet()) . '</style>';
-            $content = $substrFunction($content, 0, $pos) . $styles . $substrFunction($content, $pos);
+            $styles = '<style type="text/css">'.str_replace(["\r", "\n"], ' ', $this->getStylesheet()).'</style>';
+            $content = $substrFunction($content, 0, $pos).$styles.$substrFunction($content, $pos);
         }
 
         $debug = $this->asHtml();
         if (false === $pos = $posrFunction($content, '</body>')) {
             $content .= $debug;
         } else {
-            $content = $substrFunction($content, 0, $pos) . '<script type="text/javascript">' . $this->getJavascript() . '</script>' . $debug . $substrFunction($content, $pos);
+            $content = $substrFunction($content, 0, $pos).'<script type="text/javascript">'.$this->getJavascript().'</script>'.$debug.$substrFunction($content, $pos);
         }
 
         return $content;
@@ -188,10 +188,10 @@ class sfWebDebug
                     $id = sprintf('sfWebDebug%sDetails', $name);
                     $titles[] = sprintf(
                         '<li%s><a title="%s" href="%s"%s>%s</a></li>',
-                        $panel->getStatus() ? ' class="sfWebDebug' . ucfirst($this->getPriority($panel->getStatus())) . '"' : '',
+                        $panel->getStatus() ? ' class="sfWebDebug'.ucfirst($this->getPriority($panel->getStatus())).'"' : '',
                         $panel->getPanelTitle(),
                         $panel->getTitleUrl() ?: '#',
-                        $panel->getTitleUrl() ? '' : ' onclick="sfWebDebugShowDetailsFor(\'' . $id . '\'); return false;"',
+                        $panel->getTitleUrl() ? '' : ' onclick="sfWebDebugShowDetailsFor(\''.$id.'\'); return false;"',
                         $title
                     );
                     $panels[] = sprintf(
@@ -210,17 +210,17 @@ class sfWebDebug
         return '
       <div id="sfWebDebug">
         <div id="sfWebDebugBar">
-          <a href="#" onclick="sfWebDebugToggleMenu(); return false;"><img src="' . $this->options['image_root_path'] . '/sf.png" alt="Debug toolbar" /></a>
+          <a href="#" onclick="sfWebDebugToggleMenu(); return false;"><img src="'.$this->options['image_root_path'].'/sf.png" alt="Debug toolbar" /></a>
 
           <ul id="sfWebDebugDetails" class="sfWebDebugMenu">
-            ' . implode("\n", $titles) . '
+            '.implode("\n", $titles).'
             <li class="last">
-              <a href="#" onclick="document.getElementById(\'sfWebDebug\').style.display=\'none\'; return false;"><img src="' . $this->options['image_root_path'] . '/close.png" alt="Close" /></a>
+              <a href="#" onclick="document.getElementById(\'sfWebDebug\').style.display=\'none\'; return false;"><img src="'.$this->options['image_root_path'].'/close.png" alt="Close" /></a>
             </li>
           </ul>
         </div>
 
-        ' . implode("\n", $panels) . '
+        '.implode("\n", $panels).'
       </div>
     ';
     }

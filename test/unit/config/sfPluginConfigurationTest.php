@@ -8,12 +8,12 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
-$rootDir = realpath(__DIR__ . '/../../functional/fixtures');
-$pluginRoot = realpath($rootDir . '/plugins/sfAutoloadPlugin');
+$rootDir = realpath(__DIR__.'/../../functional/fixtures');
+$pluginRoot = realpath($rootDir.'/plugins/sfAutoloadPlugin');
 
-require_once $pluginRoot . '/config/sfAutoloadPluginConfiguration.class.php';
+require_once $pluginRoot.'/config/sfAutoloadPluginConfiguration.class.php';
 
 $t = new lime_test(9);
 

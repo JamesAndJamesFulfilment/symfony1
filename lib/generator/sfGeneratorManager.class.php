@@ -77,7 +77,7 @@ class sfGeneratorManager
      */
     public function save($path, $content)
     {
-        $path = $this->getBasePath() . DIRECTORY_SEPARATOR . $path;
+        $path = $this->getBasePath().DIRECTORY_SEPARATOR.$path;
 
         $cacheDir = dirname($path);
         if (!is_dir($cacheDir)) {

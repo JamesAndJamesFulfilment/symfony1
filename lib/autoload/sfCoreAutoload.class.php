@@ -394,7 +394,7 @@ class sfCoreAutoload
 
     protected function __construct()
     {
-        $this->baseDir = realpath(__DIR__ . '/..');
+        $this->baseDir = realpath(__DIR__.'/..');
     }
 
     /**
@@ -462,7 +462,7 @@ class sfCoreAutoload
      *
      * @param string $class The class name (case insensitive)
      *
-     * @return null|string An absolute path or null
+     * @return string|null An absolute path or null
      */
     public function getClassPath($class)
     {
@@ -472,7 +472,7 @@ class sfCoreAutoload
             return null;
         }
 
-        return $this->baseDir . '/' . $this->classes[$class];
+        return $this->baseDir.'/'.$this->classes[$class];
     }
 
     /**
@@ -492,9 +492,9 @@ class sfCoreAutoload
      */
     public static function make()
     {
-        $libDir = str_replace(DIRECTORY_SEPARATOR, '/', realpath(__DIR__ . DIRECTORY_SEPARATOR . '..'));
+        $libDir = str_replace(DIRECTORY_SEPARATOR, '/', realpath(__DIR__.DIRECTORY_SEPARATOR.'..'));
 
-        require_once $libDir . '/util/sfFinder.class.php';
+        require_once $libDir.'/util/sfFinder.class.php';
 
         $files = sfFinder::type('file')
             ->prune('plugins')
@@ -514,9 +514,9 @@ class sfCoreAutoload
             $class = basename($file, false === strpos($file, '.class.php') ? '.php' : '.class.php');
 
             $contents = file_get_contents($file);
-            if (false !== stripos($contents, 'class ' . $class)
-                || false !== stripos($contents, 'interface ' . $class)
-                || false !== stripos($contents, 'trait ' . $class)) {
+            if (false !== stripos($contents, 'class '.$class)
+                || false !== stripos($contents, 'interface '.$class)
+                || false !== stripos($contents, 'trait '.$class)) {
                 $classes .= sprintf("    '%s' => '%s',\n", strtolower($class), substr(str_replace($libDir, '', $file), 1));
             }
         }

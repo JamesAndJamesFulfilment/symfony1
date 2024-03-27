@@ -158,22 +158,22 @@ class sfViewCacheManager
 
         // add vary headers
         if ($varyPart = $this->getCacheKeyVaryHeaderPart($internalUri, $vary)) {
-            $cacheKey = '/' . $varyPart . '/' . ltrim($cacheKey, '/');
+            $cacheKey = '/'.$varyPart.'/'.ltrim($cacheKey, '/');
         }
 
         // add hostname
         if ($hostNamePart = $this->getCacheKeyHostNamePart($hostName)) {
-            $cacheKey = '/' . $hostNamePart . '/' . ltrim($cacheKey, '/');
+            $cacheKey = '/'.$hostNamePart.'/'.ltrim($cacheKey, '/');
         }
 
         // normalize to a leading slash
         if (0 !== strpos($cacheKey, '/')) {
-            $cacheKey = '/' . $cacheKey;
+            $cacheKey = '/'.$cacheKey;
         }
 
         // distinguish multiple slashes
         while (false !== strpos($cacheKey, '//')) {
-            $cacheKey = str_replace('//', '/' . substr(sha1($cacheKey), 0, 7) . '/', $cacheKey);
+            $cacheKey = str_replace('//', '/'.substr(sha1($cacheKey), 0, 7).'/', $cacheKey);
         }
 
         // prevent directory traversal
@@ -222,7 +222,7 @@ class sfViewCacheManager
     public function registerConfiguration($moduleName)
     {
         if (!isset($this->loaded[$moduleName])) {
-            require $this->context->getConfigCache()->checkConfig('modules/' . $moduleName . '/config/cache.yml');
+            require $this->context->getConfigCache()->checkConfig('modules/'.$moduleName.'/config/cache.yml');
             $this->loaded[$moduleName] = true;
         }
     }
@@ -501,7 +501,7 @@ class sfViewCacheManager
         $this->addCache($params['module'], $params['action'], ['withLayout' => false, 'lifeTime' => $lifeTime, 'clientLifeTime' => $clientLifeTime, 'vary' => $vary]);
 
         // get data from cache if available
-        $data = $this->get($internalUri . (strpos($internalUri, '?') ? '&' : '?') . '_sf_cache_key=' . $name);
+        $data = $this->get($internalUri.(strpos($internalUri, '?') ? '&' : '?').'_sf_cache_key='.$name);
         if (null !== $data) {
             return $data;
         }
@@ -527,7 +527,7 @@ class sfViewCacheManager
         $internalUri = $this->routing->getCurrentInternalUri();
 
         try {
-            $this->set($data, $internalUri . (strpos($internalUri, '?') ? '&' : '?') . '_sf_cache_key=' . $name);
+            $this->set($data, $internalUri.(strpos($internalUri, '?') ? '&' : '?').'_sf_cache_key='.$name);
         } catch (Exception $e) {
         }
 
@@ -822,7 +822,7 @@ class sfViewCacheManager
         $sf_cache_key = $this->generateCacheKey($event['uri']);
         $bgColor = $event['new'] ? '#9ff' : '#ff9';
         $lastModified = $this->cache->getLastModified($sf_cache_key);
-        $cacheKey = $this->cache->getOption('prefix') . $sf_cache_key;
+        $cacheKey = $this->cache->getOption('prefix').$sf_cache_key;
         $id = md5($event['uri']);
 
         return '
@@ -837,7 +837,7 @@ class sfViewCacheManager
         &nbsp;<br />&nbsp;
         </div>
       </div><div>
-      ' . $content . '
+      '.$content.'
       </div></div>
     ';
     }
@@ -868,7 +868,7 @@ class sfViewCacheManager
             $varys = [];
 
             foreach ($varyHeaders as $header) {
-                $varys[] = $header . '-' . preg_replace('/\W+/', '_', $request->getHttpHeader($header));
+                $varys[] = $header.'-'.preg_replace('/\W+/', '_', $request->getHttpHeader($header));
             }
             $vary = implode('-', $varys);
         }

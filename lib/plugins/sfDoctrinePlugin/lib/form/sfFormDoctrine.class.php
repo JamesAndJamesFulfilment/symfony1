@@ -112,7 +112,7 @@ abstract class sfFormDoctrine extends sfFormObject
 
         $relation = $this->getObject()->getTable()->getRelation($relationName);
 
-        $r = new ReflectionClass(null === $formClass ? $relation->getClass() . 'Form' : $formClass);
+        $r = new ReflectionClass(null === $formClass ? $relation->getClass().'Form' : $formClass);
 
         if (Doctrine_Relation::ONE == $relation->getType()) {
             $this->embedForm($fieldName, $r->newInstanceArgs(array_merge([$this->getObject()->{$relationName}], $formArgs)), $decorator);
@@ -197,7 +197,7 @@ abstract class sfFormDoctrine extends sfFormObject
      */
     public function getI18nFormClass()
     {
-        return $this->getI18nModelName() . 'Form';
+        return $this->getI18nModelName().'Form';
     }
 
     /**
@@ -279,7 +279,7 @@ abstract class sfFormDoctrine extends sfFormObject
             $values = $this->values;
         }
 
-        if (isset($values[$field . '_delete']) && $values[$field . '_delete']) {
+        if (isset($values[$field.'_delete']) && $values[$field.'_delete']) {
             $this->removeFile($field);
 
             return '';
@@ -326,7 +326,7 @@ abstract class sfFormDoctrine extends sfFormObject
             }
         }
 
-        if ($directory && $filename && is_file($file = $directory . '/' . $filename)) {
+        if ($directory && $filename && is_file($file = $directory.'/'.$filename)) {
             unlink($file);
         }
     }
@@ -340,7 +340,7 @@ abstract class sfFormDoctrine extends sfFormObject
      *
      * @return string The filename used to save the file
      */
-    protected function saveFile($field, $filename = null, ?sfValidatedFile $file = null)
+    protected function saveFile($field, $filename = null, sfValidatedFile $file = null)
     {
         if (!$this->validatorSchema[$field] instanceof sfValidatorFile) {
             throw new LogicException(sprintf('You cannot save the current file for field "%s" as the field is not a file.', $field));

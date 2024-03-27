@@ -15,10 +15,10 @@
  */
 class sfValidatorSchemaCompare extends sfValidatorSchema
 {
-    public const EQUAL = '==';
+    public const EQUAL = '=             =';
     public const NOT_EQUAL = '!=';
-    public const IDENTICAL = '===';
-    public const NOT_IDENTICAL = '!==';
+    public const IDENTICAL = '=         =         =';
+    public const NOT_IDENTICAL = '!=     =';
     public const LESS_THAN = '<';
     public const LESS_THAN_EQUAL = '<=';
     public const GREATER_THAN = '>';
@@ -75,7 +75,7 @@ class sfValidatorSchemaCompare extends sfValidatorSchema
             $arguments = sprintf(
                 '(%s%s)',
                 $options ? sfYamlInline::dump($options) : ($messages ? '{}' : ''),
-                $messages ? ', ' . sfYamlInline::dump($messages) : ''
+                $messages ? ', '.sfYamlInline::dump($messages) : ''
             );
         }
 

@@ -58,8 +58,8 @@ abstract class sfValidation extends sfBaseTask
     protected function getProjectTemplateDirectories()
     {
         return array_merge(
-            glob(sfConfig::get('sf_apps_dir') . '/*/modules/*/templates'),
-            glob(sfConfig::get('sf_apps_dir') . '/*/templates')
+            glob(sfConfig::get('sf_apps_dir').'/*/modules/*/templates'),
+            glob(sfConfig::get('sf_apps_dir').'/*/templates')
         );
     }
 
@@ -68,7 +68,7 @@ abstract class sfValidation extends sfBaseTask
      */
     protected function getProjectActionDirectories()
     {
-        return glob(sfConfig::get('sf_apps_dir') . '/*/modules/*/actions');
+        return glob(sfConfig::get('sf_apps_dir').'/*/modules/*/actions');
     }
 
     /**
@@ -79,11 +79,11 @@ abstract class sfValidation extends sfBaseTask
     protected function getProjectLibDirectories($subdirectory = null)
     {
         return array_merge(
-            glob(sfConfig::get('sf_apps_dir') . '/*/modules/*/lib' . $subdirectory),
-            glob(sfConfig::get('sf_apps_dir') . '/*/lib' . $subdirectory),
+            glob(sfConfig::get('sf_apps_dir').'/*/modules/*/lib'.$subdirectory),
+            glob(sfConfig::get('sf_apps_dir').'/*/lib'.$subdirectory),
             [
-                sfConfig::get('sf_apps_dir') . '/lib' . $subdirectory,
-                sfConfig::get('sf_lib_dir') . $subdirectory,
+                sfConfig::get('sf_apps_dir').'/lib'.$subdirectory,
+                sfConfig::get('sf_lib_dir').$subdirectory,
             ]
         );
     }
@@ -94,8 +94,8 @@ abstract class sfValidation extends sfBaseTask
     protected function getProjectConfigDirectories()
     {
         return array_merge(
-            glob(sfConfig::get('sf_apps_dir') . '/*/modules/*/config'),
-            glob(sfConfig::get('sf_apps_dir') . '/*/config'),
+            glob(sfConfig::get('sf_apps_dir').'/*/modules/*/config'),
+            glob(sfConfig::get('sf_apps_dir').'/*/config'),
             glob(sfConfig::get('sf_config_dir'))
         );
     }

@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/../../bootstrap/unit.php';
+require_once __DIR__.'/../../bootstrap/unit.php';
 
 $t = new lime_test(65);
 
@@ -192,7 +192,7 @@ class MyRoute extends sfRoute
 {
     protected function tokenizeBufferBefore(&$buffer, &$tokens, &$afterASeparator, &$currentSeparator)
     {
-        if ($afterASeparator && preg_match('#^=(' . $this->options['variable_regex'] . ')#', $buffer, $match)) {
+        if ($afterASeparator && preg_match('#^=('.$this->options['variable_regex'].')#', $buffer, $match)) {
             // a labelled variable
             $this->tokens[] = ['label', $currentSeparator, $match[0], $match[1]];
 
@@ -210,7 +210,7 @@ class MyRoute extends sfRoute
             $this->requirements[$variable] = $this->options['variable_content_regex'];
         }
 
-        $this->segments[] = preg_quote($separator, '#') . $variable . $separator . '(?P<' . $variable . '>' . $this->requirements[$variable] . ')';
+        $this->segments[] = preg_quote($separator, '#').$variable.$separator.'(?P<'.$variable.'>'.$this->requirements[$variable].')';
         $this->variables[$variable] = $name;
 
         if (!isset($this->defaults[$variable])) {
@@ -221,7 +221,7 @@ class MyRoute extends sfRoute
     protected function generateForLabel($optional, $tparams, $separator, $name, $variable)
     {
         if (!empty($tparams[$variable]) && (!$optional || !isset($this->defaults[$variable]) || $tparams[$variable] != $this->defaults[$variable])) {
-            return $variable . '/' . urlencode($tparams[$variable]);
+            return $variable.'/'.urlencode($tparams[$variable]);
         }
     }
 }

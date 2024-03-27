@@ -19,7 +19,7 @@
  */
 class sfException extends Exception
 {
-    /** @var null|Exception|Throwable */
+    /** @var Exception|Throwable|null */
     protected $wrappedException;
 
     protected static $lastException;
@@ -128,14 +128,14 @@ class sfException extends Exception
     public static function getTemplatePathForError($format, $debug)
     {
         $templatePaths = [
-            sfConfig::get('sf_app_config_dir') . '/error',
-            sfConfig::get('sf_config_dir') . '/error',
-            __DIR__ . '/data',
+            sfConfig::get('sf_app_config_dir').'/error',
+            sfConfig::get('sf_config_dir').'/error',
+            __DIR__.'/data',
         ];
 
         $template = sprintf('%s.%s.php', $debug ? 'exception' : 'error', $format);
         foreach ($templatePaths as $path) {
-            if (null !== $path && is_readable($file = $path . '/' . $template)) {
+            if (null !== $path && is_readable($file = $path.'/'.$template)) {
                 return $file;
             }
         }
@@ -179,7 +179,7 @@ class sfException extends Exception
 
             if (!sfConfig::get('sf_test')) {
                 foreach ($response->getHttpHeaders() as $name => $value) {
-                    header($name . ': ' . $value);
+                    header($name.': '.$value);
                 }
             }
 
@@ -197,7 +197,7 @@ class sfException extends Exception
         } else {
             // a backward compatible default
             if (!sfConfig::get('sf_test')) {
-                header('Content-Type: text/html; charset=' . sfConfig::get('sf_charset', 'utf-8'));
+                header('Content-Type: text/html; charset='.sfConfig::get('sf_charset', 'utf-8'));
             }
         }
 
@@ -291,8 +291,8 @@ class sfException extends Exception
                 self::formatArgs($args, false, $format),
                 self::formatFile($file, $line, $format, null === $file ? 'n/a' : sfDebug::shortenFilePath($file)),
                 null === $line ? 'n/a' : $line,
-                'trace_' . $i,
-                'trace_' . $i,
+                'trace_'.$i,
+                'trace_'.$i,
                 0 == $i ? 'block' : 'none',
                 self::fileExcerpt($file, $line)
             );
@@ -310,7 +310,7 @@ class sfException extends Exception
      */
     protected static function formatArrayAsHtml($values)
     {
-        return '<pre>' . self::escape(@sfYaml::dump($values)) . '</pre>';
+        return '<pre>'.self::escape(@sfYaml::dump($values)).'</pre>';
     }
 
     /**
@@ -333,10 +333,10 @@ class sfException extends Exception
 
             $lines = [];
             for ($i = max($line - 3, 1), $max = min($line + 3, count($content)); $i <= $max; ++$i) {
-                $lines[] = '<li' . ($i == $line ? ' class="selected"' : '') . '>' . $content[$i - 1] . '</li>';
+                $lines[] = '<li'.($i == $line ? ' class="selected"' : '').'>'.$content[$i - 1].'</li>';
             }
 
-            return '<ol start="' . max($line - 3, 1) . '">' . implode("\n", $lines) . '</ol>';
+            return '<ol start="'.max($line - 3, 1).'">'.implode("\n", $lines).'</ol>';
         }
     }
 
@@ -357,9 +357,9 @@ class sfException extends Exception
 
         foreach ($args as $key => $value) {
             if (is_object($value)) {
-                $formattedValue = ('html' == $format ? '<em>object</em>' : 'object') . sprintf("('%s')", get_class($value));
+                $formattedValue = ('html' == $format ? '<em>object</em>' : 'object').sprintf("('%s')", get_class($value));
             } elseif (is_array($value)) {
-                $formattedValue = ('html' == $format ? '<em>array</em>' : 'array') . sprintf('(%s)', self::formatArgs($value));
+                $formattedValue = ('html' == $format ? '<em>array</em>' : 'array').sprintf('(%s)', self::formatArgs($value));
             } elseif (is_string($value)) {
                 $formattedValue = ('html' == $format ? sprintf("'%s'", self::escape($value)) : "'{$value}'");
             } elseif (null === $value) {

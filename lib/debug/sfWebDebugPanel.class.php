@@ -88,7 +88,7 @@ abstract class sfWebDebugPanel
      */
     public function getToggler($element, $title = 'Toggle details')
     {
-        return '<a href="#" onclick="sfWebDebugToggle(\'' . $element . '\'); return false;" title="' . $title . '"><img src="' . $this->webDebug->getOption('image_root_path') . '/toggle.gif" alt="' . $title . '"/></a>';
+        return '<a href="#" onclick="sfWebDebugToggle(\''.$element.'\'); return false;" title="'.$title.'"><img src="'.$this->webDebug->getOption('image_root_path').'/toggle.gif" alt="'.$title.'"/></a>';
     }
 
     /**
@@ -106,11 +106,11 @@ abstract class sfWebDebugPanel
             return '';
         }
 
-        $element = get_class($this) . 'Debug' . $i++;
+        $element = get_class($this).'Debug'.$i++;
         $keys = array_reverse(array_keys($debugStack));
 
         $html = $this->getToggler($element, 'Toggle debug stack');
-        $html .= '<div class="sfWebDebugDebugInfo" id="' . $element . '" style="display:none">';
+        $html .= '<div class="sfWebDebugDebugInfo" id="'.$element.'" style="display:none">';
         foreach ($debugStack as $j => $trace) {
             $file = isset($trace['file']) ? $trace['file'] : null;
             $line = isset($trace['line']) ? $trace['line'] : null;

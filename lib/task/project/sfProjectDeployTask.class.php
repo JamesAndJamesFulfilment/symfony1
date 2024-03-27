@@ -111,7 +111,7 @@ EOF;
     {
         $env = $arguments['server'];
 
-        $ini = sfConfig::get('sf_config_dir') . '/properties.ini';
+        $ini = sfConfig::get('sf_config_dir').'/properties.ini';
         if (!file_exists($ini)) {
             throw new sfCommandException('You must create a config/properties.ini file');
         }
@@ -134,7 +134,7 @@ EOF;
 
         $host = $properties['host'];
         $dir = $properties['dir'];
-        $user = isset($properties['user']) ? $properties['user'] . '@' : '';
+        $user = isset($properties['user']) ? $properties['user'].'@' : '';
 
         if ('/' != substr($dir, -1)) {
             $dir .= '/';
@@ -144,22 +144,22 @@ EOF;
 
         if (isset($properties['port'])) {
             $port = $properties['port'];
-            $ssh = '"ssh -p' . $port . '"';
+            $ssh = '"ssh -p'.$port.'"';
         }
 
         if (isset($properties['parameters'])) {
             $parameters = $properties['parameters'];
         } else {
             $parameters = $options['rsync-options'];
-            if (file_exists($options['rsync-dir'] . '/rsync_include.txt')) {
+            if (file_exists($options['rsync-dir'].'/rsync_include.txt')) {
                 $parameters .= sprintf(' --include-from=%s/rsync_include.txt', $options['rsync-dir']);
             }
 
-            if (file_exists($options['rsync-dir'] . '/rsync_exclude.txt')) {
+            if (file_exists($options['rsync-dir'].'/rsync_exclude.txt')) {
                 $parameters .= sprintf(' --exclude-from=%s/rsync_exclude.txt', $options['rsync-dir']);
             }
 
-            if (file_exists($options['rsync-dir'] . '/rsync.txt')) {
+            if (file_exists($options['rsync-dir'].'/rsync.txt')) {
                 $parameters .= sprintf(' --files-from=%s/rsync.txt', $options['rsync-dir']);
             }
         }

@@ -71,7 +71,7 @@ class sfDeprecatedClassesValidation extends sfValidation
 
             $matches = [];
             foreach ($classes as $class) {
-                if (preg_match('#\b' . preg_quote($class, '#') . '\b#', $content)) {
+                if (preg_match('#\b'.preg_quote($class, '#').'\b#', $content)) {
                     $matches[] = $class;
                 }
             }

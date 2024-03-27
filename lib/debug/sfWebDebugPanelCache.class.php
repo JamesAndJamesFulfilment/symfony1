@@ -18,7 +18,7 @@ class sfWebDebugPanelCache extends sfWebDebugPanel
 {
     public function getTitle()
     {
-        return '<img src="' . $this->webDebug->getOption('image_root_path') . '/reload.png" alt="Reload" />';
+        return '<img src="'.$this->webDebug->getOption('image_root_path').'/reload.png" alt="Reload" />';
     }
 
     public function getTitleUrl()
@@ -26,10 +26,10 @@ class sfWebDebugPanelCache extends sfWebDebugPanel
         $queryString = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
 
         if (false === strpos($queryString, '_sf_ignore_cache')) {
-            return sprintf('?%s_sf_ignore_cache=1', $queryString ? $queryString . '&' : '');
+            return sprintf('?%s_sf_ignore_cache=1', $queryString ? $queryString.'&' : '');
         }
 
-        return '?' . $queryString;
+        return '?'.$queryString;
     }
 
     public function getPanelTitle()

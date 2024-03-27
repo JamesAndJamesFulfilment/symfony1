@@ -62,12 +62,12 @@ class sfDebug
     {
         $values = [];
         foreach (['cookie', 'server', 'get', 'post', 'files', 'env', 'session'] as $name) {
-            if (!isset($GLOBALS['_' . strtoupper($name)])) {
+            if (!isset($GLOBALS['_'.strtoupper($name)])) {
                 continue;
             }
 
             $values[$name] = [];
-            foreach ($GLOBALS['_' . strtoupper($name)] as $key => $value) {
+            foreach ($GLOBALS['_'.strtoupper($name)] as $key => $value) {
                 $values[$name][$key] = $value;
             }
             ksort($values[$name]);
@@ -99,7 +99,7 @@ class sfDebug
      *
      * @return array The request parameter holders
      */
-    public static function requestAsArray(?sfRequest $request = null)
+    public static function requestAsArray(sfRequest $request = null)
     {
         if (!$request) {
             return [];
@@ -119,7 +119,7 @@ class sfDebug
      *
      * @return array The response parameters
      */
-    public static function responseAsArray(?sfResponse $response = null)
+    public static function responseAsArray(sfResponse $response = null)
     {
         if (!$response) {
             return [];
@@ -144,7 +144,7 @@ class sfDebug
      *
      * @return array The user parameters
      */
-    public static function userAsArray(?sfUser $user = null)
+    public static function userAsArray(sfUser $user = null)
     {
         if (!$user) {
             return [];

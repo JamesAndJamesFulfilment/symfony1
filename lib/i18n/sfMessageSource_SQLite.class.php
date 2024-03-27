@@ -117,8 +117,7 @@ class sfMessageSource_SQLite extends sfMessageSource_Database
     {
         $variant = sqlite_escape_string($variant);
 
-        $statement =
-          "SELECT t.id, t.source, t.target, t.comments
+        $statement = "SELECT t.id, t.source, t.target, t.comments
         FROM trans_unit t, catalogue c
         WHERE c.cat_id =  t.cat_id
           AND c.name = '{$variant}'
@@ -343,7 +342,7 @@ class sfMessageSource_SQLite extends sfMessageSource_Database
             $catalogue = 'messages';
         }
 
-        $variant = $catalogue . '.' . $this->culture;
+        $variant = $catalogue.'.'.$this->culture;
 
         $name = sqlite_escape_string($this->getSource($variant));
 
@@ -379,7 +378,7 @@ class sfMessageSource_SQLite extends sfMessageSource_Database
         $result = sqlite_query("UPDATE catalogue SET date_modified = {$time} WHERE cat_id = {$cat_id}", $db);
 
         if ($this->cache) {
-            $this->cache->remove($variant . ':' . $this->culture);
+            $this->cache->remove($variant.':'.$this->culture);
         }
 
         return $result;

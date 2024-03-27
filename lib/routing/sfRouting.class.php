@@ -18,7 +18,7 @@ abstract class sfRouting
     /** @var sfEventDispatcher */
     protected $dispatcher;
 
-    /** @var null|sfCache */
+    /** @var sfCache|null */
     protected $cache;
     protected $defaultParameters = [];
     protected $options = [];
@@ -30,7 +30,7 @@ abstract class sfRouting
      *
      * @param array $options
      */
-    public function __construct(sfEventDispatcher $dispatcher, ?sfCache $cache = null, $options = [])
+    public function __construct(sfEventDispatcher $dispatcher, sfCache $cache = null, $options = [])
     {
         $this->initialize($dispatcher, $cache, $options);
 
@@ -64,7 +64,7 @@ abstract class sfRouting
      * @param sfCache           $cache      An sfCache instance
      * @param array             $options    an associative array of initialization options
      */
-    public function initialize(sfEventDispatcher $dispatcher, ?sfCache $cache = null, $options = [])
+    public function initialize(sfEventDispatcher $dispatcher, sfCache $cache = null, $options = [])
     {
         $this->dispatcher = $dispatcher;
 
@@ -267,14 +267,14 @@ abstract class sfRouting
     {
         if (isset($this->options['context']['prefix'])) {
             if (0 === strpos($url, 'http')) {
-                $url = preg_replace('#https?\://[^/]+#', '$0' . $this->options['context']['prefix'], $url);
+                $url = preg_replace('#https?\://[^/]+#', '$0'.$this->options['context']['prefix'], $url);
             } else {
-                $url = $this->options['context']['prefix'] . $url;
+                $url = $this->options['context']['prefix'].$url;
             }
         }
 
         if ($absolute && isset($this->options['context']['host']) && 0 !== strpos($url, 'http')) {
-            $url = 'http' . (isset($this->options['context']['is_secure']) && $this->options['context']['is_secure'] ? 's' : '') . '://' . $this->options['context']['host'] . $url;
+            $url = 'http'.(isset($this->options['context']['is_secure']) && $this->options['context']['is_secure'] ? 's' : '').'://'.$this->options['context']['host'].$url;
         }
 
         return $url;

@@ -43,7 +43,7 @@ class sfPHPView extends sfView
         $this->context->set('view_instance', $this);
 
         // require our configuration
-        require $this->context->getConfigCache()->checkConfig('modules/' . $this->moduleName . '/config/view.yml');
+        require $this->context->getConfigCache()->checkConfig('modules/'.$this->moduleName.'/config/view.yml');
 
         // set template directory
         if (!$this->directory) {
@@ -79,10 +79,10 @@ class sfPHPView extends sfView
             $this->attributeHolder->set('sf_type', 'action');
 
             // render template file
-            $content = $this->renderFile($this->getDirectory() . '/' . $this->getTemplate());
+            $content = $this->renderFile($this->getDirectory().'/'.$this->getTemplate());
 
             if (sfConfig::get('sf_cache') && null !== $uri) {
-                $content = $viewCache->setActionCache($uri, $content, $this->isDecorator() ? $this->getDecoratorDirectory() . '/' . $this->getDecoratorTemplate() : false);
+                $content = $viewCache->setActionCache($uri, $content, $this->isDecorator() ? $this->getDecoratorDirectory().'/'.$this->getDecoratorTemplate() : false);
             }
         }
 
@@ -167,12 +167,12 @@ class sfPHPView extends sfView
         $this->attributeHolder->set('sf_type', 'layout');
 
         // check to see if the decorator template exists
-        if (!is_readable($this->getDecoratorDirectory() . '/' . $this->getDecoratorTemplate())) {
+        if (!is_readable($this->getDecoratorDirectory().'/'.$this->getDecoratorTemplate())) {
             throw new sfRenderException(sprintf('The decorator template "%s" does not exist or is unreadable in "%s".', $this->decoratorTemplate, $this->decoratorDirectory));
         }
 
         // render the decorator template and return the result
-        $ret = $this->renderFile($this->getDecoratorDirectory() . '/' . $this->getDecoratorTemplate());
+        $ret = $this->renderFile($this->getDecoratorDirectory().'/'.$this->getDecoratorTemplate());
 
         $this->attributeHolder = $attributeHolder;
 

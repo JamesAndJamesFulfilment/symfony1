@@ -34,7 +34,7 @@ abstract class sfAction extends sfComponent
         parent::initialize($context, $moduleName, $actionName);
 
         // include security configuration
-        if ($file = $context->getConfigCache()->checkConfig('modules/' . $this->getModuleName() . '/config/security.yml', true)) {
+        if ($file = $context->getConfigCache()->checkConfig('modules/'.$this->getModuleName().'/config/security.yml', true)) {
             require $file;
         }
     }
@@ -106,7 +106,7 @@ abstract class sfAction extends sfComponent
      */
     public function redirect404()
     {
-        return $this->redirect('/' . sfConfig::get('sf_error_404_module') . '/' . sfConfig::get('sf_error_404_action'));
+        return $this->redirect('/'.sfConfig::get('sf_error_404_module').'/'.sfConfig::get('sf_error_404_action'));
     }
 
     /**
@@ -250,7 +250,7 @@ abstract class sfAction extends sfComponent
      */
     public function renderText($text)
     {
-        $this->getResponse()->setContent($this->getResponse()->getContent() . $text);
+        $this->getResponse()->setContent($this->getResponse()->getContent().$text);
 
         return sfView::NONE;
     }
@@ -434,11 +434,11 @@ abstract class sfAction extends sfComponent
         }
 
         if (null !== $module) {
-            $dir = $this->context->getConfiguration()->getTemplateDir($module, $name . sfView::SUCCESS . '.php');
-            $name = $dir . '/' . $name;
+            $dir = $this->context->getConfiguration()->getTemplateDir($module, $name.sfView::SUCCESS.'.php');
+            $name = $dir.'/'.$name;
         }
 
-        sfConfig::set('symfony.view.' . $this->getModuleName() . '_' . $this->getActionName() . '_template', $name);
+        sfConfig::set('symfony.view.'.$this->getModuleName().'_'.$this->getActionName().'_template', $name);
     }
 
     /**
@@ -453,7 +453,7 @@ abstract class sfAction extends sfComponent
      */
     public function getTemplate()
     {
-        return sfConfig::get('symfony.view.' . $this->getModuleName() . '_' . $this->getActionName() . '_template');
+        return sfConfig::get('symfony.view.'.$this->getModuleName().'_'.$this->getActionName().'_template');
     }
 
     /**
@@ -471,7 +471,7 @@ abstract class sfAction extends sfComponent
             $this->dispatcher->notify(new sfEvent($this, 'application.log', [sprintf('Change layout to "%s"', $name)]));
         }
 
-        sfConfig::set('symfony.view.' . $this->getModuleName() . '_' . $this->getActionName() . '_layout', $name);
+        sfConfig::set('symfony.view.'.$this->getModuleName().'_'.$this->getActionName().'_layout', $name);
     }
 
     /**
@@ -484,7 +484,7 @@ abstract class sfAction extends sfComponent
      */
     public function getLayout()
     {
-        return sfConfig::get('symfony.view.' . $this->getModuleName() . '_' . $this->getActionName() . '_layout');
+        return sfConfig::get('symfony.view.'.$this->getModuleName().'_'.$this->getActionName().'_layout');
     }
 
     /**
@@ -494,7 +494,7 @@ abstract class sfAction extends sfComponent
      */
     public function setViewClass($class)
     {
-        sfConfig::set('mod_' . strtolower($this->getModuleName()) . '_view_class', $class);
+        sfConfig::set('mod_'.strtolower($this->getModuleName()).'_view_class', $class);
     }
 
     /**

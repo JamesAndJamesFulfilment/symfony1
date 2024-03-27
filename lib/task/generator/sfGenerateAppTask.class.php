@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/sfGeneratorBaseTask.class.php';
+require_once __DIR__.'/sfGeneratorBaseTask.class.php';
 
 /**
  * Generates a new application.
@@ -84,57 +84,57 @@ EOF;
             throw new sfCommandException(sprintf('The application name "%s" is invalid.', $app));
         }
 
-        $appDir = sfConfig::get('sf_apps_dir') . '/' . $app;
+        $appDir = sfConfig::get('sf_apps_dir').'/'.$app;
 
         if (is_dir($appDir)) {
             throw new sfCommandException(sprintf('The application "%s" already exists.', $appDir));
         }
 
-        if (is_readable(sfConfig::get('sf_data_dir') . '/skeleton/app')) {
-            $skeletonDir = sfConfig::get('sf_data_dir') . '/skeleton/app';
+        if (is_readable(sfConfig::get('sf_data_dir').'/skeleton/app')) {
+            $skeletonDir = sfConfig::get('sf_data_dir').'/skeleton/app';
         } else {
-            $skeletonDir = __DIR__ . '/skeleton/app';
+            $skeletonDir = __DIR__.'/skeleton/app';
         }
 
         // Create basic application structure
         $finder = sfFinder::type('any')->discard('.sf');
-        $this->getFilesystem()->mirror($skeletonDir . '/app', $appDir, $finder);
+        $this->getFilesystem()->mirror($skeletonDir.'/app', $appDir, $finder);
 
         // Create $app.php or index.php if it is our first app
         $indexName = 'index';
-        $firstApp = !file_exists(sfConfig::get('sf_web_dir') . '/index.php');
+        $firstApp = !file_exists(sfConfig::get('sf_web_dir').'/index.php');
         if (!$firstApp) {
             $indexName = $app;
         }
 
         if (true === $options['csrf-secret']) {
-            $options['csrf-secret'] = sha1(mt_rand(11111111, 99999999) . getmypid());
+            $options['csrf-secret'] = sha1(mt_rand(11111111, 99999999).getmypid());
         }
 
         // Set no_script_name value in settings.yml for production environment
         $finder = sfFinder::type('file')->name('settings.yml');
-        $this->getFilesystem()->replaceTokens($finder->in($appDir . '/config'), '##', '##', [
-            'NO_SCRIPT_NAME'    => $firstApp ? 'true' : 'false',
-            'CSRF_SECRET'       => sfYamlInline::dump(sfYamlInline::parseScalar($options['csrf-secret'])),
+        $this->getFilesystem()->replaceTokens($finder->in($appDir.'/config'), '##', '##', [
+            'NO_SCRIPT_NAME' => $firstApp ? 'true' : 'false',
+            'CSRF_SECRET' => sfYamlInline::dump(sfYamlInline::parseScalar($options['csrf-secret'])),
             'ESCAPING_STRATEGY' => sfYamlInline::dump((bool) sfYamlInline::parseScalar($options['escaping-strategy'])),
-            'USE_DATABASE'      => sfConfig::has('sf_orm') ? 'true' : 'false',
+            'USE_DATABASE' => sfConfig::has('sf_orm') ? 'true' : 'false',
         ]);
 
-        $this->getFilesystem()->copy($skeletonDir . '/web/index.php', sfConfig::get('sf_web_dir') . '/' . $indexName . '.php');
-        $this->getFilesystem()->copy($skeletonDir . '/web/index.php', sfConfig::get('sf_web_dir') . '/' . $app . '_dev.php');
+        $this->getFilesystem()->copy($skeletonDir.'/web/index.php', sfConfig::get('sf_web_dir').'/'.$indexName.'.php');
+        $this->getFilesystem()->copy($skeletonDir.'/web/index.php', sfConfig::get('sf_web_dir').'/'.$app.'_dev.php');
 
-        $this->getFilesystem()->replaceTokens(sfConfig::get('sf_web_dir') . '/' . $indexName . '.php', '##', '##', [
-            'APP_NAME'    => $app,
+        $this->getFilesystem()->replaceTokens(sfConfig::get('sf_web_dir').'/'.$indexName.'.php', '##', '##', [
+            'APP_NAME' => $app,
             'ENVIRONMENT' => 'prod',
-            'IS_DEBUG'    => 'false',
-            'IP_CHECK'    => '',
+            'IS_DEBUG' => 'false',
+            'IP_CHECK' => '',
         ]);
 
-        $this->getFilesystem()->replaceTokens(sfConfig::get('sf_web_dir') . '/' . $app . '_dev.php', '##', '##', [
-            'APP_NAME'    => $app,
+        $this->getFilesystem()->replaceTokens(sfConfig::get('sf_web_dir').'/'.$app.'_dev.php', '##', '##', [
+            'APP_NAME' => $app,
             'ENVIRONMENT' => 'dev',
-            'IS_DEBUG'    => 'true',
-            'IP_CHECK'    => '// this check prevents access to debug front controllers that are deployed by accident to production servers.'.PHP_EOL.
+            'IS_DEBUG' => 'true',
+            'IP_CHECK' => '// this check prevents access to debug front controllers that are deployed by accident to production servers.'.PHP_EOL.
                              '// feel free to remove this, extend it or make something more sophisticated.'.PHP_EOL.
                              'if (!in_array(@$_SERVER[\'REMOTE_ADDR\'], array(\'127.0.0.1\', \'::1\')))'.PHP_EOL.
                              '{'.PHP_EOL.
@@ -142,9 +142,9 @@ EOF;
                              '}'.PHP_EOL,
         ]);
 
-        $this->getFilesystem()->rename($appDir . '/config/ApplicationConfiguration.class.php', $appDir . '/config/' . $app . 'Configuration.class.php');
+        $this->getFilesystem()->rename($appDir.'/config/ApplicationConfiguration.class.php', $appDir.'/config/'.$app.'Configuration.class.php');
 
-        $this->getFilesystem()->replaceTokens($appDir . '/config/' . $app . 'Configuration.class.php', '##', '##', ['APP_NAME' => $app]);
+        $this->getFilesystem()->replaceTokens($appDir.'/config/'.$app.'Configuration.class.php', '##', '##', ['APP_NAME' => $app]);
 
         $fixPerms = new sfProjectPermissionsTask($this->dispatcher, $this->formatter);
         $fixPerms->setCommandApplication($this->commandApplication);
@@ -152,7 +152,7 @@ EOF;
         $fixPerms->run();
 
         // Create test dir
-        $this->getFilesystem()->mkdirs(sfConfig::get('sf_test_dir') . '/functional/' . $app);
+        $this->getFilesystem()->mkdirs(sfConfig::get('sf_test_dir').'/functional/'.$app);
 
         return 0;
     }

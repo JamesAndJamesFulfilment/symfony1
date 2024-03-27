@@ -1,4 +1,4 @@
-<?php decorate_with(__DIR__ . '/defaultLayout.php'); ?>
+<?php decorate_with(__DIR__.'/defaultLayout.php'); ?>
 
 <div class="sfTMessageContainer sfTAlert"> 
   <?php echo image_tag('/sf/sf_default/images/icons/cancel48.png', ['alt' => 'page not found', 'class' => 'sfTMessageIcon', 'size' => '48x48']); ?>

@@ -15,7 +15,7 @@
  */
 class sfFormSymfony extends sfForm
 {
-    /** @var null|sfEventDispatcher */
+    /** @var sfEventDispatcher|null */
     protected static $dispatcher;
 
     /**
@@ -25,7 +25,7 @@ class sfFormSymfony extends sfForm
      *
      * @see sfForm
      *
-     * @param null|mixed $CSRFSecret
+     * @param mixed|null $CSRFSecret
      */
     public function __construct($defaults = [], $options = [], $CSRFSecret = null)
     {
@@ -61,7 +61,7 @@ class sfFormSymfony extends sfForm
     /**
      * Sets the event dispatcher to be used by all forms.
      */
-    public static function setEventDispatcher(?sfEventDispatcher $dispatcher = null)
+    public static function setEventDispatcher(sfEventDispatcher $dispatcher = null)
     {
         self::$dispatcher = $dispatcher;
     }
