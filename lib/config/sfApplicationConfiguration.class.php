@@ -33,7 +33,7 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
      * @param string            $rootDir     The project root directory
      * @param sfEventDispatcher $dispatcher  An event dispatcher
      */
-    public function __construct($environment, $debug, $rootDir = null, sfEventDispatcher $dispatcher = null)
+    public function __construct($environment, $debug, $rootDir = null, ?sfEventDispatcher $dispatcher = null)
     {
         $this->environment = $environment;
         $this->debug = (bool) $debug;
@@ -367,7 +367,7 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
                 sfConfig::get('sf_app_lib_dir').'/helper', // application
                 sfConfig::get('sf_lib_dir').'/helper',     // project
             ],
-            $this->getPluginSubPaths('/lib/helper'),         // plugins
+            $this->getPluginSubPaths('/lib/helper'),       // plugins
             [$this->getSymfonyLibDir().'/helper']          // symfony
         );
     }

@@ -24,8 +24,7 @@ foreach ([
     'http://127.0.0.1/',
     'http://127.0.0.1:80/',
     'ftp://google.com/foo.tgz',
-    'ftps://google.com/foo.tgz',
-] as $url) {
+    'ftps://google.com/foo.tgz', ] as $url) {
     $t->is($v->clean($url), $url, '->clean() checks that the value is a valid URL');
 }
 

@@ -245,7 +245,7 @@ abstract class sfFormDoctrine extends sfFormObject
 
         // update defaults for the main object
         if ($this->isNew()) {
-            $defaults += $this->getObject()->toArray(false);
+            $defaults = $defaults + $this->getObject()->toArray(false);
         } else {
             $defaults = $this->getObject()->toArray(false) + $defaults;
         }
@@ -340,7 +340,7 @@ abstract class sfFormDoctrine extends sfFormObject
      *
      * @return string The filename used to save the file
      */
-    protected function saveFile($field, $filename = null, sfValidatedFile $file = null)
+    protected function saveFile($field, $filename = null, ?sfValidatedFile $file = null)
     {
         if (!$this->validatorSchema[$field] instanceof sfValidatorFile) {
             throw new LogicException(sprintf('You cannot save the current file for field "%s" as the field is not a file.', $field));

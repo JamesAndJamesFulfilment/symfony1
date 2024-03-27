@@ -730,7 +730,6 @@ class sfDateFormat
 
             case 'Z':
                 $pattern = 'O';
-
                 // no break
             default:
                 throw new sfException('The pattern for time zone is "z" or "Z".');

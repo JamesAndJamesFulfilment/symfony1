@@ -160,7 +160,7 @@ class sfAPCuCache extends sfCache
      *
      * @param string $key The cache key
      *
-     * @return array|false|string
+     * @return string|false|array
      */
     protected function getCacheInfo($key)
     {

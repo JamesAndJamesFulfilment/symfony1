@@ -154,7 +154,8 @@ class sfMessageSource_MySQL extends sfMessageSource_Database
     {
         $variant = mysql_real_escape_string($variant, $this->db);
 
-        $statement = "SELECT t.id, t.source, t.target, t.comments
+        $statement =
+          "SELECT t.id, t.source, t.target, t.comments
         FROM trans_unit t, catalogue c
         WHERE c.cat_id =  t.cat_id
           AND c.name = '{$variant}'

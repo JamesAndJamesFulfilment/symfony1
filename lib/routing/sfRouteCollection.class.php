@@ -56,7 +56,8 @@ class sfRouteCollection implements Iterator
     /**
      * Reset the error array to the beginning (implements the Iterator interface).
      */
-    public function rewind(): void
+    #[\ReturnTypeWillChange]
+    public function rewind()
     {
         reset($this->routes);
 
@@ -68,7 +69,8 @@ class sfRouteCollection implements Iterator
      *
      * @return string The key
      */
-    public function key(): mixed
+    #[\ReturnTypeWillChange]
+    public function key()
     {
         return key($this->routes);
     }
@@ -78,7 +80,8 @@ class sfRouteCollection implements Iterator
      *
      * @return mixed The escaped value
      */
-    public function current(): mixed
+    #[\ReturnTypeWillChange]
+    public function current()
     {
         return current($this->routes);
     }
@@ -86,7 +89,8 @@ class sfRouteCollection implements Iterator
     /**
      * Moves to the next route (implements the Iterator interface).
      */
-    public function next(): void
+    #[\ReturnTypeWillChange]
+    public function next()
     {
         next($this->routes);
 
@@ -98,7 +102,8 @@ class sfRouteCollection implements Iterator
      *
      * @return bool The validity of the current route; true if it is valid
      */
-    public function valid(): bool
+    #[\ReturnTypeWillChange]
+    public function valid()
     {
         return $this->count > 0;
     }

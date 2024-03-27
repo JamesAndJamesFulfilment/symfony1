@@ -3,7 +3,7 @@
 $app = 'frontend';
 $fixtures = 'fixtures/fixtures.yml';
 
-include __DIR__.'/../../bootstrap/functional.php';
+include dirname(__FILE__).'/../../bootstrap/functional.php';
 
 $t = new lime_test(2);
 

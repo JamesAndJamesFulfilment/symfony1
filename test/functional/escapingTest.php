@@ -41,4 +41,5 @@ $b->get('/escaping/off')
     ->isStatusCode(200)
     ->matches('#<h1>Lorem <strong>ipsum</strong> dolor sit amet.</h1>#')
     ->matches('#<h2>Lorem <strong>ipsum</strong> dolor sit amet.</h2>#')
-    ->end();
+    ->end()
+;

@@ -48,7 +48,7 @@ class sfProjectConfiguration
      * @param string            $rootDir    The project root directory
      * @param sfEventDispatcher $dispatcher The event dispatcher
      */
-    public function __construct($rootDir = null, sfEventDispatcher $dispatcher = null)
+    public function __construct($rootDir = null, ?sfEventDispatcher $dispatcher = null)
     {
         if (null === self::$active || $this instanceof sfApplicationConfiguration) {
             self::$active = $this;
@@ -231,9 +231,9 @@ class sfProjectConfiguration
     {
         return array_merge(
             [sfConfig::get('sf_data_dir').'/generator/'.$class.'/'.$theme.'/template'], // project
-            $this->getPluginSubPaths('/data/generator/'.$class.'/'.$theme.'/template'),   // plugins
-            [sfConfig::get('sf_data_dir').'/generator/'.$class.'/default/template'],        // project (default theme)
-            $this->getPluginSubPaths('/data/generator/'.$class.'/default/template')           // plugins (default theme)
+            $this->getPluginSubPaths('/data/generator/'.$class.'/'.$theme.'/template'), // plugins
+            [sfConfig::get('sf_data_dir').'/generator/'.$class.'/default/template'],    // project (default theme)
+            $this->getPluginSubPaths('/data/generator/'.$class.'/default/template')     // plugins (default theme)
         );
     }
 
@@ -249,9 +249,9 @@ class sfProjectConfiguration
     {
         return array_merge(
             [sfConfig::get('sf_data_dir').'/generator/'.$class.'/'.$theme.'/skeleton'], // project
-            $this->getPluginSubPaths('/data/generator/'.$class.'/'.$theme.'/skeleton'),   // plugins
-            [sfConfig::get('sf_data_dir').'/generator/'.$class.'/default/skeleton'],        // project (default theme)
-            $this->getPluginSubPaths('/data/generator/'.$class.'/default/skeleton')           // plugins (default theme)
+            $this->getPluginSubPaths('/data/generator/'.$class.'/'.$theme.'/skeleton'), // plugins
+            [sfConfig::get('sf_data_dir').'/generator/'.$class.'/default/skeleton'],    // project (default theme)
+            $this->getPluginSubPaths('/data/generator/'.$class.'/default/skeleton')     // plugins (default theme)
         );
     }
 
@@ -295,7 +295,7 @@ class sfProjectConfiguration
 
         foreach ($this->getPluginPaths() as $path) {
             if (is_file($file = $path.'/'.$globalConfigPath)) {
-                $files[] = $file;                                       // plugins
+                $files[] = $file;                                   // plugins
             }
         }
 
@@ -306,7 +306,7 @@ class sfProjectConfiguration
 
         foreach ($this->getPluginPaths() as $path) {
             if (is_file($file = $path.'/'.$configPath)) {
-                $files[] = $file;                                      // plugins
+                $files[] = $file;                                   // plugins
             }
         }
 
@@ -589,7 +589,7 @@ class sfProjectConfiguration
      *
      * @return sfApplicationConfiguration A sfApplicationConfiguration instance
      */
-    public static function getApplicationConfiguration($application, $environment, $debug, $rootDir = null, sfEventDispatcher $dispatcher = null)
+    public static function getApplicationConfiguration($application, $environment, $debug, $rootDir = null, ?sfEventDispatcher $dispatcher = null)
     {
         $class = $application.'Configuration';
 

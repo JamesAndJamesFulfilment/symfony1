@@ -10,4 +10,9 @@ class ProjectConfiguration extends sfProjectConfiguration
         $this->enableAllPluginsExcept(['sfDoctrinePlugin']);
         $this->enablePlugins('sfAutoloadPlugin');
     }
+
+    public function isProduction()
+    {
+        return false;
+    }
 }

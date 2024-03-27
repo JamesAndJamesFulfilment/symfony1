@@ -47,6 +47,14 @@ services:
         - db
         - memcached
 
+  php81:
+    <<: *services_php74
+    build:
+      args:
+        PHP_VERSION: '8.1'
+        MEMCACHE_VERSION: '8.0'
+        APCU_VERSION: '5.1.23'
+
   php82:
     <<: *services_php74
     build:

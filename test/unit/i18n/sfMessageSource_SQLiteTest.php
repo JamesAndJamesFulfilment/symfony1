@@ -97,6 +97,7 @@ function init_fixtures($temp)
         $db->exec($query);
     }
 
-    return sfMessageSource::factory('SQLite', 'sqlite://localhost/'.$temp);
     $db->close();
+
+    return sfMessageSource::factory('SQLite', 'sqlite://localhost/'.$temp);
 }

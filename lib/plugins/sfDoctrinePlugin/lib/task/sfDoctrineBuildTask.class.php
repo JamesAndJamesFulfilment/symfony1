@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__.'/sfDoctrineBaseTask.class.php';
+require_once dirname(__FILE__).'/sfDoctrineBaseTask.class.php';
 
 /**
  * Generates code based on your schema.
@@ -257,7 +257,7 @@ EOF;
         $mode = 0;
         foreach ($this->getBuildOptions() as $name => $value) {
             if (isset($options[$name]) && true === $options[$name]) {
-                $mode |= $value;
+                $mode = $mode | $value;
             }
         }
 

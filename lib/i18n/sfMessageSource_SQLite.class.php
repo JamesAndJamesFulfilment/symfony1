@@ -117,7 +117,8 @@ class sfMessageSource_SQLite extends sfMessageSource_Database
     {
         $variant = sqlite_escape_string($variant);
 
-        $statement = "SELECT t.id, t.source, t.target, t.comments
+        $statement =
+          "SELECT t.id, t.source, t.target, t.comments
         FROM trans_unit t, catalogue c
         WHERE c.cat_id =  t.cat_id
           AND c.name = '{$variant}'

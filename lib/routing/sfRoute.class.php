@@ -547,7 +547,6 @@ class sfRoute implements Serializable
 
                         break;
                     }
-
                     // no break
                 default:
                     // everything else indicates variable parts. break switch and for loop

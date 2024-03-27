@@ -74,7 +74,7 @@ class sfParameterHolder implements Serializable
      */
     public function &get($name, $default = null)
     {
-        if (isset($this->parameters[$name]) && '' !== $this->parameters[$name]) {
+        if (array_key_exists($name, $this->parameters)) {
             $value = &$this->parameters[$name];
         } else {
             $value = $default;

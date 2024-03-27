@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../../../../../autoload/sfCoreAutoload.class.php';
+require_once dirname(__FILE__).'/../../../../../../autoload/sfCoreAutoload.class.php';
 sfCoreAutoload::register();
 
 class ProjectConfiguration extends sfProjectConfiguration
@@ -31,7 +31,7 @@ class ProjectConfiguration extends sfProjectConfiguration
 
     public function loadFixtures($fixtures)
     {
-        $path = sfConfig::get('sf_data_dir') . '/' . $fixtures;
+        $path = sfConfig::get('sf_data_dir').'/'.$fixtures;
         if (!file_exists($path)) {
             throw new sfException('Invalid data fixtures file');
         }
@@ -61,5 +61,10 @@ class ProjectConfiguration extends sfProjectConfiguration
         if ('doctrine2' === $parameters['connection']->getName()) {
             $parameters['connection']->setAttribute(Doctrine_Core::ATTR_VALIDATE, false);
         }
+    }
+
+    public function isProduction()
+    {
+        return false;
     }
 }
