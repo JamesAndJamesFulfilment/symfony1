@@ -38,11 +38,11 @@ abstract class sfDoctrineBaseTask extends sfBaseTask
      *
      * @see sfDoctrineCli
      */
-    public function callDoctrineCli($task, $args = array())
+    public function callDoctrineCli($task, $args = [])
     {
         $config = $this->getCliConfig();
 
-        $arguments = array('./symfony', $task);
+        $arguments = ['./symfony', $task];
 
         foreach ($args as $key => $arg) {
             if (isset($config[$key])) {
@@ -67,9 +67,9 @@ abstract class sfDoctrineBaseTask extends sfBaseTask
      *
      * @throws InvalidArgumentException If a requested database is not a Doctrine database
      */
-    protected function getDoctrineDatabases(sfDatabaseManager $databaseManager, array $names = null)
+    protected function getDoctrineDatabases(sfDatabaseManager $databaseManager, ?array $names = null)
     {
-        $databases = array();
+        $databases = [];
 
         if (null === $names) {
             foreach ($databaseManager->getNames() as $name) {
@@ -116,12 +116,11 @@ abstract class sfDoctrineBaseTask extends sfBaseTask
      */
     protected function prepareSchemaFile($yamlSchemaPath)
     {
-        $models = array();
+        $models = [];
         $finder = sfFinder::type('file')
             ->name('*.yml')
             ->sort_by_name()
-            ->follow_link()
-        ;
+            ->follow_link();
 
         // plugin models
         foreach ($this->configuration->getPlugins() as $name) {
@@ -191,7 +190,7 @@ abstract class sfDoctrineBaseTask extends sfBaseTask
      */
     protected function filterSchemaGlobals(&$models)
     {
-        $globals = array();
+        $globals = [];
         $globalKeys = Doctrine_Import_Schema::getGlobalDefinitionKeys();
 
         foreach ($models as $key => $value) {
@@ -218,7 +217,7 @@ abstract class sfDoctrineBaseTask extends sfBaseTask
         if (isset($definition['columns'])) {
             foreach ($definition['columns'] as $key => $value) {
                 if (!is_array($value)) {
-                    $definition['columns'][$key] = array('type' => $value);
+                    $definition['columns'][$key] = ['type' => $value];
                     $value = $definition['columns'][$key];
                 }
 
@@ -238,7 +237,7 @@ abstract class sfDoctrineBaseTask extends sfBaseTask
         if (isset($definition['actAs'])) {
             foreach ($definition['actAs'] as $key => $value) {
                 if (is_numeric($key)) {
-                    $definition['actAs'][$value] = array();
+                    $definition['actAs'][$value] = [];
                     unset($definition['actAs'][$key]);
                 }
             }
@@ -248,7 +247,7 @@ abstract class sfDoctrineBaseTask extends sfBaseTask
         if (isset($definition['listeners'])) {
             foreach ($definition['listeners'] as $key => $value) {
                 if (is_numeric($key)) {
-                    $definition['listeners'][$value] = array();
+                    $definition['listeners'][$value] = [];
                     unset($definition['listeners'][$key]);
                 }
             }

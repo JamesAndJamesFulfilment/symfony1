@@ -22,11 +22,11 @@ if (!extension_loaded('mysqli')) {
 }
 
 // Configure your database with the settings below in order to run the test
-$mysqli_config = array(
+$mysqli_config = [
     'host' => 'localhost',
     'username' => 'root',
     'password' => '',
-);
+];
 
 if (!isset($mysqli_config)) {
     $t->skip('Mysql credentials needed to run these tests', $plan);
@@ -60,10 +60,10 @@ ini_set('session.use_cookies', 0);
 $session_id = '1';
 
 $storage = new sfMySQLiSessionStorage(
-    array(
+    [
         'db_table' => 'session',
         'session_id' => $session_id,
-        'database' => $database)
+        'database' => $database]
 );
 
 $t->ok($storage instanceof sfStorage, 'sfMySQLiSessionStorage is an instance of sfStorage');

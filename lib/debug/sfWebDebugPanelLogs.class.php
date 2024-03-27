@@ -81,7 +81,7 @@ class sfWebDebugPanelLogs extends sfWebDebugPanel
         }
         $html .= '</table>';
 
-        $types = array();
+        $types = [];
         foreach ($this->webDebug->getLogger()->getTypes() as $type) {
             $types[] = '<a href="#" onclick="sfWebDebugToggleMessages(\'' . $type . '\'); return false;">' . $type . '</a>';
         }
@@ -111,7 +111,7 @@ class sfWebDebugPanelLogs extends sfWebDebugPanel
         static $constants;
 
         if (!$constants) {
-            foreach (array('sf_app_dir', 'sf_root_dir', 'sf_symfony_lib_dir') as $constant) {
+            foreach (['sf_app_dir', 'sf_root_dir', 'sf_symfony_lib_dir'] as $constant) {
                 $constants[realpath(sfConfig::get($constant)) . DIRECTORY_SEPARATOR] = $constant . DIRECTORY_SEPARATOR;
             }
         }

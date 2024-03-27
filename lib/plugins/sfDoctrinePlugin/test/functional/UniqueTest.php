@@ -14,12 +14,12 @@ require_once __DIR__ . '/../bootstrap/functional.php';
 
 $t = new lime_test(2);
 
-$data = array(
+$data = [
     'unique_test1' => 'test',
     'unique_test2' => 'test',
     'unique_test3' => 'test',
     'unique_test4' => 'test',
-);
+];
 
 $uniqueTestForm = new UniqueTestForm();
 $uniqueTestForm->bind($data);

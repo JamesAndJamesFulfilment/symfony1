@@ -29,7 +29,7 @@ class sfCacheSessionStorage extends sfStorage
     protected $cache;
 
     /** @var array */
-    protected $data = array();
+    protected $data = [];
 
     /** @var bool */
     protected $dataChanged = false;
@@ -49,7 +49,7 @@ class sfCacheSessionStorage extends sfStorage
      *
      * @throws sfInitializationException If an error occurs while initializing this Storage
      */
-    public function initialize($options = array())
+    public function initialize($options = [])
     {
         // initialize parent
 
@@ -60,21 +60,21 @@ class sfCacheSessionStorage extends sfStorage
         }
 
         parent::initialize(array_merge(
-            array(
-                'session_name' => 'sfproject',
+            [
+                'session_name'            => 'sfproject',
                 'session_cookie_lifetime' => '+30 days',
-                'session_cookie_path' => '/',
-                'session_cookie_domain' => null,
-                'session_cookie_secure' => false,
+                'session_cookie_path'     => '/',
+                'session_cookie_domain'   => null,
+                'session_cookie_secure'   => false,
                 'session_cookie_httponly' => true,
-                'session_cookie_secret' => 'sf$ecret',
-            ),
+                'session_cookie_secret'   => 'sf$ecret'
+            ],
             $options
         ));
 
         // create cache instance
         if (isset($this->options['cache']) && $this->options['cache']['class']) {
-            $this->cache = new $this->options['cache']['class'](is_array($this->options['cache']['param']) ? $this->options['cache']['param'] : array());
+            $this->cache = new $this->options['cache']['class'](is_array($this->options['cache']['param']) ? $this->options['cache']['param'] : []);
         } else {
             throw new InvalidArgumentException('sfCacheSessionStorage requires cache option.');
         }
@@ -110,7 +110,7 @@ class sfCacheSessionStorage extends sfStorage
             $this->id = md5(mt_rand(0, 999999) . $ip . $ua . $this->options['session_cookie_secret']);
 
             if (sfConfig::get('sf_logging_enabled')) {
-                $this->dispatcher->notify(new sfEvent($this, 'application.log', array('New session created')));
+                $this->dispatcher->notify(new sfEvent($this, 'application.log', ['New session created']));
             }
 
             // only send cookie when id is issued
@@ -124,13 +124,13 @@ class sfCacheSessionStorage extends sfStorage
                 $this->options['session_cookie_httponly']
             );
 
-            $this->data = array();
+            $this->data = [];
         } else {
             // load data from cache. Watch out for the default case. We could
             // serialize([]) as the default to the call but that would be a performance hit
             $raw = $this->cache->get($this->id, null);
             if (null === $raw) {
-                $this->data = array();
+                $this->data = [];
             } else {
                 $data = @unserialize($raw);
 
@@ -146,7 +146,7 @@ class sfCacheSessionStorage extends sfStorage
             }
 
             if (sfConfig::get('sf_logging_enabled')) {
-                $this->dispatcher->notify(new sfEvent($this, 'application.log', array('Restored previous session')));
+                $this->dispatcher->notify(new sfEvent($this, 'application.log', ['Restored previous session']));
             }
         }
         session_id($this->id);
@@ -225,7 +225,7 @@ class sfCacheSessionStorage extends sfStorage
     public function regenerate($destroy = false)
     {
         if ($destroy) {
-            $this->data = array();
+            $this->data = [];
             $this->cache->remove($this->id);
         }
 
@@ -261,7 +261,7 @@ class sfCacheSessionStorage extends sfStorage
         $this->regenerate(true);
 
         if (sfConfig::get('sf_logging_enabled')) {
-            $this->dispatcher->notify(new sfEvent($this, 'application.log', array('new session created due to expiraton')));
+            $this->dispatcher->notify(new sfEvent($this, 'application.log', ['new session created due to expiraton']));
         }
     }
 
@@ -276,7 +276,7 @@ class sfCacheSessionStorage extends sfStorage
         if (true === $this->dataChanged) {
             $this->cache->set($this->id, serialize($this->data));
             if (sfConfig::get('sf_logging_enabled')) {
-                $this->dispatcher->notify(new sfEvent($this, 'application.log', array('Storing session to cache')));
+                $this->dispatcher->notify(new sfEvent($this, 'application.log', ['Storing session to cache']));
             }
         }
     }
