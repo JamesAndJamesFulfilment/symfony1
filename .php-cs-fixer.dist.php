@@ -29,6 +29,7 @@ $config
         '@PhpCsFixer' => true,
         '@Symfony' => true,
         'array_syntax' => ['syntax' => 'short'],
+        'nullable_type_declaration_for_default_null_value' => true,
     ])
     ->setCacheFile('.cache/php-cs-fixer.cache')
     ->setFinder($finder)
