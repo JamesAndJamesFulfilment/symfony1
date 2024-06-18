@@ -130,7 +130,7 @@ class sfCacheSessionStorage extends sfStorage
             } else {
                 $data = json_decode($raw, true);
                 if (is_array($data)) {
-                    $this->data = $data;
+                    $this->data = $this->upgradeNestedRouteObjects($data);
                 } else {
                     $data = @unserialize($raw);
 
@@ -154,6 +154,38 @@ class sfCacheSessionStorage extends sfStorage
         $this->response->addCacheControlHttpHeader('private');
 
         return true;
+    }
+
+    /**
+     * Recursive method to search through a json_decode()'d cache payload for
+     * any values which _would have been_ sfRoute objects before serialisation.
+     * If any are found, then also rebuilds the sfRoute object from the cached
+     * values and injects it back into the array.
+     *
+     * @param  array  $raw  A dictionary of key => value pairs
+     */
+    protected function upgradeNestedRouteObjects(array $raw): array
+    {
+        foreach ($raw as $key => $value) {
+            if (is_array($value)) {
+                if (
+                    $key == 'route'
+                    && isset(
+                        $value['pattern'],
+                        $value['defaults'],
+                        $value['requirements'],
+                        $value['options']
+                    )
+                ) {
+                    $raw[$key] = sfRoute::jsonUnserialize($value);
+                    continue;
+                }
+
+                $raw[$key] = $this->upgradeNestedRouteObjects($value);
+            }
+        }
+
+        return $raw;
     }
 
   /**
