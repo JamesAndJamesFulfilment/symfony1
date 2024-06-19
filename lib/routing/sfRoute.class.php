@@ -882,7 +882,7 @@ class sfRoute implements Serializable, JsonSerializable
             $raw['pattern'],
             $raw['defaults'],
             $raw['requirements'],
-            $raw['options']
+            $raw['options'],
         );
 
         $rebuilt->compile();

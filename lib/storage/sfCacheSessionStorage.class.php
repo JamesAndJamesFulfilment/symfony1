@@ -62,7 +62,7 @@ class sfCacheSessionStorage extends sfStorage
                 'session_cookie_domain'   => null,
                 'session_cookie_secure'   => false,
                 'session_cookie_httponly' => true,
-                'session_cookie_secret'   => 'sf$ecret'
+                'session_cookie_secret'   => 'sf$ecret',
             ],
             $options
         ));
@@ -118,7 +118,7 @@ class sfCacheSessionStorage extends sfStorage
                 $this->options['session_cookie_path'],
                 $this->options['session_cookie_domain'],
                 $this->options['session_cookie_secure'],
-                $this->options['session_cookie_httponly']
+                $this->options['session_cookie_httponly'],
             );
 
             $this->data = [];
@@ -174,7 +174,7 @@ class sfCacheSessionStorage extends sfStorage
                         $value['pattern'],
                         $value['defaults'],
                         $value['requirements'],
-                        $value['options']
+                        $value['options'],
                     )
                 ) {
                     $raw[$key] = sfRoute::jsonUnserialize($value);
@@ -282,7 +282,7 @@ class sfCacheSessionStorage extends sfStorage
             $this->options['session_cookie_path'],
             $this->options['session_cookie_domain'],
             $this->options['session_cookie_secure'],
-            $this->options['session_cookie_httponly']
+            $this->options['session_cookie_httponly'],
         );
 
         session_id($this->id);
