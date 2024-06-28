@@ -196,7 +196,7 @@ EOF;
             }
         }
 
-        if ($options['and-migrate']) {
+        if ($options['and-migrate'] ?? false) {
             $task = new sfDoctrineMigrateTask($this->dispatcher, $this->formatter);
             $task->setCommandApplication($this->commandApplication);
             $task->setConfiguration($this->configuration);
@@ -216,7 +216,7 @@ EOF;
             }
         }
 
-        if (count($options['and-load']) || count($options['and-append'])) {
+        if (count($options['and-load'] ?? []) || count($options['and-append'] ?? [])) {
             $task = new sfDoctrineDataLoadTask($this->dispatcher, $this->formatter);
             $task->setCommandApplication($this->commandApplication);
             $task->setConfiguration($this->configuration);
@@ -231,7 +231,7 @@ EOF;
                 }
             }
 
-            if (count($options['and-append'])) {
+            if (count($options['and-append'] ?? [])) {
                 $ret = $task->run([
                     'dir_or_file' => in_array([], $options['and-append'], true) ? null : $options['and-append'],
                 ], [
