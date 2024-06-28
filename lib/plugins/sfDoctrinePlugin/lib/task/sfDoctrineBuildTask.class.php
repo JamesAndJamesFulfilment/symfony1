@@ -45,13 +45,13 @@ class sfDoctrineBuildTask extends sfDoctrineBaseTask
         $options = [
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_OPTIONAL, 'The application name', true),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
+            new sfCommandOption('all-classes', null, sfCommandOption::PARAMETER_NONE, 'Build all classes'),
         ];
 
         if (!sfProjectConfiguration::getActive()->isProduction()) {
             $options = array_merge($options, [
                 new sfCommandOption('no-confirmation', null, sfCommandOption::PARAMETER_NONE, 'Whether to force dropping of the database'),
                 new sfCommandOption('all', null, sfCommandOption::PARAMETER_NONE, 'Build everything and reset the database'),
-                new sfCommandOption('all-classes', null, sfCommandOption::PARAMETER_NONE, 'Build all classes'),
                 new sfCommandOption('model', null, sfCommandOption::PARAMETER_NONE, 'Build model classes'),
                 new sfCommandOption('forms', null, sfCommandOption::PARAMETER_NONE, 'Build form classes'),
                 new sfCommandOption('filters', null, sfCommandOption::PARAMETER_NONE, 'Build filter classes'),
