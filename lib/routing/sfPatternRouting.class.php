@@ -154,27 +154,31 @@ class sfPatternRouting extends sfRouting
     return $this->routes;
   }
 
-  /**
-   * @see  sfRouting
-   * @inheritdoc
-   */
-  public function getRoute($name)
-  {
-    if (!array_key_exists($name, $this->routes))
+    /**
+    * @see  sfRouting
+    * @inheritdoc
+     */
+    public function getRoute($name)
     {
-      throw new sfException(sprintf('Route "%s" is not defined.', $name));
+        if (!array_key_exists($name, $this->routes)) {
+            throw new sfException(sprintf('Route "%s" is not defined.', $name));
+        }
+
+        $route = $this->routes[$name];
+
+        if (is_string($route)) {
+            $decoded = json_decode($route, true);
+            $route   = is_array($decoded) ? sfRoute::jsonUnserialize($decoded) : unserialize($route);
+
+            if (is_object($route) && method_exists($route, 'setDefaultParameters')) {
+                $route->setDefaultParameters($this->defaultParameters);
+            }
+
+            $this->routes[$name] = $route;
+        }
+
+        return $route;
     }
-
-    $route = $this->routes[$name];
-
-    if (is_string($route))
-    {
-      $this->routes[$name] = $route = unserialize($route);
-      $route->setDefaultParameters($this->defaultParameters);
-    }
-
-    return $route;
-  }
 
   /**
    * @see sfRouting

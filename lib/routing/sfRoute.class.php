@@ -887,6 +887,8 @@ class sfRoute implements Serializable, JsonSerializable
 
         $rebuilt->compile();
 
+        $rebuilt->setDefaultOptions($raw['defaultOptions']);
+
         return $rebuilt;
     }
 }
