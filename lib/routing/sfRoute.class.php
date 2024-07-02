@@ -449,17 +449,17 @@ class sfRoute implements Serializable, JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'tokens'         => $this->tokens,
+            'tokens' => $this->tokens,
             'defaultOptions' => $this->defaultOptions,
-            'options'        => $this->options,
-            'pattern'        => $this->pattern,
-            'staticPrefix'   => $this->staticPrefix,
-            'regex'          => $this->regex,
-            'variables'      => $this->variables,
-            'defaults'       => $this->defaults,
-            'requirements'   => $this->requirements,
-            'suffix'         => $this->suffix,
-            'customToken'    => $this->customToken,
+            'options' => $this->options,
+            'pattern' => $this->pattern,
+            'staticPrefix' => $this->staticPrefix,
+            'regex' => $this->regex,
+            'variables' => $this->variables,
+            'defaults' => $this->defaults,
+            'requirements' => $this->requirements,
+            'suffix' => $this->suffix,
+            'customToken' => $this->customToken,
         ];
     }
 
@@ -473,6 +473,8 @@ class sfRoute implements Serializable, JsonSerializable
         );
 
         $rebuilt->compile();
+
+        $rebuilt->setDefaultOptions($raw['defaultOptions']);
 
         return $rebuilt;
     }

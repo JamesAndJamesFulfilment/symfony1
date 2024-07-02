@@ -166,14 +166,14 @@ class sfCacheSessionStorage extends sfStorage
      * If any are found, then also rebuilds the sfRoute object from the cached
      * values and injects it back into the array.
      *
-     * @param  array  $raw  A dictionary of key => value pairs
+     * @param array $raw A dictionary of key => value pairs
      */
     protected function upgradeNestedRouteObjects(array $raw): array
     {
         foreach ($raw as $key => $value) {
             if (is_array($value)) {
                 if (
-                    $key == 'route'
+                    'route' == $key
                     && isset(
                         $value['pattern'],
                         $value['defaults'],
