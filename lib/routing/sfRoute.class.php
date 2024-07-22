@@ -449,6 +449,7 @@ class sfRoute implements Serializable, JsonSerializable
     public function jsonSerialize(): array
     {
         return [
+            'class' => get_class($this),
             'tokens' => $this->tokens,
             'defaultOptions' => $this->defaultOptions,
             'options' => $this->options,
@@ -465,7 +466,8 @@ class sfRoute implements Serializable, JsonSerializable
 
     public static function jsonUnserialize(array $raw): self
     {
-        $rebuilt = new self(
+        $class = $raw['class'] ?? 'sfRoute';
+        $rebuilt = new $class(
             $raw['pattern'],
             $raw['defaults'],
             $raw['requirements'],
