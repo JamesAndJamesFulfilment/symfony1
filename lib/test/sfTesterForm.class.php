@@ -137,7 +137,7 @@ class sfTesterForm extends sfTester
             $this->tester->ok($error && count($error) > 0, sprintf('the submitted form has a "%s" error.', $field));
         } elseif (is_int($value)) {
             $this->tester->ok($error && count($error) == $value, sprintf('the submitted form has %s "%s" error(s).', $value, $field));
-        } elseif (preg_match('/^(!)?([^a-zA-Z0-9\\\\]).+?\\2[ims]?$/', $value, $match)) {
+        } elseif (preg_match('/^(!)?([^a-zA-Z0-9\\\]).+?\2[ims]?$/', $value, $match)) {
             if (!$error) {
                 $this->tester->fail(sprintf('the submitted form has a "%s" error.', $field));
             } else {

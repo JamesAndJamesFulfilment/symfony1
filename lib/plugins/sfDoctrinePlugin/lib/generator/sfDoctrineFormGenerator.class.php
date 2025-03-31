@@ -543,7 +543,7 @@ class sfDoctrineFormGenerator extends sfGenerator
 
     public function underscore($name)
     {
-        return strtolower(preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'], '\\1_\\2', $name));
+        return strtolower(preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'], '\1_\2', $name));
     }
 
     /**
