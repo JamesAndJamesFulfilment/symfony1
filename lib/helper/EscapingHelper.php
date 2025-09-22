@@ -107,7 +107,7 @@ function esc_js_no_entities($value)
 {
     return str_replace(
         ['\\', "\n", "\r", '"', "'"],
-        ['\\\\', '\\n', '\\r', '\\"', "\\'"],
+        ['\\\\', '\n', '\r', '\"', "\\'"],
         $value
     );
 }

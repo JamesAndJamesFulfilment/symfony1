@@ -543,7 +543,7 @@ class sfDoctrineFormGenerator extends sfGenerator
 
     public function underscore($name)
     {
-        return strtolower(preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'], '\\1_\\2', $name));
+        return strtolower(preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'], '\1_\2', $name));
     }
 
     /**
@@ -567,13 +567,13 @@ class sfDoctrineFormGenerator extends sfGenerator
         if ($parentModel) {
             $parentRelationNames = array_keys(Doctrine_Core::getTable($parentModel)->getRelations());
             $relations = $this->table->getRelations();
-
+            $relationColumns = [];
             foreach (array_diff(array_keys($relations), $parentRelationNames) as $relationName) {
                 if (Doctrine_Relation::ONE == $relations[$relationName]->getType()) {
                     $columnName = $relations[$relationName]->getLocal();
-                    if (!in_array($columnName, $names)) {
+                    if (!in_array($columnName, $relationColumns)) {
+                        $relationColumns[] = $columnName;
                         $columns[] = new sfDoctrineColumn($columnName, $this->table);
-                        $names[] = $columnName;
                     }
                 }
             }

@@ -67,7 +67,7 @@ class sfWebDebugPanelLogs extends sfWebDebugPanel
 
             ++$line_nb;
             $html .= sprintf(
-                "<tr class='sfWebDebugLogLine sfWebDebug%s %s'><td class=\"sfWebDebugLogNumber\">%s</td><td style=\"background-color:%s\">%s</td><td class=\"sfWebDebugLogType\">%s&nbsp;%s</td><td>%s %s</td></tr>\n",
+                "<tr class='sfWebDebugLogLine sfWebDebug%s %s'><td class=\"sfWebDebugLogNumber\">%s</td><td class=\"sfWebDebugLogType\">%s&nbsp;%s</td><td>%s %s</td></tr>\n",
                 ucfirst($priority),
                 $log['type'],
                 $line_nb,
@@ -121,9 +121,9 @@ class sfWebDebugPanelLogs extends sfWebDebugPanel
 
         // replace constants value with constant name
         $logLine = str_replace(array_keys($constants), array_values($constants), $logLine);
-        $logLine = preg_replace('/&quot;(.+?)&quot;/s', '<span class="sfWebDebugLogInfo">\\1</span>', $logLine);
-        $logLine = preg_replace('/^(.+?)\(\)\:/S', '<span class="sfWebDebugLogInfo">\\1()</span>:', $logLine);
-        $logLine = preg_replace('/line (\d+)$/', 'line <span class="sfWebDebugLogInfo">\\1</span>', $logLine);
+        $logLine = preg_replace('/&quot;(.+?)&quot;/s', '<span class="sfWebDebugLogInfo">\1</span>', $logLine);
+        $logLine = preg_replace('/^(.+?)\(\)\:/S', '<span class="sfWebDebugLogInfo">\1()</span>:', $logLine);
+        $logLine = preg_replace('/line (\d+)$/', 'line <span class="sfWebDebugLogInfo">\1</span>', $logLine);
 
         // special formatting for SQL lines
         $logLine = $this->formatSql($logLine);
