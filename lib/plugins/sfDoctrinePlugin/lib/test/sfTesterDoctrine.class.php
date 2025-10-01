@@ -113,7 +113,7 @@ class sfTesterDoctrine extends sfTester
 
         if (is_integer($limit)) {
             $events = array_slice($events, $limit * -1);
-        } elseif (preg_match('/^(!)?([^a-zA-Z0-9\\\\]).+?\\2[ims]?$/', $limit, $match)) {
+        } elseif (preg_match('/^(!)?([^a-zA-Z0-9\\\]).+?\2[ims]?$/', $limit, $match)) {
             if ('!' == $match[1]) {
                 $pattern = substr($limit, 1);
                 $match = false;

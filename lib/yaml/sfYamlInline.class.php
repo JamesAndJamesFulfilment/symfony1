@@ -15,7 +15,7 @@
  */
 class sfYamlInline
 {
-    public const REGEX_QUOTED_STRING = '(?:"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"|\'([^\']*(?:\'\'[^\']*)*)\')';
+    public const REGEX_QUOTED_STRING = '(?:"([^"\\\]*(?:\\\.[^"\\\]*)*)"|\'([^\']*(?:\'\'[^\']*)*)\')';
 
     /**
      * Convert a YAML string to a PHP array.
@@ -102,7 +102,7 @@ class sfYamlInline
                 return is_infinite($value) ? str_ireplace('INF', '.Inf', (string) $value) : (is_string($value) ? "'{$value}'" : $value);
 
             case false !== strpos($value, "\n") || false !== strpos($value, "\r"):
-                return sprintf('"%s"', str_replace(['"', "\n", "\r"], ['\\"', '\n', '\r'], $value));
+                return sprintf('"%s"', str_replace(['"', "\n", "\r"], ['\"', '\n', '\r'], $value));
 
             case preg_match('/[ \s \' " \: \{ \} \[ \] , & \* \# \?] | \A[ - ? | < > = ! % @ ` ]/x', $value):
                 return sprintf("'%s'", str_replace('\'', '\'\'', $value));
@@ -214,7 +214,7 @@ class sfYamlInline
 
         if ('"' == $scalar[$i]) {
             // evaluate the string
-            $output = str_replace(['\\"', '\\n', '\\r'], ['"', "\n", "\r"], $output);
+            $output = str_replace(['\"', '\n', '\r'], ['"', "\n", "\r"], $output);
         } else {
             // unescape '
             $output = str_replace('\'\'', '\'', $output);

@@ -220,7 +220,7 @@ abstract class sfCache
     protected function patternToRegexp($pattern)
     {
         $regexp = str_replace(
-            ['\\*\\*', '\\*'],
+            ['\*\*', '\*'],
             ['.+?', '[^'.preg_quote(sfCache::SEPARATOR, '#').']+'],
             preg_quote($pattern, '#')
         );

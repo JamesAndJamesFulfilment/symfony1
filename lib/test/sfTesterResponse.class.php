@@ -76,7 +76,7 @@ class sfTesterResponse extends sfTester
             $this->tester->cmp_ok(count($values), '>', 0, sprintf('response selector "%s" exists', $selector));
         } elseif (is_int($value)) {
             $this->tester->is(count($values), $value, sprintf('response selector "%s" matches "%s" times', $selector, $value));
-        } elseif (preg_match('/^(!)?([^a-zA-Z0-9\\\\]).+?\\2[ims]?$/', $value, $match)) {
+        } elseif (preg_match('/^(!)?([^a-zA-Z0-9\\\]).+?\2[ims]?$/', $value, $match)) {
             $position = isset($options['position']) ? $options['position'] : 0;
             if ('!' == $match[1]) {
                 $this->tester->unlike(@$values[$position], substr($value, 1), sprintf('response selector "%s" does not match regex "%s"', $selector, substr($value, 1)));
@@ -175,7 +175,7 @@ class sfTesterResponse extends sfTester
                     $filesystem->replaceTokens($finder->in($cache), '##', '##', ['LOCAL_W3' => $local]);
                 }
 
-                $content = preg_replace('#(<!DOCTYPE[^>]+")http://www.w3.org(.*")#i', '\\1'.$local.'\\2', $content);
+                $content = preg_replace('#(<!DOCTYPE[^>]+")http://www.w3.org(.*")#i', '\1'.$local.'\2', $content);
                 $dom->validateOnParse = $checkDTD;
             }
 
@@ -236,7 +236,7 @@ class sfTesterResponse extends sfTester
         $ok = false;
         $regex = false;
         $mustMatch = true;
-        if (preg_match('/^(!)?([^a-zA-Z0-9\\\\]).+?\\2[ims]?$/', $value, $match)) {
+        if (preg_match('/^(!)?([^a-zA-Z0-9\\\]).+?\2[ims]?$/', $value, $match)) {
             $regex = $value;
             if ('!' == $match[1]) {
                 $mustMatch = false;
@@ -325,7 +325,7 @@ class sfTesterResponse extends sfTester
      */
     public function matches($regex)
     {
-        if (!preg_match('/^(!)?([^a-zA-Z0-9\\\\]).+?\\2[ims]?$/', $regex, $match)) {
+        if (!preg_match('/^(!)?([^a-zA-Z0-9\\\]).+?\2[ims]?$/', $regex, $match)) {
             throw new InvalidArgumentException(sprintf('"%s" is not a valid regular expression.', $regex));
         }
 

@@ -374,7 +374,7 @@ class sfFinder
     // glob, patterns (must be //) or strings
     protected function to_regex($str)
     {
-        if (preg_match('/^(!)?([^a-zA-Z0-9\\\\]).+?\\2[ims]?$/', $str)) {
+        if (preg_match('/^(!)?([^a-zA-Z0-9\\\]).+?\2[ims]?$/', $str)) {
             return $str;
         }
 
@@ -642,11 +642,11 @@ class sfGlobToRegex
             if ('.' === $car || '(' === $car || ')' === $car || '|' === $car || '+' === $car || '^' === $car || '$' === $car) {
                 $regex .= "\\{$car}";
             } elseif ('*' === $car) {
-                $regex .= ($escaping ? '\\*' : (self::$strict_wildcard_slash ? '[^/]*' : '.*'));
+                $regex .= ($escaping ? '\*' : (self::$strict_wildcard_slash ? '[^/]*' : '.*'));
             } elseif ('?' === $car) {
-                $regex .= ($escaping ? '\\?' : (self::$strict_wildcard_slash ? '[^/]' : '.'));
+                $regex .= ($escaping ? '\?' : (self::$strict_wildcard_slash ? '[^/]' : '.'));
             } elseif ('{' === $car) {
-                $regex .= ($escaping ? '\\{' : '(');
+                $regex .= ($escaping ? '\{' : '(');
                 if (!$escaping) {
                     ++$in_curlies;
                 }

@@ -42,7 +42,7 @@ $t->is(cdata_section('foobar'), '<![CDATA[foobar]]>', 'cdata_section() returns a
 
 // escape_javascript()
 $t->diag('escape_javascript()');
-$t->is(escape_javascript("alert('foo');\nalert(\"bar\");"), 'alert(\\\'foo\\\');\\nalert(\\"bar\\");', 'escape_javascript() escapes JavaScript scripts');
+$t->is(escape_javascript("alert('foo');\nalert(\"bar\");"), 'alert(\\\'foo\\\');\nalert(\"bar\");', 'escape_javascript() escapes JavaScript scripts');
 
 // _get_option()
 $t->diag('_get_option()');
