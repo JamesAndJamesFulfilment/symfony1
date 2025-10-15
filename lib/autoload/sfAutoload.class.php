@@ -113,11 +113,17 @@ class sfAutoload
         }
 
         self::$freshCache = true;
-        $path = $configuration->getConfigCache()->getCacheName('config/autoload.yml');
+        $path = realpath($configuration->getConfigCache()->getCacheName('config/autoload.yml'));
         if (is_file($path)) {
             self::$freshCache = false;
             if ($force && file_exists($path) && is_writeable($path)) {
+                set_error_handler(function ($number, $message) {
+                    if (!str_ends_with($message, 'No such file or directory')) {
+                        throw new sfException($message);
+                    }
+                });
                 unlink($path);
+                restore_error_handler();
             }
         }
 
