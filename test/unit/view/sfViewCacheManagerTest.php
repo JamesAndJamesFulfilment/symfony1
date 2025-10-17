@@ -285,7 +285,7 @@ $t->is($m->generateCacheKey('mymodule/myaction'), '/mymodule/myaction', '->gener
 
 $m = new myViewCacheManager($context, new myCache());
 $t->is($m->generateCacheKey('mymodule/myaction?foo=../_bar'), '/localhost/all/mymodule/myaction/foo/_../__bar', '->generateCacheKey() prevents directory traversal');
-$t->is($m->generateCacheKey('mymodule/myaction?foo=..\\_bar'), '/localhost/all/mymodule/myaction/foo/_..\\__bar', '->generateCacheKey() prevents directory traversal');
+$t->is($m->generateCacheKey('mymodule/myaction?foo=..\_bar'), '/localhost/all/mymodule/myaction/foo/_..\__bar', '->generateCacheKey() prevents directory traversal');
 
 // ->getCurrentCacheKey()
 $t->diag('->getCurrentCacheKey()');

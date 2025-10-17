@@ -37,8 +37,8 @@ class sfInflector
     {
         $tmp = (string) $camel_cased_word;
         $tmp = str_replace('::', '/', $tmp);
-        $tmp = sfToolkit::pregtr($tmp, ['/([A-Z]+)([A-Z][a-z])/' => '\\1_\\2',
-            '/([a-z\d])([A-Z])/' => '\\1_\\2']);
+        $tmp = sfToolkit::pregtr($tmp, ['/([A-Z]+)([A-Z][a-z])/' => '\1_\2',
+            '/([a-z\d])([A-Z])/' => '\1_\2']);
 
         return strtolower($tmp);
     }
