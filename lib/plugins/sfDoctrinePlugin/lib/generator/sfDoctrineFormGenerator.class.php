@@ -543,7 +543,7 @@ class sfDoctrineFormGenerator extends sfGenerator
 
     public function underscore($name)
     {
-        return strtolower(preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'], '\1_\2', $name));
+        return strtolower(preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'], '\\1_\\2', $name));
     }
 
     /**
@@ -557,10 +557,10 @@ class sfDoctrineFormGenerator extends sfGenerator
         $parentColumns = $parentModel ? array_keys(Doctrine_Core::getTable($parentModel)->getColumns()) : [];
 
         $columns = [];
-        $names = [];
+        $names   = [];
         foreach (array_diff(array_keys($this->table->getColumns()), $parentColumns) as $name) {
             $columns[] = new sfDoctrineColumn($name, $this->table);
-            $names[] = $name;
+            $names[]   = $name;
         }
 
         // add relations to columns for inherited classes

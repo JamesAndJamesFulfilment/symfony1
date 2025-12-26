@@ -61,13 +61,13 @@ class sfCacheSessionStorage extends sfStorage
 
         parent::initialize(array_merge(
             [
-                'session_name' => 'sfproject',
+                'session_name'            => 'sfproject',
                 'session_cookie_lifetime' => '+30 days',
-                'session_cookie_path' => '/',
-                'session_cookie_domain' => null,
-                'session_cookie_secure' => false,
+                'session_cookie_path'     => '/',
+                'session_cookie_domain'   => null,
+                'session_cookie_secure'   => false,
                 'session_cookie_httponly' => true,
-                'session_cookie_secret' => 'sf$ecret',
+                'session_cookie_secret'   => 'sf$ecret',
             ],
             $options
         ));
