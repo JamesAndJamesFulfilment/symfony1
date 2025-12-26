@@ -141,12 +141,12 @@ class TGettext
     {
         if ($reverse) {
             $smap = ['"', "\n", "\t", "\r"];
-            $rmap = ['\"', '\\n"'."\n".'"', '\\t', '\\r'];
+            $rmap = ['\"', '\n"'."\n".'"', '\t', '\r'];
 
             return (string) str_replace($smap, $rmap, $string);
         }
         $string = preg_replace('/"\s+"/', '', $string);
-        $smap = ['\\n', '\\r', '\\t', '\"'];
+        $smap = ['\n', '\r', '\t', '\"'];
         $rmap = ["\n", "\r", "\t", '"'];
 
         return (string) str_replace($smap, $rmap, $string);

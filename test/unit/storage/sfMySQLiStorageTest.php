@@ -23,7 +23,7 @@ if (!extension_loaded('mysqli')) {
 
 // Configure your database with the settings below in order to run the test
 $mysqli_config = [
-    'host'     => 'localhost',
+    'host' => 'localhost',
     'username' => 'root',
     'password' => '',
 ];

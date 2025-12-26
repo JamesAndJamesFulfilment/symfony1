@@ -78,7 +78,7 @@ $t->is(
 );
 
 $t->is(
-    highlight_text('This is a beautiful morning, but also a beautiful day', 'beautiful', '<b>\\1</b>'),
+    highlight_text('This is a beautiful morning, but also a beautiful day', 'beautiful', '<b>\1</b>'),
     'This is a <b>beautiful</b> morning, but also a <b>beautiful</b> day',
     'text_highlighter() takes a pattern as its third argument'
 );

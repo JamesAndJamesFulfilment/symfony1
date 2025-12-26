@@ -207,6 +207,6 @@ class sfServiceContainer implements sfServiceContainerInterface
 
     public static function underscore($id)
     {
-        return strtolower(preg_replace(['/_/', '/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'], ['.', '\\1_\\2', '\\1_\\2'], $id));
+        return strtolower(preg_replace(['/_/', '/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'], ['.', '\1_\2', '\1_\2'], $id));
     }
 }

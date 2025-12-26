@@ -370,7 +370,7 @@ abstract class sfTestFunctionalBase
                 $this->test()->ok($e instanceof $class, sprintf('response returns an exception of class "%s"', $class));
             }
 
-            if (null !== $message && preg_match('/^(!)?([^a-zA-Z0-9\\\\]).+?\\2[ims]?$/', $message, $match)) {
+            if (null !== $message && preg_match('/^(!)?([^a-zA-Z0-9\\\]).+?\2[ims]?$/', $message, $match)) {
                 if ('!' == $match[1]) {
                     $this->test()->unlike($e->getMessage(), substr($message, 1), sprintf('response exception message does not match regex "%s"', $message));
                 } else {

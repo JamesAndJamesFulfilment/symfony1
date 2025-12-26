@@ -187,12 +187,12 @@ class sfWebResponse extends sfResponse
         }
 
         $this->cookies[$name] = [
-            'name'     => $name,
-            'value'    => $value,
-            'expire'   => $expire,
-            'path'     => $path,
-            'domain'   => $domain,
-            'secure'   => $secure ? true : false,
+            'name' => $name,
+            'value' => $value,
+            'expire' => $expire,
+            'path' => $path,
+            'domain' => $domain,
+            'secure' => $secure ? true : false,
             'httpOnly' => $httpOnly,
             'samesite' => $samesite,
         ];
@@ -363,10 +363,10 @@ class sfWebResponse extends sfResponse
             $domain = isset($cookie['domain']) ? $cookie['domain'] : '';
 
             setrawcookie($cookie['name'], $cookie['value'], [
-                'expires'  => $expire,
-                'path'     => $cookie['path'],
-                'domain'   => $domain,
-                'secure'   => $cookie['secure'],
+                'expires' => $expire,
+                'path' => $cookie['path'],
+                'domain' => $domain,
+                'secure' => $cookie['secure'],
                 'httpOnly' => $cookie['httpOnly'],
                 'samesite' => $cookie['samesite'],
             ]);

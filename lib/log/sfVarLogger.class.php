@@ -124,16 +124,16 @@ class sfVarLogger extends sfLogger
         // get log type in {}
         $type = 'sfOther';
         if (preg_match('/^\s*{([^}]+)}\s*(.+?)$/s', $message, $matches)) {
-            $type    = $matches[1];
+            $type = $matches[1];
             $message = $matches[2];
         }
 
         $this->logs[] = [
-            'priority'        => $priority,
-            'priority_name'   => $this->getPriorityName($priority),
-            'time'            => microtime(true),
-            'message'         => $message,
-            'type'            => $type,
+            'priority' => $priority,
+            'priority_name' => $this->getPriorityName($priority),
+            'time' => microtime(true),
+            'message' => $message,
+            'type' => $type,
             'debug_backtrace' => $this->getDebugBacktrace(),
         ];
     }

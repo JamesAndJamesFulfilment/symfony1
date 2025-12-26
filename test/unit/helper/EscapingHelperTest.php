@@ -33,9 +33,9 @@ $t->is(esc_js('alert(\'foo\' + "bar")'), 'alert(&#039;foo&#039; + &quot;bar&quot
 
 // esc_js_no_entities()
 $t->diag('esc_js_no_entities()');
-$t->is(esc_js_no_entities('alert(\'foo\' + "bar")'), 'alert(\\\'foo\\\' + \\"bar\\")', 'esc_js_no_entities() escapes javascripts');
-$t->is(esc_js_no_entities('alert("hi\\there")'), 'alert(\\"hi\\\\there\\")', 'esc_js_no_entities() handles slashes correctly');
-$t->is(esc_js_no_entities('alert("été")'), 'alert(\\"été\\")', 'esc_js_no_entities() preserves utf-8');
+$t->is(esc_js_no_entities('alert(\'foo\' + "bar")'), 'alert(\\\'foo\\\' + \"bar\")', 'esc_js_no_entities() escapes javascripts');
+$t->is(esc_js_no_entities('alert("hi\there")'), 'alert(\"hi\\\there\")', 'esc_js_no_entities() handles slashes correctly');
+$t->is(esc_js_no_entities('alert("été")'), 'alert(\"été\")', 'esc_js_no_entities() preserves utf-8');
 $output = <<<'EOF'
 alert('hello
 world')
