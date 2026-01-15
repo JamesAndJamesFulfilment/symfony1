@@ -248,7 +248,7 @@ class sfToolkit
       \s*=\s*               # =
       (\'|")?               # values may be included in \' or " \2
       (.*?)                 # value                             \3
-      (?(2) \2)            # matching \' or " if needed        \4
+      (?(2) \2)            # matching \' or " if needed         \4
       \s*(?:
         (?=\w+\s*=) | \s*$  # followed by another key= or the end of the string
       )
