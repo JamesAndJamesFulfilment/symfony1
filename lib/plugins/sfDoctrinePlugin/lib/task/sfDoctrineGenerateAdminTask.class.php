@@ -93,7 +93,7 @@ EOF;
 
         // create a route
         $model = $arguments['route_or_model'];
-        $name = strtolower(preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'], '\\1_\\2', $model));
+        $name = strtolower(preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'], '\1_\2', $model));
 
         if (isset($options['module'])) {
             $route = $this->getRouteFromName($name);
@@ -121,8 +121,7 @@ EOF;
     with_wildcard_routes: true
 
 
-EOF
-                , $name, $model, $module, isset($options['plural']) ? $options['plural'] : $module, $primaryKey).$content;
+EOF, $name, $model, $module, isset($options['plural']) ? $options['plural'] : $module, $primaryKey).$content;
 
             $this->logSection('file+', $routing);
 

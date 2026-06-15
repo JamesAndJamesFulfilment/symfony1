@@ -85,12 +85,12 @@ $t->is(sfToolkit::replaceConstants('my value with a %foo"bar% constant'), 'my va
 // ::isPathAbsolute()
 $t->diag('::isPathAbsolute()');
 $t->is(sfToolkit::isPathAbsolute('/test'), true, '::isPathAbsolute() returns true if path is absolute');
-$t->is(sfToolkit::isPathAbsolute('\\test'), true, '::isPathAbsolute() returns true if path is absolute');
-$t->is(sfToolkit::isPathAbsolute('C:\\test'), true, '::isPathAbsolute() returns true if path is absolute');
+$t->is(sfToolkit::isPathAbsolute('\test'), true, '::isPathAbsolute() returns true if path is absolute');
+$t->is(sfToolkit::isPathAbsolute('C:\test'), true, '::isPathAbsolute() returns true if path is absolute');
 $t->is(sfToolkit::isPathAbsolute('d:/test'), true, '::isPathAbsolute() returns true if path is absolute');
 $t->is(sfToolkit::isPathAbsolute('test'), false, '::isPathAbsolute() returns false if path is relative');
 $t->is(sfToolkit::isPathAbsolute('../test'), false, '::isPathAbsolute() returns false if path is relative');
-$t->is(sfToolkit::isPathAbsolute('..\\test'), false, '::isPathAbsolute() returns false if path is relative');
+$t->is(sfToolkit::isPathAbsolute('..\test'), false, '::isPathAbsolute() returns false if path is relative');
 
 // ::stripComments()
 $t->diag('::stripComments()');
