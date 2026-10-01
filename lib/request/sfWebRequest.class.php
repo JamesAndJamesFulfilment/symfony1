@@ -263,7 +263,7 @@ class sfWebRequest extends sfRequest
         } else {
             $pathInfo = $pathArray[$sf_path_info_key];
             if ($relativeUrlRoot = $this->getRelativeUrlRoot()) {
-                $pathInfo = preg_replace('/^'.str_replace('/', '\\/', $relativeUrlRoot).'\//', '', $pathInfo);
+                $pathInfo = preg_replace('/^'.str_replace('/', '\/', $relativeUrlRoot).'\//', '', $pathInfo);
             }
         }
 

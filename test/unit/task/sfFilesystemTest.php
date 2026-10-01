@@ -31,7 +31,7 @@ $dispatcher = new sfEventDispatcher();
 $filesystem = new myFilesystem($dispatcher, null);
 
 $t->diag('sfFilesystem canonicalizes pathes');
-$t->is($filesystem->canonicalizePath('..'.DS.DS.'.'.DS.'..'.DS.'dir4'.DS.DS.'.'.DS.'dir5'.DS.'dir6'.DS.'..'.DS.DS.'dir7'.DS), '..'.DS.'..'.DS.'dir4'.DS.'dir5'.DS.'dir7'.DS, '->canonicalizePath() correctly resolves "\\.." and "\\."');
+$t->is($filesystem->canonicalizePath('..'.DS.DS.'.'.DS.'..'.DS.'dir4'.DS.DS.'.'.DS.'dir5'.DS.'dir6'.DS.'..'.DS.DS.'dir7'.DS), '..'.DS.'..'.DS.'dir4'.DS.'dir5'.DS.'dir7'.DS, '->canonicalizePath() correctly resolves "\.." and "\."');
 
 $t->diag('sfFilesystem calculates relative pathes');
 $common = DS.'tmp'.DS.'sfproject'.DS;

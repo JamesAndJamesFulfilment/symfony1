@@ -68,7 +68,7 @@ function comment_as_conditional($condition, $content)
  */
 function escape_javascript($javascript = '')
 {
-    $javascript = preg_replace('/\r\n|\n|\r/', '\\n', $javascript);
+    $javascript = preg_replace('/\r\n|\n|\r/', '\n', $javascript);
 
     return preg_replace('/(["\'])/', '\\\\\1', $javascript);
 }

@@ -90,7 +90,7 @@ function truncate_text($text, $length = 30, $truncate_string = '...', $truncate_
  *
  * @return string
  */
-function highlight_text($text, $phrase, $highlighter = '<strong class="highlight">\\1</strong>')
+function highlight_text($text, $phrase, $highlighter = '<strong class="highlight">\1</strong>')
 {
     if (empty($text)) {
         return '';
@@ -220,7 +220,7 @@ function auto_link_text($text, $link = 'all', $href_options = [], $truncate = fa
  */
 function strip_links_text($text)
 {
-    return preg_replace('/<a[^>]*>(.*?)<\/a>/s', '\\1', $text);
+    return preg_replace('/<a[^>]*>(.*?)<\/a>/s', '\1', $text);
 }
 
 if (!defined('SF_AUTO_LINK_RE')) {
@@ -254,7 +254,7 @@ function _auto_link_urls($text, $href_options = [], $truncate = false, $truncate
     $href_options = _tag_options($href_options);
 
     $callback_function = function ($matches) use ($href_options, $truncate, $truncate_len, $pad) {
-        if (preg_match('/<a\\s/i', $matches[1])) {
+        if (preg_match('/<a\s/i', $matches[1])) {
             return $matches[0];
         }
 
@@ -281,7 +281,7 @@ function _auto_link_urls($text, $href_options = [], $truncate = false, $truncate
 function _auto_link_email_addresses($text)
 {
     // Taken from http://snippets.dzone.com/posts/show/6156
-    return preg_replace("#(^|[\n ])([a-z0-9&\\-_\\.]+?)@([\\w\\-]+\\.([\\w\\-\\.]+\\.)*[\\w]+)#i", '\\1<a href="mailto:\\2@\\3">\\2@\\3</a>', $text);
+    return preg_replace("#(^|[\n ])([a-z0-9&\\-_\\.]+?)@([\\w\\-]+\\.([\\w\\-\\.]+\\.)*[\\w]+)#i", '\1<a href="mailto:\2@\3">\2@\3</a>', $text);
     // Removed since it destroys already linked emails
     // Example:   <a href="mailto:me@example.com">bar</a> gets <a href="mailto:me@example.com">bar</a> gets <a href="mailto:<a href="mailto:me@example.com">bar</a>
     // return preg_replace('/([\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/', '<a href="mailto:\\1">\\1</a>', $text);
