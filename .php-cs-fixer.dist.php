@@ -30,6 +30,8 @@ $config
         '@Symfony' => true,
         'array_syntax' => ['syntax' => 'short'],
         'nullable_type_declaration_for_default_null_value' => true,
+        'single_line_throw' => false,
+        'string_implicit_backslashes' => false,
     ])
     ->setCacheFile('.cache/php-cs-fixer.cache')
     ->setFinder($finder)
